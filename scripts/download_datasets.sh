@@ -37,9 +37,26 @@ download_archive() {
   local checksum_kind="$3"
   local checksum="$4"
 
-  if [[ -f "$archive" && ! -f "$archive.aria2" ]]; then
+  checksum_matches() {
+    if [[ ! -s "$archive" ]]; then
+      return 1
+    fi
+    if [[ "$checksum_kind" == "md5" ]]; then
+      printf '%s  %s\n' "$checksum" "$archive" | md5sum --check --status
+    elif [[ "$checksum_kind" == "sha256" ]]; then
+      printf '%s  %s\n' "$checksum" "$archive" | sha256sum --check --status
+    else
+      log "Unsupported checksum kind: $checksum_kind"
+      return 2
+    fi
+  }
+
+  if checksum_matches; then
     log "Reusing completed archive $(basename "$archive")"
   else
+    if [[ -e "$archive" ]]; then
+      log "Resuming incomplete archive $(basename "$archive")"
+    fi
     log "Downloading $(basename "$archive") (free space: $(free_gib) GiB)"
     wget \
       --continue \
@@ -53,14 +70,7 @@ download_archive() {
   fi
 
   log "Verifying $(basename "$archive")"
-  if [[ "$checksum_kind" == "md5" ]]; then
-    printf '%s  %s\n' "$checksum" "$archive" | md5sum --check --status
-  elif [[ "$checksum_kind" == "sha256" ]]; then
-    printf '%s  %s\n' "$checksum" "$archive" | sha256sum --check --status
-  else
-    log "Unsupported checksum kind: $checksum_kind"
-    return 2
-  fi
+  checksum_matches
 }
 
 extract_libritts_split() {
@@ -70,7 +80,7 @@ extract_libritts_split() {
   local required_before_extract="$4"
   local target="$DATA_ROOT/LibriTTS/$split"
   local archive="$DOWNLOAD_DIR/$split.tar.gz"
-  local url="https://openslr.magicdatatech.com/resources/60/$split.tar.gz"
+  local url="https://openslr.elda.org/resources/60/$split.tar.gz"
 
   if find "$target" -type f -name '*.wav' -print -quit 2>/dev/null | grep -q .; then
     log "Skipping LibriTTS/$split; WAV files already exist"
