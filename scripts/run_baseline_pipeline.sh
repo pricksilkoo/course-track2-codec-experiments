@@ -6,7 +6,9 @@ REPO_ROOT="$(cd -- "$SCRIPT_DIR/.." && pwd)"
 cd "$REPO_ROOT"
 
 RUN_NAME="${RUN_NAME:-baseline_full_v1}"
-GPU_ID="${GPU_ID:-3}"
+GPU_IDS="${GPU_IDS:-0,1,2,3}"
+EVAL_GPU="${EVAL_GPU:-3}"
+NUM_GPUS="$(awk -F, '{print NF}' <<<"$GPU_IDS")"
 RUN_DIR="$REPO_ROOT/runs/$RUN_NAME"
 DATA_ROOT="$REPO_ROOT/data/corpora"
 MANIFEST_DIR="$REPO_ROOT/data/manifests/vctk_libritts"
@@ -56,7 +58,7 @@ on_error() {
 }
 trap 'on_error $? $LINENO' ERR
 
-log "Starting $RUN_NAME on GPU $GPU_ID at commit $(git rev-parse HEAD)"
+log "Starting $RUN_NAME on training GPUs $GPU_IDS at commit $(git rev-parse HEAD)"
 
 if [[ ! -x "$VENV_DIR/bin/python" ]]; then
   log "Creating project virtual environment from $BASE_PYTHON"
@@ -97,7 +99,10 @@ if [[ ! -f "$RUN_DIR/TRAINING_COMPLETE" ]]; then
   else
     log "Starting full baseline training"
   fi
-  CUDA_VISIBLE_DEVICES="$GPU_ID" "$VENV_DIR/bin/python" scripts/train.py "${train_args[@]}"
+  CUDA_VISIBLE_DEVICES="$GPU_IDS" "$VENV_DIR/bin/python" -m torch.distributed.run \
+    --standalone \
+    --nproc_per_node="$NUM_GPUS" \
+    scripts/train.py "${train_args[@]}"
   touch "$RUN_DIR/TRAINING_COMPLETE"
 fi
 
@@ -105,14 +110,14 @@ CHECKPOINT="$RUN_DIR/checkpoints/best.pt"
 test -f "$CHECKPOINT"
 
 log "Encoding validation set"
-CUDA_VISIBLE_DEVICES="$GPU_ID" "$VENV_DIR/bin/python" scripts/encode.py \
+CUDA_VISIBLE_DEVICES="$EVAL_GPU" "$VENV_DIR/bin/python" scripts/encode.py \
   --checkpoint "$CHECKPOINT" \
   --input-dir "$VALIDATION_DIR" \
   --output-dir "$EVAL_DIR/bitstreams" \
   --device cuda
 
 log "Decoding validation set"
-CUDA_VISIBLE_DEVICES="$GPU_ID" "$VENV_DIR/bin/python" scripts/decode.py \
+CUDA_VISIBLE_DEVICES="$EVAL_GPU" "$VENV_DIR/bin/python" scripts/decode.py \
   --checkpoint "$CHECKPOINT" \
   --bitstream-dir "$EVAL_DIR/bitstreams" \
   --output-dir "$EVAL_DIR/reconstructed" \
@@ -125,7 +130,7 @@ log "Validating submission format"
   --output-dir "$EVAL_DIR/reconstructed"
 
 log "Running PESQ, ESTOI, SI-SNR and UTMOS evaluation"
-CUDA_VISIBLE_DEVICES="$GPU_ID" "$VENV_DIR/bin/python" scripts/evaluate.py \
+CUDA_VISIBLE_DEVICES="$EVAL_GPU" "$VENV_DIR/bin/python" scripts/evaluate.py \
   --reference-dir "$VALIDATION_DIR" \
   --reconstructed-dir "$EVAL_DIR/reconstructed" \
   --output-dir "$EVAL_DIR/metrics" \
