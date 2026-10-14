@@ -60,6 +60,7 @@ download_archive() {
     log "Downloading $(basename "$archive") (free space: $(free_gib) GiB)"
     wget \
       --continue \
+      --inet4-only \
       --retry-connrefused \
       --read-timeout=30 \
       --timeout=30 \
