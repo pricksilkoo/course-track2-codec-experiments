@@ -20,6 +20,17 @@ free_gib() {
   df -BG --output=avail "$DATA_ROOT" | awk 'NR == 2 {gsub(/G/, "", $1); print $1}'
 }
 
+require_free_gib() {
+  local required="$1"
+  local phase="$2"
+  local available
+  available="$(free_gib)"
+  if (( available < required )); then
+    log "Stopping safely before $phase: ${available} GiB free, ${required} GiB required"
+    return 70
+  fi
+}
+
 download_archive() {
   local url="$1"
   local archive="$2"
@@ -58,6 +69,8 @@ download_archive() {
 extract_libritts_split() {
   local split="$1"
   local checksum="$2"
+  local required_before_download="$3"
+  local required_before_extract="$4"
   local target="$DATA_ROOT/LibriTTS/$split"
   local archive="$DOWNLOAD_DIR/$split.tar.gz"
   local url="https://openslr.magicdatatech.com/resources/60/$split.tar.gz"
@@ -67,7 +80,9 @@ extract_libritts_split() {
     return
   fi
 
+  require_free_gib "$required_before_download" "downloading LibriTTS/$split"
   download_archive "$url" "$archive" md5 "$checksum"
+  require_free_gib "$required_before_extract" "extracting LibriTTS/$split"
   log "Extracting LibriTTS/$split (free space: $(free_gib) GiB)"
   tar -xzf "$archive" -C "$DATA_ROOT"
   if ! find "$target" -type f -name '*.wav' -print -quit | grep -q .; then
@@ -90,7 +105,9 @@ extract_vctk() {
     return
   fi
 
+  require_free_gib 40 "downloading VCTK"
   download_archive "$url" "$archive" sha256 "$checksum"
+  require_free_gib 25 "extracting VCTK"
   mkdir -p "$target"
   log "Extracting only VCTK mic1 trimmed audio (free space: $(free_gib) GiB)"
   unzip -q "$archive" 'wav48_silence_trimmed/*/*_mic1.flac' -d "$target"
@@ -106,11 +123,11 @@ log "Dataset root: $DATA_ROOT"
 log "Initial free space: $(free_gib) GiB"
 
 extract_vctk
-extract_libritts_split dev-clean 0c3076c1e5245bb3f0af7d82087ee207
-extract_libritts_split dev-other 815555d8d75995782ac3ccd7f047213d
-extract_libritts_split train-clean-100 4a8c202b78fe1bc0c47916a98f3a2ea8
-extract_libritts_split train-clean-360 a84ef10ddade5fd25df69596a2767b2d
-extract_libritts_split train-other-500 7b181dd5ace343a5f38427999684aa6f
+extract_libritts_split dev-clean 0c3076c1e5245bb3f0af7d82087ee207 20 12
+extract_libritts_split dev-other 815555d8d75995782ac3ccd7f047213d 20 12
+extract_libritts_split train-clean-100 4a8c202b78fe1bc0c47916a98f3a2ea8 45 32
+extract_libritts_split train-clean-360 a84ef10ddade5fd25df69596a2767b2d 110 80
+extract_libritts_split train-other-500 7b181dd5ace343a5f38427999684aa6f 150 105
 
 log "Generating manifests"
 python3 "$REPO_ROOT/scripts/prepare_vctk_libritts.py" \

@@ -12,6 +12,8 @@
 - Use the local machine for code editing, static checks, lightweight smoke tests, and Git operations only.
 - Do not install heavyweight local dependencies or adapt the project around local hardware limitations. Write portable commands and document remote-server requirements instead.
 - Do not treat local wall-clock timing as competition evidence. Use the analytical complexity report and final measurements from the remote submission environment.
+- Run every long-lived remote operation (dataset downloads, environment setup, training, evaluation, and large preprocessing jobs) inside a named `tmux` session or an equivalently persistent supervisor. SSH disconnection must not terminate the job.
+- Prefer resumable downloads and checkpoint-aware training. Before starting a new process, check for an existing session, partial archive, completion marker, or `last.pt` checkpoint instead of duplicating work.
 
 ## Fixed competition interface
 
@@ -30,6 +32,7 @@
 - Before considering a model configuration viable, run `scripts/complexity.py` and check both complexity limits.
 - Keep datasets, generated bitstreams, reconstructed audio, and ordinary training runs out of Git. The retained baseline checkpoint is the intentional exception already tracked by the repository.
 - Do not silently change the external 3-byte-per-frame format. If an experiment changes internal quantization, its encode/decode round trip must still satisfy the fixed bitstream contract.
+- Maintain `EXPERIMENT_LOG.md` for every substantial training run. Record status, Git commit, effective configuration, dataset summary, training validation, final objective metrics, complexity, checkpoint path and checkpoint hash.
 
 ## Validation expectations
 
