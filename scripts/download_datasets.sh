@@ -41,17 +41,14 @@ download_archive() {
     log "Reusing completed archive $(basename "$archive")"
   else
     log "Downloading $(basename "$archive") (free space: $(free_gib) GiB)"
-    aria2c \
-      --allow-overwrite=false \
-      --auto-file-renaming=false \
-      --continue=true \
-      --file-allocation=none \
-      --max-connection-per-server=8 \
-      --min-split-size=16M \
-      --split=8 \
-      --summary-interval=60 \
-      --dir="$(dirname "$archive")" \
-      --out="$(basename "$archive")" \
+    wget \
+      --continue \
+      --retry-connrefused \
+      --read-timeout=30 \
+      --timeout=30 \
+      --tries=0 \
+      --progress=dot:giga \
+      --output-document="$archive" \
       "$url"
   fi
 
