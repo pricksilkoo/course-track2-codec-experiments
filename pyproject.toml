@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ssp-course-track2-codec-experiments"
+version = "0.1.0"
+description = "An experiment-friendly fixed-16-kHz, 2.4-kbps neural speech codec workbench"
+readme = "README.md"
+dependencies = [
+  "numpy",
+  "PyYAML",
+  "scipy",
+  "soundfile",
+  "tqdm",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8.0"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

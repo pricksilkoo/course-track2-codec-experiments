@@ -1,0 +1,10 @@
+_base_: ../baseline_16k_2p4k.yaml
+
+model:
+  encoder_temporal_layers: 3
+  decoder_temporal_layers: 1
+  temporal_kernel_size: 3
+  temporal_expansion: 2
+
+training:
+  output_dir: runs/latent_tcn

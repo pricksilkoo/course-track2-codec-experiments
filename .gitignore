@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.venv/
+data/
+runs/
+checkpoints/*.pt
+
+*.json
+*.bin
+*.wav
+/src/*.egg-info/
+/torch-cache/

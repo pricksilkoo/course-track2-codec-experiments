@@ -1,0 +1,7 @@
+_base_: ../baseline_16k_2p4k.yaml
+
+model:
+  rvq_codebook_dim: 32
+
+training:
+  output_dir: runs/factorized_rvq_32

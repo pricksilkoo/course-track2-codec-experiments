@@ -1,0 +1,15 @@
+_base_: ../baseline_16k_2p4k.yaml
+
+model:
+  rvq_codebook_dim: 32
+  encoder_temporal_layers: 4
+  decoder_temporal_layers: 2
+  temporal_kernel_size: 3
+  temporal_expansion: 2
+
+loss:
+  spectral_convergence_weight: 0.25
+  linear_magnitude_weight: 0.1
+
+training:
+  output_dir: runs/factorized_rvq_tcn

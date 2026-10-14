@@ -1,0 +1,8 @@
+_base_: ../baseline_16k_2p4k.yaml
+
+model:
+  quantizer_type: fsq
+  fsq_levels: [8, 8, 8, 8, 8, 8, 8, 8]
+
+training:
+  output_dir: runs/fsq_24bit
