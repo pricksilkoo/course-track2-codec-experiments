@@ -83,11 +83,41 @@ class CausalTemporalUnit(nn.Module):
         hidden = channels * expansion
         self.expand = nn.Conv1d(channels, hidden, kernel_size=1)
         self.project = nn.Conv1d(hidden, channels, kernel_size=1)
+        # Start as an exact identity block. This permits stable warm-starting
+        # from a codec checkpoint that predates temporal modeling.
+        nn.init.zeros_(self.project.weight)
+        nn.init.zeros_(self.project.bias)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         residual = self.depthwise(F.pad(x, (self.left_padding, 0)))
         residual = self.project(F.gelu(self.expand(residual)))
         return x + residual
+
+
+class LimitedLookaheadUnit(nn.Module):
+    """Inject at most ``frames`` future latent frames through a residual path."""
+
+    def __init__(self, channels: int, frames: int) -> None:
+        super().__init__()
+        if frames < 1:
+            raise ValueError("lookahead frames must be positive")
+        self.frames = frames
+        self.depthwise = nn.Conv1d(
+            channels,
+            channels,
+            kernel_size=frames + 1,
+            groups=channels,
+            bias=False,
+        )
+        self.project = nn.Conv1d(channels, channels, kernel_size=1)
+        nn.init.zeros_(self.project.weight)
+        nn.init.zeros_(self.project.bias)
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        # Right padding means output frame t can observe input [t, t + frames]
+        # but never anything beyond the configured algorithmic lookahead.
+        future = self.depthwise(F.pad(x, (0, self.frames)))
+        return x + self.project(F.gelu(future))
 
 
 class CausalTemporalStack(nn.Module):
@@ -99,10 +129,18 @@ class CausalTemporalStack(nn.Module):
         layers: int,
         kernel_size: int = 3,
         expansion: int = 2,
+        lookahead_frames: int = 0,
     ) -> None:
         super().__init__()
         if layers < 0:
             raise ValueError("temporal layers must be non-negative")
+        if lookahead_frames < 0:
+            raise ValueError("lookahead frames must be non-negative")
+        self.lookahead = (
+            LimitedLookaheadUnit(channels, lookahead_frames)
+            if lookahead_frames
+            else nn.Identity()
+        )
         self.blocks = nn.ModuleList(
             CausalTemporalUnit(
                 channels,
@@ -115,6 +153,7 @@ class CausalTemporalStack(nn.Module):
 
     def forward(self, embeddings: torch.Tensor) -> torch.Tensor:
         hidden = embeddings.transpose(1, 2)
+        hidden = self.lookahead(hidden)
         for block in self.blocks:
             hidden = block(hidden)
         return hidden.transpose(1, 2)
@@ -538,6 +577,8 @@ class CourseCodec(nn.Module):
         decoder_temporal_layers: int = 0,
         temporal_kernel_size: int = 3,
         temporal_expansion: int = 2,
+        encoder_lookahead_frames: int = 0,
+        decoder_lookahead_frames: int = 0,
     ) -> None:
         super().__init__()
         encoder_channels = tuple(encoder_channels)
@@ -552,6 +593,10 @@ class CourseCodec(nn.Module):
             raise ValueError("decoder strides must multiply to 160 samples")
         if encoder_channels[-1] != decoder_channels[0]:
             raise ValueError("encoder output and decoder input dimensions must agree")
+        if encoder_lookahead_frames < 0 or decoder_lookahead_frames < 0:
+            raise ValueError("lookahead frames must be non-negative")
+        if encoder_lookahead_frames + decoder_lookahead_frames > 3:
+            raise ValueError("total codec lookahead cannot exceed three 10-ms frames")
         self.specification = CodecSpecification()
         self.encoder = WaveformEncoder(
             encoder_channels, encoder_strides, residual_blocks, residual_kernel_size
@@ -567,6 +612,7 @@ class CourseCodec(nn.Module):
             layers=encoder_temporal_layers,
             kernel_size=temporal_kernel_size,
             expansion=temporal_expansion,
+            lookahead_frames=encoder_lookahead_frames,
         )
         if quantizer_type == "rvq":
             self.quantizer: nn.Module = ResidualVectorQuantizer(
@@ -592,6 +638,7 @@ class CourseCodec(nn.Module):
             layers=decoder_temporal_layers,
             kernel_size=temporal_kernel_size,
             expansion=temporal_expansion,
+            lookahead_frames=decoder_lookahead_frames,
         )
         self.decoder = WaveformDecoder(
             decoder_channels, decoder_strides, residual_blocks, residual_kernel_size

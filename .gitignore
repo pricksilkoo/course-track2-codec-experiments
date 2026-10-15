@@ -1,6 +1,7 @@
 __pycache__/
 *.py[cod]
 .venv/
+.experiment_log.lock
 data/
 runs/
 checkpoints/*.pt

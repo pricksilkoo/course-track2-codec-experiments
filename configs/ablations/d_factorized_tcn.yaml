@@ -1,0 +1,18 @@
+_base_: b_perceptual.yaml
+
+model:
+  rvq_codebook_dim: 32
+  rvq_ema_decay: 0.90
+  encoder_temporal_layers: 4
+  decoder_temporal_layers: 2
+  encoder_lookahead_frames: 3
+  decoder_lookahead_frames: 0
+
+adversarial:
+  # The factorized quantizer is new, so give reconstruction and codebook
+  # adaptation time before adversarial fine-tuning.
+  start_step: 10000
+  warmup_steps: 10000
+
+training:
+  output_dir: runs/ablation_d_factorized_tcn

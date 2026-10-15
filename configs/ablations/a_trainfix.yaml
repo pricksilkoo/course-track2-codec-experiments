@@ -1,0 +1,24 @@
+_base_: ../baseline_16k_2p4k.yaml
+
+audio:
+  segment_samples: 32000
+
+model:
+  # A larger single-GPU batch sees many more assignments per EMA update.
+  rvq_ema_decay: 0.95
+
+adversarial:
+  start_step: 0
+  warmup_steps: 5000
+
+training:
+  batch_size: 32
+  num_workers: 8
+  epochs: 1000
+  learning_rate: 0.0004
+  minimum_learning_rate: 0.00005
+  warmup_steps: 2000
+  validation_limit: 16
+  validation_checkpoint_interval_steps: 5000
+  sample_inference_count: 2
+  output_dir: runs/ablation_a_trainfix

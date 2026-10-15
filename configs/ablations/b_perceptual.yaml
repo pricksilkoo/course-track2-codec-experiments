@@ -1,0 +1,13 @@
+_base_: a_trainfix.yaml
+
+loss:
+  spectral_convergence_weight: 0.25
+  linear_magnitude_weight: 0.1
+
+adversarial:
+  # Period critics target voiced-speech harmonics at no inference cost.
+  periods: [2, 3, 5, 7, 11]
+  warmup_steps: 10000
+
+training:
+  output_dir: runs/ablation_b_perceptual

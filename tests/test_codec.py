@@ -66,7 +66,8 @@ def test_bitstream_uses_exactly_three_bytes_per_frame(tmp_path) -> None:
 
 def test_multiresolution_discriminator_losses_are_finite() -> None:
     discriminator = MultiResolutionSTFTDiscriminator(
-        [[256, 64, 256], [512, 128, 512], [1024, 256, 1024]]
+        [[256, 64, 256], [512, 128, 512], [1024, 256, 1024]],
+        periods=[2, 3],
     )
     real = torch.randn(2, 1, 4096)
     fake = torch.randn_like(real)
@@ -78,6 +79,7 @@ def test_multiresolution_discriminator_losses_are_finite() -> None:
         feature_matching_loss(real_features, fake_features),
     )
     assert all(torch.isfinite(loss) for loss in losses)
+    assert len(real_logits) == 5
 
 
 def test_factorized_rvq_round_trip_matches_forward() -> None:
@@ -110,6 +112,35 @@ def test_latent_temporal_stack_is_causal() -> None:
     changed = original.clone()
     changed[:, 12:] = torch.randn_like(changed[:, 12:])
     assert torch.allclose(stack(original)[:, :12], stack(changed)[:, :12], atol=1e-6)
+
+
+def test_limited_lookahead_observes_no_more_than_three_frames() -> None:
+    stack = CausalTemporalStack(
+        4, layers=0, kernel_size=3, expansion=2, lookahead_frames=3
+    )
+    with torch.no_grad():
+        stack.lookahead.depthwise.weight.zero_()
+        stack.lookahead.depthwise.weight[:, 0, -1] = 1.0
+        stack.lookahead.project.weight.zero_()
+        for channel in range(4):
+            stack.lookahead.project.weight[channel, channel, 0] = 1.0
+        stack.lookahead.project.bias.zero_()
+    original = torch.randn(2, 20, 4)
+    changed = original.clone()
+    changed[:, 12:] = torch.randn_like(changed[:, 12:])
+    original_output = stack(original)
+    changed_output = stack(changed)
+    assert torch.allclose(original_output[:, :9], changed_output[:, :9], atol=1e-6)
+    assert not torch.allclose(original_output[:, 9:12], changed_output[:, 9:12])
+
+
+def test_codec_rejects_more_than_30ms_total_lookahead() -> None:
+    try:
+        CourseCodec(encoder_lookahead_frames=2, decoder_lookahead_frames=2)
+    except ValueError as error:
+        assert "three 10-ms frames" in str(error)
+    else:
+        raise AssertionError("codec accepted more than 30 ms of lookahead")
 
 
 def test_config_inheritance_and_cli_override() -> None:

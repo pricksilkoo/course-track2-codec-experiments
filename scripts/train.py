@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 from datetime import datetime, timezone
 import json
+import math
 import os
 import random
 import shlex
@@ -64,12 +65,23 @@ def parse_args() -> argparse.Namespace:
         help="repeatable dotted config override, for example model.rvq_codebook_dim=32",
     )
     parser.add_argument("--resume", default=None)
+    parser.add_argument(
+        "--init-checkpoint",
+        default=None,
+        help="warm-start compatible model/discriminator tensors without optimizer state",
+    )
     parser.add_argument("--epochs", type=int, default=None, help="override config")
     parser.add_argument(
         "--max-train-steps",
         type=int,
         default=None,
         help="optional per-epoch batch cap for a fast interface check",
+    )
+    parser.add_argument(
+        "--max-total-steps",
+        type=int,
+        default=None,
+        help="stop after this many optimizer steps across all epochs",
     )
     parser.add_argument(
         "--max-valid-steps",
@@ -89,7 +101,49 @@ def parse_args() -> argparse.Namespace:
         manifest = getattr(args, f"{split}_manifest")
         if (directory is None) == (manifest is None):
             parser.error(f"provide exactly one of --{split}-dir and --{split}-manifest")
+    if args.resume and args.init_checkpoint:
+        parser.error("--resume and --init-checkpoint are mutually exclusive")
     return args
+
+
+def load_compatible_state(
+    module: torch.nn.Module,
+    source: dict[str, torch.Tensor],
+    label: str,
+    skip_prefixes: tuple[str, ...] = (),
+) -> None:
+    """Load matching tensors while reporting intentionally new model parts."""
+    target = module.state_dict()
+    compatible = {
+        key: value
+        for key, value in source.items()
+        if key in target
+        and target[key].shape == value.shape
+        and not key.startswith(skip_prefixes)
+    }
+    incompatible = module.load_state_dict(compatible, strict=False)
+    skipped = len(source) - len(compatible)
+    print(
+        f"Warm-started {label}: {len(compatible)} tensors loaded, "
+        f"{skipped} source tensors skipped, {len(incompatible.missing_keys)} new tensors"
+    )
+
+
+def scheduled_learning_rate(
+    base_learning_rate: float,
+    minimum_learning_rate: float,
+    warmup_steps: int,
+    step: int,
+    total_steps: int,
+) -> float:
+    """Linear warm-up followed by cosine decay."""
+    if warmup_steps > 0 and step <= warmup_steps:
+        return base_learning_rate * step / warmup_steps
+    if total_steps <= warmup_steps:
+        return base_learning_rate
+    progress = min(1.0, max(0.0, (step - warmup_steps) / (total_steps - warmup_steps)))
+    cosine = 0.5 * (1.0 + math.cos(math.pi * progress))
+    return minimum_learning_rate + (base_learning_rate - minimum_learning_rate) * cosine
 
 
 def distributed_context(requested: str) -> tuple[torch.device, int, int, bool]:
@@ -388,6 +442,8 @@ def main() -> None:
         "num_workers": num_workers,
         "pin_memory": device.type == "cuda",
     }
+    if num_workers > 0:
+        loader_options.update(persistent_workers=True, prefetch_factor=2)
     train_loader = DataLoader(
         train_set,
         sampler=train_sampler,
@@ -405,7 +461,8 @@ def main() -> None:
 
     base_model = CourseCodec(**config["model"]).to(device)
     base_discriminator = MultiResolutionSTFTDiscriminator(
-        config["adversarial"]["resolutions"]
+        config["adversarial"]["resolutions"],
+        config["adversarial"].get("periods", ()),
     ).to(device)
     resume_state = None
     if args.resume:
@@ -414,6 +471,31 @@ def main() -> None:
         if "discriminator" not in resume_state:
             raise ValueError("resume checkpoint does not contain the GAN discriminator")
         base_discriminator.load_state_dict(resume_state["discriminator"])
+    elif args.init_checkpoint:
+        initialization_state = torch.load(
+            args.init_checkpoint, map_location=device, weights_only=False
+        )
+        source_model = initialization_state["model"]
+        target_model = base_model.state_dict()
+        source_codebook = source_model.get("quantizer.codebooks")
+        target_codebook = target_model.get("quantizer.codebooks")
+        quantizer_changed = (
+            source_codebook is None
+            or target_codebook is None
+            or source_codebook.shape != target_codebook.shape
+        )
+        load_compatible_state(
+            base_model,
+            source_model,
+            "codec",
+            skip_prefixes=("quantizer.",) if quantizer_changed else (),
+        )
+        if "discriminator" in initialization_state:
+            load_compatible_state(
+                base_discriminator,
+                initialization_state["discriminator"],
+                "discriminator",
+            )
     model: torch.nn.Module = base_model
     discriminator: torch.nn.Module = base_discriminator
     if distributed:
@@ -468,6 +550,8 @@ def main() -> None:
             "torch_version": torch.__version__,
             "world_size": world_size,
             "device": str(device),
+            "init_checkpoint": args.init_checkpoint,
+            "resume_checkpoint": args.resume,
         }
         (run_dir / "run_metadata.json").write_text(
             json.dumps(metadata, ensure_ascii=False, indent=2) + "\n",
@@ -476,6 +560,11 @@ def main() -> None:
     if distributed:
         dist.barrier()
     epochs = args.epochs or config["training"]["epochs"]
+    total_schedule_steps = args.max_total_steps or (epochs * len(train_loader))
+    warmup_steps = int(config["training"].get("warmup_steps", 0))
+    minimum_learning_rate = float(
+        config["training"].get("minimum_learning_rate", config["training"]["learning_rate"])
+    )
     validation_limit = (
         config["training"]["validation_limit"]
         if args.max_valid_steps is None
@@ -485,6 +574,7 @@ def main() -> None:
     if interval_steps <= 0:
         raise ValueError("validation_checkpoint_interval_steps must be positive")
     last_validation_step = -1
+    reached_max_total_steps = False
     for epoch in range(start_epoch, epochs + 1):
         if train_sampler is not None:
             train_sampler.set_epoch(epoch)
@@ -498,6 +588,9 @@ def main() -> None:
         )
         last_batch_in_epoch = 0
         for step, reference in enumerate(progress):
+            if args.max_total_steps is not None and global_step >= args.max_total_steps:
+                reached_max_total_steps = True
+                break
             if epoch == start_epoch and step < resume_batch_in_epoch:
                 continue
             if args.max_train_steps is not None and step >= args.max_train_steps:
@@ -557,6 +650,15 @@ def main() -> None:
                     + config["loss"]["feature_matching_weight"] * matching_loss
                 )
             )
+            current_learning_rate = scheduled_learning_rate(
+                float(config["training"]["learning_rate"]),
+                minimum_learning_rate,
+                warmup_steps,
+                global_step + 1,
+                total_schedule_steps,
+            )
+            for parameter_group in optimizer.param_groups:
+                parameter_group["lr"] = current_learning_rate
             optimizer.zero_grad(set_to_none=True)
             loss.backward()
             torch.nn.utils.clip_grad_norm_(
@@ -595,10 +697,13 @@ def main() -> None:
                 model.train()
                 if distributed:
                     dist.barrier()
+            if args.max_total_steps is not None and global_step >= args.max_total_steps:
+                reached_max_total_steps = True
+                break
         resume_batch_in_epoch = 0
-        # Always validate and preserve the final state, even if the final step
-        # does not coincide with the 10k-step interval.
-        if epoch == epochs and global_step != last_validation_step:
+        # Always validate and preserve the final state, including a bounded
+        # ablation that ends between checkpoint intervals.
+        if (epoch == epochs or reached_max_total_steps) and global_step != last_validation_step:
             validation = validate_and_checkpoint(
                 model=model,
                 base_model=base_model,
@@ -623,6 +728,8 @@ def main() -> None:
             best_validation = min(best_validation, validation)
             if distributed:
                 dist.barrier()
+        if reached_max_total_steps:
+            break
     if distributed:
         dist.destroy_process_group()
 

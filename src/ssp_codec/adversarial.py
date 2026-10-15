@@ -53,10 +53,51 @@ class STFTDiscriminator(nn.Module):
         return self.output(hidden), features
 
 
-class MultiResolutionSTFTDiscriminator(nn.Module):
-    """Independent discriminators operating at several STFT resolutions."""
+class PeriodDiscriminator(nn.Module):
+    """HiFi-GAN-style waveform discriminator for one pitch-related period."""
 
-    def __init__(self, resolutions: Iterable[Iterable[int]]) -> None:
+    def __init__(self, period: int) -> None:
+        super().__init__()
+        if period < 2:
+            raise ValueError("discriminator period must be at least two")
+        self.period = period
+        channels = (1, 16, 32, 64, 128)
+        self.convolutions = nn.ModuleList(
+            nn.Conv2d(
+                in_channels,
+                out_channels,
+                kernel_size=(5, 1),
+                stride=(3, 1),
+                padding=(2, 0),
+            )
+            for in_channels, out_channels in zip(channels[:-1], channels[1:])
+        )
+        self.output = nn.Conv2d(channels[-1], 1, kernel_size=(3, 1), padding=(1, 0))
+
+    def forward(self, waveform: torch.Tensor) -> tuple[torch.Tensor, list[torch.Tensor]]:
+        if waveform.ndim != 3 or waveform.size(1) != 1:
+            raise ValueError("waveform must have shape [batch, 1, samples]")
+        padding = (-waveform.size(-1)) % self.period
+        if padding:
+            waveform = F.pad(waveform, (0, padding), mode="reflect")
+        hidden = waveform.reshape(
+            waveform.size(0), waveform.size(1), waveform.size(-1) // self.period, self.period
+        )
+        features = []
+        for convolution in self.convolutions:
+            hidden = F.leaky_relu(convolution(hidden), negative_slope=0.2)
+            features.append(hidden)
+        return self.output(hidden), features
+
+
+class MultiResolutionSTFTDiscriminator(nn.Module):
+    """Spectral discriminators with optional periodic waveform critics."""
+
+    def __init__(
+        self,
+        resolutions: Iterable[Iterable[int]],
+        periods: Iterable[int] = (),
+    ) -> None:
         super().__init__()
         parsed = [tuple(int(value) for value in resolution) for resolution in resolutions]
         if not parsed or any(len(resolution) != 3 for resolution in parsed):
@@ -64,6 +105,9 @@ class MultiResolutionSTFTDiscriminator(nn.Module):
         self.discriminators = nn.ModuleList(
             STFTDiscriminator(n_fft, hop_length, win_length)
             for n_fft, hop_length, win_length in parsed
+        )
+        self.period_discriminators = nn.ModuleList(
+            PeriodDiscriminator(int(period)) for period in periods
         )
 
     def forward(
@@ -75,6 +119,10 @@ class MultiResolutionSTFTDiscriminator(nn.Module):
             resolution_logits, resolution_features = discriminator(waveform)
             logits.append(resolution_logits)
             features.append(resolution_features)
+        for discriminator in self.period_discriminators:
+            period_logits, period_features = discriminator(waveform)
+            logits.append(period_logits)
+            features.append(period_features)
         return logits, features
 
 
