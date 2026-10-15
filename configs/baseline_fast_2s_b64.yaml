@@ -1,0 +1,69 @@
+seed: 2026
+
+audio:
+  sample_rate: 16000
+  frame_samples: 160
+  # Training crop length only; it does not change the 10-ms codec frame or
+  # algorithmic delay. Longer crops increase useful work per optimizer step.
+  segment_samples: 32000
+
+model:
+  sample_rate: 16000
+  frame_samples: 160
+  quantizer_type: rvq
+  encoder_channels: [8, 16, 32, 64, 160]
+  encoder_strides: [2, 4, 4, 5]
+  decoder_channels: [160, 48, 24, 12, 8]
+  decoder_strides: [5, 4, 4, 2]
+  residual_blocks: 3
+  residual_kernel_size: 3
+  rvq_num_codebooks: 3
+  rvq_codebook_size: 256
+  rvq_codebook_dim: 160
+  commitment_weight: 0.10
+  rvq_ema_decay: 0.99
+  rvq_dead_code_threshold: 0.5
+  rvq_dead_code_after_updates: 100
+  rvq_kmeans_iterations: 10
+  # Optional causal modeling at the 100-Hz latent rate. Zero preserves the
+  # original baseline and existing checkpoint compatibility.
+  encoder_temporal_layers: 0
+  decoder_temporal_layers: 0
+  temporal_kernel_size: 3
+  temporal_expansion: 2
+  # Used only when quantizer_type is fsq. 8^8 = 2^24 combinations.
+  fsq_levels: [8, 8, 8, 8, 8, 8, 8, 8]
+
+loss:
+  waveform_l1_weight: 1.0
+  spectral_weight: 1.0
+  fft_sizes: [256, 512, 1024]
+  spectral_convergence_weight: 0.0
+  linear_magnitude_weight: 0.0
+  adversarial_weight: 0.1
+  feature_matching_weight: 1.0
+
+adversarial:
+  resolutions:
+    - [256, 64, 256]
+    - [512, 128, 512]
+    - [1024, 256, 1024]
+  # With a 4-GPU global batch of 256 two-second crops, 2k steps already expose
+  # the model to substantially more audio than 10k steps in the old profile.
+  start_step: 2000
+  warmup_steps: 2000
+  learning_rate: 0.0002
+  gradient_clip_norm: 10.0
+
+training:
+  # Batch size and workers are per DDP rank. Four ranks give global batch 256.
+  batch_size: 64
+  num_workers: 8
+  epochs: 30
+  learning_rate: 0.0002
+  weight_decay: 0.000001
+  gradient_clip_norm: 1.0
+  validation_limit: 128
+  validation_checkpoint_interval_steps: 2500
+  sample_inference_count: 4
+  output_dir: runs/fast_b64_2s_v1

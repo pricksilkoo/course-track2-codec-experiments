@@ -8,6 +8,8 @@ cd "$REPO_ROOT"
 RUN_NAME="${RUN_NAME:-baseline_full_v1}"
 GPU_IDS="${GPU_IDS:-0,1,2,3}"
 EVAL_GPU="${EVAL_GPU:-3}"
+CONFIG_PATH="${CONFIG_PATH:-configs/baseline_16k_2p4k.yaml}"
+NUM_WORKERS_PER_RANK="${NUM_WORKERS_PER_RANK:-4}"
 NUM_GPUS="$(awk -F, '{print NF}' <<<"$GPU_IDS")"
 RUN_DIR="$REPO_ROOT/runs/$RUN_NAME"
 DATA_ROOT="$REPO_ROOT/data/corpora"
@@ -33,7 +35,7 @@ log() {
 record() {
   local status="$1"
   local note="${2:-}"
-  local config="$REPO_ROOT/configs/baseline_16k_2p4k.yaml"
+  local config="$REPO_ROOT/$CONFIG_PATH"
   [[ -f "$RUN_DIR/effective_config.yaml" ]] && config="$RUN_DIR/effective_config.yaml"
   local args=(
     --name "$RUN_NAME"
@@ -61,7 +63,7 @@ on_error() {
 }
 trap 'on_error $? $LINENO' ERR
 
-log "Starting $RUN_NAME on training GPUs $GPU_IDS at commit $(git rev-parse HEAD)"
+log "Starting $RUN_NAME on training GPUs $GPU_IDS with $CONFIG_PATH at commit $(git rev-parse HEAD)"
 
 if [[ ! -x "$VENV_DIR/bin/python" ]]; then
   log "Creating project virtual environment from $BASE_PYTHON"
@@ -89,12 +91,12 @@ fi
 
 if [[ ! -f "$RUN_DIR/TRAINING_COMPLETE" ]]; then
   train_args=(
-    --config configs/baseline_16k_2p4k.yaml
+    --config "$CONFIG_PATH"
     --train-manifest "$MANIFEST_DIR/train.scp"
     --valid-manifest "$MANIFEST_DIR/valid.scp"
     --output-dir "$RUN_DIR"
     --device cuda
-    --num-workers 4
+    --num-workers "$NUM_WORKERS_PER_RANK"
   )
   if [[ -f "$RUN_DIR/checkpoints/last.pt" ]]; then
     log "Resuming training from last.pt"
