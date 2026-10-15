@@ -19,6 +19,9 @@ BASE_PYTHON="${BASE_PYTHON:-/storage1/hehaoran/miniconda3/envs/Qwen-ASR/bin/pyth
 VENV_DIR="$REPO_ROOT/.venv"
 TORCH_HOME="${TORCH_HOME:-$REPO_ROOT/data/torch-cache}"
 export TORCH_HOME
+# Keep user-site CUDA 13 wheels from shadowing this environment's CUDA 12
+# runtime. Mixing the CUDA 13 NCCL wheel with torch+cu128 breaks DDP startup.
+export PYTHONNOUSERSITE=1
 
 mkdir -p "$RUN_DIR" "$EVAL_DIR" "$TORCH_HOME"
 exec > >(tee -a "$PIPELINE_LOG") 2>&1
