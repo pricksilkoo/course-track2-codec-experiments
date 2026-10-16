@@ -14,20 +14,6 @@ import torch.nn.functional as F
 from torch import nn
 
 
-class SafeGRU(nn.GRU):
-    """GRU fallback for hosts whose mixed environment cannot initialize cuDNN RNNs."""
-
-    def flatten_parameters(self) -> None:
-        # Avoid the eager cuDNN flatten call triggered by Module.to(cuda).
-        return None
-
-    def forward(self, input: torch.Tensor, hx: torch.Tensor | None = None):
-        # The native PyTorch path remains differentiable and preserves the GRU
-        # architecture, while avoiding the server's incompatible cuDNN RNN ABI.
-        with torch.backends.cudnn.flags(enabled=False):
-            return super().forward(input, hx)
-
-
 class SnakeBeta(nn.Module):
     """Learnable periodic activation used by several neural audio codecs."""
 
@@ -180,7 +166,7 @@ class SpectralEncoder(nn.Module):
                 if attention_every and (index + 1) % attention_every == 0
             }
         )
-        self.gru = SafeGRU(channels, channels, batch_first=True) if use_gru else None
+        self.gru = nn.GRU(channels, channels, batch_first=True) if use_gru else None
 
     def forward(self, waveform: torch.Tensor) -> torch.Tensor:
         hidden = self.input(self.analysis.features(waveform, self.mode))
@@ -278,7 +264,7 @@ class HybridWaveformEncoder(nn.Module):
                     }
                 )
             )
-        self.gru = SafeGRU(channels, channels, batch_first=True)
+        self.gru = nn.GRU(channels, channels, batch_first=True)
 
     def forward(self, waveform: torch.Tensor) -> torch.Tensor:
         hidden = self.input(F.pad(waveform, (6, 0)))
@@ -296,7 +282,7 @@ class WaveformSnakeDecoder(nn.Module):
 
     def __init__(self, channels: int, use_gru: bool = True) -> None:
         super().__init__()
-        self.gru = SafeGRU(channels, channels, batch_first=True) if use_gru else None
+        self.gru = nn.GRU(channels, channels, batch_first=True) if use_gru else None
         # The first two synthesis stages dominate decoder compute.  These
         # widths keep the Phoenix adaptation below 300 MFLOP/s.
         stage_channels = (channels, 48, 24, 12, 8)
