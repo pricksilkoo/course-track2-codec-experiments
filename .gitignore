@@ -11,3 +11,9 @@ checkpoints/*.pt
 *.wav
 /src/*.egg-info/
 /torch-cache/
+
+# External source trees, isolated runtimes, weights, and generated audio.
+third_party/models/
+third_party/checkpoints/
+third_party/envs/
+third_party/outputs/
