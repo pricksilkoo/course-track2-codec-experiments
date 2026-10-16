@@ -15,7 +15,6 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from ssp_codec.model import CourseCodec  # noqa: E402
-from ssp_codec.architectures import CausalLocalAttention, CausalSpectralAnalysis, SpectralDecoder  # noqa: E402
 
 
 def main() -> None:
@@ -51,19 +50,13 @@ def main() -> None:
                 per_output = (module.in_channels // module.groups) * kernel
             elif isinstance(module, nn.Linear):
                 per_output = module.in_features
-            elif isinstance(module, nn.GRU):
-                sequence = output[0]
-                steps = sequence.numel() // module.hidden_size
-                per_output = 3 * (module.input_size + module.hidden_size)
-                macs[name] = macs.get(name, 0) + steps * module.hidden_size * per_output
-                return
             else:
                 return
             macs[name] = macs.get(name, 0) + output.numel() * per_output
         return count
 
     for name, module in model.named_modules():
-        if isinstance(module, (nn.Conv1d, nn.ConvTranspose1d, nn.Linear, nn.GRU)):
+        if isinstance(module, (nn.Conv1d, nn.ConvTranspose1d, nn.Linear)):
             handles.append(module.register_forward_hook(hook(name)))
     samples = round(args.duration * 16_000)
     with torch.inference_mode():
@@ -85,26 +78,8 @@ def main() -> None:
     # RVQ reports its approximate squared-distance lookup cost. FSQ has no
     # nearest-neighbour search and therefore returns zero here.
     quantizer_search = model.quantizer.search_macs(frames)
-    encoder_auxiliary_macs = 0
-    decoder_auxiliary_macs = 0
-    # Count FFTs and the two attention matrix products that are not exposed as
-    # Conv/Linear modules.  A conservative radix-2 estimate is used.
-    for name, module in model.named_modules():
-        if isinstance(module, CausalSpectralAnalysis):
-            encoder_auxiliary_macs += int(frames * 2.5 * module.n_fft * module.n_fft.bit_length())
-        elif isinstance(module, SpectralDecoder):
-            decoder_auxiliary_macs += int(frames * 2.5 * module.n_fft * module.n_fft.bit_length())
-        elif isinstance(module, CausalLocalAttention):
-            attention_macs = frames * min(frames, module.context) * module.heads * module.head_dim * 2
-            if name.startswith("encoder."):
-                encoder_auxiliary_macs += attention_macs
-            elif name.startswith("decoder."):
-                decoder_auxiliary_macs += attention_macs
-    raw_accounted = encoder + decoder + quantizer_projections
-    unclassified = sum(macs.values()) - raw_accounted
-    encoder += encoder_auxiliary_macs
-    decoder += decoder_auxiliary_macs
-    total_macs = sum(macs.values()) + encoder_auxiliary_macs + decoder_auxiliary_macs + quantizer_search
+    accounted = encoder + decoder + quantizer_projections
+    unclassified = sum(macs.values()) - accounted
     report = {
         "sample_rate_hz": 16000,
         "duration_seconds": args.duration,
@@ -114,7 +89,7 @@ def main() -> None:
         "decoder_mmac_per_s": decoder / args.duration / 1e6,
         "quantizer_mmac_per_s": (quantizer_projections + quantizer_search) / args.duration / 1e6,
         "unclassified_mmac_per_s": unclassified / args.duration / 1e6,
-        "total_mflop_per_s": 2 * total_macs / args.duration / 1e6,
+        "total_mflop_per_s": 2 * (sum(macs.values()) + quantizer_search) / args.duration / 1e6,
         "decoder_mflop_per_s": 2 * decoder / args.duration / 1e6,
         # EMA codebooks are inference state stored as buffers rather than Adam
         # parameters, but must still count toward the deployed model size.
@@ -125,9 +100,7 @@ def main() -> None:
             else 0
         ),
         "quantizer_type": model.quantizer_type,
-        "architecture": model.architecture,
-        "algorithmic_delay_ms": model.algorithmic_delay_ms,
-        "notes": "Counts Conv1d, ConvTranspose1d, Linear, GRU, bounded-attention products, conservative FFT estimates and approximate RVQ search. Excludes activations, normalization, padding and file I/O.",
+        "notes": "Counts Conv1d, ConvTranspose1d, Linear and approximate RVQ nearest-neighbour search. FSQ scalar rounding is reported as zero MACs. Excludes activations, normalization, padding and file I/O.",
     }
     text = json.dumps(report, ensure_ascii=False, indent=2)
     print(text)

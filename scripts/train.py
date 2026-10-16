@@ -39,7 +39,7 @@ from ssp_codec.adversarial import (  # noqa: E402
 )
 from ssp_codec.data import WaveformDataset  # noqa: E402
 from ssp_codec.config import apply_overrides, load_config  # noqa: E402
-from ssp_codec.losses import multiscale_spectral_loss, phase_and_energy_loss  # noqa: E402
+from ssp_codec.losses import multiscale_spectral_loss  # noqa: E402
 from ssp_codec.model import CourseCodec  # noqa: E402
 
 
@@ -177,23 +177,11 @@ def adversarial_factor(global_step: int, config: dict) -> float:
     """Linearly introduce GAN losses after a reconstruction-only warm-up."""
     start = int(config["adversarial"]["start_step"])
     warmup = int(config["adversarial"]["warmup_steps"])
-    if config["adversarial"].get("schedule") == "cyclic":
-        recovery_start = int(config["adversarial"].get("recovery_start_step", 10**18))
-        if global_step >= recovery_start:
-            return 0.0
     if global_step < start:
         return 0.0
     if warmup <= 0:
         return 1.0
     return min(1.0, (global_step - start + 1) / warmup)
-
-
-def spectral_factor(global_step: int, config: dict) -> float:
-    """Optional second-stage reduction used by the winner-inspired recipe."""
-    change_step = int(config["loss"].get("spectral_second_stage_step", 10**18))
-    if global_step >= change_step:
-        return float(config["loss"].get("spectral_second_stage_scale", 1.0))
-    return 1.0
 
 
 def evaluate(
@@ -205,11 +193,10 @@ def evaluate(
     limit: int,
     distributed: bool,
     gan_factor: float,
-    global_step: int,
 ) -> tuple[dict[str, float], dict[str, list[float] | list[int]]]:
     model.eval()
     discriminator.eval()
-    totals = torch.zeros(8, device=device)
+    totals = torch.zeros(6, device=device)
     count = torch.zeros((), device=device)
     code_histogram = torch.zeros((3, 256), device=device)
     with torch.inference_mode():
@@ -226,11 +213,6 @@ def evaluate(
                 config["loss"].get("spectral_convergence_weight", 0.0),
                 config["loss"].get("linear_magnitude_weight", 0.0),
             )
-            phase_loss, energy_loss = phase_and_energy_loss(
-                reconstructed,
-                reference,
-                config["loss"]["fft_sizes"],
-            )
             if gan_factor > 0.0:
                 real_logits, real_features = discriminator(reference)
                 fake_logits, fake_features = discriminator(reconstructed)
@@ -246,8 +228,6 @@ def evaluate(
                     waveform_loss,
                     spectral_loss,
                     quantizer_loss,
-                    phase_loss,
-                    energy_loss,
                     adversarial_loss,
                     matching_loss,
                     discriminator_loss,
@@ -268,23 +248,17 @@ def evaluate(
     perplexity = torch.exp(
         -(probabilities * probabilities.clamp_min(1e-12).log()).sum(dim=1)
     )
-    waveform, spectral, commitment, phase, energy, adversarial, matching, discriminator_loss = (
+    waveform, spectral, commitment, adversarial, matching, discriminator_loss = (
         totals / count
     ).tolist()
-    current_spectral_factor = spectral_factor(global_step, config)
     reconstruction = (
         config["loss"]["waveform_l1_weight"] * waveform
-        + current_spectral_factor * config["loss"]["spectral_weight"] * spectral
-        + config["loss"].get("phase_weight", 0.0) * phase
-        + config["loss"].get("energy_weight", 0.0) * energy
+        + config["loss"]["spectral_weight"] * spectral
     )
     metrics = {
         "waveform_l1": waveform,
         "spectral": spectral,
         "commitment": commitment,
-        "phase": phase,
-        "energy": energy,
-        "spectral_factor": current_spectral_factor,
         "adversarial": adversarial,
         "feature_matching": matching,
         "discriminator": discriminator_loss,
@@ -367,7 +341,6 @@ def validate_and_checkpoint(
         validation_limit,
         distributed,
         gan_factor,
-        global_step,
     )
     selection_loss = validation_metrics["reconstruction"]
     if is_main_process:
@@ -632,17 +605,9 @@ def main() -> None:
                 config["loss"].get("spectral_convergence_weight", 0.0),
                 config["loss"].get("linear_magnitude_weight", 0.0),
             )
-            phase_loss, energy_loss = phase_and_energy_loss(
-                reconstructed,
-                reference,
-                config["loss"]["fft_sizes"],
-            )
-            current_spectral_factor = spectral_factor(global_step + 1, config)
             reconstruction_loss = (
                 config["loss"]["waveform_l1_weight"] * waveform_loss
-                + current_spectral_factor * config["loss"]["spectral_weight"] * spectral_loss
-                + config["loss"].get("phase_weight", 0.0) * phase_loss
-                + config["loss"].get("energy_weight", 0.0) * energy_loss
+                + config["loss"]["spectral_weight"] * spectral_loss
             )
             gan_factor = adversarial_factor(global_step + 1, config)
             discriminator_loss = reconstructed.new_zeros(())
