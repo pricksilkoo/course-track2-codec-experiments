@@ -24,9 +24,6 @@ def main() -> None:
     parser.add_argument("--output-dir", required=True)
     parser.add_argument("--device", default="cpu")
     args = parser.parse_args()
-    # The target server's current cuDNN build cannot initialize reliably.
-    # Native CUDA convolution kernels preserve numerical behavior.
-    torch.backends.cudnn.enabled = False
     device = torch.device(args.device)
     model, _ = load_codec(args.checkpoint, device)
     input_dir = Path(args.input_dir)

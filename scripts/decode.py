@@ -24,7 +24,6 @@ def main() -> None:
     parser.add_argument("--output-dir", required=True)
     parser.add_argument("--device", default="cpu")
     args = parser.parse_args()
-    torch.backends.cudnn.enabled = False
     device = torch.device(args.device)
     model, _ = load_codec(args.checkpoint, device)
     bitstream_dir = Path(args.bitstream_dir)
