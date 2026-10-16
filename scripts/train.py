@@ -432,6 +432,9 @@ def validate_and_checkpoint(
 def main() -> None:
     args = parse_args()
     config = apply_overrides(load_config(args.config), args.config_overrides)
+    if config["training"].get("disable_cudnn", False):
+        torch.backends.cudnn.enabled = False
+        print("cuDNN disabled by configuration; using native CUDA kernels")
     if args.output_dir:
         config["training"]["output_dir"] = args.output_dir
     if args.run_name:

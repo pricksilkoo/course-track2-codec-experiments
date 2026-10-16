@@ -40,6 +40,7 @@ def main():
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--skip-utmos", action="store_true", help="Smoke tests only")
     args = parser.parse_args()
+    torch.backends.cudnn.enabled = False
     references = sorted(args.reference_dir.rglob("*.wav"))
     if not references:
         raise ValueError("No reference WAV files found")
