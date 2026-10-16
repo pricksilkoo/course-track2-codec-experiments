@@ -2,7 +2,7 @@ _base_: base_2p4k.yaml
 
 model:
   architecture: nanocodec_tf
-  model_width: 176
+  model_width: 172
   encoder_layers: 10
   decoder_layers: 7
   attention_every: 0

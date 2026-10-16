@@ -72,6 +72,22 @@ test -d "$VALIDATION_DIR"
 log "Starting $RUN_NAME on physical GPU $GPU_ID with $CONFIG_PATH"
 record running "Single-GPU ablation active on GPU $GPU_ID"
 
+PRECHECK="$RUN_DIR/preflight_complexity.json"
+"$PYTHON" scripts/complexity.py --config "$CONFIG_PATH" --output "$PRECHECK"
+"$PYTHON" -c '
+import json, sys
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+if report["bitrate_bps"] != 2400:
+    raise SystemExit("preflight failed: bitrate is not exactly 2400 bps")
+if report["total_mflop_per_s"] > 700:
+    raise SystemExit("preflight failed: total complexity exceeds 700 MFLOP/s")
+if report["decoder_mflop_per_s"] > 300:
+    raise SystemExit("preflight failed: decoder complexity exceeds 300 MFLOP/s")
+if report.get("algorithmic_delay_ms", 31) > 30:
+    raise SystemExit("preflight failed: delay exceeds 30 ms")
+' "$PRECHECK"
+log "Complexity and fixed-interface preflight passed"
+
 if [[ ! -f "$RUN_DIR/TRAINING_COMPLETE" ]]; then
   train_args=(
     --config "$CONFIG_PATH"
