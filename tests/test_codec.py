@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 
 import torch
+import pytest
 
 from ssp_codec.adversarial import (
     MultiResolutionSTFTDiscriminator,
@@ -141,6 +142,42 @@ def test_codec_rejects_more_than_30ms_total_lookahead() -> None:
         assert "three 10-ms frames" in str(error)
     else:
         raise AssertionError("codec accepted more than 30 ms of lookahead")
+
+
+@pytest.mark.parametrize(
+    "architecture,width",
+    [
+        ("vocodec_tf", 32),
+        ("nanocodec_tf", 32),
+        ("winner_hybrid", 32),
+        ("phoenix_hybrid", 32),
+    ],
+)
+def test_paper_inspired_architectures_keep_course_contract(
+    architecture: str, width: int
+) -> None:
+    model = CourseCodec(
+        architecture=architecture,
+        model_width=width,
+        encoder_layers=2,
+        decoder_layers=2,
+        rvq_codebook_dim=8,
+        attention_every=1 if architecture in {"vocodec_tf", "winner_hybrid"} else 0,
+    )
+    waveform = torch.randn(2, 1, 1760)
+    model.train()
+    reconstructed, indices, loss = model(waveform)
+    assert reconstructed.shape == waveform.shape
+    assert indices.shape == (2, 11, 3)
+    assert torch.isfinite(loss)
+    model.eval()
+    decoded = model.decode(model.encode(waveform), waveform.size(-1))
+    assert decoded.shape == waveform.shape
+
+
+def test_architecture_delay_is_capped_at_30ms() -> None:
+    with pytest.raises(ValueError, match="30 ms"):
+        CourseCodec(architecture="vocodec_tf", algorithmic_delay_ms=31)
 
 
 def test_config_inheritance_and_cli_override() -> None:

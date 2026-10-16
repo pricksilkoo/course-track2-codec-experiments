@@ -42,3 +42,46 @@ def multiscale_spectral_loss(
             resolution_loss = resolution_loss + spectral_convergence_weight * difference / scale
         loss = loss + resolution_loss
     return loss / len(fft_sizes)
+
+
+def phase_and_energy_loss(
+    estimate: torch.Tensor,
+    reference: torch.Tensor,
+    fft_sizes: list[int],
+) -> tuple[torch.Tensor, torch.Tensor]:
+    """Phase-consistency and frame-energy losses used by the T-F variants."""
+    estimate = estimate.squeeze(1)
+    reference = reference.squeeze(1)
+    phase_loss = estimate.new_zeros(())
+    energy_loss = estimate.new_zeros(())
+    for n_fft in fft_sizes:
+        window = torch.hann_window(n_fft, device=estimate.device, dtype=estimate.dtype)
+        estimated_stft = torch.stft(
+            estimate,
+            n_fft=n_fft,
+            hop_length=n_fft // 4,
+            window=window,
+            return_complex=True,
+        )
+        reference_stft = torch.stft(
+            reference,
+            n_fft=n_fft,
+            hop_length=n_fft // 4,
+            window=window,
+            return_complex=True,
+        )
+        estimated_magnitude = estimated_stft.abs().clamp_min(1e-5)
+        reference_magnitude = reference_stft.abs().clamp_min(1e-5)
+        phase_alignment = (
+            estimated_stft.real * reference_stft.real
+            + estimated_stft.imag * reference_stft.imag
+        ) / (estimated_magnitude * reference_magnitude)
+        magnitude_mask = reference_magnitude / reference_magnitude.mean().clamp_min(1e-5)
+        phase_loss = phase_loss + ((1.0 - phase_alignment) * magnitude_mask.clamp_max(4.0)).mean()
+        estimated_energy = estimated_magnitude.square().mean(dim=1).sqrt()
+        reference_energy = reference_magnitude.square().mean(dim=1).sqrt()
+        energy_loss = energy_loss + F.l1_loss(
+            torch.log1p(estimated_energy), torch.log1p(reference_energy)
+        )
+    scale = float(len(fft_sizes))
+    return phase_loss / scale, energy_loss / scale

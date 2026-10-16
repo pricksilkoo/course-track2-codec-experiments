@@ -1,0 +1,18 @@
+_base_: base_2p4k.yaml
+
+model:
+  architecture: vocodec_tf
+  model_width: 176
+  encoder_layers: 8
+  decoder_layers: 6
+  attention_every: 3
+
+loss:
+  phase_weight: 0.05
+
+adversarial:
+  # VoCodec uses a single multi-resolution STFT discriminator family.
+  periods: []
+
+training:
+  output_dir: runs/arch4_a_vocodec_tf

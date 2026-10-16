@@ -16,6 +16,13 @@ import torch.distributed as dist
 import torch.nn.functional as F
 from torch import nn
 
+from .architectures import (
+    HybridWaveformEncoder,
+    SpectralDecoder,
+    SpectralEncoder,
+    WaveformSnakeDecoder,
+)
+
 
 SAMPLE_RATE = 16_000
 FRAME_SAMPLES = 160
@@ -579,6 +586,13 @@ class CourseCodec(nn.Module):
         temporal_expansion: int = 2,
         encoder_lookahead_frames: int = 0,
         decoder_lookahead_frames: int = 0,
+        architecture: str = "baseline",
+        model_width: int = 128,
+        encoder_layers: int = 6,
+        decoder_layers: int = 4,
+        architecture_expansion: int = 2,
+        attention_every: int = 0,
+        algorithmic_delay_ms: int = 30,
     ) -> None:
         super().__init__()
         encoder_channels = tuple(encoder_channels)
@@ -587,28 +601,93 @@ class CourseCodec(nn.Module):
         decoder_strides = tuple(decoder_strides)
         if sample_rate != SAMPLE_RATE or frame_samples != FRAME_SAMPLES:
             raise ValueError("this baseline is fixed to 16 kHz and 160 samples per frame")
-        if torch.tensor(encoder_strides).prod().item() != frame_samples:
-            raise ValueError("encoder strides must multiply to 160 samples")
-        if torch.tensor(decoder_strides).prod().item() != frame_samples:
-            raise ValueError("decoder strides must multiply to 160 samples")
-        if encoder_channels[-1] != decoder_channels[0]:
-            raise ValueError("encoder output and decoder input dimensions must agree")
+        supported_architectures = {
+            "baseline",
+            "vocodec_tf",
+            "nanocodec_tf",
+            "winner_hybrid",
+            "phoenix_hybrid",
+        }
+        if architecture not in supported_architectures:
+            raise ValueError(f"unsupported architecture: {architecture}")
+        if algorithmic_delay_ms < 0 or algorithmic_delay_ms > 30:
+            raise ValueError("algorithmic delay cannot exceed 30 ms")
+        if architecture == "baseline":
+            if torch.tensor(encoder_strides).prod().item() != frame_samples:
+                raise ValueError("encoder strides must multiply to 160 samples")
+            if torch.tensor(decoder_strides).prod().item() != frame_samples:
+                raise ValueError("decoder strides must multiply to 160 samples")
+            if encoder_channels[-1] != decoder_channels[0]:
+                raise ValueError("encoder output and decoder input dimensions must agree")
         if encoder_lookahead_frames < 0 or decoder_lookahead_frames < 0:
             raise ValueError("lookahead frames must be non-negative")
         if encoder_lookahead_frames + decoder_lookahead_frames > 3:
             raise ValueError("total codec lookahead cannot exceed three 10-ms frames")
         self.specification = CodecSpecification()
-        self.encoder = WaveformEncoder(
-            encoder_channels, encoder_strides, residual_blocks, residual_kernel_size
-        )
+        self.architecture = architecture
+        self.algorithmic_delay_ms = algorithmic_delay_ms
+        latent_dim = encoder_channels[-1] if architecture == "baseline" else model_width
+        if architecture == "baseline":
+            self.encoder = WaveformEncoder(
+                encoder_channels, encoder_strides, residual_blocks, residual_kernel_size
+            )
+            self.decoder = WaveformDecoder(
+                decoder_channels, decoder_strides, residual_blocks, residual_kernel_size
+            )
+        elif architecture == "vocodec_tf":
+            self.encoder = SpectralEncoder(
+                model_width,
+                encoder_layers,
+                mode="vocodec",
+                expansion=architecture_expansion,
+                attention_every=attention_every,
+            )
+            self.decoder = SpectralDecoder(
+                model_width,
+                decoder_layers,
+                style="vocodec",
+                expansion=architecture_expansion,
+                attention_every=attention_every,
+            )
+        elif architecture == "nanocodec_tf":
+            self.encoder = SpectralEncoder(
+                model_width,
+                encoder_layers,
+                mode="nanocodec",
+                expansion=architecture_expansion,
+            )
+            self.decoder = SpectralDecoder(
+                model_width,
+                decoder_layers,
+                style="nanocodec",
+                expansion=architecture_expansion,
+            )
+        elif architecture == "winner_hybrid":
+            self.encoder = HybridWaveformEncoder(model_width)
+            self.decoder = SpectralDecoder(
+                model_width,
+                decoder_layers,
+                style="vocodec",
+                expansion=architecture_expansion,
+                attention_every=attention_every,
+            )
+        else:
+            self.encoder = SpectralEncoder(
+                model_width,
+                encoder_layers,
+                mode="phoenix",
+                expansion=architecture_expansion,
+                use_gru=True,
+            )
+            self.decoder = WaveformSnakeDecoder(model_width, use_gru=True)
         # Fixed per-frame normalization prevents the encoder and EMA codebooks
         # from reducing loss by inflating their absolute scale. With no affine
         # parameters, each latent frame remains centered with unit variance.
         self.latent_norm = nn.LayerNorm(
-            encoder_channels[-1], elementwise_affine=False
+            latent_dim, elementwise_affine=False
         )
         self.analysis_temporal = CausalTemporalStack(
-            encoder_channels[-1],
+            latent_dim,
             layers=encoder_temporal_layers,
             kernel_size=temporal_kernel_size,
             expansion=temporal_expansion,
@@ -616,7 +695,7 @@ class CourseCodec(nn.Module):
         )
         if quantizer_type == "rvq":
             self.quantizer: nn.Module = ResidualVectorQuantizer(
-                embedding_dim=encoder_channels[-1],
+                embedding_dim=latent_dim,
                 num_codebooks=rvq_num_codebooks,
                 codebook_size=rvq_codebook_size,
                 codebook_dim=rvq_codebook_dim,
@@ -629,19 +708,16 @@ class CourseCodec(nn.Module):
                 kmeans_iterations=rvq_kmeans_iterations,
             )
         elif quantizer_type == "fsq":
-            self.quantizer = FiniteScalarQuantizer(encoder_channels[-1], fsq_levels)
+            self.quantizer = FiniteScalarQuantizer(latent_dim, fsq_levels)
         else:
             raise ValueError(f"unsupported quantizer_type: {quantizer_type}")
         self.quantizer_type = quantizer_type
         self.synthesis_temporal = CausalTemporalStack(
-            encoder_channels[-1],
+            latent_dim,
             layers=decoder_temporal_layers,
             kernel_size=temporal_kernel_size,
             expansion=temporal_expansion,
             lookahead_frames=decoder_lookahead_frames,
-        )
-        self.decoder = WaveformDecoder(
-            decoder_channels, decoder_strides, residual_blocks, residual_kernel_size
         )
 
     @staticmethod
