@@ -32,7 +32,7 @@ training:
   # The server's torch 2.11/cuDNN 9.19 combination currently fails to create
   # cuDNN handles. Native CUDA kernels remain healthy and deterministic.
   disable_cudnn: true
-  batch_size: 48
+  batch_size: 24
   num_workers: 8
   epochs: 1000
   learning_rate: 0.0003
