@@ -242,7 +242,9 @@ class HybridWaveformEncoder(nn.Module):
 
     def __init__(self, channels: int, strides: tuple[int, ...] = (2, 4, 4, 5)) -> None:
         super().__init__()
-        stage_channels = (16, 32, 64, 96, channels)
+        # Keep high-sample-rate stages narrow: their residual units dominate
+        # the analytical budget even though the 100-Hz latent can stay wide.
+        stage_channels = (8, 16, 32, 64, channels)
         self.input = nn.Conv1d(1, stage_channels[0], 7)
         self.blocks = nn.ModuleList()
         for in_channels, out_channels, stride in zip(
@@ -281,7 +283,9 @@ class WaveformSnakeDecoder(nn.Module):
     def __init__(self, channels: int, use_gru: bool = True) -> None:
         super().__init__()
         self.gru = nn.GRU(channels, channels, batch_first=True) if use_gru else None
-        stage_channels = (channels, 64, 32, 16, 8)
+        # The first two synthesis stages dominate decoder compute.  These
+        # widths keep the Phoenix adaptation below 300 MFLOP/s.
+        stage_channels = (channels, 48, 24, 12, 8)
         strides = (5, 4, 4, 2)
         self.blocks = nn.ModuleList()
         for in_channels, out_channels, stride in zip(
