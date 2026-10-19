@@ -66,20 +66,40 @@ def main() -> None:
     encoder = sum(
         value
         for name, value in macs.items()
-        if name.startswith(("encoder.", "analysis_temporal."))
+        if name.startswith(
+            ("encoder.", "analysis_temporal.", "lookahead_fusion.", "analysis_transformer.")
+        )
     )
     decoder = sum(
         value
         for name, value in macs.items()
-        if name.startswith(("decoder.", "synthesis_temporal."))
+        if name.startswith(("decoder.", "synthesis_temporal.", "synthesis_transformer."))
     )
     quantizer_projections = sum(value for name, value in macs.items() if name.startswith("quantizer."))
     frames = (samples + 159) // 160
+    encoder_attention = 0
+    decoder_attention = 0
+    for name, module in model.named_modules():
+        if module.__class__.__name__ != "LocalCausalSelfAttention":
+            continue
+        window = min(frames, int(module.history_frames))
+        # QK^T and attention-value products, each with dimension d_model.
+        attention_macs = 2 * frames * window * int(module.dimension)
+        if name.startswith("analysis_transformer."):
+            encoder_attention += attention_macs
+        elif name.startswith("synthesis_transformer."):
+            decoder_attention += attention_macs
+    encoder += encoder_attention
+    decoder += decoder_attention
     # RVQ reports its approximate squared-distance lookup cost. FSQ has no
     # nearest-neighbour search and therefore returns zero here.
     quantizer_search = model.quantizer.search_macs(frames)
-    accounted = encoder + decoder + quantizer_projections
-    unclassified = sum(macs.values()) - accounted
+    accounted_linear_conv = (
+        encoder - encoder_attention
+        + decoder - decoder_attention
+        + quantizer_projections
+    )
+    unclassified = sum(macs.values()) - accounted_linear_conv
     report = {
         "sample_rate_hz": 16000,
         "duration_seconds": args.duration,
@@ -89,18 +109,34 @@ def main() -> None:
         "decoder_mmac_per_s": decoder / args.duration / 1e6,
         "quantizer_mmac_per_s": (quantizer_projections + quantizer_search) / args.duration / 1e6,
         "unclassified_mmac_per_s": unclassified / args.duration / 1e6,
-        "total_mflop_per_s": 2 * (sum(macs.values()) + quantizer_search) / args.duration / 1e6,
+        "total_mflop_per_s": 2
+        * (
+            sum(macs.values())
+            + quantizer_search
+            + encoder_attention
+            + decoder_attention
+        )
+        / args.duration
+        / 1e6,
         "decoder_mflop_per_s": 2 * decoder / args.duration / 1e6,
         # EMA codebooks are inference state stored as buffers rather than Adam
         # parameters, but must still count toward the deployed model size.
         "parameters": sum(parameter.numel() for parameter in model.parameters())
-        + (
-            model.quantizer.codebooks.numel()
-            if hasattr(model.quantizer, "codebooks")
-            else 0
+        + sum(
+            value.numel()
+            for name, value in model.quantizer.named_buffers()
+            if name.endswith("codebooks")
         ),
         "quantizer_type": model.quantizer_type,
-        "notes": "Counts Conv1d, ConvTranspose1d, Linear and approximate RVQ nearest-neighbour search. FSQ scalar rounding is reported as zero MACs. Excludes activations, normalization, padding and file I/O.",
+        "algorithmic_lookahead_ms": int(
+            10
+            * (
+                getattr(model.lookahead_fusion, "frames", 0)
+                if getattr(model, "architecture", "baseline") == "minimimi"
+                else 0
+            )
+        ),
+        "notes": "Counts Conv1d, ConvTranspose1d, Linear, bounded attention QK/AV and approximate RVQ nearest-neighbour search. FSQ scalar rounding is reported as zero MACs. Excludes activations, normalization, padding and file I/O.",
     }
     text = json.dumps(report, ensure_ascii=False, indent=2)
     print(text)

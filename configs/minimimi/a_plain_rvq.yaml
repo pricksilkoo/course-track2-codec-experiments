@@ -1,0 +1,7 @@
+_base_: base.yaml
+
+model:
+  quantizer_type: rvq
+
+training:
+  output_dir: runs/minimimi_a_plain_rvq

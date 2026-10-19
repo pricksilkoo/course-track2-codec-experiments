@@ -16,6 +16,13 @@ import torch.distributed as dist
 import torch.nn.functional as F
 from torch import nn
 
+from .minimimi import (
+    LookaheadFusion,
+    MiniSEANetDecoder,
+    MiniSEANetEncoder,
+    MiniTransformerStack,
+)
+
 
 SAMPLE_RATE = 16_000
 FRAME_SAMPLES = 160
@@ -260,8 +267,8 @@ class ResidualVectorQuantizer(nn.Module):
         kmeans_iterations: int = 10,
     ) -> None:
         super().__init__()
-        if num_codebooks != 3 or codebook_size != 256:
-            raise ValueError("the course baseline is fixed to three 256-entry codebooks")
+        if num_codebooks < 1 or codebook_size != 256:
+            raise ValueError("RVQ requires one or more 256-entry codebooks")
         if codebook_dim < 1:
             raise ValueError("codebook_dim must be positive")
         if not 0.0 < ema_decay < 1.0:
@@ -453,6 +460,9 @@ class ResidualVectorQuantizer(nn.Module):
         indices = torch.stack(all_indices, dim=-1)
         loss = self.commitment_weight * commitment
         straight_through = projected + (quantized - projected).detach()
+        # Split-RVQ semantic distillation consumes this projected latent only
+        # during training. It is neither transmitted nor required at inference.
+        self.last_quantized_latent = straight_through
         return self.output_projection(straight_through), indices, loss
 
     def decode(self, indices: torch.Tensor) -> torch.Tensor:
@@ -468,6 +478,78 @@ class ResidualVectorQuantizer(nn.Module):
     def search_macs(self, frames: int) -> int:
         """Approximate nearest-neighbour search cost used by complexity.py."""
         return frames * self.num_codebooks * self.codebook_size * self.codebook_dim * 3
+
+
+class SplitResidualVectorQuantizer(nn.Module):
+    """One semantic codebook plus two acoustic residual codebooks.
+
+    Both branches reconstruct the common latent dimension and are fused by a
+    learned projection. Only their three uint8 indices cross the bitstream.
+    """
+
+    def __init__(
+        self,
+        embedding_dim: int,
+        semantic_dim: int = 32,
+        acoustic_dim: int = 64,
+        commitment_weight: float = 0.1,
+        ema_decay: float = 0.99,
+        dead_code_threshold: float = 0.5,
+        dead_code_after_updates: int = 100,
+        kmeans_iterations: int = 10,
+    ) -> None:
+        super().__init__()
+        common = dict(
+            embedding_dim=embedding_dim,
+            codebook_size=256,
+            commitment_weight=commitment_weight,
+            ema_decay=ema_decay,
+            dead_code_threshold=dead_code_threshold,
+            dead_code_after_updates=dead_code_after_updates,
+            kmeans_iterations=kmeans_iterations,
+        )
+        self.semantic = ResidualVectorQuantizer(
+            num_codebooks=1, codebook_dim=semantic_dim, **common
+        )
+        self.acoustic = ResidualVectorQuantizer(
+            num_codebooks=2, codebook_dim=acoustic_dim, **common
+        )
+        self.fusion = nn.Linear(2 * embedding_dim, embedding_dim, bias=False)
+        self.semantic_dim = semantic_dim
+
+    @property
+    def bits_per_frame(self) -> int:
+        return 24
+
+    def forward(self, embeddings: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+        semantic, semantic_indices, semantic_loss = self.semantic(embeddings)
+        acoustic, acoustic_indices, acoustic_loss = self.acoustic(embeddings)
+        self.last_semantic_latent = self.semantic.last_quantized_latent
+        fused = self.fusion(torch.cat((semantic, acoustic), dim=-1))
+        return (
+            fused,
+            torch.cat((semantic_indices, acoustic_indices), dim=-1),
+            semantic_loss + acoustic_loss,
+        )
+
+    def decode(self, indices: torch.Tensor) -> torch.Tensor:
+        if indices.ndim != 3 or indices.shape[-1] != 3:
+            raise ValueError("split RVQ indices must have shape [batch, frames, 3]")
+        semantic = self.semantic.decode(indices[..., :1])
+        acoustic = self.acoustic.decode(indices[..., 1:])
+        return self.fusion(torch.cat((semantic, acoustic), dim=-1))
+
+    @torch.no_grad()
+    def usage_metrics(self) -> dict[str, list[float] | list[int]]:
+        semantic = self.semantic.usage_metrics()
+        acoustic = self.acoustic.usage_metrics()
+        return {
+            "active_codes": semantic["active_codes"] + acoustic["active_codes"],
+            "perplexity": semantic["perplexity"] + acoustic["perplexity"],
+        }
+
+    def search_macs(self, frames: int) -> int:
+        return self.semantic.search_macs(frames) + self.acoustic.search_macs(frames)
 
 
 class FiniteScalarQuantizer(nn.Module):
@@ -579,6 +661,22 @@ class CourseCodec(nn.Module):
         temporal_expansion: int = 2,
         encoder_lookahead_frames: int = 0,
         decoder_lookahead_frames: int = 0,
+        architecture: str = "baseline",
+        minimimi_encoder_channels: Iterable[int] = (12, 24, 48, 96, 192),
+        minimimi_decoder_channels: Iterable[int] = (128, 64, 32, 16, 8),
+        minimimi_latent_dim: int = 128,
+        minimimi_residual_compression: int = 2,
+        minimimi_downsample_overlap: int = 2,
+        minimimi_upsample_overlap: int = 1,
+        minimimi_encoder_transformer_layers: int = 3,
+        minimimi_decoder_transformer_layers: int = 3,
+        minimimi_transformer_heads: int = 4,
+        minimimi_transformer_ffn_dim: int = 256,
+        minimimi_encoder_history_frames: int = 128,
+        minimimi_decoder_history_frames: int = 128,
+        minimimi_hybrid_kernel_size: int = 0,
+        minimimi_semantic_dim: int = 32,
+        minimimi_acoustic_dim: int = 64,
     ) -> None:
         super().__init__()
         encoder_channels = tuple(encoder_channels)
@@ -598,6 +696,79 @@ class CourseCodec(nn.Module):
         if encoder_lookahead_frames + decoder_lookahead_frames > 3:
             raise ValueError("total codec lookahead cannot exceed three 10-ms frames")
         self.specification = CodecSpecification()
+        self.architecture = architecture
+        if architecture == "minimimi":
+            if decoder_lookahead_frames:
+                raise ValueError("MiniMimi decoder must remain strictly causal")
+            if tuple(encoder_strides) != (2, 4, 4, 5):
+                raise ValueError("MiniMimi encoder strides must remain [2, 4, 4, 5]")
+            if tuple(decoder_strides) != (5, 4, 4, 2):
+                raise ValueError("MiniMimi decoder strides must remain [5, 4, 4, 2]")
+            self.encoder = MiniSEANetEncoder(
+                minimimi_encoder_channels,
+                encoder_strides,
+                minimimi_latent_dim,
+                residual_compression=minimimi_residual_compression,
+                downsample_overlap=minimimi_downsample_overlap,
+            )
+            self.latent_norm = nn.LayerNorm(minimimi_latent_dim, elementwise_affine=False)
+            self.lookahead_fusion = LookaheadFusion(
+                minimimi_latent_dim, encoder_lookahead_frames
+            )
+            self.analysis_transformer = MiniTransformerStack(
+                minimimi_latent_dim,
+                minimimi_encoder_transformer_layers,
+                minimimi_transformer_heads,
+                minimimi_transformer_ffn_dim,
+                minimimi_encoder_history_frames,
+                minimimi_hybrid_kernel_size,
+            )
+            if quantizer_type == "rvq":
+                self.quantizer = ResidualVectorQuantizer(
+                    embedding_dim=minimimi_latent_dim,
+                    num_codebooks=rvq_num_codebooks,
+                    codebook_size=rvq_codebook_size,
+                    codebook_dim=rvq_codebook_dim,
+                    commitment_weight=commitment_weight,
+                    usage_loss_weight=rvq_usage_loss_weight,
+                    usage_temperature=rvq_usage_temperature,
+                    ema_decay=rvq_ema_decay,
+                    dead_code_threshold=rvq_dead_code_threshold,
+                    dead_code_after_updates=rvq_dead_code_after_updates,
+                    kmeans_iterations=rvq_kmeans_iterations,
+                )
+            elif quantizer_type == "split_rvq":
+                self.quantizer = SplitResidualVectorQuantizer(
+                    embedding_dim=minimimi_latent_dim,
+                    semantic_dim=minimimi_semantic_dim,
+                    acoustic_dim=minimimi_acoustic_dim,
+                    commitment_weight=commitment_weight,
+                    ema_decay=rvq_ema_decay,
+                    dead_code_threshold=rvq_dead_code_threshold,
+                    dead_code_after_updates=rvq_dead_code_after_updates,
+                    kmeans_iterations=rvq_kmeans_iterations,
+                )
+            else:
+                raise ValueError("MiniMimi supports rvq or split_rvq quantization")
+            self.quantizer_type = quantizer_type
+            self.synthesis_transformer = MiniTransformerStack(
+                minimimi_latent_dim,
+                minimimi_decoder_transformer_layers,
+                minimimi_transformer_heads,
+                minimimi_transformer_ffn_dim,
+                minimimi_decoder_history_frames,
+                minimimi_hybrid_kernel_size,
+            )
+            self.decoder = MiniSEANetDecoder(
+                minimimi_decoder_channels,
+                decoder_strides,
+                minimimi_latent_dim,
+                residual_compression=minimimi_residual_compression,
+                upsample_overlap=minimimi_upsample_overlap,
+            )
+            return
+        if architecture != "baseline":
+            raise ValueError(f"unsupported codec architecture: {architecture}")
         self.encoder = WaveformEncoder(
             encoder_channels, encoder_strides, residual_blocks, residual_kernel_size
         )
@@ -656,23 +827,53 @@ class CourseCodec(nn.Module):
         if waveform.ndim != 3 or waveform.size(1) != 1:
             raise ValueError("waveform must have shape [batch, 1, samples]")
         padded, _ = self.pad_to_frame(waveform)
-        embeddings = self.analysis_temporal(self.latent_norm(self.encoder(padded)))
+        if self.architecture == "minimimi":
+            embeddings = self.analysis_transformer(
+                self.lookahead_fusion(self.latent_norm(self.encoder(padded)))
+            )
+        else:
+            embeddings = self.analysis_temporal(self.latent_norm(self.encoder(padded)))
         _, indices, _ = self.quantizer(embeddings)
         return indices
 
     def decode(self, indices: torch.Tensor, length: int | None = None) -> torch.Tensor:
-        embeddings = self.synthesis_temporal(self.quantizer.decode(indices))
+        embeddings = self.quantizer.decode(indices)
+        if self.architecture == "minimimi":
+            embeddings = self.synthesis_transformer(embeddings)
+        else:
+            embeddings = self.synthesis_temporal(embeddings)
         waveform = self.decoder(embeddings)
         return waveform[..., :length] if length is not None else waveform
 
-    def forward(self, waveform: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+    def forward(
+        self, waveform: torch.Tensor, return_aux: bool = False
+    ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor] | tuple[
+        torch.Tensor, torch.Tensor, torch.Tensor, dict[str, torch.Tensor]
+    ]:
         if waveform.ndim == 2:
             waveform = waveform.unsqueeze(1)
         if waveform.ndim != 3 or waveform.size(1) != 1:
             raise ValueError("waveform must have shape [batch, 1, samples]")
         original_length = waveform.size(-1)
         padded, _ = self.pad_to_frame(waveform)
-        embeddings = self.analysis_temporal(self.latent_norm(self.encoder(padded)))
+        if self.architecture == "minimimi":
+            embeddings = self.analysis_transformer(
+                self.lookahead_fusion(self.latent_norm(self.encoder(padded)))
+            )
+        else:
+            embeddings = self.analysis_temporal(self.latent_norm(self.encoder(padded)))
         quantized, indices, quantizer_loss = self.quantizer(embeddings)
-        reconstructed = self.decoder(self.synthesis_temporal(quantized))[..., :original_length]
+        if self.architecture == "minimimi":
+            reconstructed = self.decoder(self.synthesis_transformer(quantized))[
+                ..., :original_length
+            ]
+        else:
+            reconstructed = self.decoder(self.synthesis_temporal(quantized))[
+                ..., :original_length
+            ]
+        if return_aux:
+            auxiliary: dict[str, torch.Tensor] = {}
+            if isinstance(self.quantizer, SplitResidualVectorQuantizer):
+                auxiliary["semantic"] = self.quantizer.last_semantic_latent
+            return reconstructed, indices, quantizer_loss, auxiliary
         return reconstructed, indices, quantizer_loss

@@ -151,3 +151,49 @@ def test_config_inheritance_and_cli_override() -> None:
     overridden = apply_overrides(config, ["model.rvq_codebook_dim=64"])
     assert overridden["model"]["rvq_codebook_dim"] == 64
     assert config["model"]["rvq_codebook_dim"] == 32
+
+
+def test_minimimi_plain_rvq_shape_and_round_trip() -> None:
+    root = Path(__file__).resolve().parents[1]
+    config = load_config(root / "configs/minimimi/a_plain_rvq.yaml")
+    model = CourseCodec(**config["model"])
+    waveform = torch.randn(2, 1, 1600)
+    model.train()
+    reconstructed, indices, _ = model(waveform)
+    model.eval()
+    decoded = model.decode(model.encode(waveform), waveform.size(-1))
+    assert reconstructed.shape == waveform.shape
+    assert indices.shape == (2, 10, 3)
+    assert torch.allclose(model(waveform)[0], decoded, atol=1e-6)
+
+
+def test_minimimi_split_rvq_exposes_semantic_latent() -> None:
+    root = Path(__file__).resolve().parents[1]
+    config = load_config(root / "configs/minimimi/b_split_semantic.yaml")
+    model = CourseCodec(**config["model"])
+    waveform = torch.randn(2, 1, 1600)
+    model.train()
+    reconstructed, indices, loss, auxiliary = model(waveform, return_aux=True)
+    assert reconstructed.shape == waveform.shape
+    assert indices.shape == (2, 10, 3)
+    assert auxiliary["semantic"].shape == (2, 10, 32)
+    assert torch.isfinite(loss)
+
+
+def test_minimimi_future_dependency_is_limited_to_three_frames() -> None:
+    root = Path(__file__).resolve().parents[1]
+    config = load_config(root / "configs/minimimi/a_plain_rvq.yaml")
+    model = CourseCodec(**config["model"]).eval()
+    original = torch.randn(1, 1, 3200)
+    changed = original.clone()
+    changed[..., 1600:] = torch.randn_like(changed[..., 1600:])
+    with torch.no_grad():
+        original_latent = model.analysis_transformer(
+            model.lookahead_fusion(model.latent_norm(model.encoder(original)))
+        )
+        changed_latent = model.analysis_transformer(
+            model.lookahead_fusion(model.latent_norm(model.encoder(changed)))
+        )
+    # Input changes at frame 10 can affect frames 7--9 through the one-time
+    # lookahead, but never frame 6 or earlier despite the three-layer stack.
+    assert torch.allclose(original_latent[:, :7], changed_latent[:, :7], atol=1e-5)

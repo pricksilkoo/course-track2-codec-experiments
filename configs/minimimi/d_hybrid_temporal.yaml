@@ -1,0 +1,7 @@
+_base_: b_split_semantic.yaml
+
+model:
+  minimimi_hybrid_kernel_size: 7
+
+training:
+  output_dir: runs/minimimi_d_hybrid_temporal

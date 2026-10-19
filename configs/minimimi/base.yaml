@@ -1,0 +1,85 @@
+seed: 2026
+
+audio:
+  sample_rate: 16000
+  frame_samples: 160
+  segment_samples: 32000
+
+model:
+  architecture: minimimi
+  sample_rate: 16000
+  frame_samples: 160
+  encoder_strides: [2, 4, 4, 5]
+  decoder_strides: [5, 4, 4, 2]
+  encoder_lookahead_frames: 3
+  decoder_lookahead_frames: 0
+  quantizer_type: rvq
+  rvq_num_codebooks: 3
+  rvq_codebook_size: 256
+  rvq_codebook_dim: 64
+  commitment_weight: 0.1
+  rvq_ema_decay: 0.95
+  rvq_dead_code_threshold: 0.5
+  rvq_dead_code_after_updates: 100
+  rvq_kmeans_iterations: 10
+  minimimi_encoder_channels: [12, 24, 48, 96, 192]
+  minimimi_decoder_channels: [128, 64, 32, 16, 8]
+  minimimi_latent_dim: 128
+  minimimi_residual_compression: 2
+  minimimi_downsample_overlap: 2
+  # The conservative course counter makes overlapping transposed convolution
+  # too expensive. Keep overlap in the analysis path and use exact-stride
+  # synthesis kernels so the decoder retains budget for three Transformers.
+  minimimi_upsample_overlap: 1
+  minimimi_encoder_transformer_layers: 3
+  minimimi_decoder_transformer_layers: 3
+  minimimi_transformer_heads: 4
+  minimimi_transformer_ffn_dim: 256
+  minimimi_encoder_history_frames: 128
+  minimimi_decoder_history_frames: 128
+  minimimi_hybrid_kernel_size: 0
+  minimimi_semantic_dim: 32
+  minimimi_acoustic_dim: 64
+
+semantic_distillation:
+  enabled: false
+  bundle: WAVLM_BASE_PLUS
+  feature_dim: 768
+  layer: 9
+  weight: 0.1
+  warmup_steps: 10000
+
+loss:
+  waveform_l1_weight: 1.0
+  spectral_weight: 1.0
+  fft_sizes: [256, 512, 1024]
+  spectral_convergence_weight: 0.25
+  linear_magnitude_weight: 0.1
+  adversarial_weight: 0.1
+  feature_matching_weight: 1.0
+
+adversarial:
+  resolutions:
+    - [256, 64, 256]
+    - [512, 128, 512]
+    - [1024, 256, 1024]
+  periods: [2, 3, 5, 7, 11]
+  start_step: 10000
+  warmup_steps: 10000
+  learning_rate: 0.0002
+  gradient_clip_norm: 10.0
+
+training:
+  batch_size: 12
+  num_workers: 8
+  epochs: 1000
+  learning_rate: 0.0002
+  minimum_learning_rate: 0.00002
+  warmup_steps: 2000
+  weight_decay: 0.000001
+  gradient_clip_norm: 1.0
+  validation_limit: 32
+  validation_checkpoint_interval_steps: 10000
+  checkpoint_keep_last: 3
+  sample_inference_count: 2
+  output_dir: runs/minimimi_base

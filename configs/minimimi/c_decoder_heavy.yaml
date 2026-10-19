@@ -1,0 +1,10 @@
+_base_: b_split_semantic.yaml
+
+model:
+  minimimi_encoder_transformer_layers: 2
+  minimimi_decoder_transformer_layers: 4
+  minimimi_transformer_ffn_dim: 192
+  minimimi_decoder_history_frames: 128
+
+training:
+  output_dir: runs/minimimi_c_decoder_heavy

@@ -43,6 +43,48 @@ from ssp_codec.losses import multiscale_spectral_loss  # noqa: E402
 from ssp_codec.model import CourseCodec  # noqa: E402
 
 
+def build_semantic_teacher(
+    config: dict, device: torch.device
+) -> tuple[torch.nn.Module, int, torch.Tensor] | None:
+    semantic = config.get("semantic_distillation", {})
+    if not semantic.get("enabled", False):
+        return None
+    import torchaudio
+
+    bundle_name = str(semantic.get("bundle", "WAVLM_BASE_PLUS"))
+    if not hasattr(torchaudio.pipelines, bundle_name):
+        raise ValueError(f"unknown torchaudio semantic teacher bundle: {bundle_name}")
+    bundle = getattr(torchaudio.pipelines, bundle_name)
+    if bundle.sample_rate != config["audio"]["sample_rate"]:
+        raise ValueError("semantic teacher and codec sample rates do not match")
+    teacher = bundle.get_model().to(device).eval()
+    teacher.requires_grad_(False)
+    layer = int(semantic.get("layer", 9))
+    teacher_dim = int(semantic.get("feature_dim", 768))
+    semantic_dim = int(config["model"]["minimimi_semantic_dim"])
+    generator = torch.Generator(device="cpu")
+    generator.manual_seed(int(config["seed"]) + 91_173)
+    projection = torch.randn(teacher_dim, semantic_dim, generator=generator)
+    projection, _ = torch.linalg.qr(projection, mode="reduced")
+    return teacher, layer, projection.to(device)
+
+
+def semantic_teacher_targets(
+    state: tuple[torch.nn.Module, int, torch.Tensor],
+    reference: torch.Tensor,
+    frames: int,
+) -> torch.Tensor:
+    teacher, layer, projection = state
+    with torch.no_grad():
+        features, _ = teacher.extract_features(reference[:, 0], num_layers=layer)
+        target = features[-1]
+        target = F.interpolate(
+            target.transpose(1, 2), size=frames, mode="linear", align_corners=False
+        ).transpose(1, 2)
+        target = target @ projection.to(dtype=target.dtype)
+        return F.normalize(target.float(), dim=-1)
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", default="configs/baseline_16k_2p4k.yaml")
@@ -362,6 +404,11 @@ def validate_and_checkpoint(
         torch.save(state, checkpoint_dir / "last.pt")
         if write_snapshot:
             torch.save(state, checkpoint_dir / f"step_{global_step:08d}.pt")
+            keep = int(config["training"].get("checkpoint_keep_last", 0))
+            if keep > 0:
+                snapshots = sorted(checkpoint_dir.glob("step_*.pt"))
+                for stale in snapshots[:-keep]:
+                    stale.unlink()
         if selection_loss < best_validation:
             torch.save(state, checkpoint_dir / "best.pt")
         write_reconstruction_samples(
@@ -460,6 +507,7 @@ def main() -> None:
     )
 
     base_model = CourseCodec(**config["model"]).to(device)
+    semantic_teacher = build_semantic_teacher(config, device)
     base_discriminator = MultiResolutionSTFTDiscriminator(
         config["adversarial"]["resolutions"],
         config["adversarial"].get("periods", ()),
@@ -596,7 +644,26 @@ def main() -> None:
             if args.max_train_steps is not None and step >= args.max_train_steps:
                 break
             reference = reference.to(device, non_blocking=True)
-            reconstructed, _, quantizer_loss = model(reference)
+            if semantic_teacher is None:
+                reconstructed, _, quantizer_loss = model(reference)
+                semantic_loss = reference.new_zeros(())
+            else:
+                reconstructed, _, quantizer_loss, auxiliary = model(
+                    reference, return_aux=True
+                )
+                if "semantic" not in auxiliary:
+                    raise RuntimeError(
+                        "semantic distillation requires split_rvq quantization"
+                    )
+                semantic_target = semantic_teacher_targets(
+                    semantic_teacher,
+                    reference,
+                    auxiliary["semantic"].shape[1],
+                )
+                semantic_prediction = F.normalize(
+                    auxiliary["semantic"].float(), dim=-1
+                )
+                semantic_loss = (1.0 - (semantic_prediction * semantic_target).sum(dim=-1)).mean()
             waveform_loss = F.l1_loss(reconstructed, reference)
             spectral_loss = multiscale_spectral_loss(
                 reconstructed,
@@ -650,6 +717,19 @@ def main() -> None:
                     + config["loss"]["feature_matching_weight"] * matching_loss
                 )
             )
+            if semantic_teacher is not None:
+                semantic_config = config["semantic_distillation"]
+                semantic_warmup = int(semantic_config.get("warmup_steps", 0))
+                semantic_factor = (
+                    1.0
+                    if semantic_warmup <= 0
+                    else min(1.0, (global_step + 1) / semantic_warmup)
+                )
+                loss = loss + (
+                    float(semantic_config.get("weight", 0.1))
+                    * semantic_factor
+                    * semantic_loss
+                )
             current_learning_rate = scheduled_learning_rate(
                 float(config["training"]["learning_rate"]),
                 minimum_learning_rate,
@@ -669,7 +749,10 @@ def main() -> None:
             last_batch_in_epoch = step + 1
             running.append(loss.item())
             if is_main_process:
-                progress.set_postfix(loss=f"{np.mean(running[-20:]):.4f}")
+                progress.set_postfix(
+                    loss=f"{np.mean(running[-20:]):.4f}",
+                    sem=f"{semantic_loss.item():.3f}",
+                )
             if global_step % interval_steps == 0:
                 validation = validate_and_checkpoint(
                     model=model,
