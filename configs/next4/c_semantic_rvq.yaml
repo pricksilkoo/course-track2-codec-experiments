@@ -1,0 +1,15 @@
+_base_: a_c_long.yaml
+
+# WavLM is used only while training. It supervises a straight-through view of
+# RVQ codebook zero; inference still transmits the same three uint8 indices.
+semantic_distillation:
+  enabled: true
+  bundle: WAVLM_BASE_PLUS
+  feature_dim: 768
+  layer: 9
+  weight: 0.05
+  warmup_steps: 10000
+
+training:
+  output_dir: runs/next4_c_semantic_rvq
+

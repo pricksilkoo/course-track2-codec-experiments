@@ -447,8 +447,11 @@ class ResidualVectorQuantizer(nn.Module):
         quantized = torch.zeros_like(projected)
         all_indices = []
         commitment = embeddings.new_zeros(())
+        first_stage_codeword = None
         for stage in range(self.num_codebooks):
             codeword, indices = self._lookup(residual, stage)
+            if stage == 0:
+                first_stage_codeword = codeword
             commitment = commitment + F.mse_loss(residual, codeword.detach())
             if self.training:
                 self._ema_update(stage, residual.detach(), indices)
@@ -460,6 +463,14 @@ class ResidualVectorQuantizer(nn.Module):
         indices = torch.stack(all_indices, dim=-1)
         loss = self.commitment_weight * commitment
         straight_through = projected + (quantized - projected).detach()
+        if first_stage_codeword is None:
+            raise RuntimeError("RVQ must contain at least one codebook")
+        # A straight-through view of codebook zero lets a training-only
+        # semantic teacher shape the encoder while preserving the exact RVQ
+        # lookup and the three-byte inference bitstream.
+        self.last_first_stage_latent = projected + (
+            first_stage_codeword - projected
+        ).detach()
         # Split-RVQ semantic distillation consumes this projected latent only
         # during training. It is neither transmitted nor required at inference.
         self.last_quantized_latent = straight_through
@@ -661,6 +672,11 @@ class CourseCodec(nn.Module):
         temporal_expansion: int = 2,
         encoder_lookahead_frames: int = 0,
         decoder_lookahead_frames: int = 0,
+        temporal_model: str = "tcn",
+        temporal_transformer_heads: int = 4,
+        temporal_transformer_ffn_dim: int = 128,
+        encoder_history_frames: int = 16,
+        decoder_history_frames: int = 16,
         architecture: str = "baseline",
         minimimi_encoder_channels: Iterable[int] = (12, 24, 48, 96, 192),
         minimimi_decoder_channels: Iterable[int] = (128, 64, 32, 16, 8),
@@ -697,6 +713,10 @@ class CourseCodec(nn.Module):
             raise ValueError("total codec lookahead cannot exceed three 10-ms frames")
         self.specification = CodecSpecification()
         self.architecture = architecture
+        self.temporal_model = temporal_model
+        self.algorithmic_lookahead_frames = (
+            encoder_lookahead_frames + decoder_lookahead_frames
+        )
         if architecture == "minimimi":
             if decoder_lookahead_frames:
                 raise ValueError("MiniMimi decoder must remain strictly causal")
@@ -778,13 +798,29 @@ class CourseCodec(nn.Module):
         self.latent_norm = nn.LayerNorm(
             encoder_channels[-1], elementwise_affine=False
         )
-        self.analysis_temporal = CausalTemporalStack(
-            encoder_channels[-1],
-            layers=encoder_temporal_layers,
-            kernel_size=temporal_kernel_size,
-            expansion=temporal_expansion,
-            lookahead_frames=encoder_lookahead_frames,
-        )
+        if temporal_model == "tcn":
+            self.analysis_temporal = CausalTemporalStack(
+                encoder_channels[-1],
+                layers=encoder_temporal_layers,
+                kernel_size=temporal_kernel_size,
+                expansion=temporal_expansion,
+                lookahead_frames=encoder_lookahead_frames,
+            )
+        elif temporal_model == "transformer":
+            if decoder_lookahead_frames:
+                raise ValueError("Transformer decoder must remain strictly causal")
+            self.lookahead_fusion = LookaheadFusion(
+                encoder_channels[-1], encoder_lookahead_frames
+            )
+            self.analysis_transformer = MiniTransformerStack(
+                encoder_channels[-1],
+                encoder_temporal_layers,
+                temporal_transformer_heads,
+                temporal_transformer_ffn_dim,
+                encoder_history_frames,
+            )
+        else:
+            raise ValueError(f"unsupported temporal_model: {temporal_model}")
         if quantizer_type == "rvq":
             self.quantizer: nn.Module = ResidualVectorQuantizer(
                 embedding_dim=encoder_channels[-1],
@@ -804,13 +840,22 @@ class CourseCodec(nn.Module):
         else:
             raise ValueError(f"unsupported quantizer_type: {quantizer_type}")
         self.quantizer_type = quantizer_type
-        self.synthesis_temporal = CausalTemporalStack(
-            encoder_channels[-1],
-            layers=decoder_temporal_layers,
-            kernel_size=temporal_kernel_size,
-            expansion=temporal_expansion,
-            lookahead_frames=decoder_lookahead_frames,
-        )
+        if temporal_model == "tcn":
+            self.synthesis_temporal = CausalTemporalStack(
+                encoder_channels[-1],
+                layers=decoder_temporal_layers,
+                kernel_size=temporal_kernel_size,
+                expansion=temporal_expansion,
+                lookahead_frames=decoder_lookahead_frames,
+            )
+        else:
+            self.synthesis_transformer = MiniTransformerStack(
+                encoder_channels[-1],
+                decoder_temporal_layers,
+                temporal_transformer_heads,
+                temporal_transformer_ffn_dim,
+                decoder_history_frames,
+            )
         self.decoder = WaveformDecoder(
             decoder_channels, decoder_strides, residual_blocks, residual_kernel_size
         )
@@ -827,7 +872,7 @@ class CourseCodec(nn.Module):
         if waveform.ndim != 3 or waveform.size(1) != 1:
             raise ValueError("waveform must have shape [batch, 1, samples]")
         padded, _ = self.pad_to_frame(waveform)
-        if self.architecture == "minimimi":
+        if self.architecture == "minimimi" or self.temporal_model == "transformer":
             embeddings = self.analysis_transformer(
                 self.lookahead_fusion(self.latent_norm(self.encoder(padded)))
             )
@@ -838,7 +883,7 @@ class CourseCodec(nn.Module):
 
     def decode(self, indices: torch.Tensor, length: int | None = None) -> torch.Tensor:
         embeddings = self.quantizer.decode(indices)
-        if self.architecture == "minimimi":
+        if self.architecture == "minimimi" or self.temporal_model == "transformer":
             embeddings = self.synthesis_transformer(embeddings)
         else:
             embeddings = self.synthesis_temporal(embeddings)
@@ -856,14 +901,14 @@ class CourseCodec(nn.Module):
             raise ValueError("waveform must have shape [batch, 1, samples]")
         original_length = waveform.size(-1)
         padded, _ = self.pad_to_frame(waveform)
-        if self.architecture == "minimimi":
+        if self.architecture == "minimimi" or self.temporal_model == "transformer":
             embeddings = self.analysis_transformer(
                 self.lookahead_fusion(self.latent_norm(self.encoder(padded)))
             )
         else:
             embeddings = self.analysis_temporal(self.latent_norm(self.encoder(padded)))
         quantized, indices, quantizer_loss = self.quantizer(embeddings)
-        if self.architecture == "minimimi":
+        if self.architecture == "minimimi" or self.temporal_model == "transformer":
             reconstructed = self.decoder(self.synthesis_transformer(quantized))[
                 ..., :original_length
             ]
@@ -875,5 +920,7 @@ class CourseCodec(nn.Module):
             auxiliary: dict[str, torch.Tensor] = {}
             if isinstance(self.quantizer, SplitResidualVectorQuantizer):
                 auxiliary["semantic"] = self.quantizer.last_semantic_latent
+            elif isinstance(self.quantizer, ResidualVectorQuantizer):
+                auxiliary["semantic"] = self.quantizer.last_first_stage_latent
             return reconstructed, indices, quantizer_loss, auxiliary
         return reconstructed, indices, quantizer_loss

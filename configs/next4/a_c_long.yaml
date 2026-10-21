@@ -1,0 +1,14 @@
+_base_: ../ablations/c_temporal.yaml
+
+# Control: keep the exact C architecture and give the warm-started model a
+# common long fine-tuning schedule. All four next-round runs inherit this
+# optimizer/data profile so architecture comparisons remain interpretable.
+training:
+  learning_rate: 0.0002
+  minimum_learning_rate: 0.00002
+  warmup_steps: 2000
+  validation_limit: 32
+  validation_checkpoint_interval_steps: 10000
+  checkpoint_keep_last: 3
+  output_dir: runs/next4_a_c_long
+

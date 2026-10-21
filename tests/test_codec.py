@@ -134,6 +134,49 @@ def test_limited_lookahead_observes_no_more_than_three_frames() -> None:
     assert not torch.allclose(original_output[:, 9:12], changed_output[:, 9:12])
 
 
+def test_baseline_local_transformer_round_trip_and_semantic_auxiliary() -> None:
+    model = CourseCodec(
+        temporal_model="transformer",
+        encoder_temporal_layers=2,
+        decoder_temporal_layers=1,
+        temporal_transformer_heads=4,
+        temporal_transformer_ffn_dim=128,
+        encoder_history_frames=16,
+        decoder_history_frames=16,
+        encoder_lookahead_frames=3,
+    )
+    waveform = torch.randn(2, 1, 1600)
+    model.train()
+    reconstructed, indices, loss, auxiliary = model(waveform, return_aux=True)
+    assert reconstructed.shape == waveform.shape
+    assert indices.shape == (2, 10, 3)
+    assert auxiliary["semantic"].shape == (2, 10, 160)
+    assert torch.isfinite(loss)
+    model.eval()
+    decoded = model.decode(model.encode(waveform), waveform.size(-1))
+    assert torch.allclose(model(waveform)[0], decoded, atol=1e-6)
+
+
+def test_baseline_local_transformer_future_dependency_is_bounded() -> None:
+    model = CourseCodec(
+        temporal_model="transformer",
+        encoder_temporal_layers=2,
+        decoder_temporal_layers=1,
+        encoder_lookahead_frames=3,
+    ).eval()
+    original = torch.randn(1, 1, 3200)
+    changed = original.clone()
+    changed[..., 1600:] = torch.randn_like(changed[..., 1600:])
+    with torch.no_grad():
+        original_latent = model.analysis_transformer(
+            model.lookahead_fusion(model.latent_norm(model.encoder(original)))
+        )
+        changed_latent = model.analysis_transformer(
+            model.lookahead_fusion(model.latent_norm(model.encoder(changed)))
+        )
+    assert torch.allclose(original_latent[:, :7], changed_latent[:, :7], atol=1e-5)
+
+
 def test_codec_rejects_more_than_30ms_total_lookahead() -> None:
     try:
         CourseCodec(encoder_lookahead_frames=2, decoder_lookahead_frames=2)

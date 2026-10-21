@@ -61,7 +61,12 @@ def build_semantic_teacher(
     teacher.requires_grad_(False)
     layer = int(semantic.get("layer", 9))
     teacher_dim = int(semantic.get("feature_dim", 768))
-    semantic_dim = int(config["model"]["minimimi_semantic_dim"])
+    model_config = config["model"]
+    semantic_dim = int(
+        model_config.get("minimimi_semantic_dim", model_config["rvq_codebook_dim"])
+        if model_config.get("quantizer_type") == "split_rvq"
+        else model_config["rvq_codebook_dim"]
+    )
     generator = torch.Generator(device="cpu")
     generator.manual_seed(int(config["seed"]) + 91_173)
     projection = torch.randn(teacher_dim, semantic_dim, generator=generator)
@@ -653,7 +658,7 @@ def main() -> None:
                 )
                 if "semantic" not in auxiliary:
                     raise RuntimeError(
-                        "semantic distillation requires split_rvq quantization"
+                        "semantic distillation requires an RVQ semantic auxiliary"
                     )
                 semantic_target = semantic_teacher_targets(
                     semantic_teacher,

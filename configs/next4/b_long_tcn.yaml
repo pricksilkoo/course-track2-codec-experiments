@@ -1,0 +1,13 @@
+_base_: a_c_long.yaml
+
+model:
+  # Four expansion-one blocks cost approximately the same as the original two
+  # expansion-two blocks, but dilations [1, 2, 4, 8] cover about 300 ms of
+  # latent history. The causal decoder uses [1, 2].
+  encoder_temporal_layers: 4
+  decoder_temporal_layers: 2
+  temporal_expansion: 1
+
+training:
+  output_dir: runs/next4_b_long_tcn
+

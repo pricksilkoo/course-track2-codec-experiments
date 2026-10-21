@@ -1,0 +1,16 @@
+_base_: a_c_long.yaml
+
+model:
+  # Replace, rather than stack on top of, the latent TCN. Future context is
+  # fused exactly once (three frames); all attention layers remain causal.
+  temporal_model: transformer
+  encoder_temporal_layers: 2
+  decoder_temporal_layers: 1
+  temporal_transformer_heads: 4
+  temporal_transformer_ffn_dim: 128
+  encoder_history_frames: 16
+  decoder_history_frames: 16
+
+training:
+  output_dir: runs/next4_d_local_transformer
+

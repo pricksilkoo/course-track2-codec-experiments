@@ -129,12 +129,7 @@ def main() -> None:
         ),
         "quantizer_type": model.quantizer_type,
         "algorithmic_lookahead_ms": int(
-            10
-            * (
-                getattr(model.lookahead_fusion, "frames", 0)
-                if getattr(model, "architecture", "baseline") == "minimimi"
-                else 0
-            )
+            10 * getattr(model, "algorithmic_lookahead_frames", 0)
         ),
         "notes": "Counts Conv1d, ConvTranspose1d, Linear, bounded attention QK/AV and approximate RVQ nearest-neighbour search. FSQ scalar rounding is reported as zero MACs. Excludes activations, normalization, padding and file I/O.",
     }
