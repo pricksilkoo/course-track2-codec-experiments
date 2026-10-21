@@ -1468,3 +1468,116 @@ training:
 ```
 
 <!-- experiment:minimimi_d_hybrid_temporal:end -->
+
+<!-- experiment:official_baseline_reference_eval:start -->
+## official_baseline_reference_eval
+
+- Status: `complete`
+- Updated (UTC): `2026-10-21T00:39:28.043586+00:00`
+- Git commit: `6168477f62d8d86a6a2fca04b8dc6a4635e7382c`
+- Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/official_baseline_reference_eval`
+- Note: Official bundled reference checkpoint re-evaluated on the shared fixed 200-file set
+- Best checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/official_baseline_reference_eval/checkpoints/best.pt`
+- Checkpoint SHA-256: `4f19d236377b8f5d5c10e4f283d6cc80a35a80f081d5b6f135b605bdc7a6d96a`
+
+### Dataset
+
+| Item | Value |
+|---|---:|
+| Training files | 394988 |
+| Validation files | 14596 |
+| VCTK training files | 40208 |
+| VCTK validation files | 4247 |
+| LibriTTS training files | 354780 |
+| LibriTTS validation files | 10349 |
+
+### Objective evaluation
+
+| Item | Value |
+|---|---:|
+| Files | 200 |
+| PESQ-WB | 1.7323 |
+| ESTOI | 0.6798 |
+| SI-SNR (dB) | 0.8275 |
+| UTMOS | 2.3517 |
+| Course objective score | 37.4414 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Total MFLOP/s | 608.768 |
+| Decoder MFLOP/s | 244.480 |
+| Parameters | 384189 |
+
+### Effective configuration
+
+```yaml
+seed: 2026
+
+audio:
+  sample_rate: 16000
+  frame_samples: 160
+  segment_samples: 16000
+
+model:
+  sample_rate: 16000
+  frame_samples: 160
+  quantizer_type: rvq
+  encoder_channels: [8, 16, 32, 64, 160]
+  encoder_strides: [2, 4, 4, 5]
+  decoder_channels: [160, 48, 24, 12, 8]
+  decoder_strides: [5, 4, 4, 2]
+  residual_blocks: 3
+  residual_kernel_size: 3
+  rvq_num_codebooks: 3
+  rvq_codebook_size: 256
+  rvq_codebook_dim: 160
+  commitment_weight: 0.10
+  rvq_ema_decay: 0.99
+  rvq_dead_code_threshold: 0.5
+  rvq_dead_code_after_updates: 100
+  rvq_kmeans_iterations: 10
+  # Optional causal modeling at the 100-Hz latent rate. Zero preserves the
+  # original baseline and existing checkpoint compatibility.
+  encoder_temporal_layers: 0
+  decoder_temporal_layers: 0
+  temporal_kernel_size: 3
+  temporal_expansion: 2
+  # Used only when quantizer_type is fsq. 8^8 = 2^24 combinations.
+  fsq_levels: [8, 8, 8, 8, 8, 8, 8, 8]
+
+loss:
+  waveform_l1_weight: 1.0
+  spectral_weight: 1.0
+  fft_sizes: [256, 512, 1024]
+  spectral_convergence_weight: 0.0
+  linear_magnitude_weight: 0.0
+  adversarial_weight: 0.1
+  feature_matching_weight: 1.0
+
+adversarial:
+  resolutions:
+    - [256, 64, 256]
+    - [512, 128, 512]
+    - [1024, 256, 1024]
+  start_step: 10000
+  warmup_steps: 10000
+  learning_rate: 0.0002
+  gradient_clip_norm: 10.0
+
+training:
+  batch_size: 8
+  num_workers: 2
+  epochs: 100
+  learning_rate: 0.0002
+  weight_decay: 0.000001
+  gradient_clip_norm: 1.0
+  validation_limit: 128
+  validation_checkpoint_interval_steps: 10000
+  sample_inference_count: 4
+  output_dir: runs/baseline_16k_2p4k_ema_rvq_gan
+```
+
+<!-- experiment:official_baseline_reference_eval:end -->
