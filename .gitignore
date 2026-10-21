@@ -1,6 +1,7 @@
 __pycache__/
 *.py[cod]
 .venv/
+.venv-codec/
 .experiment_log.lock
 data/
 runs/
