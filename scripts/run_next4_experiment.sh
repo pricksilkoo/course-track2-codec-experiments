@@ -19,7 +19,10 @@ MANIFEST_DIR="$REPO_ROOT/data/manifests/vctk_libritts"
 VALIDATION_DIR="$REPO_ROOT/runs/fast_b64_2s_v1/validation_200"
 EVAL_DIR="$RUN_DIR/evaluation"
 PIPELINE_LOG="$RUN_DIR/pipeline.log"
-PYTHON="$REPO_ROOT/.venv/bin/python"
+# Reuse the server's arktrain CUDA/PyTorch stack through a lightweight venv.
+# This avoids duplicating PyTorch while isolating the codec-only PESQ/STOI
+# additions from the unrelated Qwen-ASR environment.
+PYTHON="$REPO_ROOT/.venv-codec/bin/python"
 INIT_CHECKPOINT="$REPO_ROOT/runs/ablation_c_temporal/checkpoints/last.pt"
 export PYTHONNOUSERSITE=1
 export TORCH_HOME="${TORCH_HOME:-$REPO_ROOT/data/torch-cache}"
