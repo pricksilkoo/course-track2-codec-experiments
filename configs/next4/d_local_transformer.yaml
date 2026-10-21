@@ -7,7 +7,7 @@ model:
   encoder_temporal_layers: 2
   decoder_temporal_layers: 1
   temporal_transformer_heads: 4
-  temporal_transformer_ffn_dim: 128
+  temporal_transformer_ffn_dim: 56
   encoder_history_frames: 16
   decoder_history_frames: 16
 

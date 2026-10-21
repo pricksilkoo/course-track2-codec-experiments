@@ -140,7 +140,7 @@ def test_baseline_local_transformer_round_trip_and_semantic_auxiliary() -> None:
         encoder_temporal_layers=2,
         decoder_temporal_layers=1,
         temporal_transformer_heads=4,
-        temporal_transformer_ffn_dim=128,
+        temporal_transformer_ffn_dim=56,
         encoder_history_frames=16,
         decoder_history_frames=16,
         encoder_lookahead_frames=3,
