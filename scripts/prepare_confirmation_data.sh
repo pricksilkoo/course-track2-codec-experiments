@@ -18,7 +18,7 @@ download_and_extract() {
   local checksum="$2"
   local target="$DATA_ROOT/LibriTTS/$split"
   local archive="$DOWNLOAD_DIR/$split.tar.gz"
-  local url="https://openslr.magicdatatech.com/resources/60/$split.tar.gz"
+  local url="https://openslr.elda.org/resources/60/$split.tar.gz"
   if [[ -n "$(find "$target" -type f -name '*.wav' -print -quit 2>/dev/null)" ]]; then
     echo "Reusing LibriTTS/$split"
     return
@@ -27,15 +27,8 @@ download_and_extract() {
     echo "Disk-safety stop before $split: less than 30 GiB free" >&2
     exit 70
   fi
-  if command -v aria2c >/dev/null 2>&1; then
-    aria2c --continue=true --allow-overwrite=true --auto-file-renaming=false \
-      --max-connection-per-server=16 --split=16 --min-split-size=4M \
-      --connect-timeout=30 --timeout=30 --retry-wait=5 --max-tries=0 \
-      --dir="$(dirname "$archive")" --out="$(basename "$archive")" "$url"
-  else
-    wget --continue --inet4-only --retry-connrefused --read-timeout=30 --timeout=30 \
-      --tries=0 --progress=dot:giga --output-document="$archive" "$url"
-  fi
+  wget --continue --inet4-only --retry-connrefused --read-timeout=30 --timeout=30 \
+    --tries=0 --progress=dot:giga --output-document="$archive" "$url"
   printf '%s  %s\n' "$checksum" "$archive" | md5sum --check --status
   tar -xzf "$archive" -C "$DATA_ROOT"
   [[ -n "$(find "$target" -type f -name '*.wav' -print -quit)" ]]
