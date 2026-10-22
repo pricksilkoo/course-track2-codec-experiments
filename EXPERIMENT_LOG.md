@@ -2244,3 +2244,657 @@ training:
 ```
 
 <!-- experiment:next4_d_local_transformer:end -->
+
+<!-- experiment:refine4_b_feature_matching_2x:start -->
+## refine4_b_feature_matching_2x
+
+- Status: `complete`
+- Updated (UTC): `2026-10-22T04:06:49.689543+00:00`
+- Git commit: `1a2d2fd1daaef5009bd49be77f178a4d4601a3c3`
+- Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/refine4_b_feature_matching_2x`
+- Note: 50000 fine-tuning steps from next4 B best checkpoint and fixed evaluation completed
+- Best checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/refine4_b_feature_matching_2x/checkpoints/best.pt`
+- Checkpoint SHA-256: `d18f7339387b81ebb57d3f362898437fc4fa19efa957520dd6a7c7948f7314db`
+
+### Dataset
+
+| Item | Value |
+|---|---:|
+| Training files | 394988 |
+| Validation files | 14596 |
+| VCTK training files | 40208 |
+| VCTK validation files | 4247 |
+| LibriTTS training files | 354780 |
+| LibriTTS validation files | 10349 |
+
+### Last training validation
+
+| Item | Value |
+|---|---:|
+| Epoch | 5 |
+| Global step | 50000 |
+| Train loss | 0.625886 |
+| Reconstruction loss | 0.137764 |
+| Waveform L1 | 0.015390 |
+| Spectral loss | 0.122374 |
+| Commitment loss | 0.051832 |
+
+### Objective evaluation
+
+| Item | Value |
+|---|---:|
+| Files | 200 |
+| PESQ-WB | 1.9200 |
+| ESTOI | 0.7136 |
+| SI-SNR (dB) | 4.4371 |
+| UTMOS | 2.7966 |
+| Course objective score | 44.6625 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Total MFLOP/s | 676.032 |
+| Decoder MFLOP/s | 265.152 |
+| Parameters | 723549 |
+
+### Effective configuration
+
+```yaml
+seed: 2026
+audio:
+  sample_rate: 16000
+  frame_samples: 160
+  segment_samples: 32000
+model:
+  sample_rate: 16000
+  frame_samples: 160
+  quantizer_type: rvq
+  encoder_channels:
+  - 8
+  - 16
+  - 32
+  - 64
+  - 160
+  encoder_strides:
+  - 2
+  - 4
+  - 4
+  - 5
+  decoder_channels:
+  - 160
+  - 48
+  - 24
+  - 12
+  - 8
+  decoder_strides:
+  - 5
+  - 4
+  - 4
+  - 2
+  residual_blocks: 3
+  residual_kernel_size: 3
+  rvq_num_codebooks: 3
+  rvq_codebook_size: 256
+  rvq_codebook_dim: 160
+  commitment_weight: 0.1
+  rvq_ema_decay: 0.95
+  rvq_dead_code_threshold: 0.5
+  rvq_dead_code_after_updates: 100
+  rvq_kmeans_iterations: 10
+  encoder_temporal_layers: 4
+  decoder_temporal_layers: 2
+  temporal_kernel_size: 3
+  temporal_expansion: 1
+  fsq_levels:
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  encoder_lookahead_frames: 3
+  decoder_lookahead_frames: 0
+loss:
+  waveform_l1_weight: 1.0
+  spectral_weight: 1.0
+  fft_sizes:
+  - 256
+  - 512
+  - 1024
+  spectral_convergence_weight: 0.25
+  linear_magnitude_weight: 0.1
+  adversarial_weight: 0.1
+  feature_matching_weight: 2.0
+  si_snr_weight: 0.0
+adversarial:
+  resolutions:
+  - - 256
+    - 64
+    - 256
+  - - 512
+    - 128
+    - 512
+  - - 1024
+    - 256
+    - 1024
+  start_step: 0
+  warmup_steps: 0
+  learning_rate: 0.0002
+  gradient_clip_norm: 10.0
+  periods:
+  - 2
+  - 3
+  - 5
+  - 7
+  - 11
+training:
+  batch_size: 32
+  num_workers: 8
+  epochs: 1000
+  learning_rate: 5.0e-05
+  weight_decay: 1.0e-06
+  gradient_clip_norm: 1.0
+  validation_limit: 32
+  validation_checkpoint_interval_steps: 5000
+  sample_inference_count: 2
+  output_dir: /storage1/hehaoran/project/course-track2-codec-experiments/runs/refine4_b_feature_matching_2x
+  minimum_learning_rate: 1.0e-05
+  warmup_steps: 0
+  checkpoint_keep_last: 5
+```
+
+<!-- experiment:refine4_b_feature_matching_2x:end -->
+
+<!-- experiment:refine4_c_sisnr_001:start -->
+## refine4_c_sisnr_001
+
+- Status: `complete`
+- Updated (UTC): `2026-10-22T04:07:03.671669+00:00`
+- Git commit: `1a2d2fd1daaef5009bd49be77f178a4d4601a3c3`
+- Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/refine4_c_sisnr_001`
+- Note: 50000 fine-tuning steps from next4 B best checkpoint and fixed evaluation completed
+- Best checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/refine4_c_sisnr_001/checkpoints/best.pt`
+- Checkpoint SHA-256: `42050803b4397a175c3f78e41ec83e0ee783dec3a2eb6d1bf5af47d88015cd52`
+
+### Dataset
+
+| Item | Value |
+|---|---:|
+| Training files | 394988 |
+| Validation files | 14596 |
+| VCTK training files | 40208 |
+| VCTK validation files | 4247 |
+| LibriTTS training files | 354780 |
+| LibriTTS validation files | 10349 |
+
+### Last training validation
+
+| Item | Value |
+|---|---:|
+| Epoch | 5 |
+| Global step | 50000 |
+| Train loss | 0.417610 |
+| Reconstruction loss | 0.138233 |
+| Waveform L1 | 0.014799 |
+| Spectral loss | 0.123434 |
+| Commitment loss | 0.053405 |
+
+### Objective evaluation
+
+| Item | Value |
+|---|---:|
+| Files | 200 |
+| PESQ-WB | 1.8645 |
+| ESTOI | 0.7016 |
+| SI-SNR (dB) | 5.0740 |
+| UTMOS | 2.7557 |
+| Course objective score | 44.1082 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Total MFLOP/s | 676.032 |
+| Decoder MFLOP/s | 265.152 |
+| Parameters | 723549 |
+
+### Effective configuration
+
+```yaml
+seed: 2026
+audio:
+  sample_rate: 16000
+  frame_samples: 160
+  segment_samples: 32000
+model:
+  sample_rate: 16000
+  frame_samples: 160
+  quantizer_type: rvq
+  encoder_channels:
+  - 8
+  - 16
+  - 32
+  - 64
+  - 160
+  encoder_strides:
+  - 2
+  - 4
+  - 4
+  - 5
+  decoder_channels:
+  - 160
+  - 48
+  - 24
+  - 12
+  - 8
+  decoder_strides:
+  - 5
+  - 4
+  - 4
+  - 2
+  residual_blocks: 3
+  residual_kernel_size: 3
+  rvq_num_codebooks: 3
+  rvq_codebook_size: 256
+  rvq_codebook_dim: 160
+  commitment_weight: 0.1
+  rvq_ema_decay: 0.95
+  rvq_dead_code_threshold: 0.5
+  rvq_dead_code_after_updates: 100
+  rvq_kmeans_iterations: 10
+  encoder_temporal_layers: 4
+  decoder_temporal_layers: 2
+  temporal_kernel_size: 3
+  temporal_expansion: 1
+  fsq_levels:
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  encoder_lookahead_frames: 3
+  decoder_lookahead_frames: 0
+loss:
+  waveform_l1_weight: 1.0
+  spectral_weight: 1.0
+  fft_sizes:
+  - 256
+  - 512
+  - 1024
+  spectral_convergence_weight: 0.25
+  linear_magnitude_weight: 0.1
+  adversarial_weight: 0.1
+  feature_matching_weight: 1.0
+  si_snr_weight: 0.01
+adversarial:
+  resolutions:
+  - - 256
+    - 64
+    - 256
+  - - 512
+    - 128
+    - 512
+  - - 1024
+    - 256
+    - 1024
+  start_step: 0
+  warmup_steps: 0
+  learning_rate: 0.0002
+  gradient_clip_norm: 10.0
+  periods:
+  - 2
+  - 3
+  - 5
+  - 7
+  - 11
+training:
+  batch_size: 32
+  num_workers: 8
+  epochs: 1000
+  learning_rate: 5.0e-05
+  weight_decay: 1.0e-06
+  gradient_clip_norm: 1.0
+  validation_limit: 32
+  validation_checkpoint_interval_steps: 5000
+  sample_inference_count: 2
+  output_dir: /storage1/hehaoran/project/course-track2-codec-experiments/runs/refine4_c_sisnr_001
+  minimum_learning_rate: 1.0e-05
+  warmup_steps: 0
+  checkpoint_keep_last: 5
+```
+
+<!-- experiment:refine4_c_sisnr_001:end -->
+<!-- experiment:refine4_a_lr5e5_control:start -->
+## refine4_a_lr5e5_control
+
+- Status: `complete`
+- Updated (UTC): `2026-10-22T04:06:48.672141+00:00`
+- Git commit: `1a2d2fd1daaef5009bd49be77f178a4d4601a3c3`
+- Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/refine4_a_lr5e5_control`
+- Note: 50000 fine-tuning steps from next4 B best checkpoint and fixed evaluation completed
+- Best checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/refine4_a_lr5e5_control/checkpoints/best.pt`
+- Checkpoint SHA-256: `65dbd87d640cda291a58ac03aa71c9f3573bbba34fdc4c8a2aa71d530115ca5b`
+
+### Dataset
+
+| Item | Value |
+|---|---:|
+| Training files | 394988 |
+| Validation files | 14596 |
+| VCTK training files | 40208 |
+| VCTK validation files | 4247 |
+| LibriTTS training files | 354780 |
+| LibriTTS validation files | 10349 |
+
+### Last training validation
+
+| Item | Value |
+|---|---:|
+| Epoch | 5 |
+| Global step | 50000 |
+| Train loss | 0.439842 |
+| Reconstruction loss | 0.140235 |
+| Waveform L1 | 0.015770 |
+| Spectral loss | 0.124465 |
+| Commitment loss | 0.037990 |
+
+### Objective evaluation
+
+| Item | Value |
+|---|---:|
+| Files | 200 |
+| PESQ-WB | 1.8727 |
+| ESTOI | 0.7062 |
+| SI-SNR (dB) | 4.2583 |
+| UTMOS | 2.7689 |
+| Course objective score | 43.8558 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Total MFLOP/s | 676.032 |
+| Decoder MFLOP/s | 265.152 |
+| Parameters | 723549 |
+
+### Effective configuration
+
+```yaml
+seed: 2026
+audio:
+  sample_rate: 16000
+  frame_samples: 160
+  segment_samples: 32000
+model:
+  sample_rate: 16000
+  frame_samples: 160
+  quantizer_type: rvq
+  encoder_channels:
+  - 8
+  - 16
+  - 32
+  - 64
+  - 160
+  encoder_strides:
+  - 2
+  - 4
+  - 4
+  - 5
+  decoder_channels:
+  - 160
+  - 48
+  - 24
+  - 12
+  - 8
+  decoder_strides:
+  - 5
+  - 4
+  - 4
+  - 2
+  residual_blocks: 3
+  residual_kernel_size: 3
+  rvq_num_codebooks: 3
+  rvq_codebook_size: 256
+  rvq_codebook_dim: 160
+  commitment_weight: 0.1
+  rvq_ema_decay: 0.95
+  rvq_dead_code_threshold: 0.5
+  rvq_dead_code_after_updates: 100
+  rvq_kmeans_iterations: 10
+  encoder_temporal_layers: 4
+  decoder_temporal_layers: 2
+  temporal_kernel_size: 3
+  temporal_expansion: 1
+  fsq_levels:
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  encoder_lookahead_frames: 3
+  decoder_lookahead_frames: 0
+loss:
+  waveform_l1_weight: 1.0
+  spectral_weight: 1.0
+  fft_sizes:
+  - 256
+  - 512
+  - 1024
+  spectral_convergence_weight: 0.25
+  linear_magnitude_weight: 0.1
+  adversarial_weight: 0.1
+  feature_matching_weight: 1.0
+  si_snr_weight: 0.0
+adversarial:
+  resolutions:
+  - - 256
+    - 64
+    - 256
+  - - 512
+    - 128
+    - 512
+  - - 1024
+    - 256
+    - 1024
+  start_step: 0
+  warmup_steps: 0
+  learning_rate: 0.0002
+  gradient_clip_norm: 10.0
+  periods:
+  - 2
+  - 3
+  - 5
+  - 7
+  - 11
+training:
+  batch_size: 32
+  num_workers: 8
+  epochs: 1000
+  learning_rate: 5.0e-05
+  weight_decay: 1.0e-06
+  gradient_clip_norm: 1.0
+  validation_limit: 32
+  validation_checkpoint_interval_steps: 5000
+  sample_inference_count: 2
+  output_dir: /storage1/hehaoran/project/course-track2-codec-experiments/runs/refine4_a_lr5e5_control
+  minimum_learning_rate: 1.0e-05
+  warmup_steps: 0
+  checkpoint_keep_last: 5
+```
+
+<!-- experiment:refine4_a_lr5e5_control:end -->
+<!-- experiment:refine4_d_adversarial_005:start -->
+## refine4_d_adversarial_005
+
+- Status: `complete`
+- Updated (UTC): `2026-10-22T04:06:48.487353+00:00`
+- Git commit: `1a2d2fd1daaef5009bd49be77f178a4d4601a3c3`
+- Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/refine4_d_adversarial_005`
+- Note: 50000 fine-tuning steps from next4 B best checkpoint and fixed evaluation completed
+- Best checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/refine4_d_adversarial_005/checkpoints/best.pt`
+- Checkpoint SHA-256: `9a5b24e3d573471d54a315b45cc3fde24bfec916e26b12d220fafa77baa55fd9`
+
+### Dataset
+
+| Item | Value |
+|---|---:|
+| Training files | 394988 |
+| Validation files | 14596 |
+| VCTK training files | 40208 |
+| VCTK validation files | 4247 |
+| LibriTTS training files | 354780 |
+| LibriTTS validation files | 10349 |
+
+### Last training validation
+
+| Item | Value |
+|---|---:|
+| Epoch | 5 |
+| Global step | 50000 |
+| Train loss | 0.406449 |
+| Reconstruction loss | 0.136107 |
+| Waveform L1 | 0.015238 |
+| Spectral loss | 0.120869 |
+| Commitment loss | 0.036500 |
+
+### Objective evaluation
+
+| Item | Value |
+|---|---:|
+| Files | 200 |
+| PESQ-WB | 1.9397 |
+| ESTOI | 0.7187 |
+| SI-SNR (dB) | 4.5150 |
+| UTMOS | 2.8424 |
+| Course objective score | 45.2681 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Total MFLOP/s | 676.032 |
+| Decoder MFLOP/s | 265.152 |
+| Parameters | 723549 |
+
+### Effective configuration
+
+```yaml
+seed: 2026
+audio:
+  sample_rate: 16000
+  frame_samples: 160
+  segment_samples: 32000
+model:
+  sample_rate: 16000
+  frame_samples: 160
+  quantizer_type: rvq
+  encoder_channels:
+  - 8
+  - 16
+  - 32
+  - 64
+  - 160
+  encoder_strides:
+  - 2
+  - 4
+  - 4
+  - 5
+  decoder_channels:
+  - 160
+  - 48
+  - 24
+  - 12
+  - 8
+  decoder_strides:
+  - 5
+  - 4
+  - 4
+  - 2
+  residual_blocks: 3
+  residual_kernel_size: 3
+  rvq_num_codebooks: 3
+  rvq_codebook_size: 256
+  rvq_codebook_dim: 160
+  commitment_weight: 0.1
+  rvq_ema_decay: 0.95
+  rvq_dead_code_threshold: 0.5
+  rvq_dead_code_after_updates: 100
+  rvq_kmeans_iterations: 10
+  encoder_temporal_layers: 4
+  decoder_temporal_layers: 2
+  temporal_kernel_size: 3
+  temporal_expansion: 1
+  fsq_levels:
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  encoder_lookahead_frames: 3
+  decoder_lookahead_frames: 0
+loss:
+  waveform_l1_weight: 1.0
+  spectral_weight: 1.0
+  fft_sizes:
+  - 256
+  - 512
+  - 1024
+  spectral_convergence_weight: 0.25
+  linear_magnitude_weight: 0.1
+  adversarial_weight: 0.05
+  feature_matching_weight: 1.0
+  si_snr_weight: 0.0
+adversarial:
+  resolutions:
+  - - 256
+    - 64
+    - 256
+  - - 512
+    - 128
+    - 512
+  - - 1024
+    - 256
+    - 1024
+  start_step: 0
+  warmup_steps: 0
+  learning_rate: 0.0002
+  gradient_clip_norm: 10.0
+  periods:
+  - 2
+  - 3
+  - 5
+  - 7
+  - 11
+training:
+  batch_size: 32
+  num_workers: 8
+  epochs: 1000
+  learning_rate: 5.0e-05
+  weight_decay: 1.0e-06
+  gradient_clip_norm: 1.0
+  validation_limit: 32
+  validation_checkpoint_interval_steps: 5000
+  sample_inference_count: 2
+  output_dir: /storage1/hehaoran/project/course-track2-codec-experiments/runs/refine4_d_adversarial_005
+  minimum_learning_rate: 1.0e-05
+  warmup_steps: 0
+  checkpoint_keep_last: 5
+```
+
+<!-- experiment:refine4_d_adversarial_005:end -->
