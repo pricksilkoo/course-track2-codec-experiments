@@ -27,8 +27,15 @@ download_and_extract() {
     echo "Disk-safety stop before $split: less than 30 GiB free" >&2
     exit 70
   fi
-  wget --continue --inet4-only --retry-connrefused --read-timeout=30 --timeout=30 \
-    --tries=0 --progress=dot:giga --output-document="$archive" "$url"
+  if command -v aria2c >/dev/null 2>&1; then
+    aria2c --continue=true --allow-overwrite=true --auto-file-renaming=false \
+      --max-connection-per-server=16 --split=16 --min-split-size=4M \
+      --connect-timeout=30 --timeout=30 --retry-wait=5 --max-tries=0 \
+      --dir="$(dirname "$archive")" --out="$(basename "$archive")" "$url"
+  else
+    wget --continue --inet4-only --retry-connrefused --read-timeout=30 --timeout=30 \
+      --tries=0 --progress=dot:giga --output-document="$archive" "$url"
+  fi
   printf '%s  %s\n' "$checksum" "$archive" | md5sum --check --status
   tar -xzf "$archive" -C "$DATA_ROOT"
   [[ -n "$(find "$target" -type f -name '*.wav' -print -quit)" ]]
