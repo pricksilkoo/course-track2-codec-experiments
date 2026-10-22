@@ -6,6 +6,27 @@ import torch
 import torch.nn.functional as F
 
 
+def negative_si_snr_loss(
+    estimate: torch.Tensor,
+    reference: torch.Tensor,
+    eps: float = 1e-8,
+) -> torch.Tensor:
+    """Return negative scale-invariant SNR in dB, averaged over the batch."""
+    if estimate.shape != reference.shape:
+        raise ValueError("estimate and reference must have the same shape")
+    estimate = estimate.flatten(start_dim=1)
+    reference = reference.flatten(start_dim=1)
+    estimate = estimate - estimate.mean(dim=-1, keepdim=True)
+    reference = reference - reference.mean(dim=-1, keepdim=True)
+    reference_energy = reference.square().sum(dim=-1, keepdim=True).clamp_min(eps)
+    projection = (
+        (estimate * reference).sum(dim=-1, keepdim=True) * reference / reference_energy
+    )
+    noise = estimate - projection
+    ratio = projection.square().sum(dim=-1) / noise.square().sum(dim=-1).clamp_min(eps)
+    return -(10.0 * torch.log10(ratio.clamp_min(eps))).mean()
+
+
 def multiscale_spectral_loss(
     estimate: torch.Tensor,
     reference: torch.Tensor,

@@ -11,6 +11,7 @@ from ssp_codec.adversarial import (
 )
 from ssp_codec.io import read_bitstream, write_bitstream
 from ssp_codec.config import apply_overrides, load_config
+from ssp_codec.losses import negative_si_snr_loss
 from ssp_codec.model import CausalTemporalStack, CourseCodec
 
 
@@ -80,6 +81,15 @@ def test_multiresolution_discriminator_losses_are_finite() -> None:
     )
     assert all(torch.isfinite(loss) for loss in losses)
     assert len(real_logits) == 5
+
+
+def test_negative_si_snr_prefers_a_clean_estimate() -> None:
+    reference = torch.randn(4, 1, 1600)
+    clean = negative_si_snr_loss(reference + 0.01 * torch.randn_like(reference), reference)
+    noisy = negative_si_snr_loss(reference + 0.5 * torch.randn_like(reference), reference)
+    assert torch.isfinite(clean)
+    assert torch.isfinite(noisy)
+    assert clean < noisy
 
 
 def test_factorized_rvq_round_trip_matches_forward() -> None:

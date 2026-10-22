@@ -1,0 +1,9 @@
+_base_: a_lr5e5_control.yaml
+
+# A small direct SI-SNR term is training-only and does not affect the codec
+# bitstream, delay, or inference complexity.
+loss:
+  si_snr_weight: 0.01
+
+training:
+  output_dir: runs/refine4_c_sisnr_001

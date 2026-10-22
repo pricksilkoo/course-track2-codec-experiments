@@ -39,7 +39,7 @@ from ssp_codec.adversarial import (  # noqa: E402
 )
 from ssp_codec.data import WaveformDataset  # noqa: E402
 from ssp_codec.config import apply_overrides, load_config  # noqa: E402
-from ssp_codec.losses import multiscale_spectral_loss  # noqa: E402
+from ssp_codec.losses import multiscale_spectral_loss, negative_si_snr_loss  # noqa: E402
 from ssp_codec.model import CourseCodec  # noqa: E402
 
 
@@ -681,6 +681,11 @@ def main() -> None:
                 config["loss"]["waveform_l1_weight"] * waveform_loss
                 + config["loss"]["spectral_weight"] * spectral_loss
             )
+            si_snr_weight = float(config["loss"].get("si_snr_weight", 0.0))
+            if si_snr_weight:
+                reconstruction_loss = reconstruction_loss + (
+                    si_snr_weight * negative_si_snr_loss(reconstructed, reference)
+                )
             gan_factor = adversarial_factor(global_step + 1, config)
             discriminator_loss = reconstructed.new_zeros(())
             adversarial_loss = reconstructed.new_zeros(())

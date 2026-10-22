@@ -1,0 +1,18 @@
+_base_: ../next4/b_long_tcn.yaml
+
+# Low-learning-rate continuation control from the completed next4 B model.
+loss:
+  si_snr_weight: 0.0
+
+adversarial:
+  # The source generator and discriminator are already fully trained.
+  warmup_steps: 0
+
+training:
+  learning_rate: 0.00005
+  minimum_learning_rate: 0.00001
+  warmup_steps: 0
+  validation_limit: 32
+  validation_checkpoint_interval_steps: 5000
+  checkpoint_keep_last: 5
+  output_dir: runs/refine4_a_lr5e5_control
