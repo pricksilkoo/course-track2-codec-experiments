@@ -30,3 +30,37 @@ The independent ordering matches the repeatedly used fixed-200 development set. 
 | refine4 D, adversarial 0.05 | `9a5b24e3d573471d54a315b45cc3fde24bfec916e26b12d220fafa77baa55fd9` | 2400 | 676.032 | 265.152 | 30 ms |
 
 All four encode/decode outputs passed exact 3-byte-per-10-ms-frame submission validation.
+
+## Three-seed B/D confirmation
+
+The B and D loss profiles were repeated with seeds `3407` and `8128`. Together
+with the original seed `2026`, this gives three paired runs per profile. All
+runs start from the same refine4-D checkpoint, train for 30,000 steps, and use
+the fixed 200-file development set for checkpoint selection and comparison.
+
+| Seed | B: FM 1.5 | D: FM 1.5 + SI-SNR 0.003 | D - B |
+|---:|---:|---:|---:|
+| 2026 | 45.4786 | 45.5554 | +0.0768 |
+| 3407 | 45.4802 | 45.5053 | +0.0251 |
+| 8128 | 45.4171 | 45.5569 | +0.1398 |
+| Mean | 45.4586 | **45.5392** | **+0.0805** |
+| Sample standard deviation | 0.0360 | 0.0294 | — |
+
+D wins all three paired seeds. The selected final checkpoint is D seed `8128`,
+which has the highest development score (`45.5569`) within the winning family.
+Its checkpoint SHA-256 is
+`8ff1abf2d5fb465ab7d8e3823eb8985db643130da03b20b881081667dd8fdb69`.
+
+## Final one-shot confirmation
+
+After the family and checkpoint were selected, only the chosen D seed-8128
+checkpoint was evaluated on the 400-file LibriTTS test confirmation set.
+
+| Score | PESQ-WB | ESTOI | SI-SNR (dB) | UTMOS |
+|---:|---:|---:|---:|---:|
+| **43.9842** | 1.8668 | 0.7476 | 3.7052 | 2.6787 |
+
+This is `+0.3939` over the previously confirmed refine4-D score of `43.5903`
+on the same set. The final checkpoint passes the exact bitstream validation and
+retains 2400 bps, 30 ms delay, 676.032 total MFLOP/s, and 265.152 decoder
+MFLOP/s.
