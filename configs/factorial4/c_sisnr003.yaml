@@ -1,0 +1,7 @@
+_base_: a_d_control.yaml
+
+loss:
+  si_snr_weight: 0.003
+
+training:
+  output_dir: runs/factorial4_c_sisnr003

@@ -1,0 +1,7 @@
+_base_: a_d_control.yaml
+
+loss:
+  feature_matching_weight: 1.5
+
+training:
+  output_dir: runs/factorial4_b_fm15

@@ -1,0 +1,15 @@
+_base_: ../refine4/d_adversarial_005.yaml
+
+# Continue the current best D checkpoint without changing the loss mixture.
+loss:
+  feature_matching_weight: 1.0
+  adversarial_weight: 0.05
+  si_snr_weight: 0.0
+
+training:
+  learning_rate: 0.00002
+  minimum_learning_rate: 0.000005
+  warmup_steps: 0
+  validation_checkpoint_interval_steps: 5000
+  checkpoint_keep_last: 3
+  output_dir: runs/factorial4_a_d_control
