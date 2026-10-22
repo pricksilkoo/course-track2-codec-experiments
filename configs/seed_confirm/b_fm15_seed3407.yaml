@@ -1,0 +1,6 @@
+_base_: ../factorial4/b_fm15.yaml
+
+seed: 3407
+
+training:
+  output_dir: runs/seed_confirm_b_fm15_seed3407

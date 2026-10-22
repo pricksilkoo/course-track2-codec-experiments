@@ -1,0 +1,6 @@
+_base_: ../factorial4/d_fm15_sisnr003.yaml
+
+seed: 8128
+
+training:
+  output_dir: runs/seed_confirm_d_combo_seed8128
