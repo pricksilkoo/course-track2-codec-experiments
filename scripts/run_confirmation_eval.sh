@@ -14,6 +14,8 @@ cd "$REPO_ROOT"
 PYTHON="$REPO_ROOT/.venv-codec/bin/python"
 REFERENCE="$REPO_ROOT/runs/confirmation_libritts_test_400/reference"
 OUTPUT="$REPO_ROOT/runs/confirmation_libritts_test_400/$NAME"
+export PYTHONNOUSERSITE=1
+export TORCH_HOME="${TORCH_HOME:-$REPO_ROOT/data/torch-cache}"
 mkdir -p "$OUTPUT"
 exec > >(tee -a "$OUTPUT/pipeline.log") 2>&1
 test -f "$REFERENCE/CONFIRMATION_SET_READY"
