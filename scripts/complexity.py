@@ -75,7 +75,22 @@ def main() -> None:
         for name, value in macs.items()
         if name.startswith(("decoder.", "synthesis_temporal.", "synthesis_transformer."))
     )
-    quantizer_projections = sum(value for name, value in macs.items() if name.startswith("quantizer."))
+    quantizer_projections = sum(
+        value for name, value in macs.items() if name.startswith("quantizer.")
+    )
+    quantizer_decoder_projections = sum(
+        value
+        for name, value in macs.items()
+        if name.startswith(
+            ("quantizer.output_projection", "quantizer.output_projections.")
+        )
+    )
+    quantizer_encoder_projections = (
+        quantizer_projections - quantizer_decoder_projections
+    )
+    # Synthesis projections are executed after indices cross the bitstream and
+    # therefore count against the decoder budget, not only the total budget.
+    decoder += quantizer_decoder_projections
     frames = (samples + 159) // 160
     encoder_attention = 0
     decoder_attention = 0
@@ -97,7 +112,7 @@ def main() -> None:
     accounted_linear_conv = (
         encoder - encoder_attention
         + decoder - decoder_attention
-        + quantizer_projections
+        + quantizer_encoder_projections
     )
     unclassified = sum(macs.values()) - accounted_linear_conv
     report = {
@@ -107,7 +122,11 @@ def main() -> None:
         "bitrate_bps": 2400,
         "encoder_mmac_per_s": encoder / args.duration / 1e6,
         "decoder_mmac_per_s": decoder / args.duration / 1e6,
-        "quantizer_mmac_per_s": (quantizer_projections + quantizer_search) / args.duration / 1e6,
+        "quantizer_mmac_per_s": (
+            quantizer_encoder_projections + quantizer_search
+        )
+        / args.duration
+        / 1e6,
         "unclassified_mmac_per_s": unclassified / args.duration / 1e6,
         "total_mflop_per_s": 2
         * (
@@ -131,7 +150,7 @@ def main() -> None:
         "algorithmic_lookahead_ms": int(
             10 * getattr(model, "algorithmic_lookahead_frames", 0)
         ),
-        "notes": "Counts Conv1d, ConvTranspose1d, Linear, bounded attention QK/AV and approximate RVQ nearest-neighbour search. FSQ scalar rounding is reported as zero MACs. Excludes activations, normalization, padding and file I/O.",
+        "notes": "Counts Conv1d, ConvTranspose1d, Linear, bounded attention QK/AV and approximate VQ nearest-neighbour search. Quantizer synthesis projections count toward the decoder budget. FSQ scalar rounding is reported as zero MACs. Excludes activations, normalization, padding and file I/O.",
     }
     text = json.dumps(report, ensure_ascii=False, indent=2)
     print(text)

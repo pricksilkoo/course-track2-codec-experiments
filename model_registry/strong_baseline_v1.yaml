@@ -1,0 +1,32 @@
+name: strong_baseline_v1
+promoted_date: 2026-10-23
+git_commit_with_results: f0205d5
+run_directory: runs/codebook4_d_combined
+checkpoint: runs/codebook4_d_combined/checkpoints/best.pt
+checkpoint_sha256: e0ab196eab8963a3dd178f7fa3b6fc72e233b70824a0a0d04c87163c03be1b89
+selection_set: fixed 200-file development set
+selection_metrics:
+  objective_quality_score: 45.84725965549596
+  PESQ: 1.9629137134552002
+  ESTOI: 0.7202863767400721
+  SI_SNR: 4.842566195915987
+  UTMOS: 2.8696866029500963
+constraints:
+  bitrate_bps: 2400
+  algorithmic_lookahead_ms: 30
+  total_mflop_per_s: 676.032
+  decoder_mflop_per_s: 265.152
+  parameters: 723549
+model:
+  architecture: causal waveform encoder-decoder with long latent TCN
+  quantizer: 3-stage 256-entry EMA RVQ
+  frame_rate_hz: 100
+  encoder_temporal_layers: 4
+  decoder_temporal_layers: 2
+  encoder_lookahead_frames: 3
+  rvq_stage_commitment_weights: [1.0, 1.5, 2.0]
+  rvq_usage_loss_weight: 0.001
+confirmation:
+  status: development-selected; not re-evaluated on sealed confirmation set
+  confirmed_parent_checkpoint_score: 43.984172910173584
+  note: The sealed set remains untouched after structural tuning.

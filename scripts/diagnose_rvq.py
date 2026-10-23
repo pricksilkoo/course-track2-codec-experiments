@@ -59,13 +59,12 @@ def main() -> None:
     sys.path.insert(0, str(root / "src"))
     from ssp_codec.io import load_codec
     from ssp_codec.losses import multiscale_spectral_loss
-    from ssp_codec.model import ResidualVectorQuantizer
 
     device = torch.device(args.device)
     model, state = load_codec(args.checkpoint, device)
-    if not isinstance(model.quantizer, ResidualVectorQuantizer):
-        raise TypeError("diagnostics currently require ResidualVectorQuantizer")
     quantizer = model.quantizer
+    if not hasattr(quantizer, "quantize_stages_for_diagnostics"):
+        raise TypeError("quantizer does not expose stagewise diagnostics")
     files = sorted(
         path
         for path in Path(args.input_dir).rglob("*")
@@ -102,33 +101,26 @@ def main() -> None:
                 )
             else:
                 embeddings = model.analysis_temporal(model.latent_norm(model.encoder(padded)))
-            projected = quantizer.input_projection(embeddings)
-            residual = projected
-            cumulative = torch.zeros_like(projected)
-            index_columns = []
-            stage_codewords = []
-            for stage in range(quantizer.num_codebooks):
-                codeword, indices = quantizer._lookup(residual, stage)
-                residual_before[stage] += float(residual.double().square().sum().cpu())
-                residual_elements[stage] += residual.numel()
-                cumulative = cumulative + codeword
-                residual = projected - cumulative
-                residual_after[stage] += float(residual.double().square().sum().cpu())
-                index_columns.append(indices)
-                stage_codewords.append(codeword)
+            stage_codewords, stacked_indices, before, after = (
+                quantizer.quantize_stages_for_diagnostics(embeddings)
+            )
+            for stage, indices in enumerate(stacked_indices.unbind(dim=-1)):
+                residual_before[stage] += float(before[stage].double().square().sum().cpu())
+                residual_after[stage] += float(after[stage].double().square().sum().cpu())
+                residual_elements[stage] += before[stage].numel()
                 flat = indices.reshape(-1).cpu().numpy()
                 histograms[stage] += np.bincount(flat, minlength=quantizer.codebook_size)
 
-            stacked = torch.stack(index_columns, dim=-1).reshape(-1, quantizer.num_codebooks)
+            stacked = stacked_indices.reshape(-1, quantizer.num_codebooks)
             index_array = stacked.cpu().numpy()
             pair_counts.update(map(tuple, index_array[:, :2].tolist()))
             triple_counts.update(map(tuple, index_array.tolist()))
             total_frames += index_array.shape[0]
 
-            cumulative = torch.zeros_like(projected)
+            cumulative = torch.zeros_like(embeddings)
             for stage, codeword in enumerate(stage_codewords):
                 cumulative = cumulative + codeword
-                quantized = quantizer.output_projection(cumulative)
+                quantized = cumulative
                 if model.architecture == "minimimi" or model.temporal_model == "transformer":
                     decoded = model.decoder(model.synthesis_transformer(quantized))
                 else:

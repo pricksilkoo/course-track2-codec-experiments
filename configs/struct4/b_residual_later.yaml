@@ -1,0 +1,7 @@
+_base_: a_residual_uniform.yaml
+
+model:
+  projected_stage_dims: [48, 64, 80]
+
+training:
+  output_dir: runs/struct4_b_residual_later

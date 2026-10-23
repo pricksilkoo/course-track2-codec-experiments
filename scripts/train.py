@@ -563,11 +563,38 @@ def main() -> None:
             device_ids=[device.index] if device.type == "cuda" else None,
             output_device=device.index if device.type == "cuda" else None,
         )
-    optimizer = AdamW(
-        model.parameters(),
-        lr=config["training"]["learning_rate"],
-        weight_decay=config["training"]["weight_decay"],
-    )
+    base_learning_rate = float(config["training"]["learning_rate"])
+    quantizer_learning_rate = config["training"].get("quantizer_learning_rate")
+    if quantizer_learning_rate is None:
+        optimizer = AdamW(
+            model.parameters(),
+            lr=base_learning_rate,
+            weight_decay=config["training"]["weight_decay"],
+        )
+        optimizer.param_groups[0]["group_name"] = "base"
+        optimizer.param_groups[0]["lr_scale"] = 1.0
+    else:
+        quantizer_parameters = list(base_model.quantizer.parameters())
+        quantizer_ids = {id(parameter) for parameter in quantizer_parameters}
+        base_parameters = [
+            parameter for parameter in model.parameters() if id(parameter) not in quantizer_ids
+        ]
+        optimizer = AdamW(
+            [
+                {
+                    "params": base_parameters,
+                    "group_name": "base",
+                    "lr_scale": 1.0,
+                },
+                {
+                    "params": quantizer_parameters,
+                    "group_name": "quantizer",
+                    "lr_scale": float(quantizer_learning_rate) / base_learning_rate,
+                },
+            ],
+            lr=base_learning_rate,
+            weight_decay=config["training"]["weight_decay"],
+        )
     discriminator_optimizer = AdamW(
         discriminator.parameters(),
         lr=config["adversarial"]["learning_rate"],
@@ -741,14 +768,26 @@ def main() -> None:
                     * semantic_loss
                 )
             current_learning_rate = scheduled_learning_rate(
-                float(config["training"]["learning_rate"]),
+                base_learning_rate,
                 minimum_learning_rate,
                 warmup_steps,
                 global_step + 1,
                 total_schedule_steps,
             )
+            quantizer_only_steps = int(
+                config["training"].get("quantizer_only_steps", 0)
+            )
             for parameter_group in optimizer.param_groups:
-                parameter_group["lr"] = current_learning_rate
+                if (
+                    parameter_group.get("group_name") == "base"
+                    and global_step + 1 <= quantizer_only_steps
+                ):
+                    parameter_group["lr"] = 0.0
+                else:
+                    parameter_group["lr"] = (
+                        current_learning_rate
+                        * float(parameter_group.get("lr_scale", 1.0))
+                    )
             optimizer.zero_grad(set_to_none=True)
             loss.backward()
             torch.nn.utils.clip_grad_norm_(

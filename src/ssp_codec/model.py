@@ -532,6 +532,346 @@ class ResidualVectorQuantizer(nn.Module):
         """Approximate nearest-neighbour search cost used by complexity.py."""
         return frames * self.num_codebooks * self.codebook_size * self.codebook_dim * 3
 
+    @torch.no_grad()
+    def quantize_stages_for_diagnostics(
+        self, embeddings: torch.Tensor
+    ) -> tuple[list[torch.Tensor], torch.Tensor, list[torch.Tensor], list[torch.Tensor]]:
+        """Expose hard stage contributions without changing model state."""
+        projected = self.input_projection(embeddings)
+        residual = projected
+        cumulative = torch.zeros_like(projected)
+        stage_outputs: list[torch.Tensor] = []
+        stage_indices: list[torch.Tensor] = []
+        before: list[torch.Tensor] = []
+        after: list[torch.Tensor] = []
+        for stage in range(self.num_codebooks):
+            before.append(residual)
+            codeword, indices = self._lookup(residual, stage)
+            cumulative = cumulative + codeword
+            residual = projected - cumulative
+            after.append(residual)
+            stage_outputs.append(self.output_projection(codeword))
+            stage_indices.append(indices)
+        return stage_outputs, torch.stack(stage_indices, dim=-1), before, after
+
+
+class EMACodebookStage(nn.Module):
+    """One independently dimensioned EMA codebook."""
+
+    def __init__(
+        self,
+        dimension: int,
+        codebook_size: int,
+        ema_decay: float,
+        dead_code_threshold: float,
+        dead_code_after_updates: int,
+        kmeans_iterations: int,
+    ) -> None:
+        super().__init__()
+        self.dimension = dimension
+        self.codebook_size = codebook_size
+        self.ema_decay = ema_decay
+        self.dead_code_threshold = dead_code_threshold
+        self.dead_code_after_updates = dead_code_after_updates
+        self.kmeans_iterations = kmeans_iterations
+        self.register_buffer("codebook", torch.zeros(codebook_size, dimension))
+        self.register_buffer("ema_cluster_size", torch.zeros(codebook_size))
+        self.register_buffer("ema_embed_sum", torch.zeros(codebook_size, dimension))
+        self.register_buffer("initialized", torch.tensor(False))
+
+    def distances(self, values: torch.Tensor, table: torch.Tensor | None = None) -> torch.Tensor:
+        codebook = self.codebook if table is None else table
+        return (
+            values.square().sum(dim=-1, keepdim=True)
+            - 2 * values @ codebook.t()
+            + codebook.square().sum(dim=-1)
+        )
+
+    def lookup(self, values: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
+        indices = self.distances(values).argmin(dim=-1)
+        return F.embedding(indices, self.codebook), indices
+
+    @torch.no_grad()
+    def initialize(self, values: torch.Tensor) -> None:
+        flat = values.reshape(-1, self.dimension)
+        if flat.size(0) < self.codebook_size:
+            repeat = (self.codebook_size + flat.size(0) - 1) // flat.size(0)
+            flat = flat.repeat(repeat, 1)
+        flat = flat[: min(flat.size(0), 4096)]
+        centroids = flat[
+            torch.randperm(flat.size(0), device=flat.device)[: self.codebook_size]
+        ].clone()
+        for _ in range(self.kmeans_iterations):
+            assignments = (
+                flat.square().sum(dim=-1, keepdim=True)
+                - 2 * flat @ centroids.t()
+                + centroids.square().sum(dim=-1)
+            ).argmin(dim=-1)
+            counts = torch.bincount(assignments, minlength=self.codebook_size)
+            sums = torch.zeros_like(centroids)
+            sums.index_add_(0, assignments, flat)
+            nonempty = counts > 0
+            centroids[nonempty] = sums[nonempty] / counts[nonempty].unsqueeze(1)
+            if (~nonempty).any():
+                replacements = torch.randint(
+                    flat.size(0), (int((~nonempty).sum()),), device=flat.device
+                )
+                centroids[~nonempty] = flat[replacements]
+        self.codebook.copy_(centroids)
+        self.ema_cluster_size.fill_(1.0)
+        self.ema_embed_sum.copy_(centroids)
+        self.initialized.fill_(True)
+        if dist.is_available() and dist.is_initialized():
+            for value in (
+                self.codebook,
+                self.ema_cluster_size,
+                self.ema_embed_sum,
+                self.initialized,
+            ):
+                dist.broadcast(value, src=0)
+
+    @torch.no_grad()
+    def update(self, values: torch.Tensor, indices: torch.Tensor, update_count: int) -> None:
+        flat_values = values.reshape(-1, self.dimension)
+        flat_indices = indices.reshape(-1)
+        counts = torch.bincount(flat_indices, minlength=self.codebook_size).to(flat_values.dtype)
+        sums = torch.zeros_like(self.ema_embed_sum)
+        sums.index_add_(0, flat_indices, flat_values)
+        distributed = dist.is_available() and dist.is_initialized()
+        if distributed:
+            dist.all_reduce(counts, op=dist.ReduceOp.SUM)
+            dist.all_reduce(sums, op=dist.ReduceOp.SUM)
+        self.ema_cluster_size.mul_(self.ema_decay).add_(counts, alpha=1 - self.ema_decay)
+        self.ema_embed_sum.mul_(self.ema_decay).add_(sums, alpha=1 - self.ema_decay)
+        total_count = self.ema_cluster_size.sum()
+        smoothed = (
+            (self.ema_cluster_size + 1e-5)
+            / (total_count + self.codebook_size * 1e-5)
+            * total_count
+        )
+        self.codebook.copy_(self.ema_embed_sum / smoothed.unsqueeze(1))
+        if update_count < self.dead_code_after_updates:
+            return
+        dead = self.ema_cluster_size < self.dead_code_threshold
+        if dead.any():
+            if not distributed or dist.get_rank() == 0:
+                replacement_indices = torch.arange(
+                    int(dead.sum()), device=flat_values.device
+                ) % flat_values.size(0)
+                replacements = flat_values[replacement_indices]
+                self.codebook[dead] = replacements
+                self.ema_embed_sum[dead] = replacements * self.dead_code_threshold
+                self.ema_cluster_size[dead] = self.dead_code_threshold
+            if distributed:
+                for value in (self.codebook, self.ema_cluster_size, self.ema_embed_sum):
+                    dist.broadcast(value, src=0)
+
+
+class ProjectedVectorQuantizer(nn.Module):
+    """Three independently projected 8-bit codebooks.
+
+    In residual mode each stage sees the remaining common-space error. In
+    product mode all stages encode complementary learned projections in
+    parallel. The stacked projections start as a tight frame, so their
+    synthesis transpose reconstructs the common latent before quantization.
+    """
+
+    def __init__(
+        self,
+        embedding_dim: int,
+        stage_dims: Iterable[int],
+        residual: bool,
+        codebook_size: int = 256,
+        commitment_weight: float = 0.1,
+        usage_loss_weight: float = 0.0,
+        usage_temperature: float = 1.0,
+        stage_commitment_weights: Iterable[float] | None = None,
+        ema_decay: float = 0.95,
+        dead_code_threshold: float = 0.5,
+        dead_code_after_updates: int = 100,
+        kmeans_iterations: int = 10,
+    ) -> None:
+        super().__init__()
+        dims = tuple(int(value) for value in stage_dims)
+        if len(dims) != 3 or any(value < 1 for value in dims):
+            raise ValueError("projected quantizers require three positive stage dimensions")
+        if codebook_size != 256:
+            raise ValueError("each projected codebook must contain 256 entries")
+        if sum(dims) < embedding_dim:
+            raise ValueError("total projected dimension must cover the common latent")
+        weights = (
+            (1.0, 1.0, 1.0)
+            if stage_commitment_weights is None
+            else tuple(float(value) for value in stage_commitment_weights)
+        )
+        if len(weights) != 3 or any(value <= 0.0 for value in weights):
+            raise ValueError("stage commitment weights must contain three positive values")
+        if usage_loss_weight < 0.0 or usage_temperature <= 0.0:
+            raise ValueError("usage loss weight must be non-negative and temperature positive")
+        self.embedding_dim = embedding_dim
+        self.stage_dims = dims
+        self.num_codebooks = 3
+        self.codebook_size = codebook_size
+        self.residual = residual
+        self.commitment_weight = commitment_weight
+        self.usage_loss_weight = usage_loss_weight
+        self.usage_temperature = usage_temperature
+        self.stage_commitment_weights = weights
+        self.input_projections = nn.ModuleList(
+            nn.Linear(embedding_dim, dimension, bias=False) for dimension in dims
+        )
+        self.output_projections = nn.ModuleList(
+            nn.Linear(dimension, embedding_dim, bias=False) for dimension in dims
+        )
+        frame = torch.empty(sum(dims), embedding_dim)
+        nn.init.orthogonal_(frame)
+        offset = 0
+        with torch.no_grad():
+            for dimension, analysis, synthesis in zip(
+                dims, self.input_projections, self.output_projections
+            ):
+                rows = frame[offset : offset + dimension]
+                analysis.weight.copy_(rows)
+                synthesis.weight.copy_(rows.t())
+                offset += dimension
+        self.stages = nn.ModuleList(
+            EMACodebookStage(
+                dimension,
+                codebook_size,
+                ema_decay,
+                dead_code_threshold,
+                dead_code_after_updates,
+                kmeans_iterations,
+            )
+            for dimension in dims
+        )
+        self.register_buffer("update_count", torch.zeros((), dtype=torch.long))
+
+    @property
+    def bits_per_frame(self) -> int:
+        return 24
+
+    def _stage_source(
+        self, embeddings: torch.Tensor, residual: torch.Tensor
+    ) -> torch.Tensor:
+        return residual if self.residual else embeddings
+
+    def forward(self, embeddings: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+        if embeddings.ndim != 3:
+            raise ValueError("embeddings must have shape [batch, frames, channels]")
+        residual = embeddings
+        hard_sum = torch.zeros_like(embeddings)
+        straight_through_outputs: list[torch.Tensor] = []
+        all_indices: list[torch.Tensor] = []
+        commitment = embeddings.new_zeros(())
+        usage_regularization = embeddings.new_zeros(())
+        first_stage = None
+        for index, (analysis, synthesis, stage) in enumerate(
+            zip(self.input_projections, self.output_projections, self.stages)
+        ):
+            projected = analysis(self._stage_source(embeddings, residual))
+            if self.training and not bool(stage.initialized):
+                stage.initialize(projected.detach())
+            codeword, indices = stage.lookup(projected)
+            commitment = commitment + self.stage_commitment_weights[index] * F.mse_loss(
+                projected, codeword.detach()
+            )
+            if self.training and self.usage_loss_weight > 0.0:
+                table = stage.codebook.detach().clone()
+                distances = stage.distances(projected, table)
+                scale = distances.detach().std(dim=-1, keepdim=True).clamp_min(1e-3)
+                probabilities = F.softmax(
+                    -distances / (scale * self.usage_temperature), dim=-1
+                )
+                mean_probability = probabilities.flatten(0, -2).mean(dim=0)
+                usage_regularization = usage_regularization + (
+                    mean_probability
+                    * (mean_probability.clamp_min(1e-12).log() + math.log(self.codebook_size))
+                ).sum()
+            if self.training:
+                stage.update(projected.detach(), indices, int(self.update_count.item()))
+            stage_st = projected + (codeword - projected).detach()
+            hard_common = synthesis(codeword)
+            straight_through_outputs.append(synthesis(stage_st))
+            hard_sum = hard_sum + hard_common
+            if self.residual:
+                residual = embeddings - hard_sum
+            if first_stage is None:
+                first_stage = hard_common
+            all_indices.append(indices)
+        if self.training:
+            self.update_count.add_(1)
+        quantized = torch.stack(straight_through_outputs, dim=0).sum(dim=0)
+        self.last_quantized_latent = quantized
+        self.last_first_stage_latent = first_stage if first_stage is not None else quantized
+        loss = (
+            self.commitment_weight * commitment
+            + self.usage_loss_weight * usage_regularization
+        )
+        return quantized, torch.stack(all_indices, dim=-1), loss
+
+    def decode(self, indices: torch.Tensor) -> torch.Tensor:
+        if indices.ndim != 3 or indices.size(-1) != 3:
+            raise ValueError("indices must have shape [batch, frames, 3]")
+        quantized = torch.zeros(
+            *indices.shape[:-1],
+            self.embedding_dim,
+            device=indices.device,
+            dtype=self.stages[0].codebook.dtype,
+        )
+        for stage_index, (stage, synthesis) in enumerate(
+            zip(self.stages, self.output_projections)
+        ):
+            quantized = quantized + synthesis(
+                F.embedding(indices[..., stage_index], stage.codebook)
+            )
+        return quantized
+
+    @torch.no_grad()
+    def usage_metrics(self) -> dict[str, list[float] | list[int]]:
+        active_codes = []
+        perplexity = []
+        for stage in self.stages:
+            active_codes.append(
+                int((stage.ema_cluster_size >= stage.dead_code_threshold).sum().cpu())
+            )
+            probability = stage.ema_cluster_size / stage.ema_cluster_size.sum().clamp_min(1e-12)
+            perplexity.append(
+                float(
+                    torch.exp(
+                        -(probability * probability.clamp_min(1e-12).log()).sum()
+                    ).cpu()
+                )
+            )
+        return {"active_codes": active_codes, "perplexity": perplexity}
+
+    def search_macs(self, frames: int) -> int:
+        return frames * self.codebook_size * sum(self.stage_dims) * 3
+
+    @torch.no_grad()
+    def quantize_stages_for_diagnostics(
+        self, embeddings: torch.Tensor
+    ) -> tuple[list[torch.Tensor], torch.Tensor, list[torch.Tensor], list[torch.Tensor]]:
+        residual = embeddings
+        cumulative = torch.zeros_like(embeddings)
+        outputs: list[torch.Tensor] = []
+        indices: list[torch.Tensor] = []
+        before: list[torch.Tensor] = []
+        after: list[torch.Tensor] = []
+        for analysis, synthesis, stage in zip(
+            self.input_projections, self.output_projections, self.stages
+        ):
+            before.append(residual)
+            projected = analysis(self._stage_source(embeddings, residual))
+            codeword, stage_indices = stage.lookup(projected)
+            contribution = synthesis(codeword)
+            cumulative = cumulative + contribution
+            residual = embeddings - cumulative
+            outputs.append(contribution)
+            indices.append(stage_indices)
+            after.append(residual)
+        return outputs, torch.stack(indices, dim=-1), before, after
+
 
 class SplitResidualVectorQuantizer(nn.Module):
     """One semantic codebook plus two acoustic residual codebooks.
@@ -703,6 +1043,7 @@ class CourseCodec(nn.Module):
         rvq_usage_loss_weight: float = 0.0,
         rvq_usage_temperature: float = 0.1,
         rvq_stage_commitment_weights: Iterable[float] | None = None,
+        projected_stage_dims: Iterable[int] = (96, 64, 48),
         rvq_ema_decay: float = 0.99,
         rvq_dead_code_threshold: float = 0.5,
         rvq_dead_code_after_updates: int = 100,
@@ -880,6 +1221,21 @@ class CourseCodec(nn.Module):
                 dead_code_after_updates=rvq_dead_code_after_updates,
                 kmeans_iterations=rvq_kmeans_iterations,
             )
+        elif quantizer_type in {"projected_rvq", "product_vq"}:
+            self.quantizer = ProjectedVectorQuantizer(
+                embedding_dim=encoder_channels[-1],
+                stage_dims=projected_stage_dims,
+                residual=quantizer_type == "projected_rvq",
+                codebook_size=rvq_codebook_size,
+                commitment_weight=commitment_weight,
+                usage_loss_weight=rvq_usage_loss_weight,
+                usage_temperature=rvq_usage_temperature,
+                stage_commitment_weights=rvq_stage_commitment_weights,
+                ema_decay=rvq_ema_decay,
+                dead_code_threshold=rvq_dead_code_threshold,
+                dead_code_after_updates=rvq_dead_code_after_updates,
+                kmeans_iterations=rvq_kmeans_iterations,
+            )
         elif quantizer_type == "fsq":
             self.quantizer = FiniteScalarQuantizer(encoder_channels[-1], fsq_levels)
         else:
@@ -965,7 +1321,9 @@ class CourseCodec(nn.Module):
             auxiliary: dict[str, torch.Tensor] = {}
             if isinstance(self.quantizer, SplitResidualVectorQuantizer):
                 auxiliary["semantic"] = self.quantizer.last_semantic_latent
-            elif isinstance(self.quantizer, ResidualVectorQuantizer):
+            elif isinstance(
+                self.quantizer, (ResidualVectorQuantizer, ProjectedVectorQuantizer)
+            ):
                 auxiliary["semantic"] = self.quantizer.last_first_stage_latent
             return reconstructed, indices, quantizer_loss, auxiliary
         return reconstructed, indices, quantizer_loss

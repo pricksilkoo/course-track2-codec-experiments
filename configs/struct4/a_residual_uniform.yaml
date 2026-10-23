@@ -1,0 +1,23 @@
+_base_: ../codebook4/d_combined.yaml
+
+seed: 20261024
+
+model:
+  quantizer_type: projected_rvq
+  projected_stage_dims: [64, 64, 64]
+  rvq_stage_commitment_weights: [1.0, 1.5, 2.0]
+  rvq_usage_loss_weight: 0.001
+  rvq_usage_temperature: 1.0
+
+adversarial:
+  start_step: 5000
+  warmup_steps: 10000
+
+training:
+  learning_rate: 0.00002
+  minimum_learning_rate: 0.000005
+  quantizer_learning_rate: 0.0002
+  quantizer_only_steps: 5000
+  validation_checkpoint_interval_steps: 10000
+  checkpoint_keep_last: 3
+  output_dir: runs/struct4_a_residual_uniform

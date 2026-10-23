@@ -1,0 +1,166 @@
+# Codec Modeling Experiment History
+
+This document records why the current model looks the way it does, which ideas
+worked, which did not, and how each round informed the next one. Scores below
+are from the fixed 200-file development set unless explicitly marked as sealed
+confirmation results.
+
+## 1. Starting point: official course baseline
+
+The supplied model is a causal waveform convolutional autoencoder with a
+100-Hz latent sequence, three 256-entry residual codebooks, and a causal
+transposed-convolution decoder. Each 10-ms frame transmits three bytes, giving
+exactly 2400 bps.
+
+- Fixed-200 score: `37.4414` (`37.4339` in the separately generated baseline
+  report; the small difference comes from the recorded evaluation instance).
+- Sealed LibriTTS confirmation score: `36.9167`.
+- Complexity: 608.768 total and 244.480 decoder MFLOP/s.
+
+An early fast-training run scored only `24.9042`. This established that a low
+score was not automatically evidence against the architecture: training
+schedule, segment length, batch size, EMA codebook updates, and GAN staging had
+to be fixed before architecture conclusions were meaningful.
+
+## 2. First controlled ablations
+
+| Experiment | Main change | Score | Conclusion |
+|---|---|---:|---|
+| A train fix | batch 32, 2-s segments, EMA 0.95, improved schedule | 37.9104 | A reliable training recipe recovered and slightly exceeded the reference. |
+| B perceptual | spectral convergence, linear magnitude, period critics | 37.9566 | Perceptual losses alone gave only a small gain. |
+| C temporal | encoder 2-layer and decoder 1-layer causal TCN, 30-ms lookahead | **40.3124** | Temporal latent modeling was the first large architectural gain. |
+| D factorized TCN | 32-D shared RVQ projection plus deeper TCN | 37.7866 | Naively shrinking all codebooks into one low-dimensional space destroyed useful detail. |
+
+The main lesson was that temporal context mattered much more than simple
+codebook compression. The 30-ms future allowance was spent once in the encoder;
+the remaining temporal stacks stayed causal.
+
+## 3. MiniMimi-inspired rebuild
+
+Four small SEANet/Transformer variants were trained for 200k steps:
+
+| Variant | Score |
+|---|---:|
+| Plain RVQ | 32.8036 |
+| Split semantic/acoustic RVQ | 32.9588 |
+| Decoder-heavy Transformer | 33.8339 |
+| Hybrid temporal block | 34.7105 |
+
+These were deliberately small, constraint-compliant interpretations of Mimi,
+not the original large pretrained Mimi model. They underperformed because the
+course compute ceiling forced narrow analysis/synthesis networks and small
+Transformers, while the quantizer and decoder had to be learned from the
+available course data. The result ruled out continuing to imitate the full
+Mimi topology at this scale.
+
+## 4. Long-TCN architecture selection
+
+All four candidates started from the successful temporal model and received
+170k additional steps.
+
+| Experiment | Main change | Score |
+|---|---|---:|
+| A | unchanged temporal control | 42.9513 |
+| B | 4 encoder + 2 decoder expansion-one TCN blocks | **43.7272** |
+| C | WavLM guidance on RVQ stage zero | 42.5750 |
+| D | bounded local Transformer | 42.5003 |
+
+The long dilated TCN was both more effective and more compute-efficient than
+the local Transformer. Directly forcing codebook zero toward WavLM features
+hurt waveform reconstruction, so semantic supervision was not retained.
+
+## 5. Loss and GAN refinement
+
+Starting from long-TCN B:
+
+| Experiment | Score |
+|---|---:|
+| Low-LR continuation | 43.8558 |
+| Feature matching 2.0 | 44.6625 |
+| SI-SNR weight 0.01 | 44.1082 |
+| Adversarial weight 0.05 | **45.2681** |
+
+The original GAN term was too strong. Reducing it improved every independently
+checked component metric. On the sealed 400-file LibriTTS set, the sequence
+official baseline → long TCN → stronger feature matching → weaker GAN scored
+`36.9167 → 42.0528 → 42.9356 → 43.5903`, confirming that the development-set
+ordering generalized.
+
+## 6. Small loss factorial and seed confirmation
+
+With adversarial weight fixed at 0.05, a 2x2 study tested feature matching 1.5
+and SI-SNR 0.003:
+
+| Profile | Score |
+|---|---:|
+| continuation control | 45.1760 |
+| feature matching 1.5 | 45.4786 |
+| SI-SNR 0.003 | 45.2666 |
+| both | **45.5554** |
+
+Across seeds 2026, 3407, and 8128, feature matching alone averaged `45.4586 ±
+0.0360`, while the combination averaged `45.5392 ± 0.0294` and won all three
+paired comparisons. The selected seed-8128 checkpoint scored `45.5569` on
+development and `43.9842` in the single final sealed confirmation.
+
+## 7. RVQ utilization study
+
+The selected checkpoint used almost every code but had stage perplexities
+`140.4 / 132.6 / 137.7`, corresponding to 21.29 summed marginal bits rather
+than 24 perfectly uniform bits. Crucially, stages two and three still reduced
+residual MSE by 41.9% and 31.9%, so they were not dead.
+
+A 2x2 study tested stable assignment balancing and stronger commitment on the
+later residual stages:
+
+| Profile | Score | Delta vs input checkpoint |
+|---|---:|---:|
+| A continuation | 45.6565 | +0.0996 |
+| B assignment balance | 45.6244 | +0.0675 |
+| C later-stage commitment | 45.8099 | +0.2530 |
+| D both | **45.8473** | **+0.2904** |
+
+Uniform occupancy was not the objective by itself: balancing alone did not
+beat continued training. The useful signal was stronger residual-error
+reduction, especially in later stages. D is now registered as
+`strong_baseline_v1`.
+
+## 8. Current modeling principles
+
+The retained design choices are:
+
+1. A causal waveform encoder/decoder is a stronger use of the compute budget
+   than the small MiniMimi replica tested here.
+2. Four encoder and two decoder expansion-one dilated TCN blocks provide the
+   best temporal context found under the limit.
+3. The encoder consumes the entire three-frame lookahead allowance once; the
+   decoder remains causal.
+4. Three 8-bit codebooks at 100 Hz guarantee the exact 2400-bps payload.
+5. A weaker GAN, moderate feature matching, and very small SI-SNR term balance
+   perceptual texture and waveform fidelity.
+6. Codebook perplexity is diagnostic, not a target. A change is useful only if
+   it improves residual reduction and final reconstruction.
+
+Repeated micro-tuning of loss coefficients, adding more steps to the same
+checkpoint, direct semantic forcing, and replacing the TCN with a tiny
+Transformer are now considered exhausted directions.
+
+## 9. Next structural question
+
+The next study keeps the encoder, TCN, decoder, bitrate, delay, and validated
+loss recipe fixed. It changes only how the three transmitted bytes divide the
+latent representation:
+
+- projected residual VQ: every stage owns an independent learned subspace but
+  still encodes the remaining common-space residual;
+- product VQ: the three bytes encode complementary learned subspaces in
+  parallel;
+- uniform `64/64/64` versus later-heavy `48/64/80` projection dimensions.
+
+This 2x2 design tests sequential residual coding against independent product
+coding and tests whether allocating more representation dimension to later
+bytes helps. All four retain exactly three uint8 indices per frame and use a
+separate higher learning rate plus a short quantizer-only adaptation phase for
+the newly initialized projection layers. The analytical preflight is identical
+for all four: 650.227 total MFLOP/s, 277.440 decoder MFLOP/s, 30-ms lookahead,
+and 662,109 deployed parameters.

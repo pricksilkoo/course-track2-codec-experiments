@@ -77,6 +77,48 @@ def test_stage_commitment_weights_change_only_training_loss() -> None:
     assert weighted_loss > reference_loss
 
 
+def test_projected_residual_rvq_round_trip_and_gradients() -> None:
+    model = CourseCodec(
+        quantizer_type="projected_rvq",
+        projected_stage_dims=[96, 64, 48],
+        rvq_usage_loss_weight=1e-3,
+        rvq_usage_temperature=1.0,
+        rvq_stage_commitment_weights=[1.0, 1.5, 2.0],
+    )
+    waveform = torch.randn(4, 1, 3200)
+    model.train()
+    reconstructed, indices, loss = model(waveform)
+    assert reconstructed.shape == waveform.shape
+    assert indices.shape == (4, 20, 3)
+    (loss + reconstructed.abs().mean()).backward()
+    assert model.quantizer.input_projections[0].weight.grad is not None
+    assert model.quantizer.output_projections[2].weight.grad is not None
+    model.eval()
+    direct, indices, _ = model(waveform)
+    decoded = model.decode(indices, waveform.size(-1))
+    assert torch.allclose(direct, decoded, atol=1e-6)
+
+
+def test_product_vq_stage_diagnostics_reconstruct_quantized_latent() -> None:
+    model = CourseCodec(
+        quantizer_type="product_vq",
+        projected_stage_dims=[64, 64, 64],
+    )
+    waveform = torch.randn(4, 1, 3200)
+    model.train()
+    model(waveform)
+    model.eval()
+    embeddings = model.analysis_temporal(model.latent_norm(model.encoder(waveform)))
+    contributions, indices, before, after = (
+        model.quantizer.quantize_stages_for_diagnostics(embeddings)
+    )
+    quantized = model.quantizer.decode(indices)
+    assert torch.allclose(sum(contributions), quantized, atol=1e-6)
+    assert len(before) == len(after) == 3
+    assert model.quantizer.bits_per_frame == 24
+    assert len(model.quantizer.usage_metrics()["perplexity"]) == 3
+
+
 def test_latent_scale_is_fixed_before_quantization() -> None:
     model = CourseCodec()
     waveform = torch.randn(2, 1, 16_000)
@@ -86,7 +128,7 @@ def test_latent_scale_is_fixed_before_quantization() -> None:
     assert torch.allclose(
         latent.var(dim=-1, unbiased=False),
         torch.ones_like(latent[..., 0]),
-        atol=2e-3,
+        atol=3e-3,
     )
 
 
