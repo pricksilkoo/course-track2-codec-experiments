@@ -41,6 +41,42 @@ def test_ema_rvq_initializes_and_decode_matches_forward() -> None:
     assert torch.allclose(direct, decoded, atol=1e-6)
 
 
+def test_stable_usage_regularizer_changes_only_training_loss() -> None:
+    reference = CourseCodec(rvq_usage_loss_weight=0.0)
+    waveform = torch.randn(4, 1, 3200)
+    reference.train()
+    reference(waveform)
+    balanced = CourseCodec(rvq_usage_loss_weight=1e-3, rvq_usage_temperature=1.0)
+    balanced.load_state_dict(reference.state_dict())
+    reference.train()
+    balanced.train()
+    reference_output, reference_indices, reference_loss = reference(waveform)
+    balanced_output, balanced_indices, balanced_loss = balanced(waveform)
+    assert torch.equal(reference_indices, balanced_indices)
+    assert torch.allclose(reference_output, balanced_output, atol=1e-6)
+    assert torch.isfinite(balanced_loss)
+    assert balanced_loss > reference_loss
+    balanced_loss.backward()
+    assert balanced.encoder.input_conv.conv.weight.grad is not None
+    assert torch.isfinite(balanced.encoder.input_conv.conv.weight.grad).all()
+
+
+def test_stage_commitment_weights_change_only_training_loss() -> None:
+    reference = CourseCodec(rvq_stage_commitment_weights=[1.0, 1.0, 1.0])
+    weighted = CourseCodec(rvq_stage_commitment_weights=[1.0, 1.5, 2.0])
+    waveform = torch.randn(4, 1, 3200)
+    reference.train()
+    reference(waveform)
+    weighted.load_state_dict(reference.state_dict())
+    reference.eval()
+    weighted.eval()
+    reference_output, reference_indices, reference_loss = reference(waveform)
+    weighted_output, weighted_indices, weighted_loss = weighted(waveform)
+    assert torch.equal(reference_indices, weighted_indices)
+    assert torch.allclose(reference_output, weighted_output, atol=1e-6)
+    assert weighted_loss > reference_loss
+
+
 def test_latent_scale_is_fixed_before_quantization() -> None:
     model = CourseCodec()
     waveform = torch.randn(2, 1, 16_000)

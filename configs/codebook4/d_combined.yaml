@@ -1,0 +1,11 @@
+_base_: a_control.yaml
+
+# The fourth cell of the 2x2 study: assignment balancing plus stronger later
+# residual-stage commitment.
+model:
+  rvq_usage_loss_weight: 0.001
+  rvq_usage_temperature: 1.0
+  rvq_stage_commitment_weights: [1.0, 1.5, 2.0]
+
+training:
+  output_dir: runs/codebook4_d_combined

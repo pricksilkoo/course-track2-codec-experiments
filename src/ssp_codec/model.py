@@ -9,6 +9,7 @@ and waveform transposed-convolution decoder.  It is deliberately fixed to
 from __future__ import annotations
 
 from dataclasses import dataclass
+import math
 from typing import Iterable
 
 import torch
@@ -261,6 +262,7 @@ class ResidualVectorQuantizer(nn.Module):
         commitment_weight: float = 0.25,
         usage_loss_weight: float = 0.0,
         usage_temperature: float = 0.1,
+        stage_commitment_weights: Iterable[float] | None = None,
         ema_decay: float = 0.99,
         dead_code_threshold: float = 0.5,
         dead_code_after_updates: int = 100,
@@ -273,15 +275,25 @@ class ResidualVectorQuantizer(nn.Module):
             raise ValueError("codebook_dim must be positive")
         if not 0.0 < ema_decay < 1.0:
             raise ValueError("ema_decay must be between zero and one")
+        if usage_loss_weight < 0.0 or usage_temperature <= 0.0:
+            raise ValueError("usage loss weight must be non-negative and temperature positive")
         self.embedding_dim = embedding_dim
         self.num_codebooks = num_codebooks
         self.codebook_size = codebook_size
         self.codebook_dim = codebook_dim
         self.commitment_weight = commitment_weight
-        # Retained only so older checkpoint configurations can still be loaded.
-        # The differentiable usage loss was removed because its low-temperature
-        # gradient dominated reconstruction and drove the latent scale upward.
-        self.usage_loss_weight = 0.0
+        self.usage_loss_weight = usage_loss_weight
+        self.usage_temperature = usage_temperature
+        parsed_stage_weights = (
+            (1.0,) * num_codebooks
+            if stage_commitment_weights is None
+            else tuple(float(value) for value in stage_commitment_weights)
+        )
+        if len(parsed_stage_weights) != num_codebooks or any(
+            value <= 0.0 for value in parsed_stage_weights
+        ):
+            raise ValueError("stage commitment weights must contain one positive value per codebook")
+        self.stage_commitment_weights = parsed_stage_weights
         self.ema_decay = ema_decay
         self.dead_code_threshold = dead_code_threshold
         self.dead_code_after_updates = dead_code_after_updates
@@ -447,12 +459,39 @@ class ResidualVectorQuantizer(nn.Module):
         quantized = torch.zeros_like(projected)
         all_indices = []
         commitment = embeddings.new_zeros(())
+        usage_regularization = embeddings.new_zeros(())
         first_stage_codeword = None
         for stage in range(self.num_codebooks):
             codeword, indices = self._lookup(residual, stage)
             if stage == 0:
                 first_stage_codeword = codeword
-            commitment = commitment + F.mse_loss(residual, codeword.detach())
+            commitment = commitment + self.stage_commitment_weights[stage] * F.mse_loss(
+                residual, codeword.detach()
+            )
+            if self.training and self.usage_loss_weight > 0.0:
+                # Normalize each distance row before the soft assignment. This
+                # makes the temperature dimensionless and avoids the unstable
+                # scale-dependent gradients of the earlier low-temperature
+                # formulation. KL(mean assignment || uniform) is zero only
+                # when a batch spreads probability evenly across the codebook.
+                # EMA updates the live codebook buffer later in this same
+                # forward pass. Use a read-only snapshot so autograd can retain
+                # it for the encoder gradient without an in-place version clash.
+                usage_table = self.codebooks[stage].detach().clone()
+                distances = (
+                    residual.square().sum(dim=-1, keepdim=True)
+                    - 2 * residual @ usage_table.t()
+                    + usage_table.square().sum(dim=-1)
+                )
+                distance_scale = distances.detach().std(dim=-1, keepdim=True).clamp_min(1e-3)
+                soft_assignments = F.softmax(
+                    -distances / (distance_scale * self.usage_temperature), dim=-1
+                )
+                mean_assignment = soft_assignments.flatten(0, -2).mean(dim=0)
+                usage_regularization = usage_regularization + (
+                    mean_assignment
+                    * (mean_assignment.clamp_min(1e-12).log() + math.log(self.codebook_size))
+                ).sum()
             if self.training:
                 self._ema_update(stage, residual.detach(), indices)
             quantized = quantized + codeword
@@ -461,7 +500,10 @@ class ResidualVectorQuantizer(nn.Module):
         if self.training:
             self.update_count.add_(1)
         indices = torch.stack(all_indices, dim=-1)
-        loss = self.commitment_weight * commitment
+        loss = (
+            self.commitment_weight * commitment
+            + self.usage_loss_weight * usage_regularization
+        )
         straight_through = projected + (quantized - projected).detach()
         if first_stage_codeword is None:
             raise RuntimeError("RVQ must contain at least one codebook")
@@ -660,6 +702,7 @@ class CourseCodec(nn.Module):
         commitment_weight: float = 0.25,
         rvq_usage_loss_weight: float = 0.0,
         rvq_usage_temperature: float = 0.1,
+        rvq_stage_commitment_weights: Iterable[float] | None = None,
         rvq_ema_decay: float = 0.99,
         rvq_dead_code_threshold: float = 0.5,
         rvq_dead_code_after_updates: int = 100,
@@ -752,6 +795,7 @@ class CourseCodec(nn.Module):
                     commitment_weight=commitment_weight,
                     usage_loss_weight=rvq_usage_loss_weight,
                     usage_temperature=rvq_usage_temperature,
+                    stage_commitment_weights=rvq_stage_commitment_weights,
                     ema_decay=rvq_ema_decay,
                     dead_code_threshold=rvq_dead_code_threshold,
                     dead_code_after_updates=rvq_dead_code_after_updates,
@@ -830,6 +874,7 @@ class CourseCodec(nn.Module):
                 commitment_weight=commitment_weight,
                 usage_loss_weight=rvq_usage_loss_weight,
                 usage_temperature=rvq_usage_temperature,
+                stage_commitment_weights=rvq_stage_commitment_weights,
                 ema_decay=rvq_ema_decay,
                 dead_code_threshold=rvq_dead_code_threshold,
                 dead_code_after_updates=rvq_dead_code_after_updates,

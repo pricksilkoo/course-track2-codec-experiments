@@ -1,0 +1,11 @@
+_base_: ../seed_confirm/d_combo_seed8128.yaml
+
+seed: 20261023
+
+model:
+  rvq_usage_loss_weight: 0.0
+  rvq_usage_temperature: 1.0
+  rvq_stage_commitment_weights: [1.0, 1.0, 1.0]
+
+training:
+  output_dir: runs/codebook4_a_control

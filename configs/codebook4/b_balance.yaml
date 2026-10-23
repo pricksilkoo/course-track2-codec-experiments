@@ -1,0 +1,10 @@
+_base_: a_control.yaml
+
+# Stable, scale-normalized batch assignment balancing. The small coefficient
+# keeps this auxiliary loss well below the reconstruction and commitment terms.
+model:
+  rvq_usage_loss_weight: 0.001
+  rvq_usage_temperature: 1.0
+
+training:
+  output_dir: runs/codebook4_b_balance
