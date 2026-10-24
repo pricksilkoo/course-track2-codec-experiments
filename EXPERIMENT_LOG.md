@@ -4886,3 +4886,709 @@ training:
 ```
 
 <!-- experiment:codebook4_c_later_stages:end -->
+
+<!-- experiment:struct4_b_residual_later:start -->
+## struct4_b_residual_later
+
+- Status: `complete`
+- Updated (UTC): `2026-10-23T17:31:07.740393+00:00`
+- Git commit: `0810f32be4b8da40b36bb60436d4ec0cdd5bfcba`
+- Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/struct4_b_residual_later`
+- Note: 100000-step structural quantizer study completed; diagnostics: /storage1/hehaoran/project/course-track2-codec-experiments/runs/struct4_b_residual_later/rvq_diagnostics.json
+- Best checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/struct4_b_residual_later/checkpoints/best.pt`
+- Checkpoint SHA-256: `f9c71919519dbda7d02bdfc56d6eb309cf9a45976d733e29b3fd808b7b77cc1a`
+
+### Dataset
+
+| Item | Value |
+|---|---:|
+| Training files | 394988 |
+| Validation files | 14596 |
+| VCTK training files | 40208 |
+| VCTK validation files | 4247 |
+| LibriTTS training files | 354780 |
+| LibriTTS validation files | 10349 |
+
+### Last training validation
+
+| Item | Value |
+|---|---:|
+| Epoch | 9 |
+| Global step | 100000 |
+| Train loss | 0.589039 |
+| Reconstruction loss | 0.131509 |
+| Waveform L1 | 0.014402 |
+| Spectral loss | 0.117107 |
+| Commitment loss | 0.101074 |
+
+### Objective evaluation
+
+| Item | Value |
+|---|---:|
+| Files | 200 |
+| PESQ-WB | 1.9982 |
+| ESTOI | 0.7288 |
+| SI-SNR (dB) | 5.1789 |
+| UTMOS | 2.9057 |
+| Course objective score | 46.7463 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Algorithmic lookahead (ms) | 30 |
+| Total MFLOP/s | 650.227 |
+| Decoder MFLOP/s | 277.440 |
+| Parameters | 662109 |
+
+### Effective configuration
+
+```yaml
+seed: 20261024
+audio:
+  sample_rate: 16000
+  frame_samples: 160
+  segment_samples: 32000
+model:
+  sample_rate: 16000
+  frame_samples: 160
+  quantizer_type: projected_rvq
+  encoder_channels:
+  - 8
+  - 16
+  - 32
+  - 64
+  - 160
+  encoder_strides:
+  - 2
+  - 4
+  - 4
+  - 5
+  decoder_channels:
+  - 160
+  - 48
+  - 24
+  - 12
+  - 8
+  decoder_strides:
+  - 5
+  - 4
+  - 4
+  - 2
+  residual_blocks: 3
+  residual_kernel_size: 3
+  rvq_num_codebooks: 3
+  rvq_codebook_size: 256
+  rvq_codebook_dim: 160
+  commitment_weight: 0.1
+  rvq_ema_decay: 0.95
+  rvq_dead_code_threshold: 0.5
+  rvq_dead_code_after_updates: 100
+  rvq_kmeans_iterations: 10
+  encoder_temporal_layers: 4
+  decoder_temporal_layers: 2
+  temporal_kernel_size: 3
+  temporal_expansion: 1
+  fsq_levels:
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  encoder_lookahead_frames: 3
+  decoder_lookahead_frames: 0
+  rvq_usage_loss_weight: 0.001
+  rvq_usage_temperature: 1.0
+  rvq_stage_commitment_weights:
+  - 1.0
+  - 1.5
+  - 2.0
+  projected_stage_dims:
+  - 48
+  - 64
+  - 80
+loss:
+  waveform_l1_weight: 1.0
+  spectral_weight: 1.0
+  fft_sizes:
+  - 256
+  - 512
+  - 1024
+  spectral_convergence_weight: 0.25
+  linear_magnitude_weight: 0.1
+  adversarial_weight: 0.05
+  feature_matching_weight: 1.5
+  si_snr_weight: 0.003
+adversarial:
+  resolutions:
+  - - 256
+    - 64
+    - 256
+  - - 512
+    - 128
+    - 512
+  - - 1024
+    - 256
+    - 1024
+  start_step: 5000
+  warmup_steps: 10000
+  learning_rate: 0.0002
+  gradient_clip_norm: 10.0
+  periods:
+  - 2
+  - 3
+  - 5
+  - 7
+  - 11
+training:
+  batch_size: 32
+  num_workers: 8
+  epochs: 1000
+  learning_rate: 2.0e-05
+  weight_decay: 1.0e-06
+  gradient_clip_norm: 1.0
+  validation_limit: 32
+  validation_checkpoint_interval_steps: 10000
+  sample_inference_count: 2
+  output_dir: /storage1/hehaoran/project/course-track2-codec-experiments/runs/struct4_b_residual_later
+  minimum_learning_rate: 5.0e-06
+  warmup_steps: 0
+  checkpoint_keep_last: 3
+  quantizer_learning_rate: 0.0002
+  quantizer_only_steps: 5000
+```
+
+<!-- experiment:struct4_b_residual_later:end -->
+<!-- experiment:struct4_c_product_uniform:start -->
+## struct4_c_product_uniform
+
+- Status: `complete`
+- Updated (UTC): `2026-10-23T17:31:01.383493+00:00`
+- Git commit: `0810f32be4b8da40b36bb60436d4ec0cdd5bfcba`
+- Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/struct4_c_product_uniform`
+- Note: 100000-step structural quantizer study completed; diagnostics: /storage1/hehaoran/project/course-track2-codec-experiments/runs/struct4_c_product_uniform/rvq_diagnostics.json
+- Best checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/struct4_c_product_uniform/checkpoints/best.pt`
+- Checkpoint SHA-256: `9bc86aab038bba0f27907d42d9e93213bd1767acd509af5b6a284089a2e316c5`
+
+### Dataset
+
+| Item | Value |
+|---|---:|
+| Training files | 394988 |
+| Validation files | 14596 |
+| VCTK training files | 40208 |
+| VCTK validation files | 4247 |
+| LibriTTS training files | 354780 |
+| LibriTTS validation files | 10349 |
+
+### Last training validation
+
+| Item | Value |
+|---|---:|
+| Epoch | 9 |
+| Global step | 100000 |
+| Train loss | 0.536397 |
+| Reconstruction loss | 0.132806 |
+| Waveform L1 | 0.014622 |
+| Spectral loss | 0.118183 |
+| Commitment loss | 0.054422 |
+
+### Objective evaluation
+
+| Item | Value |
+|---|---:|
+| Files | 200 |
+| PESQ-WB | 1.9767 |
+| ESTOI | 0.7256 |
+| SI-SNR (dB) | 5.0118 |
+| UTMOS | 2.8979 |
+| Course objective score | 46.3615 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Algorithmic lookahead (ms) | 30 |
+| Total MFLOP/s | 650.227 |
+| Decoder MFLOP/s | 277.440 |
+| Parameters | 662109 |
+
+### Effective configuration
+
+```yaml
+seed: 20261024
+audio:
+  sample_rate: 16000
+  frame_samples: 160
+  segment_samples: 32000
+model:
+  sample_rate: 16000
+  frame_samples: 160
+  quantizer_type: product_vq
+  encoder_channels:
+  - 8
+  - 16
+  - 32
+  - 64
+  - 160
+  encoder_strides:
+  - 2
+  - 4
+  - 4
+  - 5
+  decoder_channels:
+  - 160
+  - 48
+  - 24
+  - 12
+  - 8
+  decoder_strides:
+  - 5
+  - 4
+  - 4
+  - 2
+  residual_blocks: 3
+  residual_kernel_size: 3
+  rvq_num_codebooks: 3
+  rvq_codebook_size: 256
+  rvq_codebook_dim: 160
+  commitment_weight: 0.1
+  rvq_ema_decay: 0.95
+  rvq_dead_code_threshold: 0.5
+  rvq_dead_code_after_updates: 100
+  rvq_kmeans_iterations: 10
+  encoder_temporal_layers: 4
+  decoder_temporal_layers: 2
+  temporal_kernel_size: 3
+  temporal_expansion: 1
+  fsq_levels:
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  encoder_lookahead_frames: 3
+  decoder_lookahead_frames: 0
+  rvq_usage_loss_weight: 0.001
+  rvq_usage_temperature: 1.0
+  rvq_stage_commitment_weights:
+  - 1.0
+  - 1.5
+  - 2.0
+  projected_stage_dims:
+  - 64
+  - 64
+  - 64
+loss:
+  waveform_l1_weight: 1.0
+  spectral_weight: 1.0
+  fft_sizes:
+  - 256
+  - 512
+  - 1024
+  spectral_convergence_weight: 0.25
+  linear_magnitude_weight: 0.1
+  adversarial_weight: 0.05
+  feature_matching_weight: 1.5
+  si_snr_weight: 0.003
+adversarial:
+  resolutions:
+  - - 256
+    - 64
+    - 256
+  - - 512
+    - 128
+    - 512
+  - - 1024
+    - 256
+    - 1024
+  start_step: 5000
+  warmup_steps: 10000
+  learning_rate: 0.0002
+  gradient_clip_norm: 10.0
+  periods:
+  - 2
+  - 3
+  - 5
+  - 7
+  - 11
+training:
+  batch_size: 32
+  num_workers: 8
+  epochs: 1000
+  learning_rate: 2.0e-05
+  weight_decay: 1.0e-06
+  gradient_clip_norm: 1.0
+  validation_limit: 32
+  validation_checkpoint_interval_steps: 10000
+  sample_inference_count: 2
+  output_dir: /storage1/hehaoran/project/course-track2-codec-experiments/runs/struct4_c_product_uniform
+  minimum_learning_rate: 5.0e-06
+  warmup_steps: 0
+  checkpoint_keep_last: 3
+  quantizer_learning_rate: 0.0002
+  quantizer_only_steps: 5000
+```
+
+<!-- experiment:struct4_c_product_uniform:end -->
+
+<!-- experiment:struct4_a_residual_uniform:start -->
+## struct4_a_residual_uniform
+
+- Status: `complete`
+- Updated (UTC): `2026-10-23T17:32:43.856982+00:00`
+- Git commit: `0810f32be4b8da40b36bb60436d4ec0cdd5bfcba`
+- Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/struct4_a_residual_uniform`
+- Note: 100000-step structural quantizer study completed; diagnostics: /storage1/hehaoran/project/course-track2-codec-experiments/runs/struct4_a_residual_uniform/rvq_diagnostics.json
+- Best checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/struct4_a_residual_uniform/checkpoints/best.pt`
+- Checkpoint SHA-256: `64d230d565e0eb3c9f137ae44ac9b88a4bbcf68fc4ff6b0dd3edf552d06ecc4a`
+
+### Dataset
+
+| Item | Value |
+|---|---:|
+| Training files | 394988 |
+| Validation files | 14596 |
+| VCTK training files | 40208 |
+| VCTK validation files | 4247 |
+| LibriTTS training files | 354780 |
+| LibriTTS validation files | 10349 |
+
+### Last training validation
+
+| Item | Value |
+|---|---:|
+| Epoch | 9 |
+| Global step | 100000 |
+| Train loss | 0.587337 |
+| Reconstruction loss | 0.131516 |
+| Waveform L1 | 0.014426 |
+| Spectral loss | 0.117090 |
+| Commitment loss | 0.100134 |
+
+### Objective evaluation
+
+| Item | Value |
+|---|---:|
+| Files | 200 |
+| PESQ-WB | 1.9855 |
+| ESTOI | 0.7293 |
+| SI-SNR (dB) | 5.1647 |
+| UTMOS | 2.9096 |
+| Course objective score | 46.6837 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Algorithmic lookahead (ms) | 30 |
+| Total MFLOP/s | 650.227 |
+| Decoder MFLOP/s | 277.440 |
+| Parameters | 662109 |
+
+### Effective configuration
+
+```yaml
+seed: 20261024
+audio:
+  sample_rate: 16000
+  frame_samples: 160
+  segment_samples: 32000
+model:
+  sample_rate: 16000
+  frame_samples: 160
+  quantizer_type: projected_rvq
+  encoder_channels:
+  - 8
+  - 16
+  - 32
+  - 64
+  - 160
+  encoder_strides:
+  - 2
+  - 4
+  - 4
+  - 5
+  decoder_channels:
+  - 160
+  - 48
+  - 24
+  - 12
+  - 8
+  decoder_strides:
+  - 5
+  - 4
+  - 4
+  - 2
+  residual_blocks: 3
+  residual_kernel_size: 3
+  rvq_num_codebooks: 3
+  rvq_codebook_size: 256
+  rvq_codebook_dim: 160
+  commitment_weight: 0.1
+  rvq_ema_decay: 0.95
+  rvq_dead_code_threshold: 0.5
+  rvq_dead_code_after_updates: 100
+  rvq_kmeans_iterations: 10
+  encoder_temporal_layers: 4
+  decoder_temporal_layers: 2
+  temporal_kernel_size: 3
+  temporal_expansion: 1
+  fsq_levels:
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  encoder_lookahead_frames: 3
+  decoder_lookahead_frames: 0
+  rvq_usage_loss_weight: 0.001
+  rvq_usage_temperature: 1.0
+  rvq_stage_commitment_weights:
+  - 1.0
+  - 1.5
+  - 2.0
+  projected_stage_dims:
+  - 64
+  - 64
+  - 64
+loss:
+  waveform_l1_weight: 1.0
+  spectral_weight: 1.0
+  fft_sizes:
+  - 256
+  - 512
+  - 1024
+  spectral_convergence_weight: 0.25
+  linear_magnitude_weight: 0.1
+  adversarial_weight: 0.05
+  feature_matching_weight: 1.5
+  si_snr_weight: 0.003
+adversarial:
+  resolutions:
+  - - 256
+    - 64
+    - 256
+  - - 512
+    - 128
+    - 512
+  - - 1024
+    - 256
+    - 1024
+  start_step: 5000
+  warmup_steps: 10000
+  learning_rate: 0.0002
+  gradient_clip_norm: 10.0
+  periods:
+  - 2
+  - 3
+  - 5
+  - 7
+  - 11
+training:
+  batch_size: 32
+  num_workers: 8
+  epochs: 1000
+  learning_rate: 2.0e-05
+  weight_decay: 1.0e-06
+  gradient_clip_norm: 1.0
+  validation_limit: 32
+  validation_checkpoint_interval_steps: 10000
+  sample_inference_count: 2
+  output_dir: /storage1/hehaoran/project/course-track2-codec-experiments/runs/struct4_a_residual_uniform
+  minimum_learning_rate: 5.0e-06
+  warmup_steps: 0
+  checkpoint_keep_last: 3
+  quantizer_learning_rate: 0.0002
+  quantizer_only_steps: 5000
+```
+
+<!-- experiment:struct4_a_residual_uniform:end -->
+<!-- experiment:struct4_d_product_later:start -->
+## struct4_d_product_later
+
+- Status: `complete`
+- Updated (UTC): `2026-10-23T17:31:02.001553+00:00`
+- Git commit: `0810f32be4b8da40b36bb60436d4ec0cdd5bfcba`
+- Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/struct4_d_product_later`
+- Note: 100000-step structural quantizer study completed; diagnostics: /storage1/hehaoran/project/course-track2-codec-experiments/runs/struct4_d_product_later/rvq_diagnostics.json
+- Best checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/struct4_d_product_later/checkpoints/best.pt`
+- Checkpoint SHA-256: `01451a47dd2f893a8e50ac0569fc05e707bd1f1f48cb0596553aaa26e9681033`
+
+### Dataset
+
+| Item | Value |
+|---|---:|
+| Training files | 394988 |
+| Validation files | 14596 |
+| VCTK training files | 40208 |
+| VCTK validation files | 4247 |
+| LibriTTS training files | 354780 |
+| LibriTTS validation files | 10349 |
+
+### Last training validation
+
+| Item | Value |
+|---|---:|
+| Epoch | 9 |
+| Global step | 100000 |
+| Train loss | 0.535320 |
+| Reconstruction loss | 0.133307 |
+| Waveform L1 | 0.014667 |
+| Spectral loss | 0.118640 |
+| Commitment loss | 0.054243 |
+
+### Objective evaluation
+
+| Item | Value |
+|---|---:|
+| Files | 200 |
+| PESQ-WB | 1.9827 |
+| ESTOI | 0.7262 |
+| SI-SNR (dB) | 4.9800 |
+| UTMOS | 2.8919 |
+| Course objective score | 46.3595 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Algorithmic lookahead (ms) | 30 |
+| Total MFLOP/s | 650.227 |
+| Decoder MFLOP/s | 277.440 |
+| Parameters | 662109 |
+
+### Effective configuration
+
+```yaml
+seed: 20261024
+audio:
+  sample_rate: 16000
+  frame_samples: 160
+  segment_samples: 32000
+model:
+  sample_rate: 16000
+  frame_samples: 160
+  quantizer_type: product_vq
+  encoder_channels:
+  - 8
+  - 16
+  - 32
+  - 64
+  - 160
+  encoder_strides:
+  - 2
+  - 4
+  - 4
+  - 5
+  decoder_channels:
+  - 160
+  - 48
+  - 24
+  - 12
+  - 8
+  decoder_strides:
+  - 5
+  - 4
+  - 4
+  - 2
+  residual_blocks: 3
+  residual_kernel_size: 3
+  rvq_num_codebooks: 3
+  rvq_codebook_size: 256
+  rvq_codebook_dim: 160
+  commitment_weight: 0.1
+  rvq_ema_decay: 0.95
+  rvq_dead_code_threshold: 0.5
+  rvq_dead_code_after_updates: 100
+  rvq_kmeans_iterations: 10
+  encoder_temporal_layers: 4
+  decoder_temporal_layers: 2
+  temporal_kernel_size: 3
+  temporal_expansion: 1
+  fsq_levels:
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  encoder_lookahead_frames: 3
+  decoder_lookahead_frames: 0
+  rvq_usage_loss_weight: 0.001
+  rvq_usage_temperature: 1.0
+  rvq_stage_commitment_weights:
+  - 1.0
+  - 1.5
+  - 2.0
+  projected_stage_dims:
+  - 48
+  - 64
+  - 80
+loss:
+  waveform_l1_weight: 1.0
+  spectral_weight: 1.0
+  fft_sizes:
+  - 256
+  - 512
+  - 1024
+  spectral_convergence_weight: 0.25
+  linear_magnitude_weight: 0.1
+  adversarial_weight: 0.05
+  feature_matching_weight: 1.5
+  si_snr_weight: 0.003
+adversarial:
+  resolutions:
+  - - 256
+    - 64
+    - 256
+  - - 512
+    - 128
+    - 512
+  - - 1024
+    - 256
+    - 1024
+  start_step: 5000
+  warmup_steps: 10000
+  learning_rate: 0.0002
+  gradient_clip_norm: 10.0
+  periods:
+  - 2
+  - 3
+  - 5
+  - 7
+  - 11
+training:
+  batch_size: 32
+  num_workers: 8
+  epochs: 1000
+  learning_rate: 2.0e-05
+  weight_decay: 1.0e-06
+  gradient_clip_norm: 1.0
+  validation_limit: 32
+  validation_checkpoint_interval_steps: 10000
+  sample_inference_count: 2
+  output_dir: /storage1/hehaoran/project/course-track2-codec-experiments/runs/struct4_d_product_later
+  minimum_learning_rate: 5.0e-06
+  warmup_steps: 0
+  checkpoint_keep_last: 3
+  quantizer_learning_rate: 0.0002
+  quantizer_only_steps: 5000
+```
+
+<!-- experiment:struct4_d_product_later:end -->

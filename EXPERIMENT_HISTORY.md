@@ -164,3 +164,16 @@ separate higher learning rate plus a short quantizer-only adaptation phase for
 the newly initialized projection layers. The analytical preflight is identical
 for all four: 650.227 total MFLOP/s, 277.440 decoder MFLOP/s, 30-ms lookahead,
 and 662,109 deployed parameters.
+# Structural quantizer conclusion (2026-10-24)
+
+The controlled projected-quantizer 2 x 2 study is complete; full tables and diagnostics are in `STRUCTURAL_RESULTS.md`.
+
+- Projected residual VQ, 64/64/64: 46.683654.
+- Projected residual VQ, 48/64/80: **46.746343**.
+- Product VQ, 64/64/64: 46.361507.
+- Product VQ, 48/64/80: 46.359523.
+- Frozen pre-study strong baseline: 45.847260.
+
+This changes the diagnosis of the plateau. The surrounding long-TCN waveform codec still had headroom, but the useful direction was a learned lower-dimensional residual hierarchy rather than independent product partitions. Residual VQ improved the score by about 0.35 over product VQ under matched compute and projected dimensions. Later-heavy allocation added a smaller +0.063 within the residual family. All variants used almost every code, so occupancy was not the deciding signal; partial-stage reconstruction showed that product VQ's early partitions carried very little standalone information.
+
+The current strong-baseline marker remains frozen pending multi-seed confirmation. `struct4_b_residual_later` is the leading candidate for that confirmation.
