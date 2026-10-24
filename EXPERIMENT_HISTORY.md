@@ -177,3 +177,27 @@ The controlled projected-quantizer 2 x 2 study is complete; full tables and diag
 This changes the diagnosis of the plateau. The surrounding long-TCN waveform codec still had headroom, but the useful direction was a learned lower-dimensional residual hierarchy rather than independent product partitions. Residual VQ improved the score by about 0.35 over product VQ under matched compute and projected dimensions. Later-heavy allocation added a smaller +0.063 within the residual family. All variants used almost every code, so occupancy was not the deciding signal; partial-stage reconstruction showed that product VQ's early partitions carried very little standalone information.
 
 The current strong-baseline marker remains frozen pending multi-seed confirmation. `struct4_b_residual_later` is the leading candidate for that confirmation.
+
+## 10. Residual stage-allocation seed confirmation
+
+The one-seed `64/64/64` versus `48/64/80` comparison was repeated with seeds
+3407 and 8128, giving three matched seeds per family:
+
+| Family | Three-seed score | Worst seed | Paired wins |
+|---|---:|---:|---:|
+| Residual uniform `64/64/64` | **46.7332 ± 0.1097** | **46.6570** | 1 / 3 |
+| Residual later-heavy `48/64/80` | 46.6869 ± 0.0532 | 46.6438 | 2 / 3 |
+
+Later-heavy minus uniform was `+0.0627`, `+0.0137`, and `-0.2151` across the
+three paired seeds. Uniform has the slightly higher mean, later-heavy has about
+half the variance, and the paired direction conflicts. Under the pre-registered
+rule this is a practical tie, with later-heavy retained only as the
+lower-variance continuation branch. All six runs beat `strong_baseline_v1`, so
+the robust finding is the projected residual hierarchy itself, not the exact
+stage-dimension split.
+
+This closes fine-grained stage allocation as the immediate search axis. The
+next useful experiment should keep projected residual VQ fixed and change a
+larger causal synthesis factor, such as multi-scale decoder refinement or a
+lightweight sub-band synthesis head, under the decoder-compute limit. The
+frozen strong-baseline marker was not changed and the sealed set was not used.

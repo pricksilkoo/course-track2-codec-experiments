@@ -149,6 +149,7 @@ def main() -> None:
                 "| Item | Value |",
                 "|---|---:|",
                 f"| Bitrate (bps) | {complexity.get('bitrate_bps', 'n/a')} |",
+                f"| Algorithmic lookahead (ms) | {fmt(complexity.get('algorithmic_lookahead_ms', 'n/a'), 3)} |",
                 f"| Total MFLOP/s | {fmt(complexity.get('total_mflop_per_s', 'n/a'), 3)} |",
                 f"| Decoder MFLOP/s | {fmt(complexity.get('decoder_mflop_per_s', 'n/a'), 3)} |",
                 f"| Parameters | {complexity.get('parameters', 'n/a')} |",

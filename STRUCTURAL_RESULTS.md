@@ -80,3 +80,19 @@ Recommended next step:
 | B | 100000 | `f9c71919519dbda7d02bdfc56d6eb309cf9a45976d733e29b3fd808b7b77cc1a` |
 | C | 100000 | `9bc86aab038bba0f27907d42d9e93213bd1767acd509af5b6a284089a2e316c5` |
 | D | 80000 | `01451a47dd2f893a8e50ac0569fc05e707bd1f1f48cb0596553aaa26e9681033` |
+
+## Multi-seed follow-up
+
+The pre-registered three-seed confirmation is complete; see
+`STRUCTURAL_SEED_RESULTS.md` for the full per-seed metrics and RVQ diagnostics.
+
+- Residual uniform `64/64/64`: `46.73319 ± 0.10971`.
+- Residual later-heavy `48/64/80`: `46.68695 ± 0.05317`.
+- Paired later-heavy minus uniform differences: `+0.06269`, `+0.01370`, and
+  `-0.21513`.
+
+The mean difference is small and the paired direction is inconsistent, so the
+pre-registered rule records a practical tie. Later-heavy is the lower-variance
+preference for subsequent work; it is not a demonstrated mean-quality winner.
+Both families beat the frozen pre-study baseline in all three seeds. The strong
+baseline marker remains unchanged and the sealed set was not accessed.
