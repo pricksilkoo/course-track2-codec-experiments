@@ -1,0 +1,6 @@
+_base_: ../struct4/b_residual_later.yaml
+
+seed: 8128
+
+training:
+  output_dir: runs/struct4_seed_b_later_8128

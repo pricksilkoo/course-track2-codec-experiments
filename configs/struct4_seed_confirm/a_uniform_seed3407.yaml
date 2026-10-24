@@ -1,0 +1,6 @@
+_base_: ../struct4/a_residual_uniform.yaml
+
+seed: 3407
+
+training:
+  output_dir: runs/struct4_seed_a_uniform_3407
