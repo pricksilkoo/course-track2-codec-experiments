@@ -210,3 +210,29 @@ was chosen for one sealed confirmation. Its seed-20261024 checkpoint scored
 a gain of `+0.9795`, while improving all four component metrics. The checkpoint
 therefore became `strong_baseline_v2`. The following decoder study does not use
 the sealed set for candidate comparison.
+
+## 11. Decoder synthesis and training-only distillation
+
+Starting from `strong_baseline_v2`, four matched seed-20261025 continuations
+were trained for 100000 steps and evaluated on the fixed 200-file development
+set. Full details are in `DECODER4_RESULTS.md`.
+
+| Variant | Score | Delta vs v2 | Total / decoder MFLOP/s |
+|---|---:|---:|---:|
+| A continuation control | 47.1943 | +0.4480 | 650.227 / 277.440 |
+| B causal multiscale refiner | 47.2741 | +0.5277 | 657.139 / 284.352 |
+| C Haar subband synthesis | 47.0528 | +0.3064 | 657.075 / 284.288 |
+| D training-only distillation | **47.3227** | **+0.5763** | 650.227 / 277.440 |
+
+Most of the gain came from another short continuation: all four selected their
+best checkpoint at 10000 new steps, and the control alone gained 0.4480. The
+full-band multiscale head added a smaller +0.0797 over control, while the tested
+Haar head lost 0.1416. Training-only waveform/spectral distillation was best,
+adding +0.1283 over control with no deployment cost. Codebook occupancy and
+entropy remained healthy, so this is a synthesis/training effect rather than a
+codebook-collapse repair.
+
+D is the leading development candidate but is not promoted from a single seed.
+The next registered study should add two seeds for D and for multiscale plus
+distillation, then compare three-seed mean and variance before using the sealed
+confirmation set again.
