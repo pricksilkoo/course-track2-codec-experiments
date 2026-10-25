@@ -250,6 +250,93 @@ class WaveformDecoder(nn.Module):
         return torch.tanh(self.output_conv(x))
 
 
+class CausalDilatedConv1d(nn.Module):
+    """Length-preserving causal convolution with an explicit dilation."""
+
+    def __init__(
+        self,
+        in_channels: int,
+        out_channels: int,
+        kernel_size: int,
+        dilation: int,
+    ) -> None:
+        super().__init__()
+        self.left_padding = dilation * (kernel_size - 1)
+        self.conv = nn.Conv1d(
+            in_channels,
+            out_channels,
+            kernel_size,
+            dilation=dilation,
+        )
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        return self.conv(F.pad(x, (self.left_padding, 0)))
+
+
+class MultiScaleWaveformRefiner(nn.Module):
+    """Small causal full-band residual head with three receptive-field scales."""
+
+    def __init__(self, channels: int = 4) -> None:
+        super().__init__()
+        if channels < 1:
+            raise ValueError("refinement channels must be positive")
+        self.input = CausalConv1d(1, channels, kernel_size=5)
+        self.branches = nn.ModuleList(
+            CausalDilatedConv1d(channels, channels, kernel_size=3, dilation=dilation)
+            for dilation in (1, 4, 16)
+        )
+        self.fuse = nn.Conv1d(3 * channels, channels, kernel_size=1)
+        self.output = nn.Conv1d(channels, 1, kernel_size=1)
+        # Exact identity at initialization so warm-starting cannot damage the
+        # already trained decoder before this residual head receives updates.
+        nn.init.zeros_(self.output.weight)
+        nn.init.zeros_(self.output.bias)
+
+    def forward(self, waveform: torch.Tensor) -> torch.Tensor:
+        hidden = F.gelu(self.input(waveform))
+        scales = [F.gelu(branch(hidden)) for branch in self.branches]
+        correction = self.output(F.gelu(self.fuse(torch.cat(scales, dim=1))))
+        return torch.clamp(waveform + correction, -1.0, 1.0)
+
+
+class HaarSubbandWaveformRefiner(nn.Module):
+    """Causal two-band residual correction using a fixed Haar filter bank."""
+
+    def __init__(self, channels: int = 8) -> None:
+        super().__init__()
+        if channels < 1:
+            raise ValueError("refinement channels must be positive")
+        self.analysis = nn.Conv1d(1, 2, kernel_size=2, stride=2, bias=False)
+        self.synthesis = nn.ConvTranspose1d(
+            2, 1, kernel_size=2, stride=2, bias=False
+        )
+        scale = 1.0 / math.sqrt(2.0)
+        haar = torch.tensor(
+            [[[scale, scale]], [[scale, -scale]]], dtype=torch.float32
+        )
+        with torch.no_grad():
+            self.analysis.weight.copy_(haar)
+            self.synthesis.weight.copy_(haar)
+        self.analysis.weight.requires_grad_(False)
+        self.synthesis.weight.requires_grad_(False)
+        self.input = nn.Conv1d(2, channels, kernel_size=1)
+        self.blocks = nn.ModuleList(
+            CausalDilatedConv1d(channels, channels, kernel_size=3, dilation=dilation)
+            for dilation in (1, 2)
+        )
+        self.output = nn.Conv1d(channels, 2, kernel_size=1)
+        nn.init.zeros_(self.output.weight)
+        nn.init.zeros_(self.output.bias)
+
+    def forward(self, waveform: torch.Tensor) -> torch.Tensor:
+        bands = self.analysis(waveform)
+        hidden = F.gelu(self.input(bands))
+        for block in self.blocks:
+            hidden = F.gelu(block(hidden))
+        correction = self.synthesis(self.output(hidden))
+        return torch.clamp(waveform + correction, -1.0, 1.0)
+
+
 class ResidualVectorQuantizer(nn.Module):
     """EMA residual VQ with k-means initialization and dead-code replacement."""
 
@@ -1061,6 +1148,8 @@ class CourseCodec(nn.Module):
         temporal_transformer_ffn_dim: int = 128,
         encoder_history_frames: int = 16,
         decoder_history_frames: int = 16,
+        decoder_refinement: str = "none",
+        decoder_refinement_channels: int = 4,
         architecture: str = "baseline",
         minimimi_encoder_channels: Iterable[int] = (12, 24, 48, 96, 192),
         minimimi_decoder_channels: Iterable[int] = (128, 64, 32, 16, 8),
@@ -1171,6 +1260,7 @@ class CourseCodec(nn.Module):
                 residual_compression=minimimi_residual_compression,
                 upsample_overlap=minimimi_upsample_overlap,
             )
+            self.decoder_refinement = nn.Identity()
             return
         if architecture != "baseline":
             raise ValueError(f"unsupported codec architecture: {architecture}")
@@ -1260,6 +1350,20 @@ class CourseCodec(nn.Module):
         self.decoder = WaveformDecoder(
             decoder_channels, decoder_strides, residual_blocks, residual_kernel_size
         )
+        if decoder_refinement == "none":
+            self.decoder_refinement: nn.Module = nn.Identity()
+        elif decoder_refinement == "multiscale":
+            self.decoder_refinement = MultiScaleWaveformRefiner(
+                decoder_refinement_channels
+            )
+        elif decoder_refinement == "haar_subband":
+            self.decoder_refinement = HaarSubbandWaveformRefiner(
+                decoder_refinement_channels
+            )
+        else:
+            raise ValueError(
+                f"unsupported decoder_refinement: {decoder_refinement}"
+            )
 
     @staticmethod
     def pad_to_frame(waveform: torch.Tensor) -> tuple[torch.Tensor, int]:
@@ -1288,7 +1392,7 @@ class CourseCodec(nn.Module):
             embeddings = self.synthesis_transformer(embeddings)
         else:
             embeddings = self.synthesis_temporal(embeddings)
-        waveform = self.decoder(embeddings)
+        waveform = self.decoder_refinement(self.decoder(embeddings))
         return waveform[..., :length] if length is not None else waveform
 
     def forward(
@@ -1310,13 +1414,13 @@ class CourseCodec(nn.Module):
             embeddings = self.analysis_temporal(self.latent_norm(self.encoder(padded)))
         quantized, indices, quantizer_loss = self.quantizer(embeddings)
         if self.architecture == "minimimi" or self.temporal_model == "transformer":
-            reconstructed = self.decoder(self.synthesis_transformer(quantized))[
-                ..., :original_length
-            ]
+            reconstructed = self.decoder_refinement(
+                self.decoder(self.synthesis_transformer(quantized))
+            )[..., :original_length]
         else:
-            reconstructed = self.decoder(self.synthesis_temporal(quantized))[
-                ..., :original_length
-            ]
+            reconstructed = self.decoder_refinement(
+                self.decoder(self.synthesis_temporal(quantized))
+            )[..., :original_length]
         if return_aux:
             auxiliary: dict[str, torch.Tensor] = {}
             if isinstance(self.quantizer, SplitResidualVectorQuantizer):

@@ -1,0 +1,13 @@
+_base_: ../struct4/b_residual_later.yaml
+
+seed: 20261025
+
+training:
+  learning_rate: 0.00002
+  minimum_learning_rate: 0.000005
+  quantizer_learning_rate: 0.00002
+  quantizer_only_steps: 0
+  validation_checkpoint_interval_steps: 10000
+  checkpoint_keep_last: 3
+  output_dir: runs/decoder4_a_control
+

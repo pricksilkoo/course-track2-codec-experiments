@@ -99,6 +99,52 @@ def test_projected_residual_rvq_round_trip_and_gradients() -> None:
     assert torch.allclose(direct, decoded, atol=1e-6)
 
 
+def test_decoder_refiners_start_as_exact_identity_and_round_trip() -> None:
+    waveform = torch.randn(2, 1, 3200)
+    reference = CourseCodec(
+        quantizer_type="projected_rvq",
+        projected_stage_dims=[48, 64, 80],
+    )
+    reference.train()
+    reference(waveform)
+    state = reference.state_dict()
+    reference.eval()
+    expected, expected_indices, _ = reference(waveform)
+    for refinement, channels in (("multiscale", 4), ("haar_subband", 8)):
+        model = CourseCodec(
+            quantizer_type="projected_rvq",
+            projected_stage_dims=[48, 64, 80],
+            decoder_refinement=refinement,
+            decoder_refinement_channels=channels,
+        )
+        model.load_state_dict(state, strict=False)
+        model.eval()
+        actual, indices, _ = model(waveform)
+        decoded = model.decode(indices, waveform.size(-1))
+        assert torch.equal(indices, expected_indices)
+        assert torch.allclose(actual, expected, atol=1e-6)
+        assert torch.allclose(actual, decoded, atol=1e-6)
+
+
+def test_decoder_refiners_are_causal() -> None:
+    prefix = torch.randn(2, 1, 1600)
+    changed = prefix.clone()
+    changed[..., 800:] = torch.randn_like(changed[..., 800:])
+    for refinement in ("multiscale", "haar_subband"):
+        model = CourseCodec(
+            decoder_refinement=refinement,
+            decoder_refinement_channels=4,
+        )
+        refiner = model.decoder_refinement
+        with torch.no_grad():
+            refiner.output.weight.normal_(0.0, 0.01)
+        original_output = refiner(prefix)
+        changed_output = refiner(changed)
+        assert torch.allclose(
+            original_output[..., :800], changed_output[..., :800], atol=1e-6
+        )
+
+
 def test_product_vq_stage_diagnostics_reconstruct_quantized_latent() -> None:
     model = CourseCodec(
         quantizer_type="product_vq",

@@ -201,3 +201,12 @@ next useful experiment should keep projected residual VQ fixed and change a
 larger causal synthesis factor, such as multi-scale decoder refinement or a
 lightweight sub-band synthesis head, under the decoder-compute limit. The
 frozen strong-baseline marker was not changed and the sealed set was not used.
+
+### One-shot promotion after the study
+
+Following the pre-registered tie rule, the lower-variance later-heavy family
+was chosen for one sealed confirmation. Its seed-20261024 checkpoint scored
+`44.9637` on the 400-file LibriTTS set versus the previous confirmed `43.9842`,
+a gain of `+0.9795`, while improving all four component metrics. The checkpoint
+therefore became `strong_baseline_v2`. The following decoder study does not use
+the sealed set for candidate comparison.

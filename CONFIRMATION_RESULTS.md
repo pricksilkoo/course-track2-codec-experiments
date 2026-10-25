@@ -64,3 +64,27 @@ This is `+0.3939` over the previously confirmed refine4-D score of `43.5903`
 on the same set. The final checkpoint passes the exact bitstream validation and
 retains 2400 bps, 30 ms delay, 676.032 total MFLOP/s, and 265.152 decoder
 MFLOP/s.
+
+## Projected residual-VQ structural confirmation
+
+After the projected residual family completed its pre-registered three-seed
+study, the lower-variance `48/64/80` family was selected. Exactly one of its
+checkpoints, the original seed-20261024 `struct4_b_residual_later` candidate,
+was evaluated on the sealed 400-file set.
+
+| Checkpoint | Score | PESQ-WB | ESTOI | SI-SNR (dB) | UTMOS |
+|---|---:|---:|---:|---:|---:|
+| Previous confirmed D seed-8128 | 43.9842 | 1.8668 | 0.7476 | 3.7052 | 2.6787 |
+| Projected residual later-heavy | **44.9637** | **1.9015** | **0.7561** | **4.0573** | **2.7267** |
+
+The structural codec improves the sealed objective by `+0.9795` and improves
+all four component metrics. Its checkpoint SHA-256 is
+`f9c71919519dbda7d02bdfc56d6eb309cf9a45976d733e29b3fd808b7b77cc1a`.
+The bitstream validator passed exactly three bytes per 10-ms frame. Measured
+constraints are 2400 bit/s, 30 ms lookahead, 650.2272 total MFLOP/s, 277.440
+decoder MFLOP/s, and 662109 parameters.
+
+This one-shot confirmation promotes the projected residual codec to
+`strong_baseline_v2`. The sealed result is a final confirmation result, not an
+additional tuning target; the subsequent decoder study continues to use only
+the fixed 200-file development set for model comparison.

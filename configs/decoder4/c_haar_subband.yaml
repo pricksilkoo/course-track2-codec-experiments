@@ -1,0 +1,9 @@
+_base_: a_control.yaml
+
+model:
+  decoder_refinement: haar_subband
+  decoder_refinement_channels: 8
+
+training:
+  output_dir: runs/decoder4_c_haar_subband
+

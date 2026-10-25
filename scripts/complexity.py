@@ -73,7 +73,14 @@ def main() -> None:
     decoder = sum(
         value
         for name, value in macs.items()
-        if name.startswith(("decoder.", "synthesis_temporal.", "synthesis_transformer."))
+        if name.startswith(
+            (
+                "decoder.",
+                "decoder_refinement.",
+                "synthesis_temporal.",
+                "synthesis_transformer.",
+            )
+        )
     )
     quantizer_projections = sum(
         value for name, value in macs.items() if name.startswith("quantizer.")

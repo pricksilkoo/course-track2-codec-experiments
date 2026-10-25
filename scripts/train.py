@@ -74,6 +74,24 @@ def build_semantic_teacher(
     return teacher, layer, projection.to(device)
 
 
+def build_waveform_teacher(
+    config: dict, device: torch.device
+) -> tuple[CourseCodec, dict] | None:
+    """Load an optional frozen codec teacher used only during training."""
+    distillation = config.get("waveform_distillation", {})
+    if not distillation.get("enabled", False):
+        return None
+    checkpoint = Path(str(distillation["checkpoint"]))
+    if not checkpoint.is_absolute():
+        checkpoint = ROOT / checkpoint
+    state = torch.load(checkpoint, map_location=device, weights_only=False)
+    teacher = CourseCodec(**state["model_config"]).to(device)
+    teacher.load_state_dict(state["model"])
+    teacher.eval()
+    teacher.requires_grad_(False)
+    return teacher, distillation
+
+
 def semantic_teacher_targets(
     state: tuple[torch.nn.Module, int, torch.Tensor],
     reference: torch.Tensor,
@@ -513,6 +531,7 @@ def main() -> None:
 
     base_model = CourseCodec(**config["model"]).to(device)
     semantic_teacher = build_semantic_teacher(config, device)
+    waveform_teacher = build_waveform_teacher(config, device)
     base_discriminator = MultiResolutionSTFTDiscriminator(
         config["adversarial"]["resolutions"],
         config["adversarial"].get("periods", ()),
@@ -708,6 +727,29 @@ def main() -> None:
                 config["loss"]["waveform_l1_weight"] * waveform_loss
                 + config["loss"]["spectral_weight"] * spectral_loss
             )
+            if waveform_teacher is not None:
+                teacher, distillation = waveform_teacher
+                with torch.inference_mode():
+                    teacher_reconstruction = teacher(reference)[0]
+                reconstruction_loss = reconstruction_loss + float(
+                    distillation.get("waveform_l1_weight", 0.0)
+                ) * F.l1_loss(reconstructed, teacher_reconstruction)
+                distillation_spectral_weight = float(
+                    distillation.get("spectral_weight", 0.0)
+                )
+                if distillation_spectral_weight:
+                    reconstruction_loss = reconstruction_loss + (
+                        distillation_spectral_weight
+                        * multiscale_spectral_loss(
+                            reconstructed,
+                            teacher_reconstruction,
+                            config["loss"]["fft_sizes"],
+                            config["loss"].get(
+                                "spectral_convergence_weight", 0.0
+                            ),
+                            config["loss"].get("linear_magnitude_weight", 0.0),
+                        )
+                    )
             si_snr_weight = float(config["loss"].get("si_snr_weight", 0.0))
             if si_snr_weight:
                 reconstruction_loss = reconstruction_loss + (

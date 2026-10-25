@@ -106,3 +106,12 @@ small allocation effect is sensitive to optimization and checkpoint selection.
    test multi-scale decoder refinement or a lightweight sub-band synthesis
    head, with a matched control and strict decoder-MFLOP preflight.
 
+## Post-study promotion
+
+After this tuning study closed, the pre-selected lower-variance later-heavy
+checkpoint received its single sealed confirmation evaluation. It scored
+`44.9637`, improving the previous confirmed result `43.9842` by `+0.9795` and
+improving PESQ, ESTOI, SI-SNR, and UTMOS simultaneously. It is therefore
+registered separately as `strong_baseline_v2`. No other structural candidate
+was evaluated on the sealed set.
+

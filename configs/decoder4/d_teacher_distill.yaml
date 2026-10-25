@@ -1,0 +1,11 @@
+_base_: a_control.yaml
+
+waveform_distillation:
+  enabled: true
+  checkpoint: runs/struct4_seed_a_uniform_8128/checkpoints/best.pt
+  waveform_l1_weight: 0.1
+  spectral_weight: 0.1
+
+training:
+  output_dir: runs/decoder4_d_teacher_distill
+
