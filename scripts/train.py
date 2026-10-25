@@ -549,12 +549,18 @@ def main() -> None:
         )
         source_model = initialization_state["model"]
         target_model = base_model.state_dict()
-        source_codebook = source_model.get("quantizer.codebooks")
-        target_codebook = target_model.get("quantizer.codebooks")
+        source_quantizer = {
+            key: value for key, value in source_model.items() if key.startswith("quantizer.")
+        }
+        target_quantizer = {
+            key: value for key, value in target_model.items() if key.startswith("quantizer.")
+        }
         quantizer_changed = (
-            source_codebook is None
-            or target_codebook is None
-            or source_codebook.shape != target_codebook.shape
+            source_quantizer.keys() != target_quantizer.keys()
+            or any(
+                source_quantizer[key].shape != target_quantizer[key].shape
+                for key in source_quantizer.keys() & target_quantizer.keys()
+            )
         )
         load_compatible_state(
             base_model,
