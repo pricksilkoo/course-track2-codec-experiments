@@ -1,0 +1,38 @@
+name: strong_baseline_v2
+promoted_date: 2026-10-25
+git_commit_with_results: 6afab92
+run_directory: runs/struct4_b_residual_later
+checkpoint: runs/struct4_b_residual_later/checkpoints/best.pt
+checkpoint_sha256: f9c71919519dbda7d02bdfc56d6eb309cf9a45976d733e29b3fd808b7b77cc1a
+selection_set: fixed 200-file development set after three-seed family confirmation
+selection_metrics:
+  objective_quality_score: 46.746343068256394
+  PESQ: 1.9981527459621429
+  ESTOI: 0.7287820590353985
+  SI_SNR: 5.178890602253455
+  UTMOS: 2.9056515991687775
+constraints:
+  bitrate_bps: 2400
+  algorithmic_lookahead_ms: 30
+  total_mflop_per_s: 650.2272
+  decoder_mflop_per_s: 277.44
+  parameters: 662109
+model:
+  architecture: causal waveform encoder-decoder with long latent TCN
+  quantizer: three-stage projected residual EMA VQ
+  projected_stage_dims: [48, 64, 80]
+  frame_rate_hz: 100
+  encoder_temporal_layers: 4
+  decoder_temporal_layers: 2
+  encoder_lookahead_frames: 3
+  rvq_stage_commitment_weights: [1.0, 1.5, 2.0]
+  rvq_usage_loss_weight: 0.001
+confirmation:
+  status: confirmed on one-shot sealed 400-file LibriTTS set
+  objective_quality_score: 44.96366009080528
+  PESQ: 1.901539697945118
+  ESTOI: 0.7560905892428204
+  SI_SNR: 4.057308079973455
+  UTMOS: 2.726732015609741
+  previous_confirmed_score: 43.984172910173584
+  delta: 0.979487180631696
