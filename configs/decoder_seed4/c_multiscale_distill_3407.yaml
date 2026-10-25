@@ -1,0 +1,11 @@
+_base_: ../decoder4/d_teacher_distill.yaml
+
+seed: 3407
+
+model:
+  decoder_refinement: multiscale
+  decoder_refinement_channels: 4
+
+training:
+  validation_checkpoint_interval_steps: 5000
+  output_dir: runs/decoder_seed4_c_multiscale_distill_3407

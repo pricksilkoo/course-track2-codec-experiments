@@ -1,0 +1,7 @@
+_base_: ../decoder4/d_teacher_distill.yaml
+
+seed: 8128
+
+training:
+  validation_checkpoint_interval_steps: 5000
+  output_dir: runs/decoder_seed4_b_distill_8128
