@@ -236,3 +236,25 @@ D is the leading development candidate but is not promoted from a single seed.
 The next registered study should add two seeds for D and for multiscale plus
 distillation, then compare three-seed mean and variance before using the sealed
 confirmation set again.
+
+## 12. Distillation seed stability and multiscale composition
+
+The decoder follow-up added seeds 3407 and 8128 for pure training-only
+distillation and for multiscale refinement plus distillation. Full results are
+in `DECODER_SEED4_RESULTS.md`.
+
+Pure distillation scored 47.3227, 46.8630, and 46.8433 across seeds 20261025,
+3407, and 8128, for **47.0097 +/- 0.2713** (sample standard deviation). The
+original 47.3227 result is the high member of the distribution, so it is not a
+robust basis for replacing `strong_baseline_v2`.
+
+The multiscale composition lost to pure distillation at both matched new seeds:
+-0.1666 at seed 3407 and -0.0577 at seed 8128, for a paired mean of -0.1121.
+All runs satisfy 2400 bps, 30 ms lookahead, 700 total MFLOP/s, and 300 decoder
+MFLOP/s limits. RVQ occupancy, entropy, residual reduction, and partial
+reconstruction remain healthy and do not explain the composition loss.
+
+The multiscale-plus-distillation branch is closed without a third seed.
+`strong_baseline_v2` remains frozen. The next clean causal experiment is a
+matched two-seed continuation control versus pure distillation, rather than
+another decoder-head change. The sealed confirmation set was not used.
