@@ -258,3 +258,33 @@ The multiscale-plus-distillation branch is closed without a third seed.
 `strong_baseline_v2` remains frozen. The next clean causal experiment is a
 matched two-seed continuation control versus pure distillation, rather than
 another decoder-head change. The sealed confirmation set was not used.
+
+## 13. Decoder causal controls and early-window SWA
+
+Matched no-distillation controls at seeds 3407 and 8128 scored 46.3005 and
+46.3444. The corresponding raw distillation runs scored 46.8630 and 46.8433,
+giving paired gains of +0.5625 and +0.4988 and a paired mean of **+0.5307**.
+Because distillation wins both seeds without a material component regression,
+it satisfies the pre-registered causal criterion: the teacher signal adds a
+real perceptual synthesis benefit beyond ordinary continuation.
+
+The registered early-window averages of steps 2500/5000/7500/10000 scored
+44.5262 and 45.0291. They lose 2.3368 and 1.8142 points against their matched
+raw-distillation runs, so SWA decisively fails the retention rule. PESQ,
+ESTOI, and SI-SNR all regress despite slightly higher UTMOS. RVQ active-code
+counts remain near complete, but stage-one perplexity and total marginal
+entropy fall and full-rate reconstruction degrades. This indicates that
+averaging across the early GAN/quantizer trajectory breaks functional
+alignment even though simple occupancy still looks healthy.
+
+All four candidates remain valid at exactly 2400 bps, 30 ms lookahead,
+650.2272 total MFLOP/s, and 277.44 decoder MFLOP/s. Full metrics and hashes are
+in `DECODER_STABILITY4_RESULTS.md`. The sealed set was not used and
+`strong_baseline_v2` remains unchanged.
+
+The stable conclusion is therefore narrower than the best single-seed score:
+training-only distillation is causally useful, but its raw three-seed result
+still has substantial variance. Early-window SWA is closed. A future stability
+study should use a function-preserving alternative such as training-time EMA
+or a late, already-stable averaging window, screened on matched development
+seeds before any sealed confirmation.
