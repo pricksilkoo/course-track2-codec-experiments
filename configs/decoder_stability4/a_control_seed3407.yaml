@@ -1,0 +1,7 @@
+_base_: ../decoder4/a_control.yaml
+
+seed: 3407
+
+training:
+  validation_checkpoint_interval_steps: 5000
+  output_dir: runs/decoder_stability4_a_control_3407

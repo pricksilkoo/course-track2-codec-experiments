@@ -1,0 +1,8 @@
+_base_: ../decoder4/d_teacher_distill.yaml
+
+seed: 8128
+
+training:
+  validation_checkpoint_interval_steps: 2500
+  checkpoint_keep_last: 12
+  output_dir: runs/decoder_stability4_d_distill_swa_8128
