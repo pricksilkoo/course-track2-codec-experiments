@@ -1,0 +1,11 @@
+_base_: ../decoder4/d_teacher_distill.yaml
+
+seed: 3407
+
+waveform_distillation:
+  start_step: 10000
+  warmup_steps: 5000
+
+training:
+  validation_checkpoint_interval_steps: 5000
+  output_dir: runs/stability5_c_delayed_distill_3407

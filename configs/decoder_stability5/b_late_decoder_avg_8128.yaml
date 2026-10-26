@@ -1,0 +1,11 @@
+_base_: ../decoder_seed4/b_distill_seed8128.yaml
+
+posthoc_average:
+  method: decoder_only_uniform
+  source_run: runs/decoder_seed4_b_distill_8128
+  checkpoint_steps: [20000, 25000, 30000]
+  base_step: 30000
+  include_prefixes: [decoder.]
+
+training:
+  output_dir: runs/stability5_b_late_decoder_avg_8128

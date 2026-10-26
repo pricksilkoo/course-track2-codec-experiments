@@ -13,6 +13,7 @@ from ssp_codec.io import read_bitstream, write_bitstream
 from ssp_codec.config import apply_overrides, load_config
 from ssp_codec.losses import negative_si_snr_loss
 from ssp_codec.model import CausalTemporalStack, CourseCodec
+from ssp_codec.schedules import distillation_factor
 
 
 def test_fixed_2p4k_shape_and_indices() -> None:
@@ -374,3 +375,16 @@ def test_minimimi_future_dependency_is_limited_to_three_frames() -> None:
     # Input changes at frame 10 can affect frames 7--9 through the one-time
     # lookahead, but never frame 6 or earlier despite the three-layer stack.
     assert torch.allclose(original_latent[:, :7], changed_latent[:, :7], atol=1e-5)
+
+
+def test_distillation_factor_supports_delay_and_linear_ramp() -> None:
+    schedule = {"start_step": 10000, "warmup_steps": 5000}
+    assert distillation_factor(9999, schedule) == 0.0
+    assert distillation_factor(10000, schedule) == 1.0 / 5000.0
+    assert distillation_factor(12499, schedule) == 0.5
+    assert distillation_factor(14999, schedule) == 1.0
+    assert distillation_factor(20000, schedule) == 1.0
+
+
+def test_distillation_factor_preserves_legacy_always_on_behavior() -> None:
+    assert distillation_factor(1, {}) == 1.0

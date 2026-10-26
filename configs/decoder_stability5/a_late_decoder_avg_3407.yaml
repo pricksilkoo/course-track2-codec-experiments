@@ -1,0 +1,11 @@
+_base_: ../decoder_seed4/a_distill_seed3407.yaml
+
+posthoc_average:
+  method: decoder_only_uniform
+  source_run: runs/decoder_seed4_a_distill_3407
+  checkpoint_steps: [20000, 25000, 30000]
+  base_step: 30000
+  include_prefixes: [decoder.]
+
+training:
+  output_dir: runs/stability5_a_late_decoder_avg_3407
