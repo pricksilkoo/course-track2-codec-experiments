@@ -8464,3 +8464,517 @@ waveform_distillation:
 ```
 
 <!-- experiment:decoder_stability4_d_distill_swa_8128:end -->
+
+<!-- experiment:stability5_a_late_decoder_avg_3407:start -->
+## stability5_a_late_decoder_avg_3407
+
+- Status: `complete`
+- Updated (UTC): `2026-10-26T11:48:47.555834+00:00`
+- Git commit: `abec142e8810bf1f915822ad27015ea5c6b67c7d`
+- Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/stability5_a_late_decoder_avg_3407`
+- Note: post-hoc decoder-only stable-window average completed
+- Best checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/stability5_a_late_decoder_avg_3407/checkpoints/best.pt`
+- Checkpoint SHA-256: `75ace729d6bb12ee962dc1372f4163aea854bf3af1028b3efa1f3c3161de7d54`
+
+### Dataset
+
+| Item | Value |
+|---|---:|
+| Training files | 394988 |
+| Validation files | 14596 |
+| VCTK training files | 40208 |
+| VCTK validation files | 4247 |
+| LibriTTS training files | 354780 |
+| LibriTTS validation files | 10349 |
+
+### Last training validation
+
+| Item | Value |
+|---|---:|
+| Epoch | 3 |
+| Global step | 30000 |
+| Train loss | 0.607160 |
+| Reconstruction loss | 0.131211 |
+| Waveform L1 | 0.014375 |
+| Spectral loss | 0.116836 |
+| Commitment loss | 0.102483 |
+
+### Objective evaluation
+
+| Item | Value |
+|---|---:|
+| Files | 200 |
+| PESQ-WB | 2.0004 |
+| ESTOI | 0.7316 |
+| SI-SNR (dB) | 5.2448 |
+| UTMOS | 2.9219 |
+| Course objective score | 46.9762 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Algorithmic lookahead (ms) | 30 |
+| Total MFLOP/s | 650.227 |
+| Decoder MFLOP/s | 277.440 |
+| Parameters | 662109 |
+
+### Effective configuration
+
+```yaml
+_base_: ../decoder_seed4/a_distill_seed3407.yaml
+
+posthoc_average:
+  method: decoder_only_uniform
+  source_run: runs/decoder_seed4_a_distill_3407
+  checkpoint_steps: [20000, 25000, 30000]
+  base_step: 30000
+  include_prefixes: [decoder.]
+
+training:
+  output_dir: runs/stability5_a_late_decoder_avg_3407
+```
+
+<!-- experiment:stability5_a_late_decoder_avg_3407:end -->
+
+<!-- experiment:stability5_b_late_decoder_avg_8128:start -->
+## stability5_b_late_decoder_avg_8128
+
+- Status: `complete`
+- Updated (UTC): `2026-10-26T11:50:44.942311+00:00`
+- Git commit: `abec142e8810bf1f915822ad27015ea5c6b67c7d`
+- Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/stability5_b_late_decoder_avg_8128`
+- Note: post-hoc decoder-only stable-window average completed
+- Best checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/stability5_b_late_decoder_avg_8128/checkpoints/best.pt`
+- Checkpoint SHA-256: `ad6267eb59ea884eeffdc914eb3c90fd7453668beea50427463e5173ada9cc95`
+
+### Dataset
+
+| Item | Value |
+|---|---:|
+| Training files | 394988 |
+| Validation files | 14596 |
+| VCTK training files | 40208 |
+| VCTK validation files | 4247 |
+| LibriTTS training files | 354780 |
+| LibriTTS validation files | 10349 |
+
+### Last training validation
+
+| Item | Value |
+|---|---:|
+| Epoch | 3 |
+| Global step | 30000 |
+| Train loss | 0.607587 |
+| Reconstruction loss | 0.130951 |
+| Waveform L1 | 0.014329 |
+| Spectral loss | 0.116622 |
+| Commitment loss | 0.103712 |
+
+### Objective evaluation
+
+| Item | Value |
+|---|---:|
+| Files | 200 |
+| PESQ-WB | 1.9991 |
+| ESTOI | 0.7301 |
+| SI-SNR (dB) | 5.2361 |
+| UTMOS | 2.9256 |
+| Course objective score | 46.9475 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Algorithmic lookahead (ms) | 30 |
+| Total MFLOP/s | 650.227 |
+| Decoder MFLOP/s | 277.440 |
+| Parameters | 662109 |
+
+### Effective configuration
+
+```yaml
+_base_: ../decoder_seed4/b_distill_seed8128.yaml
+
+posthoc_average:
+  method: decoder_only_uniform
+  source_run: runs/decoder_seed4_b_distill_8128
+  checkpoint_steps: [20000, 25000, 30000]
+  base_step: 30000
+  include_prefixes: [decoder.]
+
+training:
+  output_dir: runs/stability5_b_late_decoder_avg_8128
+```
+
+<!-- experiment:stability5_b_late_decoder_avg_8128:end -->
+
+<!-- experiment:stability5_c_delayed_distill_3407:start -->
+## stability5_c_delayed_distill_3407
+
+- Status: `complete`
+- Updated (UTC): `2026-10-26T13:49:59.288883+00:00`
+- Git commit: `abec142e8810bf1f915822ad27015ea5c6b67c7d`
+- Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/stability5_c_delayed_distill_3407`
+- Note: 30000-step decoder synthesis study completed; diagnostics: /storage1/hehaoran/project/course-track2-codec-experiments/runs/stability5_c_delayed_distill_3407/rvq_diagnostics.json
+- Best checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/stability5_c_delayed_distill_3407/checkpoints/best.pt`
+- Checkpoint SHA-256: `bc9553092640b86dde4c8e39b93bff2b17252c7e05428b762c82c0d3a8094fee`
+
+### Dataset
+
+| Item | Value |
+|---|---:|
+| Training files | 394988 |
+| Validation files | 14596 |
+| VCTK training files | 40208 |
+| VCTK validation files | 4247 |
+| LibriTTS training files | 354780 |
+| LibriTTS validation files | 10349 |
+
+### Last training validation
+
+| Item | Value |
+|---|---:|
+| Epoch | 3 |
+| Global step | 30000 |
+| Train loss | 0.608314 |
+| Reconstruction loss | 0.131190 |
+| Waveform L1 | 0.014328 |
+| Spectral loss | 0.116862 |
+| Commitment loss | 0.104190 |
+
+### Objective evaluation
+
+| Item | Value |
+|---|---:|
+| Files | 200 |
+| PESQ-WB | 2.0586 |
+| ESTOI | 0.7425 |
+| SI-SNR (dB) | 5.5556 |
+| UTMOS | 2.6619 |
+| Course objective score | 46.2324 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Algorithmic lookahead (ms) | 30 |
+| Total MFLOP/s | 650.227 |
+| Decoder MFLOP/s | 277.440 |
+| Parameters | 662109 |
+
+### Effective configuration
+
+```yaml
+seed: 3407
+audio:
+  sample_rate: 16000
+  frame_samples: 160
+  segment_samples: 32000
+model:
+  sample_rate: 16000
+  frame_samples: 160
+  quantizer_type: projected_rvq
+  encoder_channels:
+  - 8
+  - 16
+  - 32
+  - 64
+  - 160
+  encoder_strides:
+  - 2
+  - 4
+  - 4
+  - 5
+  decoder_channels:
+  - 160
+  - 48
+  - 24
+  - 12
+  - 8
+  decoder_strides:
+  - 5
+  - 4
+  - 4
+  - 2
+  residual_blocks: 3
+  residual_kernel_size: 3
+  rvq_num_codebooks: 3
+  rvq_codebook_size: 256
+  rvq_codebook_dim: 160
+  commitment_weight: 0.1
+  rvq_ema_decay: 0.95
+  rvq_dead_code_threshold: 0.5
+  rvq_dead_code_after_updates: 100
+  rvq_kmeans_iterations: 10
+  encoder_temporal_layers: 4
+  decoder_temporal_layers: 2
+  temporal_kernel_size: 3
+  temporal_expansion: 1
+  fsq_levels:
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  encoder_lookahead_frames: 3
+  decoder_lookahead_frames: 0
+  rvq_usage_loss_weight: 0.001
+  rvq_usage_temperature: 1.0
+  rvq_stage_commitment_weights:
+  - 1.0
+  - 1.5
+  - 2.0
+  projected_stage_dims:
+  - 48
+  - 64
+  - 80
+loss:
+  waveform_l1_weight: 1.0
+  spectral_weight: 1.0
+  fft_sizes:
+  - 256
+  - 512
+  - 1024
+  spectral_convergence_weight: 0.25
+  linear_magnitude_weight: 0.1
+  adversarial_weight: 0.05
+  feature_matching_weight: 1.5
+  si_snr_weight: 0.003
+adversarial:
+  resolutions:
+  - - 256
+    - 64
+    - 256
+  - - 512
+    - 128
+    - 512
+  - - 1024
+    - 256
+    - 1024
+  start_step: 5000
+  warmup_steps: 10000
+  learning_rate: 0.0002
+  gradient_clip_norm: 10.0
+  periods:
+  - 2
+  - 3
+  - 5
+  - 7
+  - 11
+training:
+  batch_size: 32
+  num_workers: 8
+  epochs: 1000
+  learning_rate: 2.0e-05
+  weight_decay: 1.0e-06
+  gradient_clip_norm: 1.0
+  validation_limit: 32
+  validation_checkpoint_interval_steps: 5000
+  sample_inference_count: 2
+  output_dir: /storage1/hehaoran/project/course-track2-codec-experiments/runs/stability5_c_delayed_distill_3407
+  minimum_learning_rate: 5.0e-06
+  warmup_steps: 0
+  checkpoint_keep_last: 3
+  quantizer_learning_rate: 2.0e-05
+  quantizer_only_steps: 0
+waveform_distillation:
+  enabled: true
+  checkpoint: runs/struct4_seed_a_uniform_8128/checkpoints/best.pt
+  waveform_l1_weight: 0.1
+  spectral_weight: 0.1
+  start_step: 10000
+  warmup_steps: 5000
+```
+
+<!-- experiment:stability5_c_delayed_distill_3407:end -->
+
+<!-- experiment:stability5_d_delayed_distill_8128:start -->
+## stability5_d_delayed_distill_8128
+
+- Status: `complete`
+- Updated (UTC): `2026-10-26T15:46:43.360864+00:00`
+- Git commit: `abec142e8810bf1f915822ad27015ea5c6b67c7d`
+- Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/stability5_d_delayed_distill_8128`
+- Note: 30000-step decoder synthesis study completed; diagnostics: /storage1/hehaoran/project/course-track2-codec-experiments/runs/stability5_d_delayed_distill_8128/rvq_diagnostics.json
+- Best checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/stability5_d_delayed_distill_8128/checkpoints/best.pt`
+- Checkpoint SHA-256: `22b0945e26a2849b5434eba32c8458c8e4c8a991a7ea1b66c501d47357a40a30`
+
+### Dataset
+
+| Item | Value |
+|---|---:|
+| Training files | 394988 |
+| Validation files | 14596 |
+| VCTK training files | 40208 |
+| VCTK validation files | 4247 |
+| LibriTTS training files | 354780 |
+| LibriTTS validation files | 10349 |
+
+### Last training validation
+
+| Item | Value |
+|---|---:|
+| Epoch | 3 |
+| Global step | 30000 |
+| Train loss | 0.610010 |
+| Reconstruction loss | 0.131087 |
+| Waveform L1 | 0.014349 |
+| Spectral loss | 0.116738 |
+| Commitment loss | 0.104680 |
+
+### Objective evaluation
+
+| Item | Value |
+|---|---:|
+| Files | 200 |
+| PESQ-WB | 2.0494 |
+| ESTOI | 0.7416 |
+| SI-SNR (dB) | 5.5511 |
+| UTMOS | 2.6593 |
+| Course objective score | 46.1260 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Algorithmic lookahead (ms) | 30 |
+| Total MFLOP/s | 650.227 |
+| Decoder MFLOP/s | 277.440 |
+| Parameters | 662109 |
+
+### Effective configuration
+
+```yaml
+seed: 8128
+audio:
+  sample_rate: 16000
+  frame_samples: 160
+  segment_samples: 32000
+model:
+  sample_rate: 16000
+  frame_samples: 160
+  quantizer_type: projected_rvq
+  encoder_channels:
+  - 8
+  - 16
+  - 32
+  - 64
+  - 160
+  encoder_strides:
+  - 2
+  - 4
+  - 4
+  - 5
+  decoder_channels:
+  - 160
+  - 48
+  - 24
+  - 12
+  - 8
+  decoder_strides:
+  - 5
+  - 4
+  - 4
+  - 2
+  residual_blocks: 3
+  residual_kernel_size: 3
+  rvq_num_codebooks: 3
+  rvq_codebook_size: 256
+  rvq_codebook_dim: 160
+  commitment_weight: 0.1
+  rvq_ema_decay: 0.95
+  rvq_dead_code_threshold: 0.5
+  rvq_dead_code_after_updates: 100
+  rvq_kmeans_iterations: 10
+  encoder_temporal_layers: 4
+  decoder_temporal_layers: 2
+  temporal_kernel_size: 3
+  temporal_expansion: 1
+  fsq_levels:
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  encoder_lookahead_frames: 3
+  decoder_lookahead_frames: 0
+  rvq_usage_loss_weight: 0.001
+  rvq_usage_temperature: 1.0
+  rvq_stage_commitment_weights:
+  - 1.0
+  - 1.5
+  - 2.0
+  projected_stage_dims:
+  - 48
+  - 64
+  - 80
+loss:
+  waveform_l1_weight: 1.0
+  spectral_weight: 1.0
+  fft_sizes:
+  - 256
+  - 512
+  - 1024
+  spectral_convergence_weight: 0.25
+  linear_magnitude_weight: 0.1
+  adversarial_weight: 0.05
+  feature_matching_weight: 1.5
+  si_snr_weight: 0.003
+adversarial:
+  resolutions:
+  - - 256
+    - 64
+    - 256
+  - - 512
+    - 128
+    - 512
+  - - 1024
+    - 256
+    - 1024
+  start_step: 5000
+  warmup_steps: 10000
+  learning_rate: 0.0002
+  gradient_clip_norm: 10.0
+  periods:
+  - 2
+  - 3
+  - 5
+  - 7
+  - 11
+training:
+  batch_size: 32
+  num_workers: 8
+  epochs: 1000
+  learning_rate: 2.0e-05
+  weight_decay: 1.0e-06
+  gradient_clip_norm: 1.0
+  validation_limit: 32
+  validation_checkpoint_interval_steps: 5000
+  sample_inference_count: 2
+  output_dir: /storage1/hehaoran/project/course-track2-codec-experiments/runs/stability5_d_delayed_distill_8128
+  minimum_learning_rate: 5.0e-06
+  warmup_steps: 0
+  checkpoint_keep_last: 3
+  quantizer_learning_rate: 2.0e-05
+  quantizer_only_steps: 0
+waveform_distillation:
+  enabled: true
+  checkpoint: runs/struct4_seed_a_uniform_8128/checkpoints/best.pt
+  waveform_l1_weight: 0.1
+  spectral_weight: 0.1
+  start_step: 10000
+  warmup_steps: 5000
+```
+
+<!-- experiment:stability5_d_delayed_distill_8128:end -->

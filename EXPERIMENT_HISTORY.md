@@ -288,3 +288,27 @@ still has substantial variance. Early-window SWA is closed. A future stability
 study should use a function-preserving alternative such as training-time EMA
 or a late, already-stable averaging window, screened on matched development
 seeds before any sealed confirmation.
+
+## 14. Late decoder averaging and delayed distillation
+
+The registered stabilization follow-up tested two function-preserving ideas at
+seeds 3407 and 8128. A/B averaged only decoder parameters from raw-distillation
+steps 20000/25000/30000 while retaining step-30000 encoder and quantizer state.
+C/D disabled distillation through step 9999 and ramped it to full weight over
+steps 10000--14999. Full results are in `DECODER_STABILITY5_RESULTS.md`.
+
+Late decoder averaging scored 46.9762 and 46.9475, improving the matched raw
+distillation scores by +0.1132 and +0.1042. However, both gains came from UTMOS
+(+0.1730 and +0.1628) while PESQ, ESTOI, and SI-SNR all fell materially. The
+method therefore passes the scalar objective threshold but fails the registered
+component-metric guardrail and is not retained for deployment.
+
+Delayed distillation scored 46.2324 and 46.1260, a paired mean loss of 0.6739
+against raw distillation and 0.1433 against continuation controls. Both runs
+selected step 5000, before distillation was enabled, so validation supplied no
+evidence that the delayed teacher phase helped. This branch is closed.
+
+All candidates satisfy exactly 2400 bps, 30 ms lookahead, 650.2272 total
+MFLOP/s, and 277.44 decoder MFLOP/s. RVQ occupancy remained healthy; the
+outcomes are synthesis/optimization trade-offs rather than codebook collapse.
+The sealed set was not used, and `strong_baseline_v2` remains frozen.
