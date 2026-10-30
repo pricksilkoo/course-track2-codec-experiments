@@ -3,4 +3,6 @@ _base_: ../struct4/b_residual_later.yaml
 # Exact residual-later-heavy control. It retains the competition-compliant
 # three-frame (30 ms) encoder lookahead.
 training:
+  # Keep sample order and worker seeds identical across kernel sizes.
+  data_order_seed: 20261024
   output_dir: runs/lookahead4_a_control_30ms

@@ -538,12 +538,19 @@ def main() -> None:
     }
     if num_workers > 0:
         loader_options.update(persistent_workers=True, prefetch_factor=2)
+    train_loader_options = {}
+    data_order_seed = config["training"].get("data_order_seed")
+    if data_order_seed is not None:
+        train_generator = torch.Generator()
+        train_generator.manual_seed(int(data_order_seed) + rank)
+        train_loader_options["generator"] = train_generator
     train_loader = DataLoader(
         train_set,
         sampler=train_sampler,
         shuffle=train_sampler is None,
         drop_last=True,
         **loader_options,
+        **train_loader_options,
     )
     valid_loader = DataLoader(
         valid_set,
@@ -598,6 +605,14 @@ def main() -> None:
                 initialization_state["discriminator"],
                 "discriminator",
             )
+        if initialization_state.get("trained") is False:
+            # Model construction consumes a shape-dependent number of random
+            # values. Reset after loading the common untrained state so the
+            # remaining stochastic training operations are matched exactly.
+            random.seed(seed + rank)
+            np.random.seed(seed + rank)
+            torch.manual_seed(seed + rank)
+            print("Reset training RNG after shared untrained initialization")
     model: torch.nn.Module = base_model
     discriminator: torch.nn.Module = base_discriminator
     if distributed:

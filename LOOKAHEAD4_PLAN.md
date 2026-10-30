@@ -32,6 +32,11 @@ same random 30 ms taps and zero-initialize only newly exposed future taps. Thus
 all cells implement the same function at initialization without inheriting any
 learned weights.
 
+The training DataLoader uses a dedicated seed shared by all four cells, and the
+training RNG is reset after loading the step-0 snapshot. This prevents the
+different lookahead-kernel sizes from changing data order or later stochastic
+training operations.
+
 ## Fixed constraints and evaluation
 
 - bitrate must remain exactly 2400 bps;
