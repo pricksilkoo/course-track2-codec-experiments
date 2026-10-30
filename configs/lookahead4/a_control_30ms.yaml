@@ -1,0 +1,6 @@
+_base_: ../struct4/b_residual_later.yaml
+
+# Exact residual-later-heavy control. It retains the competition-compliant
+# three-frame (30 ms) encoder lookahead.
+training:
+  output_dir: runs/lookahead4_a_control_30ms

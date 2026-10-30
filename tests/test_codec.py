@@ -321,6 +321,15 @@ def test_codec_rejects_more_than_30ms_total_lookahead() -> None:
         raise AssertionError("codec accepted more than 30 ms of lookahead")
 
 
+def test_research_opt_in_allows_more_than_30ms_total_lookahead() -> None:
+    model = CourseCodec(
+        encoder_lookahead_frames=8,
+        decoder_lookahead_frames=0,
+        allow_excess_lookahead=True,
+    )
+    assert model.algorithmic_lookahead_frames == 8
+
+
 def test_config_inheritance_and_cli_override() -> None:
     root = Path(__file__).resolve().parents[1]
     config = load_config(root / "configs/experiments/factorized_rvq_32.yaml")

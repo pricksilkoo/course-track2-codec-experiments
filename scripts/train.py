@@ -180,6 +180,27 @@ def load_compatible_state(
 ) -> None:
     """Load matching tensors while reporting intentionally new model parts."""
     target = module.state_dict()
+    source = dict(source)
+    expanded_lookahead = []
+    for key, target_value in target.items():
+        source_value = source.get(key)
+        if (
+            source_value is not None
+            and key.endswith("lookahead.depthwise.weight")
+            and source_value.ndim == 3
+            and target_value.ndim == 3
+            and source_value.shape[:2] == target_value.shape[:2]
+            and source_value.shape[-1] < target_value.shape[-1]
+        ):
+            # Preserve the source lookahead function exactly and initialize only
+            # the newly exposed future taps to zero. This avoids a discontinuity
+            # when a latency-capacity study expands the depthwise kernel.
+            expanded = target_value.new_zeros(target_value.shape)
+            expanded[..., : source_value.shape[-1]] = source_value
+            source[key] = expanded
+            expanded_lookahead.append(
+                f"{key}:{source_value.shape[-1]}->{target_value.shape[-1]}"
+            )
     compatible = {
         key: value
         for key, value in source.items()
@@ -193,6 +214,8 @@ def load_compatible_state(
         f"Warm-started {label}: {len(compatible)} tensors loaded, "
         f"{skipped} source tensors skipped, {len(incompatible.missing_keys)} new tensors"
     )
+    if expanded_lookahead:
+        print("Expanded lookahead kernels with zero new taps: " + ", ".join(expanded_lookahead))
 
 
 def scheduled_learning_rate(

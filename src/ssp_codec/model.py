@@ -1143,6 +1143,7 @@ class CourseCodec(nn.Module):
         temporal_expansion: int = 2,
         encoder_lookahead_frames: int = 0,
         decoder_lookahead_frames: int = 0,
+        allow_excess_lookahead: bool = False,
         temporal_model: str = "tcn",
         temporal_transformer_heads: int = 4,
         temporal_transformer_ffn_dim: int = 128,
@@ -1182,7 +1183,10 @@ class CourseCodec(nn.Module):
             raise ValueError("encoder output and decoder input dimensions must agree")
         if encoder_lookahead_frames < 0 or decoder_lookahead_frames < 0:
             raise ValueError("lookahead frames must be non-negative")
-        if encoder_lookahead_frames + decoder_lookahead_frames > 3:
+        if (
+            encoder_lookahead_frames + decoder_lookahead_frames > 3
+            and not allow_excess_lookahead
+        ):
             raise ValueError("total codec lookahead cannot exceed three 10-ms frames")
         self.specification = CodecSpecification()
         self.architecture = architecture
