@@ -197,6 +197,32 @@ late decoder-only average 只平均 raw-distill 的 20k/25k/30k decoder 参数�
 
 delayed distillation（0–9999 关闭，10k–14999 ramp）为 46.2324、46.1260，平均比 raw distill 低 0.6739，比 controls 低 0.1433。两组都选择 step5000——teacher 尚未开启——说明延后 teacher 没有证据有效，关闭该路线。
 
+### 阶段 13：从零训练的未来上下文上限实验
+
+这一阶段专门回答“30 ms 延迟规则是不是主要瓶颈”。四组不从已有权重
+warm-start，而是从同一个从未训练的 codec+discriminator step-0 状态开始；
+共享参数和初始前向输出完全一致，并固定 data order 与初始化后的 RNG。
+唯一变化是 encoder 能看到未来 30/40/60/80 ms，decoder 仍然严格因果。
+
+| encoder lookahead | objective | PESQ | ESTOI | SI-SNR | UTMOS |
+|---:|---:|---:|---:|---:|---:|
+| 30 ms control | 21.4078 | 1.1707 | 0.4293 | **2.6145** | 1.2516 |
+| 40 ms | **22.8386** | **1.1781** | **0.4859** | 2.5707 | 1.2499 |
+| 60 ms | 21.7014 | 1.1718 | 0.4461 | 2.3167 | 1.2488 |
+| 80 ms | 22.5166 | 1.1726 | 0.4791 | 2.3641 | **1.2524** |
+
+结果不是“未来看得越多越好”：40 ms 最好，60 ms 接近 control，80 ms 又
+回升但仍低于 40 ms。增益主要来自 ESTOI，SI-SNR 反而下降，PESQ/UTMOS
+变化很小。因此 30 ms 可能限制一部分可懂度，但不是支配性天花板；把未来
+上下文直接扩到 60/80 ms 并不会得到单调、全面的质量提升。
+
+四组码率均为 2400 bps，total/decoder compute 均满足 700/300 MFLOP/s，
+但只有 30 ms control 合规，另外三组仅作科研诊断，不能提交或晋升。四组
+scratch 分数也远低于成熟 `strong_baseline_v2` 的 46.7463，说明 100k
+从零训练尚未追上多阶段 warm-start 训练谱系；所以本实验能回答匹配条件下的
+延迟敏感性，不能把 22.8386 当作模型家族的绝对上限。完整数据见
+`LOOKAHEAD4_RESULTS.md`，sealed 集未使用。
+
 ## 5. 码本是否被有效利用
 
 “active codes 接近 256”只能排除最严重的 dead-code collapse，不能证明利用充分。本项目采用五层证据：
@@ -236,6 +262,7 @@ delayed distillation（0–9999 关闭，10k–14999 ramp）为 46.2324、46.126
 - training-only waveform/spectral distillation 具有配对 seed 的因果增益，但原始三 seed 方差仍大。
 - multiscale 与 distillation 不可直接相加；Haar subband、early SWA、delayed distillation 均应关闭。
 - late decoder averaging 是可行的 function-preserving 操作，但当前均匀平均只换取 UTMOS，不能晋升。
+- 放宽 encoder lookahead 能改善部分 ESTOI，但 30/40/60/80 ms 的结果不单调且伴随 SI-SNR 退化；30 ms 不是当前主导瓶颈。
 
 ## 9. 推荐下一步
 
@@ -246,6 +273,7 @@ delayed distillation（0–9999 关闭，10k–14999 ramp）为 46.2324、46.126
 3. 用 matched seeds 3407/8128 同时通过才保留；若增益小于 0.05 或符号冲突，停止该方向。
 4. 若找不到 Pareto 改进，接受 v2 已接近当前架构/预算下的实用瓶颈，转向更丰富训练数据、objective 校准或主观听测，而不是继续在 fixed-200 上微调。
 5. 只有出现多 seed、组件一致、幅度足够的候选，才考虑一次最终 sealed 确认；否则保持 v2。
+6. 不应继续用超限 lookahead 追分；本轮已经表明未来上下文只有非单调、指标特定的收益，且超限模型没有部署价值。
 
 ## 10. 复现实验时应查看的文件
 
@@ -257,5 +285,6 @@ delayed distillation（0–9999 关闭，10k–14999 ramp）为 46.2324、46.126
 - 结构研究：`STRUCTURAL_RESULTS.md`、`STRUCTURAL_SEED_RESULTS.md`
 - decoder 研究：`DECODER4_RESULTS.md`、`DECODER_SEED4_RESULTS.md`
 - 稳定性研究：`DECODER_STABILITY4_RESULTS.md`、`DECODER_STABILITY5_RESULTS.md`
+- 延迟上限研究：`LOOKAHEAD4_PLAN.md`、`LOOKAHEAD4_RESULTS.md`
 
 综合判断：整个过程总体合理，尤其是后半程的预注册、配对 seed、复杂度审计和 sealed 隔离。最需要修正的不是继续堆实验，而是将组件指标 guardrail 提升为与总分同等重要的选择标准，并承认开发集峰值与可部署、可复现改进不是一回事。

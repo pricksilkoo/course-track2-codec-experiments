@@ -312,3 +312,36 @@ All candidates satisfy exactly 2400 bps, 30 ms lookahead, 650.2272 total
 MFLOP/s, and 277.44 decoder MFLOP/s. RVQ occupancy remained healthy; the
 outcomes are synthesis/optimization trade-offs rather than codebook collapse.
 The sealed set was not used, and `strong_baseline_v2` remains frozen.
+
+## 15. From-scratch lookahead capacity study
+
+Four residual-later-heavy long-TCN projected-RVQ codecs were trained for
+100000 steps from one verified-identical never-trained codec/discriminator
+initialization. The only intended difference was encoder lookahead: 30, 40,
+60, or 80 ms. Decoder lookahead remained zero. A matched data-order seed and
+post-initialization RNG reset kept stochastic training aligned. The fixed
+200-file development scores were:
+
+| Lookahead | Score | Delta vs 30 ms | PESQ | ESTOI | SI-SNR | UTMOS |
+|---:|---:|---:|---:|---:|---:|---:|
+| 30 ms | 21.4078 | -- | 1.1707 | 0.4293 | 2.6145 | 1.2516 |
+| 40 ms | **22.8386** | **+1.4308** | 1.1781 | 0.4859 | 2.5707 | 1.2499 |
+| 60 ms | 21.7014 | +0.2936 | 1.1718 | 0.4461 | 2.3167 | 1.2488 |
+| 80 ms | 22.5166 | +1.1088 | 1.1726 | 0.4791 | 2.3641 | 1.2524 |
+
+The response is non-monotonic and component-traded: extra context mainly
+raises ESTOI, while SI-SNR falls and PESQ/UTMOS barely move. All codebooks stay
+near fully active, and utilization does not track the score order. Functional
+partial reconstructions confirm that every RVQ stage contributes.
+
+All cells satisfy 2400 bps, total compute below 700 MFLOP/s, and decoder compute
+below 300 MFLOP/s. Only the 30 ms control is competition-eligible; the other
+three are research-only and must not be promoted. All four from-scratch scores
+are also far below `strong_baseline_v2` 46.7463, showing that this 100000-step
+scratch schedule does not recover the mature warm-start lineage.
+
+The conclusion is that 30 ms may be a modest intelligibility-specific
+constraint, but it is not the dominant quality ceiling: 40 ms is best, and
+60/80 ms do not improve monotonically or consistently across components.
+`strong_baseline_v2` remains frozen. Full details are in
+`LOOKAHEAD4_RESULTS.md`; the sealed confirmation set was not used.
