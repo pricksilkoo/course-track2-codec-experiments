@@ -211,17 +211,19 @@ warm-start，而是从同一个从未训练的 codec+discriminator step-0 状态
 | 60 ms | 21.7014 | 1.1718 | 0.4461 | 2.3167 | 1.2488 |
 | 80 ms | 22.5166 | 1.1726 | 0.4791 | 2.3641 | **1.2524** |
 
-结果不是“未来看得越多越好”：40 ms 最好，60 ms 接近 control，80 ms 又
-回升但仍低于 40 ms。增益主要来自 ESTOI，SI-SNR 反而下降，PESQ/UTMOS
-变化很小。因此 30 ms 可能限制一部分可懂度，但不是支配性天花板；把未来
-上下文直接扩到 60/80 ms 并不会得到单调、全面的质量提升。
+表面结果不是“未来看得越多越好”：40 ms 最好，60 ms 接近 control，80 ms
+回升但仍低于 40 ms。但 30 ms control 只有 21.4078，远低于完全相同架构的
+成熟模型 46.7463，因此正对照没有成立。根因是错误沿用了 warm-start 日程：
+随机 codec 先被冻结 5k step，只训练 quantizer，随后 codec 刚解冻就引入
+GAN，并在 100k 内把微调学习率退火到底。该排序只能描述欠训练状态，不能
+用于判断成熟模型的延迟上限。
 
 四组码率均为 2400 bps，total/decoder compute 均满足 700/300 MFLOP/s，
 但只有 30 ms control 合规，另外三组仅作科研诊断，不能提交或晋升。四组
-scratch 分数也远低于成熟 `strong_baseline_v2` 的 46.7463，说明 100k
-从零训练尚未追上多阶段 warm-start 训练谱系；所以本实验能回答匹配条件下的
-延迟敏感性，不能把 22.8386 当作模型家族的绝对上限。完整数据见
-`LOOKAHEAD4_RESULTS.md`，sealed 集未使用。
+scratch 分数远低于成熟 `strong_baseline_v2` 的 46.7463，因此本轮正式标记为
+failed positive control / inconclusive。纠正版改为从 step 0 联合训练 codec 与
+RVQ、100k 后才启用 GAN、总预算 500k，并规定 control 至少达到 46.25 才允许
+解释 lookahead。方案见 `LOOKAHEAD_SCRATCH2_PLAN.md`，sealed 集未使用。
 
 ## 5. 码本是否被有效利用
 

@@ -1,0 +1,23 @@
+_base_: ../lookahead4/a_control_30ms.yaml
+
+# Scratch-specific optimization. The previous lookahead study accidentally
+# reused a warm-start adaptation schedule: it froze a random codec for 5k
+# quantizer-only steps and decayed a fine-tuning LR over only 100k steps.
+# Here the complete codec and projected RVQ train jointly from step 0.
+adversarial:
+  # Give the waveform path a long reconstruction-only pretraining phase, then
+  # introduce GAN and feature-matching losses gradually.
+  start_step: 100000
+  warmup_steps: 50000
+
+training:
+  learning_rate: 0.0002
+  minimum_learning_rate: 0.00001
+  warmup_steps: 5000
+  quantizer_learning_rate: 0.0002
+  quantizer_only_steps: 0
+  validation_limit: 64
+  validation_checkpoint_interval_steps: 25000
+  checkpoint_keep_last: 5
+  data_order_seed: 20261024
+

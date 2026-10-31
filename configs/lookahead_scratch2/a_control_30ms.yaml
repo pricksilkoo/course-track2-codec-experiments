@@ -1,0 +1,5 @@
+_base_: base_scratch.yaml
+
+training:
+  output_dir: runs/lookahead_scratch2_a_control_30ms
+

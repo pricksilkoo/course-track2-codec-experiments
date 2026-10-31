@@ -340,8 +340,11 @@ three are research-only and must not be promoted. All four from-scratch scores
 are also far below `strong_baseline_v2` 46.7463, showing that this 100000-step
 scratch schedule does not recover the mature warm-start lineage.
 
-The conclusion is that 30 ms may be a modest intelligibility-specific
-constraint, but it is not the dominant quality ceiling: 40 ms is best, and
-60/80 ms do not improve monotonically or consistently across components.
-`strong_baseline_v2` remains frozen. Full details are in
-`LOOKAHEAD4_RESULTS.md`; the sealed confirmation set was not used.
+The 30 ms control scored only 21.4078 versus 46.7463 for the identical mature
+architecture, so the study failed its positive-control requirement. The
+inherited recipe froze a random codec during a 5000-step quantizer-only phase
+and used a short, low-learning-rate fine-tuning schedule. The non-monotonic
+ordering is therefore only an undertrained-regime observation and cannot
+establish the mature latency ceiling. `strong_baseline_v2` remains frozen. A
+corrected 500000-step scratch curriculum and explicit control gate are
+pre-registered in `LOOKAHEAD_SCRATCH2_PLAN.md`. The sealed set was not used.

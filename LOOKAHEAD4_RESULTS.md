@@ -86,22 +86,22 @@ reconstructions are more informative:
 Each additional stage improves spectral reconstruction and SI-SNR, confirming
 that all three stages contribute despite the coordinate-space MSE caveat.
 
-## Decision
+## Revised decision: failed positive control
 
-The 30 ms lookahead limit is **not the dominant ceiling** in this controlled
-study. Extra future context can improve intelligibility-sensitive scoring, but
-the response is non-monotonic, the best gain occurs at only 40 ms, and SI-SNR
-regresses. Increasing lookahead to 60 or 80 ms does not yield a steadily better
-model. The evidence supports a narrower statement: 30 ms may impose a modest,
-metric-specific constraint, but simply relaxing it does not unlock a large,
-general quality improvement.
+The 30 ms control did not recover the identical-architecture mature model:
+21.4078 versus 46.7463. This is too large to treat as seed noise. The inherited
+recipe was a warm-start adaptation schedule, not a valid scratch curriculum:
+it froze the random codec for 5000 quantizer-only steps, introduced the GAN as
+the codec first unfroze, and annealed a 2e-5 fine-tuning learning rate to 5e-6
+within 100000 steps.
 
-Keep `strong_baseline_v2` unchanged. Do not evaluate or promote B/C/D. If this
-question is revisited, the only rigorous follow-up would be a costly matched
-multi-seed study initialized from scratch or a separately pre-registered
-lookahead comparison along the mature training lineage. Given the non-monotonic
-trade-off and the large from-scratch optimization gap, that follow-up has low
-priority compared with data, objective calibration, or subjective listening.
+Therefore this study is **inconclusive about the mature latency ceiling**. Its
+non-monotonic 30/40/60/80 ms ordering is only an observation in an undertrained
+regime and must not support an upper-bound claim. Keep `strong_baseline_v2`
+unchanged and do not evaluate or promote B/C/D. The corrected replacement is
+pre-registered in `LOOKAHEAD_SCRATCH2_PLAN.md`; it uses joint scratch
+pretraining, delayed GAN activation, 500000 steps, and an explicit positive-
+control gate before interpreting lookahead.
 
 ## Checkpoint identities
 
