@@ -348,3 +348,37 @@ ordering is therefore only an undertrained-regime observation and cannot
 establish the mature latency ceiling. `strong_baseline_v2` remains frozen. A
 corrected 500000-step scratch curriculum and explicit control gate are
 pre-registered in `LOOKAHEAD_SCRATCH2_PLAN.md`. The sealed set was not used.
+
+## 16. Corrected from-scratch lookahead capacity study
+
+The corrected study trained the same 30/40/60/80 ms cells for 500000 steps
+from the same never-trained codec/discriminator state, but used a genuine
+scratch curriculum: joint codec and projected-RVQ training from step zero, no
+GAN through step 99999, an adversarial ramp through step 149999, and a 2e-4
+peak learning rate with cosine decay. Full results are in
+`LOOKAHEAD_SCRATCH2_RESULTS.md`.
+
+The 30 ms control scored 46.5503 and therefore passed the registered 46.25
+positive-control gate. Its selected validation reconstruction was 0.13121,
+close to the mature 0.13151 reference. The latency comparison is consequently
+valid:
+
+| Lookahead | Objective | Delta vs 30 ms | PESQ | ESTOI | SI-SNR | UTMOS |
+|---:|---:|---:|---:|---:|---:|---:|
+| 30 ms | 46.5503 | -- | 1.9845 | 0.7319 | 5.5852 | 2.8368 |
+| 40 ms | 47.2073 | +0.6570 | 2.0250 | 0.7333 | 5.8261 | 2.8659 |
+| 60 ms | **47.8593** | **+1.3091** | **2.0512** | **0.7379** | **5.9574** | **2.9086** |
+| 80 ms | 46.2402 | -0.3100 | 1.9786 | 0.7275 | 5.8238 | 2.7877 |
+
+The 60 ms gain is material and improves every component, so the 30 ms rule has
+a measurable cost at this seed. The response is nevertheless non-monotonic:
+80 ms falls below the control. The result is an intermediate context sweet
+spot, not evidence that future context is the dominant or unbounded quality
+ceiling. All codebooks remain essentially fully active, and the 60 ms winner
+has the highest summed marginal entropy, but occupancy alone does not explain
+the ordering.
+
+All cells satisfy 2400 bps and the 700/300 MFLOP/s limits. Only 30 ms is
+competition-compliant; the other checkpoints are research-only, were not
+promoted, and were not evaluated on the sealed set. `strong_baseline_v2`
+remains frozen.

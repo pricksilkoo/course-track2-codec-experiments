@@ -225,6 +225,34 @@ failed positive control / inconclusive。纠正版改为从 step 0 联合训练 
 RVQ、100k 后才启用 GAN、总预算 500k，并规定 control 至少达到 46.25 才允许
 解释 lookahead。方案见 `LOOKAHEAD_SCRATCH2_PLAN.md`，sealed 集未使用。
 
+### 阶段 14：纠正后的从零 lookahead 实验
+
+纠正版严格保留同一个未训练 codec+discriminator 初始化、seed、data order 和
+初始化后 RNG，只修正训练日程：0--99999 联合训练 codec 与 projected RVQ，
+100k--149999 逐步引入 GAN/FM，之后完整 GAN 训练到 500k；学习率峰值为
+2e-4。30 ms control 最终为 46.5503，超过预注册最低门槛 46.25，且选中
+checkpoint 的 validation reconstruction 为 0.13121，接近成熟参考 0.13151。
+因此这次正对照成立，可以解释延迟效应。
+
+| encoder lookahead | objective | 相对 30 ms | PESQ | ESTOI | SI-SNR | UTMOS |
+|---:|---:|---:|---:|---:|---:|---:|
+| 30 ms control | 46.5503 | -- | 1.9845 | 0.7319 | 5.5852 | 2.8368 |
+| 40 ms | 47.2073 | +0.6570 | 2.0250 | 0.7333 | 5.8261 | 2.8659 |
+| 60 ms | **47.8593** | **+1.3091** | **2.0512** | **0.7379** | **5.9574** | **2.9086** |
+| 80 ms | 46.2402 | -0.3100 | 1.9786 | 0.7275 | 5.8238 | 2.7877 |
+
+60 ms 相比有效 control 的 +1.3091 不是某个指标交换：PESQ、ESTOI、SI-SNR
+和 UTMOS 全部改善。因此 30 ms 规则确实造成了可测的质量损失。但 80 ms
+反而低于 control，说明关系不是“未来看得越多越好”，也不能把延迟写成唯一
+或单调的主导瓶颈。更准确的结论是：当前架构在约 60 ms 有上下文甜点，但
+超过甜点后优化/归纳偏置会抵消收益。
+
+四组 active codes 均为 254--256，单级 perplexity 约 131--151，总边际熵
+21.12--21.55 bit，没有码本坍塌。所有模型满足 2400 bps 和 700/300 MFLOP/s，
+但 40/60/80 ms 违反比赛延迟，只能用于诊断，不能晋升或提交。sealed 集未
+使用。完整结果、复杂度、RVQ 诊断与 checkpoint hash 见
+`LOOKAHEAD_SCRATCH2_RESULTS.md`。
+
 ## 5. 码本是否被有效利用
 
 “active codes 接近 256”只能排除最严重的 dead-code collapse，不能证明利用充分。本项目采用五层证据：
@@ -264,7 +292,7 @@ RVQ、100k 后才启用 GAN、总预算 500k，并规定 control 至少达到 46
 - training-only waveform/spectral distillation 具有配对 seed 的因果增益，但原始三 seed 方差仍大。
 - multiscale 与 distillation 不可直接相加；Haar subband、early SWA、delayed distillation 均应关闭。
 - late decoder averaging 是可行的 function-preserving 操作，但当前均匀平均只换取 UTMOS，不能晋升。
-- 放宽 encoder lookahead 能改善部分 ESTOI，但 30/40/60/80 ms 的结果不单调且伴随 SI-SNR 退化；30 ms 不是当前主导瓶颈。
+- 有效 500k scratch 对照表明，60 ms 相比 30 ms 可带来 +1.3091 且四项组件均改善；但 80 ms 反而退化，因此 30 ms 有可测成本，却不是简单单调或唯一的主导瓶颈。
 
 ## 9. 推荐下一步
 
@@ -275,7 +303,7 @@ RVQ、100k 后才启用 GAN、总预算 500k，并规定 control 至少达到 46
 3. 用 matched seeds 3407/8128 同时通过才保留；若增益小于 0.05 或符号冲突，停止该方向。
 4. 若找不到 Pareto 改进，接受 v2 已接近当前架构/预算下的实用瓶颈，转向更丰富训练数据、objective 校准或主观听测，而不是继续在 fixed-200 上微调。
 5. 只有出现多 seed、组件一致、幅度足够的候选，才考虑一次最终 sealed 确认；否则保持 v2。
-6. 不应继续用超限 lookahead 追分；本轮已经表明未来上下文只有非单调、指标特定的收益，且超限模型没有部署价值。
+6. 不应继续用超限 lookahead 追分；60 ms 的诊断收益虽真实且全面，但 80 ms 退化、所有超限模型均无部署资格。后续应把精力放回 30 ms 内的因果建模与合成优化。
 
 ## 10. 复现实验时应查看的文件
 
@@ -287,6 +315,6 @@ RVQ、100k 后才启用 GAN、总预算 500k，并规定 control 至少达到 46
 - 结构研究：`STRUCTURAL_RESULTS.md`、`STRUCTURAL_SEED_RESULTS.md`
 - decoder 研究：`DECODER4_RESULTS.md`、`DECODER_SEED4_RESULTS.md`
 - 稳定性研究：`DECODER_STABILITY4_RESULTS.md`、`DECODER_STABILITY5_RESULTS.md`
-- 延迟上限研究：`LOOKAHEAD4_PLAN.md`、`LOOKAHEAD4_RESULTS.md`
+- 延迟上限研究：`LOOKAHEAD4_PLAN.md`、`LOOKAHEAD4_RESULTS.md`、`LOOKAHEAD_SCRATCH2_PLAN.md`、`LOOKAHEAD_SCRATCH2_RESULTS.md`
 
 综合判断：整个过程总体合理，尤其是后半程的预注册、配对 seed、复杂度审计和 sealed 隔离。最需要修正的不是继续堆实验，而是将组件指标 guardrail 提升为与总分同等重要的选择标准，并承认开发集峰值与可部署、可复现改进不是一回事。
