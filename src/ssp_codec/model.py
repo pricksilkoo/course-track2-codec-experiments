@@ -102,6 +102,34 @@ class CausalTemporalUnit(nn.Module):
         return x + residual
 
 
+class CausalConv2FormerUnit(nn.Module):
+    """Causal convolutional modulation, adapted from Conv2Former.
+
+    A depthwise temporal branch modulates a pointwise value branch. Framewise
+    normalization never mixes timestamps. The zero output projection makes a
+    newly inserted block exactly identity for checkpoint-compatible ablations.
+    """
+
+    def __init__(self, channels: int, hidden: int, kernel_size: int) -> None:
+        super().__init__()
+        if hidden < 1 or kernel_size < 2:
+            raise ValueError("invalid Conv2Former dimensions")
+        self.norm = nn.LayerNorm(channels)
+        self.modulation = nn.Conv1d(channels, hidden, 1)
+        self.depthwise = nn.Conv1d(hidden, hidden, kernel_size, groups=hidden)
+        self.value = nn.Conv1d(channels, hidden, 1)
+        self.project = nn.Conv1d(hidden, channels, 1)
+        self.left_padding = kernel_size - 1
+        nn.init.zeros_(self.project.weight)
+        nn.init.zeros_(self.project.bias)
+
+    def forward(self, embeddings: torch.Tensor) -> torch.Tensor:
+        x = self.norm(embeddings).transpose(1, 2)
+        modulation = self.depthwise(F.pad(F.gelu(self.modulation(x)), (self.left_padding, 0)))
+        residual = self.project(modulation * self.value(x)).transpose(1, 2)
+        return embeddings + residual
+
+
 class LimitedLookaheadUnit(nn.Module):
     """Inject at most ``frames`` future latent frames through a residual path."""
 
@@ -1151,6 +1179,9 @@ class CourseCodec(nn.Module):
         decoder_history_frames: int = 16,
         decoder_refinement: str = "none",
         decoder_refinement_channels: int = 4,
+        decoder_conv2former_layers: int = 0,
+        decoder_conv2former_hidden: int = 48,
+        decoder_conv2former_kernel: int = 7,
         architecture: str = "baseline",
         minimimi_encoder_channels: Iterable[int] = (12, 24, 48, 96, 192),
         minimimi_decoder_channels: Iterable[int] = (128, 64, 32, 16, 8),
@@ -1194,6 +1225,13 @@ class CourseCodec(nn.Module):
         self.algorithmic_lookahead_frames = (
             encoder_lookahead_frames + decoder_lookahead_frames
         )
+        if decoder_conv2former_layers < 0:
+            raise ValueError("decoder Conv2Former layers must be nonnegative")
+        latent_dim = minimimi_latent_dim if architecture == "minimimi" else encoder_channels[-1]
+        self.synthesis_conv2former = nn.Sequential(*(
+            CausalConv2FormerUnit(latent_dim, decoder_conv2former_hidden, decoder_conv2former_kernel)
+            for _ in range(decoder_conv2former_layers)
+        ))
         if architecture == "minimimi":
             if decoder_lookahead_frames:
                 raise ValueError("MiniMimi decoder must remain strictly causal")
@@ -1396,11 +1434,12 @@ class CourseCodec(nn.Module):
             embeddings = self.synthesis_transformer(embeddings)
         else:
             embeddings = self.synthesis_temporal(embeddings)
-        waveform = self.decoder_refinement(self.decoder(embeddings))
+        waveform = self.decoder_refinement(self.decoder(self.synthesis_conv2former(embeddings)))
         return waveform[..., :length] if length is not None else waveform
 
     def forward(
-        self, waveform: torch.Tensor, return_aux: bool = False
+        self, waveform: torch.Tensor, return_aux: bool = False,
+        quantizer_bypass: bool = False,
     ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor] | tuple[
         torch.Tensor, torch.Tensor, torch.Tensor, dict[str, torch.Tensor]
     ]:
@@ -1416,14 +1455,22 @@ class CourseCodec(nn.Module):
             )
         else:
             embeddings = self.analysis_temporal(self.latent_norm(self.encoder(padded)))
-        quantized, indices, quantizer_loss = self.quantizer(embeddings)
+        if quantizer_bypass:
+            if not self.training or return_aux:
+                raise ValueError("RVQ bypass is training-only and incompatible with semantic auxiliaries")
+            # No codebook assignment/EMA update on unquantized batches.
+            quantized = embeddings
+            indices = torch.zeros((*embeddings.shape[:2], 3), dtype=torch.long, device=embeddings.device)
+            quantizer_loss = embeddings.new_zeros(())
+        else:
+            quantized, indices, quantizer_loss = self.quantizer(embeddings)
         if self.architecture == "minimimi" or self.temporal_model == "transformer":
             reconstructed = self.decoder_refinement(
-                self.decoder(self.synthesis_transformer(quantized))
+                self.decoder(self.synthesis_conv2former(self.synthesis_transformer(quantized)))
             )[..., :original_length]
         else:
             reconstructed = self.decoder_refinement(
-                self.decoder(self.synthesis_temporal(quantized))
+                self.decoder(self.synthesis_conv2former(self.synthesis_temporal(quantized)))
             )[..., :original_length]
         if return_aux:
             auxiliary: dict[str, torch.Tensor] = {}

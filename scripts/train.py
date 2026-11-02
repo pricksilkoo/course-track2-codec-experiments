@@ -39,7 +39,7 @@ from ssp_codec.adversarial import (  # noqa: E402
 )
 from ssp_codec.data import WaveformDataset  # noqa: E402
 from ssp_codec.config import apply_overrides, load_config  # noqa: E402
-from ssp_codec.losses import multiscale_spectral_loss, negative_si_snr_loss  # noqa: E402
+from ssp_codec.losses import multiscale_spectral_loss, negative_si_snr_loss, multiscale_mel_loss  # noqa: E402
 from ssp_codec.model import CourseCodec  # noqa: E402
 from ssp_codec.schedules import distillation_factor  # noqa: E402
 
@@ -271,6 +271,21 @@ def adversarial_factor(global_step: int, config: dict) -> float:
     if warmup <= 0:
         return 1.0
     return min(1.0, (global_step - start + 1) / warmup)
+
+
+def champion_training_settings(config: dict, step: int) -> tuple[bool, float]:
+    """Separate, step-addressed RNG keeps bypass independent of data/model RNG."""
+    options = config.get("champion_training", {})
+    probability = float(options.get("quantizer_bypass_probability", 0.0))
+    if not 0 <= probability <= 1:
+        raise ValueError("quantizer bypass probability must lie in [0,1]")
+    bypass = random.Random(int(config["seed"]) + 1_000_003 * step).random() < probability
+    weight = float(options.get("mel_weight", 0.0))
+    start = int(options.get("mel_reduction_start", 80000))
+    ramp = int(options.get("mel_reduction_ramp", 5000))
+    fraction = min(1.0, max(0.0, (step - start) / max(ramp, 1)))
+    final_ratio = float(options.get("mel_final_ratio", 1 / 15))
+    return bypass, weight * (1 + fraction * (final_ratio - 1))
 
 
 def evaluate(
@@ -605,14 +620,14 @@ def main() -> None:
                 initialization_state["discriminator"],
                 "discriminator",
             )
-        if initialization_state.get("trained") is False:
+        if initialization_state.get("trained") is False or config["training"].get("reset_rng_after_init", False):
             # Model construction consumes a shape-dependent number of random
             # values. Reset after loading the common untrained state so the
             # remaining stochastic training operations are matched exactly.
             random.seed(seed + rank)
             np.random.seed(seed + rank)
             torch.manual_seed(seed + rank)
-            print("Reset training RNG after shared untrained initialization")
+            print("Reset training RNG after shared checkpoint initialization")
     model: torch.nn.Module = base_model
     discriminator: torch.nn.Module = base_discriminator
     if distributed:
@@ -720,6 +735,8 @@ def main() -> None:
     last_validation_step = -1
     reached_max_total_steps = False
     for epoch in range(start_epoch, epochs + 1):
+        if data_order_seed is not None and config["training"].get("epoch_addressed_data_order", False):
+            train_generator.manual_seed(int(data_order_seed) + 1_000_003 * epoch + rank)
         if train_sampler is not None:
             train_sampler.set_epoch(epoch)
         model.train()
@@ -740,8 +757,9 @@ def main() -> None:
             if args.max_train_steps is not None and step >= args.max_train_steps:
                 break
             reference = reference.to(device, non_blocking=True)
+            quantizer_bypass, mel_weight = champion_training_settings(config, global_step + 1)
             if semantic_teacher is None:
-                reconstructed, _, quantizer_loss = model(reference)
+                reconstructed, _, quantizer_loss = model(reference, quantizer_bypass=quantizer_bypass)
                 semantic_loss = reference.new_zeros(())
             else:
                 reconstructed, _, quantizer_loss, auxiliary = model(
@@ -772,6 +790,15 @@ def main() -> None:
                 config["loss"]["waveform_l1_weight"] * waveform_loss
                 + config["loss"]["spectral_weight"] * spectral_loss
             )
+            mel_loss = reference.new_zeros(())
+            if mel_weight:
+                options = config.get("champion_training", {})
+                mel_loss = multiscale_mel_loss(
+                    reconstructed, reference,
+                    tuple(options.get("mel_fft_sizes", (256, 512, 1024))),
+                    tuple(options.get("mel_bins", (32, 64, 80))),
+                )
+                reconstruction_loss = reconstruction_loss + mel_weight * mel_loss
             if waveform_teacher is not None:
                 teacher, distillation = waveform_teacher
                 teacher_factor = distillation_factor(global_step + 1, distillation)
@@ -879,12 +906,22 @@ def main() -> None:
                         * float(parameter_group.get("lr_scale", 1.0))
                     )
             optimizer.zero_grad(set_to_none=True)
+            if config.get("champion_training") is not None and not torch.isfinite(loss):
+                raise FloatingPointError(f"nonfinite training loss at step {global_step + 1}; preserve latest good checkpoint")
             loss.backward()
             torch.nn.utils.clip_grad_norm_(
                 model.parameters(), config["training"]["gradient_clip_norm"]
             )
             optimizer.step()
             global_step += 1
+            if is_main_process and config.get("champion_training") is not None and global_step % 500 == 0:
+                with (checkpoint_dir.parent / "training_components.jsonl").open("a", encoding="utf-8") as handle:
+                    handle.write(json.dumps({"global_step": global_step,
+                        "quantizer_bypass": quantizer_bypass, "mel_weight": mel_weight,
+                        "mel_loss": mel_loss.item(), "waveform_l1": waveform_loss.item(),
+                        "spectral_loss": spectral_loss.item(), "quantizer_loss": quantizer_loss.item(),
+                        "loss": loss.item(), "gan_factor": gan_factor,
+                        "peak_allocated_MiB": torch.cuda.max_memory_allocated(device) / 2**20 if device.type == "cuda" else 0}) + "\n")
             last_batch_in_epoch = step + 1
             running.append(loss.item())
             if is_main_process:

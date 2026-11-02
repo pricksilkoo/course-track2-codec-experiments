@@ -122,9 +122,12 @@ def main() -> None:
                 cumulative = cumulative + codeword
                 quantized = cumulative
                 if model.architecture == "minimimi" or model.temporal_model == "transformer":
-                    decoded = model.decoder(model.synthesis_transformer(quantized))
+                    synthesized = model.synthesis_transformer(quantized)
                 else:
-                    decoded = model.decoder(model.synthesis_temporal(quantized))
+                    synthesized = model.synthesis_temporal(quantized)
+                decoded = model.decoder_refinement(
+                    model.decoder(model.synthesis_conv2former(synthesized))
+                )
                 decoded = decoded[..., :original_length]
                 partial_l1[stage] += float(F.l1_loss(decoded, waveform, reduction="sum").cpu())
                 partial_spectral[stage] += float(

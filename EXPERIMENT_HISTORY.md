@@ -382,3 +382,22 @@ All cells satisfy 2400 bps and the 700/300 MFLOP/s limits. Only 30 ms is
 competition-compliant; the other checkpoints are research-only, were not
 promoted, and were not evaluated on the sealed set. `strong_baseline_v2`
 remains frozen.
+
+## 2026-11-02 — Champion-inspired controlled adaptation, first batch
+
+At the user's request, register a four-cell2×2 study of LRAC2025 champion-inspired
+causal Conv2Former modulation and training-only RVQ bypass / staged mel loss.
+All cells continue the same frozen v2 checkpoint for100000 steps at matched
+seed20261102, data order, optimizer schedule, validation and fixed200 evaluation.
+Full design, adaptation limits, component guardrails and follow-up rules are in
+`CHAMPION4_PLAN.md`. This is an adaptation study; no claim of reproducing the
+champion or of receiving quality gains has been made before results exist.
+
+In parallel, the user's checkpoint cleanup authorization was applied through
+an audited, hash-verified inventory:301 redundant intermediate/smoke weights
+removed,3.8444GiB reclaimed;78 checkpoint-directory files retained, plus the
+separately protected scratch initialization and external weights. Every formal
+run's selected checkpoint, teachers, parents and averaging sources survive.
+See `CHECKPOINT_RETENTION.md` and `checkpoint_audits/20261102_applied.audit`.
+Deleted intermediates have no backup; selected-model evaluations remain
+reproducible, arbitrary restart from removed intermediate steps does not.

@@ -79,6 +79,7 @@ def main() -> None:
                 "decoder_refinement.",
                 "synthesis_temporal.",
                 "synthesis_transformer.",
+                "synthesis_conv2former.",
             )
         )
     )
@@ -113,6 +114,13 @@ def main() -> None:
             decoder_attention += attention_macs
     encoder += encoder_attention
     decoder += decoder_attention
+    # Conv2Former includes a Hadamard modulation product in addition to the
+    # hooked convolutions. One multiplication per hidden channel/frame.
+    decoder_modulation_flops = sum(
+        frames * module.value.out_channels
+        for module in model.modules()
+        if module.__class__.__name__ == "CausalConv2FormerUnit"
+    )
     # RVQ reports its approximate squared-distance lookup cost. FSQ has no
     # nearest-neighbour search and therefore returns zero here.
     quantizer_search = model.quantizer.search_macs(frames)
@@ -143,8 +151,9 @@ def main() -> None:
             + decoder_attention
         )
         / args.duration
-        / 1e6,
-        "decoder_mflop_per_s": 2 * decoder / args.duration / 1e6,
+        / 1e6 + decoder_modulation_flops / args.duration / 1e6,
+        "decoder_mflop_per_s": (2 * decoder + decoder_modulation_flops) / args.duration / 1e6,
+        "decoder_modulation_mflop_per_s": decoder_modulation_flops / args.duration / 1e6,
         # EMA codebooks are inference state stored as buffers rather than Adam
         # parameters, but must still count toward the deployed model size.
         "parameters": sum(parameter.numel() for parameter in model.parameters())
@@ -157,7 +166,7 @@ def main() -> None:
         "algorithmic_lookahead_ms": int(
             10 * getattr(model, "algorithmic_lookahead_frames", 0)
         ),
-        "notes": "Counts Conv1d, ConvTranspose1d, Linear, bounded attention QK/AV and approximate VQ nearest-neighbour search. Quantizer synthesis projections count toward the decoder budget. FSQ scalar rounding is reported as zero MACs. Excludes activations, normalization, padding and file I/O.",
+        "notes": "Counts Conv1d, ConvTranspose1d, Linear, bounded attention QK/AV, approximate VQ nearest-neighbour search and Conv2Former elementwise modulation multiplications. Quantizer synthesis projections count toward the decoder budget. MMAC fields exclude the separately reported non-MAC modulation product. FSQ scalar rounding is reported as zero MACs. Excludes activations, normalization, padding and file I/O.",
     }
     text = json.dumps(report, ensure_ascii=False, indent=2)
     print(text)

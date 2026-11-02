@@ -1,0 +1,7 @@
+_base_: a_control.yaml
+model:
+  decoder_conv2former_layers: 4
+  decoder_conv2former_hidden: 48
+  decoder_conv2former_kernel: 7
+training:
+  output_dir: runs/champion4_c_conv2former

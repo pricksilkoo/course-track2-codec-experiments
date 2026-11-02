@@ -1,0 +1,19 @@
+_base_: ../decoder4/a_control.yaml
+seed: 20261102
+
+champion_training:
+  quantizer_bypass_probability: 0.0
+  mel_weight: 0.0
+  mel_fft_sizes: [256, 512, 1024]
+  mel_bins: [32, 64, 80]
+  mel_reduction_start: 80000
+  mel_reduction_ramp: 5000
+  mel_final_ratio: 0.06666666666666667
+
+training:
+  data_order_seed: 20261102
+  epoch_addressed_data_order: true
+  reset_rng_after_init: true
+  validation_checkpoint_interval_steps: 5000
+  checkpoint_keep_last: 2
+  output_dir: runs/champion4_a_control

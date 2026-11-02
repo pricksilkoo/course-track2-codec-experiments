@@ -4,6 +4,41 @@ from __future__ import annotations
 
 import torch
 import torch.nn.functional as F
+from functools import lru_cache
+
+
+@lru_cache(maxsize=24)
+def _mel_filters(n_fft: int, n_mels: int, sample_rate: int) -> torch.Tensor:
+    """HTK triangular magnitude-mel filters; cached on CPU."""
+    mel_max = 2595.0 * torch.log10(torch.tensor(1.0 + sample_rate / 2 / 700))
+    mel = torch.linspace(0, float(mel_max), n_mels + 2)
+    hz = 700.0 * (10.0 ** (mel / 2595.0) - 1.0)
+    frequencies = torch.linspace(0, sample_rate / 2, n_fft // 2 + 1)
+    rising = (frequencies[None] - hz[:-2, None]) / (hz[1:-1] - hz[:-2])[:, None]
+    falling = (hz[2:, None] - frequencies[None]) / (hz[2:] - hz[1:-1])[:, None]
+    filters = torch.minimum(rising, falling).clamp_min(0)
+    return filters / filters.sum(dim=1, keepdim=True).clamp_min(1e-8)
+
+
+def multiscale_mel_loss(
+    estimate: torch.Tensor, reference: torch.Tensor,
+    fft_sizes: tuple[int, ...] = (256, 512, 1024),
+    mel_bins: tuple[int, ...] = (32, 64, 80), sample_rate: int = 16000,
+) -> torch.Tensor:
+    """L1 log1p magnitude-mel error; used only in training, never inference."""
+    if estimate.shape != reference.shape or len(fft_sizes) != len(mel_bins) or not fft_sizes:
+        raise ValueError("incompatible mel loss inputs/resolutions")
+    loss = estimate.new_zeros(())
+    for n_fft, n_mels in zip(fft_sizes, mel_bins):
+        window = torch.hann_window(n_fft, device=estimate.device, dtype=estimate.dtype)
+        filters = _mel_filters(n_fft, n_mels, sample_rate).to(estimate)
+        spectra = []
+        for waveform in (estimate, reference):
+            magnitude = torch.stft(waveform.squeeze(1), n_fft, hop_length=n_fft // 4,
+                                   window=window, return_complex=True).abs()
+            spectra.append(torch.log1p(torch.matmul(filters, magnitude)))
+        loss = loss + F.l1_loss(spectra[0], spectra[1])
+    return loss / len(fft_sizes)
 
 
 def negative_si_snr_loss(
