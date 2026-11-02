@@ -49,16 +49,18 @@ def main() -> None:
     parser.add_argument("--steps", type=int, default=100000)
     parser.add_argument("--poll-seconds", type=int, default=30)
     parser.add_argument("--allow-shared", action="store_true")
+    parser.add_argument("--final-diagnostic", action="store_true")
     args = parser.parse_args()
     if not args.run.startswith("champion4_") or args.gpu not in range(4):
         raise ValueError("supervisor is restricted to the registered study")
     run = ROOT / "runs" / args.run
     run.mkdir(parents=True, exist_ok=True)
-    lock = (run / ".supervisor.lock").open("w")
+    lock = (run / (".final_diagnostic.supervisor.lock" if args.final_diagnostic else ".supervisor.lock")).open("w")
     fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
     gpu_lock = (ROOT / "runs" / f".champion4_gpu{args.gpu}.lock").open("w")
     fcntl.flock(gpu_lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-    state_path = run / "supervisor_state.json"
+    state_path = run / ("final_diagnostic_supervisor_state.json" if args.final_diagnostic else "supervisor_state.json")
+    completion = run / ("evaluation_final100k/DIAGNOSTIC_COMPLETE" if args.final_diagnostic else "PIPELINE_COMPLETE")
 
     def record(status: str, **extra) -> None:
         data = {"status": status, "gpu": args.gpu,
@@ -79,7 +81,7 @@ def main() -> None:
     signal.signal(signal.SIGTERM, interrupted)
     signal.signal(signal.SIGINT, interrupted)
     previous_status = None
-    while not (run / "PIPELINE_COMPLETE").is_file():
+    while not completion.is_file():
         if shutil.disk_usage(ROOT).free < 10 * 2**30:
             record("safety_stop", reason="/storage1 below 10 GiB; no launch")
             return
@@ -99,6 +101,8 @@ def main() -> None:
             continue
         command = ["bash", "scripts/run_champion4_experiment.sh", args.run,
                    str(args.gpu), args.config, str(args.steps)]
+        if args.final_diagnostic:
+            command = ["bash", "scripts/evaluate_champion4_final.sh", args.run, str(args.gpu)]
         record("running", command=command, free_MiB=free,
                sharing_authorized=args.allow_shared, existing_gpu_pids=pids)
         child = subprocess.Popen(command, cwd=ROOT, start_new_session=True,
@@ -133,7 +137,7 @@ def main() -> None:
             record("failed", exit_code=child.returncode,
                    reason="diagnose before resuming only this run; no automatic retry loop")
             return
-        if not (run / "PIPELINE_COMPLETE").is_file():
+        if not completion.is_file():
             record("needs_attention", reason="runner exited zero without completion marker")
             return
     record("complete")

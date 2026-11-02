@@ -55,6 +55,7 @@ def main() -> None:
     parser.add_argument("--status", required=True, choices=("planned", "running", "failed", "complete"))
     parser.add_argument("--config", type=Path, required=True)
     parser.add_argument("--run-dir", type=Path, required=True)
+    parser.add_argument("--checkpoint", type=Path, help="explicit checkpoint for fixed-endpoint diagnostics")
     parser.add_argument("--dataset-summary", type=Path)
     parser.add_argument("--evaluation-summary", type=Path)
     parser.add_argument("--complexity-summary", type=Path)
@@ -66,7 +67,7 @@ def main() -> None:
     evaluation = load_json(args.evaluation_summary)
     complexity = load_json(args.complexity_summary)
     training = last_jsonl(args.run_dir / "metrics.jsonl")
-    checkpoint = args.run_dir / "checkpoints" / "best.pt"
+    checkpoint = args.checkpoint or args.run_dir / "checkpoints" / "best.pt"
     config_text = args.config.read_text(encoding="utf-8") if args.config.is_file() else "<missing>\n"
 
     lines = [
@@ -83,8 +84,11 @@ def main() -> None:
     checkpoint_hash = sha256(checkpoint)
     if checkpoint_hash:
         lines.extend(
-            [f"- Best checkpoint: `{checkpoint}`", f"- Checkpoint SHA-256: `{checkpoint_hash}`"]
+            [f"- {'Evaluated' if args.checkpoint else 'Best'} checkpoint: `{checkpoint}`", f"- Checkpoint SHA-256: `{checkpoint_hash}`"]
         )
+        import torch
+        selected = torch.load(checkpoint, map_location="cpu", weights_only=False)
+        lines.append(f"- Selected checkpoint global step: `{selected.get('global_step', 'n/a')}`")
 
     if dataset:
         lines.extend(
