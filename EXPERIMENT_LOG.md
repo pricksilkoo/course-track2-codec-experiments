@@ -10410,11 +10410,11 @@ training:
 <!-- experiment:champion4_a_control:start -->
 ## champion4_a_control
 
-- Status: `planned`
-- Updated (UTC): `2026-11-02T05:44:32.193592+00:00`
-- Git commit: `ed291b80d5e31826b454561bdb1f05a96885c90d`
+- Status: `running`
+- Updated (UTC): `2026-11-02T05:47:32.639262+00:00`
+- Git commit: `2133501141d533184056fd7e7d4ac8da149aff46`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion4_a_control`
-- Note: Champion-inspired matched100k continuation; user authorized GPU sharing; no quality result yet
+- Note: 100000-step champion-inspired 2x2 study from frozen strong_baseline_v2; same fixed200 development evaluation
 
 ### Dataset
 
@@ -10426,16 +10426,6 @@ training:
 | VCTK validation files | 4247 |
 | LibriTTS training files | 354780 |
 | LibriTTS validation files | 10349 |
-
-### Submission constraints
-
-| Item | Value |
-|---|---:|
-| Bitrate (bps) | 2400 |
-| Algorithmic lookahead (ms) | 30 |
-| Total MFLOP/s | 650.227 |
-| Decoder MFLOP/s | 277.440 |
-| Parameters | 662109 |
 
 ### Effective configuration
 
@@ -10579,11 +10569,11 @@ champion_training:
 <!-- experiment:champion4_b_training:start -->
 ## champion4_b_training
 
-- Status: `planned`
-- Updated (UTC): `2026-11-02T05:44:34.880840+00:00`
-- Git commit: `ed291b80d5e31826b454561bdb1f05a96885c90d`
+- Status: `running`
+- Updated (UTC): `2026-11-02T05:47:32.786288+00:00`
+- Git commit: `2133501141d533184056fd7e7d4ac8da149aff46`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion4_b_training`
-- Note: Champion-inspired matched100k continuation; user authorized GPU sharing; no quality result yet
+- Note: 100000-step champion-inspired 2x2 study from frozen strong_baseline_v2; same fixed200 development evaluation
 
 ### Dataset
 
@@ -10595,16 +10585,6 @@ champion_training:
 | VCTK validation files | 4247 |
 | LibriTTS training files | 354780 |
 | LibriTTS validation files | 10349 |
-
-### Submission constraints
-
-| Item | Value |
-|---|---:|
-| Bitrate (bps) | 2400 |
-| Algorithmic lookahead (ms) | 30 |
-| Total MFLOP/s | 650.227 |
-| Decoder MFLOP/s | 277.440 |
-| Parameters | 662109 |
 
 ### Effective configuration
 
@@ -10744,15 +10724,14 @@ champion_training:
 ```
 
 <!-- experiment:champion4_b_training:end -->
-
 <!-- experiment:champion4_c_conv2former:start -->
 ## champion4_c_conv2former
 
-- Status: `planned`
-- Updated (UTC): `2026-11-02T05:44:37.510556+00:00`
-- Git commit: `ed291b80d5e31826b454561bdb1f05a96885c90d`
+- Status: `running`
+- Updated (UTC): `2026-11-02T05:47:32.711727+00:00`
+- Git commit: `2133501141d533184056fd7e7d4ac8da149aff46`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion4_c_conv2former`
-- Note: Champion-inspired matched100k continuation; user authorized GPU sharing; no quality result yet
+- Note: 100000-step champion-inspired 2x2 study from frozen strong_baseline_v2; same fixed200 development evaluation
 
 ### Dataset
 
@@ -10764,16 +10743,6 @@ champion_training:
 | VCTK validation files | 4247 |
 | LibriTTS training files | 354780 |
 | LibriTTS validation files | 10349 |
-
-### Submission constraints
-
-| Item | Value |
-|---|---:|
-| Bitrate (bps) | 2400 |
-| Algorithmic lookahead (ms) | 30 |
-| Total MFLOP/s | 668.947 |
-| Decoder MFLOP/s | 296.160 |
-| Parameters | 758109 |
 
 ### Effective configuration
 
@@ -10916,15 +10885,14 @@ champion_training:
 ```
 
 <!-- experiment:champion4_c_conv2former:end -->
-
 <!-- experiment:champion4_d_combined:start -->
 ## champion4_d_combined
 
-- Status: `planned`
-- Updated (UTC): `2026-11-02T05:44:40.071086+00:00`
-- Git commit: `ed291b80d5e31826b454561bdb1f05a96885c90d`
+- Status: `running`
+- Updated (UTC): `2026-11-02T05:47:32.566498+00:00`
+- Git commit: `2133501141d533184056fd7e7d4ac8da149aff46`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion4_d_combined`
-- Note: Champion-inspired matched100k continuation; user authorized GPU sharing; no quality result yet
+- Note: 100000-step champion-inspired 2x2 study from frozen strong_baseline_v2; same fixed200 development evaluation
 
 ### Dataset
 
@@ -10936,16 +10904,6 @@ champion_training:
 | VCTK validation files | 4247 |
 | LibriTTS training files | 354780 |
 | LibriTTS validation files | 10349 |
-
-### Submission constraints
-
-| Item | Value |
-|---|---:|
-| Bitrate (bps) | 2400 |
-| Algorithmic lookahead (ms) | 30 |
-| Total MFLOP/s | 668.947 |
-| Decoder MFLOP/s | 296.160 |
-| Parameters | 758109 |
 
 ### Effective configuration
 

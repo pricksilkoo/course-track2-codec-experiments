@@ -1,6 +1,6 @@
 # 冠军思路实验：第一轮四组预注册方案
 
-日期：2026-11-02。状态：实现与预检阶段；结果尚未产生。
+日期：2026-11-02。状态：31项测试与四组预检通过；北京时间13:47已启动四卡共享运行，质量结果待训练完成。
 
 ## 问题与来源
 
@@ -116,6 +116,7 @@ allocated6405.47MiB/reserved7126MiB。当前各卡空闲35–39GiB，足够容�
 
 - `runs/champion4_{a_control,b_training,c_conv2former,d_combined}`
 - `runs/champion4_setup/backward_peak_profile.json`
+- 四组真实父权重初始输出/indices逐位一致性、数据哈希和预检：`runs/champion4_setup/preflight_report.json`
 - `checkpoint_audits/20261102_applied.audit`
 - 完成后：`CHAMPION4_RESULTS.md`，追加`EXPERIMENT_HISTORY.md`及`CODEC_EXPERIMENT_REVIEW.md`。
 

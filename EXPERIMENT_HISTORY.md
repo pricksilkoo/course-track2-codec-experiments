@@ -401,3 +401,10 @@ run's selected checkpoint, teachers, parents and averaging sources survive.
 See `CHECKPOINT_RETENTION.md` and `checkpoint_audits/20261102_applied.audit`.
 Deleted intermediates have no backup; selected-model evaluations remain
 reproducible, arbitrary restart from removed intermediate steps does not.
+
+All31 tests and real-parent initial-output/index equality checks passed. Full
+GAN profiling of D covered both quantized and bypass routes (reserved peak
+7204/7126MiB). The user explicitly authorized sharing the existing GPU workload;
+four100k workers launched in `codec_champion4_v1` on GPUs0–3 at13:47Asia/Shanghai.
+The guards require20GiB GPU free at launch and stop only our pipeline below8GiB
+GPU free or10GiB storage free. Quality comparisons remain pending.
