@@ -408,3 +408,26 @@ GAN profiling of D covered both quantized and bypass routes (reserved peak
 four100k workers launched in `codec_champion4_v1` on GPUs0–3 at13:47Asia/Shanghai.
 The guards require20GiB GPU free at launch and stop only our pipeline below8GiB
 GPU free or10GiB storage free. Quality comparisons remain pending.
+
+## 2026-11-03 — Champion4 completed; checkpoint-selection diagnosis
+
+All four100k runs completed without interruption. Pre-registered reconstruction
+selection picked step5000 in every cell: A46.0115/B46.7819/C45.9936/D46.8959.
+A failed the46.25 positive-control gate; early B/D gains cannot establish a
+reliable breakthrough, and both fail component guards against frozen v2.
+
+A separate, prospectively fixed-endpoint diagnostic was registered after these
+primary scores, before evaluating any final100k quality scores. All four final
+checkpoints were then evaluated on the same fixed200 set: A47.2383/B47.2584/
+C47.1374/D47.1692. A recovered the reference level, while B-A was only+0.0201,
+C-A=-0.1009 and D-A=-0.0691. The main lesson is a mismatch between lowest
+reconstruction loss and perceptual quality, not evidence that100k continuation
+never converged. Supplementary results do not replace the failed primary gate.
+
+Close this small appended Conv2Former adaptation and the current bypass/mel
+training package as deployment upgrades. Preserve best and final weights,
+all8 explicit experiment records and frozen v2. Full metrics, phase analysis,
+RVQ, hashes and paired-file uncertainty: CHAMPION4_RESULTS.md and its.audit.
+Next investigate causal inverse-Fourier synthesis and encoder GRU as separate
+architecture factors, only after a new plan and scratch-positive-control
+resource/interface preflight. No sealed evaluation or baseline promotion.

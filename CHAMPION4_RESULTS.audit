@@ -1,0 +1,5758 @@
+{
+  "created_utc": "2026-11-03T00:38:57.218099+00:00",
+  "baseline": {
+    "name": "strong_baseline_v2",
+    "promoted_date": "2026-10-25",
+    "git_commit_with_results": "6afab92",
+    "run_directory": "runs/struct4_b_residual_later",
+    "checkpoint": "runs/struct4_b_residual_later/checkpoints/best.pt",
+    "checkpoint_sha256": "f9c71919519dbda7d02bdfc56d6eb309cf9a45976d733e29b3fd808b7b77cc1a",
+    "selection_set": "fixed 200-file development set after three-seed family confirmation",
+    "selection_metrics": {
+      "objective_quality_score": 46.746343068256394,
+      "PESQ": 1.9981527459621429,
+      "ESTOI": 0.7287820590353985,
+      "SI_SNR": 5.178890602253455,
+      "UTMOS": 2.9056515991687775
+    },
+    "constraints": {
+      "bitrate_bps": 2400,
+      "algorithmic_lookahead_ms": 30,
+      "total_mflop_per_s": 650.2272,
+      "decoder_mflop_per_s": 277.44,
+      "parameters": 662109
+    },
+    "model": {
+      "architecture": "causal waveform encoder-decoder with long latent TCN",
+      "quantizer": "three-stage projected residual EMA VQ",
+      "projected_stage_dims": [
+        48,
+        64,
+        80
+      ],
+      "frame_rate_hz": 100,
+      "encoder_temporal_layers": 4,
+      "decoder_temporal_layers": 2,
+      "encoder_lookahead_frames": 3,
+      "rvq_stage_commitment_weights": [
+        1.0,
+        1.5,
+        2.0
+      ],
+      "rvq_usage_loss_weight": 0.001
+    },
+    "confirmation": {
+      "status": "confirmed on one-shot sealed 400-file LibriTTS set",
+      "objective_quality_score": 44.96366009080528,
+      "PESQ": 1.901539697945118,
+      "ESTOI": 0.7560905892428204,
+      "SI_SNR": 4.057308079973455,
+      "UTMOS": 2.726732015609741,
+      "previous_confirmed_score": 43.984172910173584,
+      "delta": 0.979487180631696
+    }
+  },
+  "data_hashes_verified": true,
+  "cells": {
+    "a_control": {
+      "effective_config": {
+        "seed": 20261102,
+        "audio": {
+          "sample_rate": 16000,
+          "frame_samples": 160,
+          "segment_samples": 32000
+        },
+        "model": {
+          "sample_rate": 16000,
+          "frame_samples": 160,
+          "quantizer_type": "projected_rvq",
+          "encoder_channels": [
+            8,
+            16,
+            32,
+            64,
+            160
+          ],
+          "encoder_strides": [
+            2,
+            4,
+            4,
+            5
+          ],
+          "decoder_channels": [
+            160,
+            48,
+            24,
+            12,
+            8
+          ],
+          "decoder_strides": [
+            5,
+            4,
+            4,
+            2
+          ],
+          "residual_blocks": 3,
+          "residual_kernel_size": 3,
+          "rvq_num_codebooks": 3,
+          "rvq_codebook_size": 256,
+          "rvq_codebook_dim": 160,
+          "commitment_weight": 0.1,
+          "rvq_ema_decay": 0.95,
+          "rvq_dead_code_threshold": 0.5,
+          "rvq_dead_code_after_updates": 100,
+          "rvq_kmeans_iterations": 10,
+          "encoder_temporal_layers": 4,
+          "decoder_temporal_layers": 2,
+          "temporal_kernel_size": 3,
+          "temporal_expansion": 1,
+          "fsq_levels": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "encoder_lookahead_frames": 3,
+          "decoder_lookahead_frames": 0,
+          "rvq_usage_loss_weight": 0.001,
+          "rvq_usage_temperature": 1.0,
+          "rvq_stage_commitment_weights": [
+            1.0,
+            1.5,
+            2.0
+          ],
+          "projected_stage_dims": [
+            48,
+            64,
+            80
+          ]
+        },
+        "loss": {
+          "waveform_l1_weight": 1.0,
+          "spectral_weight": 1.0,
+          "fft_sizes": [
+            256,
+            512,
+            1024
+          ],
+          "spectral_convergence_weight": 0.25,
+          "linear_magnitude_weight": 0.1,
+          "adversarial_weight": 0.05,
+          "feature_matching_weight": 1.5,
+          "si_snr_weight": 0.003
+        },
+        "adversarial": {
+          "resolutions": [
+            [
+              256,
+              64,
+              256
+            ],
+            [
+              512,
+              128,
+              512
+            ],
+            [
+              1024,
+              256,
+              1024
+            ]
+          ],
+          "start_step": 5000,
+          "warmup_steps": 10000,
+          "learning_rate": 0.0002,
+          "gradient_clip_norm": 10.0,
+          "periods": [
+            2,
+            3,
+            5,
+            7,
+            11
+          ]
+        },
+        "training": {
+          "batch_size": 32,
+          "num_workers": 8,
+          "epochs": 1000,
+          "learning_rate": 2e-05,
+          "weight_decay": 1e-06,
+          "gradient_clip_norm": 1.0,
+          "validation_limit": 32,
+          "validation_checkpoint_interval_steps": 5000,
+          "sample_inference_count": 2,
+          "output_dir": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion4_a_control",
+          "minimum_learning_rate": 5e-06,
+          "warmup_steps": 0,
+          "checkpoint_keep_last": 2,
+          "quantizer_learning_rate": 2e-05,
+          "quantizer_only_steps": 0,
+          "data_order_seed": 20261102,
+          "epoch_addressed_data_order": true,
+          "reset_rng_after_init": true
+        },
+        "champion_training": {
+          "quantizer_bypass_probability": 0.0,
+          "mel_weight": 0.0,
+          "mel_fft_sizes": [
+            256,
+            512,
+            1024
+          ],
+          "mel_bins": [
+            32,
+            64,
+            80
+          ],
+          "mel_reduction_start": 80000,
+          "mel_reduction_ramp": 5000,
+          "mel_final_ratio": 0.06666666666666667
+        }
+      },
+      "metadata": {
+        "created_utc": "2026-11-02T05:47:43.434760+00:00",
+        "command": "scripts/train.py --config configs/champion4/a_control.yaml --train-manifest /storage1/hehaoran/project/course-track2-codec-experiments/data/manifests/vctk_libritts/train.scp --valid-manifest /storage1/hehaoran/project/course-track2-codec-experiments/data/manifests/vctk_libritts/valid.scp --output-dir /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion4_a_control --device cuda --max-total-steps 100000 --init-checkpoint /storage1/hehaoran/project/course-track2-codec-experiments/runs/struct4_b_residual_later/checkpoints/best.pt",
+        "torch_version": "2.13.0+cu129",
+        "world_size": 1,
+        "device": "cuda",
+        "init_checkpoint": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/struct4_b_residual_later/checkpoints/best.pt",
+        "resume_checkpoint": null
+      },
+      "training_curve": [
+        {
+          "timestamp_utc": "2026-11-02T06:10:06.543541+00:00",
+          "epoch": 1,
+          "batch_in_epoch": 5000,
+          "global_step": 5000,
+          "train_loss": 0.20014944153428077,
+          "validation": {
+            "waveform_l1": 0.01374020241200924,
+            "spectral": 0.11369194835424423,
+            "commitment": 0.04784417152404785,
+            "adversarial": 0.5435029864311218,
+            "feature_matching": 0.16099515557289124,
+            "discriminator": 1.2941197156906128,
+            "adversarial_factor": 0.0001,
+            "reconstruction": 0.12743215076625347,
+            "total": 0.1753031890785694
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              256,
+              256
+            ],
+            "perplexity": [
+              113.80349731445312,
+              104.19052124023438,
+              99.85591888427734
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              141.771484375,
+              124.910400390625,
+              126.77924346923828
+            ]
+          },
+          "best_validation": 0.12743215076625347
+        },
+        {
+          "timestamp_utc": "2026-11-02T06:35:00.461851+00:00",
+          "epoch": 1,
+          "batch_in_epoch": 10000,
+          "global_step": 10000,
+          "train_loss": 0.2488809559583664,
+          "validation": {
+            "waveform_l1": 0.014159669168293476,
+            "spectral": 0.1157618835568428,
+            "commitment": 0.07219695299863815,
+            "adversarial": 0.9191582798957825,
+            "feature_matching": 0.16254185140132904,
+            "discriminator": 1.362395167350769,
+            "adversarial_factor": 0.5001,
+            "reconstruction": 0.12992155272513628,
+            "total": 0.34703282834127547
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              255,
+              256
+            ],
+            "perplexity": [
+              122.76632690429688,
+              114.60526275634766,
+              112.20177459716797
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              150.93899536132812,
+              135.23614501953125,
+              137.83572387695312
+            ]
+          },
+          "best_validation": 0.12743215076625347
+        },
+        {
+          "timestamp_utc": "2026-11-02T06:56:52.552680+00:00",
+          "epoch": 2,
+          "batch_in_epoch": 2657,
+          "global_step": 15000,
+          "train_loss": 0.5366724239039071,
+          "validation": {
+            "waveform_l1": 0.014363947324454784,
+            "spectral": 0.11684486269950867,
+            "commitment": 0.09534940123558044,
+            "adversarial": 0.8981868028640747,
+            "feature_matching": 0.16204628348350525,
+            "discriminator": 1.3915066719055176,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13120881002396345,
+            "total": 0.5145369766280055
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              255,
+              256
+            ],
+            "perplexity": [
+              123.50190734863281,
+              116.5939712524414,
+              116.38589477539062
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              153.90052795410156,
+              140.64117431640625,
+              142.75823974609375
+            ]
+          },
+          "best_validation": 0.12743215076625347
+        },
+        {
+          "timestamp_utc": "2026-11-02T07:16:56.400436+00:00",
+          "epoch": 2,
+          "batch_in_epoch": 7657,
+          "global_step": 20000,
+          "train_loss": 0.571537231790252,
+          "validation": {
+            "waveform_l1": 0.014397986233234406,
+            "spectral": 0.1168736070394516,
+            "commitment": 0.09790164232254028,
+            "adversarial": 0.7837472558021545,
+            "feature_matching": 0.16120219230651855,
+            "discriminator": 1.4134516716003418,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.131271593272686,
+            "total": 0.5101638868451118
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              255,
+              256
+            ],
+            "perplexity": [
+              126.55877685546875,
+              116.27301025390625,
+              116.19513702392578
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              156.19131469726562,
+              137.3270263671875,
+              141.0155487060547
+            ]
+          },
+          "best_validation": 0.12743215076625347
+        },
+        {
+          "timestamp_utc": "2026-11-02T07:37:39.770140+00:00",
+          "epoch": 3,
+          "batch_in_epoch": 314,
+          "global_step": 25000,
+          "train_loss": 0.5914666245507586,
+          "validation": {
+            "waveform_l1": 0.014394156634807587,
+            "spectral": 0.11694109439849854,
+            "commitment": 0.1017463356256485,
+            "adversarial": 0.7955448627471924,
+            "feature_matching": 0.16133618354797363,
+            "discriminator": 1.4116573333740234,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13133525103330612,
+            "total": 0.5148631051182747
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              254,
+              256,
+              255
+            ],
+            "perplexity": [
+              120.91673278808594,
+              120.24556732177734,
+              113.98065185546875
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              152.0497283935547,
+              142.95367431640625,
+              142.65269470214844
+            ]
+          },
+          "best_validation": 0.12743215076625347
+        },
+        {
+          "timestamp_utc": "2026-11-02T07:58:30.201557+00:00",
+          "epoch": 3,
+          "batch_in_epoch": 5314,
+          "global_step": 30000,
+          "train_loss": 0.5927635191368079,
+          "validation": {
+            "waveform_l1": 0.014375116676092148,
+            "spectral": 0.11668656766414642,
+            "commitment": 0.10158774256706238,
+            "adversarial": 0.8544470071792603,
+            "feature_matching": 0.16133952140808105,
+            "discriminator": 1.4276185035705566,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13106168434023857,
+            "total": 0.5173810593783855
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              255,
+              256
+            ],
+            "perplexity": [
+              128.4427947998047,
+              121.3983154296875,
+              116.60986328125
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              153.89515686035156,
+              138.12693786621094,
+              138.3985595703125
+            ]
+          },
+          "best_validation": 0.12743215076625347
+        },
+        {
+          "timestamp_utc": "2026-11-02T08:18:32.008631+00:00",
+          "epoch": 3,
+          "batch_in_epoch": 10314,
+          "global_step": 35000,
+          "train_loss": 0.5932352998089323,
+          "validation": {
+            "waveform_l1": 0.01435554213821888,
+            "spectral": 0.11663880199193954,
+            "commitment": 0.10181912779808044,
+            "adversarial": 0.8075329065322876,
+            "feature_matching": 0.16145731508731842,
+            "discriminator": 1.4188318252563477,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13099434413015842,
+            "total": 0.5153760898858308
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              255
+            ],
+            "perplexity": [
+              125.6727294921875,
+              126.90552520751953,
+              117.79341125488281
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              155.66163635253906,
+              147.3645477294922,
+              143.02015686035156
+            ]
+          },
+          "best_validation": 0.12743215076625347
+        },
+        {
+          "timestamp_utc": "2026-11-02T08:38:45.578692+00:00",
+          "epoch": 4,
+          "batch_in_epoch": 2971,
+          "global_step": 40000,
+          "train_loss": 0.5954849959242348,
+          "validation": {
+            "waveform_l1": 0.01444792840629816,
+            "spectral": 0.11688248813152313,
+            "commitment": 0.10192205011844635,
+            "adversarial": 0.7826700210571289,
+            "feature_matching": 0.1626216173171997,
+            "discriminator": 1.4200390577316284,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.1313304165378213,
+            "total": 0.5163183936849236
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              256,
+              256
+            ],
+            "perplexity": [
+              121.04168701171875,
+              121.9003677368164,
+              117.1933822631836
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              150.35232543945312,
+              139.456298828125,
+              141.80859375
+            ]
+          },
+          "best_validation": 0.12743215076625347
+        },
+        {
+          "timestamp_utc": "2026-11-02T08:59:13.754301+00:00",
+          "epoch": 4,
+          "batch_in_epoch": 7971,
+          "global_step": 45000,
+          "train_loss": 0.5960064990437326,
+          "validation": {
+            "waveform_l1": 0.014387385919690132,
+            "spectral": 0.11685176193714142,
+            "commitment": 0.10356102138757706,
+            "adversarial": 0.85880446434021,
+            "feature_matching": 0.162753164768219,
+            "discriminator": 1.4296753406524658,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13123914785683155,
+            "total": 0.5218701396137476
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              255,
+              256
+            ],
+            "perplexity": [
+              121.6915283203125,
+              124.67475128173828,
+              114.75067138671875
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              155.08346557617188,
+              144.31236267089844,
+              142.99525451660156
+            ]
+          },
+          "best_validation": 0.12743215076625347
+        },
+        {
+          "timestamp_utc": "2026-11-02T09:18:22.485505+00:00",
+          "epoch": 5,
+          "batch_in_epoch": 628,
+          "global_step": 50000,
+          "train_loss": 0.5969532828327198,
+          "validation": {
+            "waveform_l1": 0.014332270249724388,
+            "spectral": 0.11637058109045029,
+            "commitment": 0.10250018537044525,
+            "adversarial": 0.9023306369781494,
+            "feature_matching": 0.16349557042121887,
+            "discriminator": 1.4280650615692139,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13070285134017467,
+            "total": 0.5235629241913557
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              255
+            ],
+            "perplexity": [
+              122.81269836425781,
+              118.08292388916016,
+              115.92451477050781
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              154.51870727539062,
+              142.960205078125,
+              146.0170135498047
+            ]
+          },
+          "best_validation": 0.12743215076625347
+        },
+        {
+          "timestamp_utc": "2026-11-02T09:42:20.893422+00:00",
+          "epoch": 5,
+          "batch_in_epoch": 5628,
+          "global_step": 55000,
+          "train_loss": 0.5990033114875727,
+          "validation": {
+            "waveform_l1": 0.014391021803021431,
+            "spectral": 0.11667662113904953,
+            "commitment": 0.1037559062242508,
+            "adversarial": 0.8688059449195862,
+            "feature_matching": 0.16334645450115204,
+            "discriminator": 1.4232031106948853,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13106764294207096,
+            "total": 0.5232835281640291
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              255,
+              255
+            ],
+            "perplexity": [
+              127.02188873291016,
+              121.00393676757812,
+              115.53568267822266
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              160.7393341064453,
+              141.7664031982422,
+              143.42691040039062
+            ]
+          },
+          "best_validation": 0.12743215076625347
+        },
+        {
+          "timestamp_utc": "2026-11-02T10:00:57.838075+00:00",
+          "epoch": 5,
+          "batch_in_epoch": 10628,
+          "global_step": 60000,
+          "train_loss": 0.5999647680365775,
+          "validation": {
+            "waveform_l1": 0.014393082819879055,
+            "spectral": 0.11668738722801208,
+            "commitment": 0.10357743501663208,
+            "adversarial": 0.7932501435279846,
+            "feature_matching": 0.1640760898590088,
+            "discriminator": 1.4300944805145264,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13108047004789114,
+            "total": 0.5204345470294356
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              256,
+              256
+            ],
+            "perplexity": [
+              128.63462829589844,
+              119.29450225830078,
+              111.50366973876953
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              159.94142150878906,
+              139.69210815429688,
+              136.77650451660156
+            ]
+          },
+          "best_validation": 0.12743215076625347
+        },
+        {
+          "timestamp_utc": "2026-11-02T10:19:30.047486+00:00",
+          "epoch": 6,
+          "batch_in_epoch": 3285,
+          "global_step": 65000,
+          "train_loss": 0.6020643706281799,
+          "validation": {
+            "waveform_l1": 0.014381594955921173,
+            "spectral": 0.11662235856056213,
+            "commitment": 0.10435526818037033,
+            "adversarial": 0.851828396320343,
+            "feature_matching": 0.16439177095890045,
+            "discriminator": 1.4245564937591553,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.1310039535164833,
+            "total": 0.5245382979512214
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              256,
+              256
+            ],
+            "perplexity": [
+              128.33172607421875,
+              119.38111114501953,
+              116.79077911376953
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              157.13002014160156,
+              137.1926727294922,
+              139.33047485351562
+            ]
+          },
+          "best_validation": 0.12743215076625347
+        },
+        {
+          "timestamp_utc": "2026-11-02T10:38:01.277471+00:00",
+          "epoch": 6,
+          "batch_in_epoch": 8285,
+          "global_step": 70000,
+          "train_loss": 0.6025362309916018,
+          "validation": {
+            "waveform_l1": 0.014380576089024544,
+            "spectral": 0.11662094295024872,
+            "commitment": 0.10461675375699997,
+            "adversarial": 0.8122437000274658,
+            "feature_matching": 0.16451509296894073,
+            "discriminator": 1.4083250761032104,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13100151903927326,
+            "total": 0.5230030972510576
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              256,
+              256
+            ],
+            "perplexity": [
+              121.37690734863281,
+              123.42254638671875,
+              115.63108825683594
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              152.8356475830078,
+              143.38279724121094,
+              143.25384521484375
+            ]
+          },
+          "best_validation": 0.12743215076625347
+        },
+        {
+          "timestamp_utc": "2026-11-02T10:56:51.045861+00:00",
+          "epoch": 7,
+          "batch_in_epoch": 942,
+          "global_step": 75000,
+          "train_loss": 0.6041797981330543,
+          "validation": {
+            "waveform_l1": 0.014379866421222687,
+            "spectral": 0.11660628765821457,
+            "commitment": 0.1064811646938324,
+            "adversarial": 0.7607254981994629,
+            "feature_matching": 0.1658809781074524,
+            "discriminator": 1.4011489152908325,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13098615407943726,
+            "total": 0.5243250608444214
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              255,
+              256
+            ],
+            "perplexity": [
+              123.495361328125,
+              123.00293731689453,
+              118.62124633789062
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              156.54190063476562,
+              145.790283203125,
+              147.63082885742188
+            ]
+          },
+          "best_validation": 0.12743215076625347
+        },
+        {
+          "timestamp_utc": "2026-11-02T11:15:27.449279+00:00",
+          "epoch": 7,
+          "batch_in_epoch": 5942,
+          "global_step": 80000,
+          "train_loss": 0.6047395805955856,
+          "validation": {
+            "waveform_l1": 0.01436244510114193,
+            "spectral": 0.11665741354227066,
+            "commitment": 0.10514116287231445,
+            "adversarial": 0.7880591154098511,
+            "feature_matching": 0.1656925231218338,
+            "discriminator": 1.4138798713684082,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.1310198586434126,
+            "total": 0.5241027619689703
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              255,
+              256
+            ],
+            "perplexity": [
+              124.5553207397461,
+              119.41265106201172,
+              117.61785125732422
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              153.2222442626953,
+              138.09085083007812,
+              142.90841674804688
+            ]
+          },
+          "best_validation": 0.12743215076625347
+        },
+        {
+          "timestamp_utc": "2026-11-02T11:34:21.216507+00:00",
+          "epoch": 7,
+          "batch_in_epoch": 10942,
+          "global_step": 85000,
+          "train_loss": 0.6057695230832376,
+          "validation": {
+            "waveform_l1": 0.014398287050426006,
+            "spectral": 0.11680646985769272,
+            "commitment": 0.10675033181905746,
+            "adversarial": 0.8962521553039551,
+            "feature_matching": 0.16643491387367249,
+            "discriminator": 1.4064929485321045,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13120475690811872,
+            "total": 0.5324200673028827
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              123.62681579589844,
+              121.342529296875,
+              117.17801666259766
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              156.7483673095703,
+              139.7863311767578,
+              143.6071014404297
+            ]
+          },
+          "best_validation": 0.12743215076625347
+        },
+        {
+          "timestamp_utc": "2026-11-02T11:53:06.508141+00:00",
+          "epoch": 8,
+          "batch_in_epoch": 3599,
+          "global_step": 90000,
+          "train_loss": 0.6072130921599798,
+          "validation": {
+            "waveform_l1": 0.014389071613550186,
+            "spectral": 0.11668836325407028,
+            "commitment": 0.10669341683387756,
+            "adversarial": 0.8498083353042603,
+            "feature_matching": 0.16675934195518494,
+            "discriminator": 1.4126527309417725,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13107743486762047,
+            "total": 0.5304002813994885
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              255,
+              254
+            ],
+            "perplexity": [
+              123.40565490722656,
+              119.53080749511719,
+              114.59635162353516
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              153.5713653564453,
+              138.53338623046875,
+              140.87246704101562
+            ]
+          },
+          "best_validation": 0.12743215076625347
+        },
+        {
+          "timestamp_utc": "2026-11-02T12:11:36.825757+00:00",
+          "epoch": 8,
+          "batch_in_epoch": 8599,
+          "global_step": 95000,
+          "train_loss": 0.608719644504642,
+          "validation": {
+            "waveform_l1": 0.014352905564010143,
+            "spectral": 0.1167413517832756,
+            "commitment": 0.10557927191257477,
+            "adversarial": 0.7893893122673035,
+            "feature_matching": 0.167302206158638,
+            "discriminator": 1.4173640012741089,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13109425734728575,
+            "total": 0.5270963041111827
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              256,
+              256
+            ],
+            "perplexity": [
+              121.84387969970703,
+              113.80713653564453,
+              119.956298828125
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              152.21832275390625,
+              135.0464324951172,
+              146.60536193847656
+            ]
+          },
+          "best_validation": 0.12743215076625347
+        },
+        {
+          "timestamp_utc": "2026-11-02T12:30:07.463369+00:00",
+          "epoch": 9,
+          "batch_in_epoch": 1256,
+          "global_step": 100000,
+          "train_loss": 0.6090974744622875,
+          "validation": {
+            "waveform_l1": 0.014296681620180607,
+            "spectral": 0.11664941161870956,
+            "commitment": 0.10539831966161728,
+            "adversarial": 0.8599274754524231,
+            "feature_matching": 0.1678513139486313,
+            "discriminator": 1.397607445716858,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13094609323889017,
+            "total": 0.5311177575960755
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              256,
+              256
+            ],
+            "perplexity": [
+              121.8000259399414,
+              124.09351348876953,
+              118.47643280029297
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              154.85984802246094,
+              145.54397583007812,
+              146.84625244140625
+            ]
+          },
+          "best_validation": 0.12743215076625347
+        }
+      ],
+      "phase_samples": [
+        {
+          "global_step": 5000,
+          "quantizer_bypass": false,
+          "mel_weight": 0.0,
+          "mel_loss": 0.0,
+          "waveform_l1": 0.01634717360138893,
+          "spectral_loss": 0.13270330429077148,
+          "quantizer_loss": 0.05960724502801895,
+          "loss": 0.19703170657157898,
+          "gan_factor": 0.0001,
+          "peak_allocated_MiB": 5258.60107421875
+        },
+        {
+          "global_step": 15000,
+          "quantizer_bypass": false,
+          "mel_weight": 0.0,
+          "mel_loss": 0.0,
+          "waveform_l1": 0.020514890551567078,
+          "spectral_loss": 0.14778977632522583,
+          "quantizer_loss": 0.15596887469291687,
+          "loss": 0.6788129806518555,
+          "gan_factor": 1.0,
+          "peak_allocated_MiB": 6295.892578125
+        },
+        {
+          "global_step": 80000,
+          "quantizer_bypass": false,
+          "mel_weight": 0.0,
+          "mel_loss": 0.0,
+          "waveform_l1": 0.015861621126532555,
+          "spectral_loss": 0.1343073546886444,
+          "quantizer_loss": 0.13365744054317474,
+          "loss": 0.5842403769493103,
+          "gan_factor": 1.0,
+          "peak_allocated_MiB": 6296.87939453125
+        },
+        {
+          "global_step": 82500,
+          "quantizer_bypass": false,
+          "mel_weight": 0.0,
+          "mel_loss": 0.0,
+          "waveform_l1": 0.016617868095636368,
+          "spectral_loss": 0.12634894251823425,
+          "quantizer_loss": 0.13936878740787506,
+          "loss": 0.585761308670044,
+          "gan_factor": 1.0,
+          "peak_allocated_MiB": 6296.87939453125
+        },
+        {
+          "global_step": 85000,
+          "quantizer_bypass": false,
+          "mel_weight": 0.0,
+          "mel_loss": 0.0,
+          "waveform_l1": 0.017404580488801003,
+          "spectral_loss": 0.14328202605247498,
+          "quantizer_loss": 0.13029375672340393,
+          "loss": 0.6194524765014648,
+          "gan_factor": 1.0,
+          "peak_allocated_MiB": 6296.87939453125
+        },
+        {
+          "global_step": 100000,
+          "quantizer_bypass": false,
+          "mel_weight": 0.0,
+          "mel_loss": 0.0,
+          "waveform_l1": 0.018822981044650078,
+          "spectral_loss": 0.1464325189590454,
+          "quantizer_loss": 0.13829153776168823,
+          "loss": 0.6494114398956299,
+          "gan_factor": 1.0,
+          "peak_allocated_MiB": 6296.87939453125
+        }
+      ],
+      "primary": {
+        "summary": {
+          "files": 200,
+          "means": {
+            "PESQ": 2.0381553864479063,
+            "ESTOI": 0.742374804702584,
+            "SI_SNR": 5.501685770973027,
+            "UTMOS": 2.6557114708423613
+          },
+          "objective_quality_score": 46.01151603467255,
+          "utmos_skipped": false
+        },
+        "complexity": {
+          "sample_rate_hz": 16000,
+          "duration_seconds": 1.0,
+          "frame_samples": 160,
+          "bitrate_bps": 2400,
+          "encoder_mmac_per_s": 168.576,
+          "decoder_mmac_per_s": 138.72,
+          "quantizer_mmac_per_s": 17.8176,
+          "unclassified_mmac_per_s": 0.0,
+          "total_mflop_per_s": 650.2272,
+          "decoder_mflop_per_s": 277.44,
+          "decoder_modulation_mflop_per_s": 0.0,
+          "parameters": 662109,
+          "quantizer_type": "projected_rvq",
+          "algorithmic_lookahead_ms": 30,
+          "notes": "Counts Conv1d, ConvTranspose1d, Linear, bounded attention QK/AV, approximate VQ nearest-neighbour search and Conv2Former elementwise modulation multiplications. Quantizer synthesis projections count toward the decoder budget. MMAC fields exclude the separately reported non-MAC modulation product. FSQ scalar rounding is reported as zero MACs. Excludes activations, normalization, padding and file I/O."
+        },
+        "rvq": {
+          "checkpoint": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion4_a_control/checkpoints/best.pt",
+          "files": 200,
+          "samples": 16197971,
+          "frames": 101286,
+          "occupancy": [
+            {
+              "stage": 1,
+              "active_codes": 256,
+              "perplexity": 135.49403942112085,
+              "entropy_bits": 7.0820855765071205,
+              "top1_fraction": 0.05652311276978062,
+              "top10_fraction": 0.28443220188377466,
+              "codes_for_95pct_mass": 173,
+              "codes_for_99pct_mass": 221
+            },
+            {
+              "stage": 2,
+              "active_codes": 256,
+              "perplexity": 121.81639282260086,
+              "entropy_bits": 6.928564479443619,
+              "top1_fraction": 0.09110834666192762,
+              "top10_fraction": 0.32085381987638967,
+              "codes_for_95pct_mass": 173,
+              "codes_for_99pct_mass": 217
+            },
+            {
+              "stage": 3,
+              "active_codes": 256,
+              "perplexity": 120.73488736981534,
+              "entropy_bits": 6.915698805079062,
+              "top1_fraction": 0.09020002764449184,
+              "top10_fraction": 0.32691586201449363,
+              "codes_for_95pct_mass": 179,
+              "codes_for_99pct_mass": 223
+            }
+          ],
+          "entropy": {
+            "marginal_bits": [
+              7.0820855765071205,
+              6.928564479443619,
+              6.915698805079062
+            ],
+            "sum_marginal_bits": 20.9263488610298,
+            "naive_plugin_joint_stage12_bits": 12.558864020638175,
+            "naive_plugin_joint_stage123_bits": 14.871236373188296,
+            "naive_plugin_conditional_stage2_given_stage1_bits": 5.476778444131055,
+            "naive_plugin_conditional_stage3_given_stage12_bits": 2.3123723525501205,
+            "naive_plugin_interstage_redundancy_bits": 6.055112487841505,
+            "joint_entropy_caveat": "Sparse plug-in joint entropy is downward-biased and capped by log2(frames); do not interpret 24 minus this estimate as unused capacity."
+          },
+          "residual_quantization": [
+            {
+              "stage": 1,
+              "mse_before": 1.0306456826086074,
+              "mse_after": 0.3781528690876077,
+              "relative_reduction": 0.6330912985241572,
+              "relative_to_original_after": 0.3669087014758427
+            },
+            {
+              "stage": 2,
+              "mse_before": 0.3781528690876077,
+              "mse_after": 0.1968627180232311,
+              "relative_reduction": 0.4794096934971994,
+              "relative_to_original_after": 0.19100911335985352
+            },
+            {
+              "stage": 3,
+              "mse_before": 0.1968627180232311,
+              "mse_after": 0.09466586477123383,
+              "relative_reduction": 0.5191275132142459,
+              "relative_to_original_after": 0.09185102734009476
+            }
+          ],
+          "partial_reconstruction": [
+            {
+              "stages": 1,
+              "nominal_bitrate_bps": 800,
+              "waveform_l1": 0.055728994368711655,
+              "spectral_loss_mean_per_file": 0.5601998281478882,
+              "si_snr_db_mean_per_file": -11.532588612437248
+            },
+            {
+              "stages": 2,
+              "nominal_bitrate_bps": 1600,
+              "waveform_l1": 0.04188684060438678,
+              "spectral_loss_mean_per_file": 0.3248804796487093,
+              "si_snr_db_mean_per_file": -4.195264637148939
+            },
+            {
+              "stages": 3,
+              "nominal_bitrate_bps": 2400,
+              "waveform_l1": 0.015141004185471953,
+              "spectral_loss_mean_per_file": 0.1218979911506176,
+              "si_snr_db_mean_per_file": 5.501686176769436
+            }
+          ],
+          "checkpoint_global_step": 5000
+        },
+        "checkpoint_step": 5000,
+        "checkpoint_sha256": "40e71c3f125a6e4da4fb0fe011577b83745d56ce3c7d5eee98be2253257d0303",
+        "checkpoint": "runs/champion4_a_control/checkpoints/best.pt"
+      },
+      "final100k": {
+        "summary": {
+          "files": 200,
+          "means": {
+            "PESQ": 2.021966590285301,
+            "ESTOI": 0.7321297541864723,
+            "SI_SNR": 5.270710902773162,
+            "UTMOS": 2.934579325914383
+          },
+          "objective_quality_score": 47.23832031504065,
+          "utmos_skipped": false
+        },
+        "complexity": {
+          "sample_rate_hz": 16000,
+          "duration_seconds": 1.0,
+          "frame_samples": 160,
+          "bitrate_bps": 2400,
+          "encoder_mmac_per_s": 168.576,
+          "decoder_mmac_per_s": 138.72,
+          "quantizer_mmac_per_s": 17.8176,
+          "unclassified_mmac_per_s": 0.0,
+          "total_mflop_per_s": 650.2272,
+          "decoder_mflop_per_s": 277.44,
+          "decoder_modulation_mflop_per_s": 0.0,
+          "parameters": 662109,
+          "quantizer_type": "projected_rvq",
+          "algorithmic_lookahead_ms": 30,
+          "notes": "Counts Conv1d, ConvTranspose1d, Linear, bounded attention QK/AV, approximate VQ nearest-neighbour search and Conv2Former elementwise modulation multiplications. Quantizer synthesis projections count toward the decoder budget. MMAC fields exclude the separately reported non-MAC modulation product. FSQ scalar rounding is reported as zero MACs. Excludes activations, normalization, padding and file I/O."
+        },
+        "rvq": {
+          "checkpoint": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion4_a_control/checkpoints/last.pt",
+          "files": 200,
+          "samples": 16197971,
+          "frames": 101286,
+          "occupancy": [
+            {
+              "stage": 1,
+              "active_codes": 256,
+              "perplexity": 141.46764228924178,
+              "entropy_bits": 7.144328294794918,
+              "top1_fraction": 0.05263313784728393,
+              "top10_fraction": 0.24692455028335605,
+              "codes_for_95pct_mass": 172,
+              "codes_for_99pct_mass": 222
+            },
+            {
+              "stage": 2,
+              "active_codes": 256,
+              "perplexity": 143.37546365795538,
+              "entropy_bits": 7.163654341515049,
+              "top1_fraction": 0.04555417333096381,
+              "top10_fraction": 0.263965404893075,
+              "codes_for_95pct_mass": 183,
+              "codes_for_99pct_mass": 222
+            },
+            {
+              "stage": 3,
+              "active_codes": 255,
+              "perplexity": 143.9469609241955,
+              "entropy_bits": 7.169393520142727,
+              "top1_fraction": 0.045998459806883475,
+              "top10_fraction": 0.27345338941215963,
+              "codes_for_95pct_mass": 188,
+              "codes_for_99pct_mass": 227
+            }
+          ],
+          "entropy": {
+            "marginal_bits": [
+              7.144328294794918,
+              7.163654341515049,
+              7.169393520142727
+            ],
+            "sum_marginal_bits": 21.477376156452692,
+            "naive_plugin_joint_stage12_bits": 13.029157577044494,
+            "naive_plugin_joint_stage123_bits": 15.4657169231115,
+            "naive_plugin_conditional_stage2_given_stage1_bits": 5.884829282249576,
+            "naive_plugin_conditional_stage3_given_stage12_bits": 2.436559346067007,
+            "naive_plugin_interstage_redundancy_bits": 6.011659233341192,
+            "joint_entropy_caveat": "Sparse plug-in joint entropy is downward-biased and capped by log2(frames); do not interpret 24 minus this estimate as unused capacity."
+          },
+          "residual_quantization": [
+            {
+              "stage": 1,
+              "mse_before": 1.6008219903801701,
+              "mse_after": 0.7363865510724497,
+              "relative_reduction": 0.539994730521181,
+              "relative_to_original_after": 0.46000526947881903
+            },
+            {
+              "stage": 2,
+              "mse_before": 0.7363865510724497,
+              "mse_after": 0.5301021067107232,
+              "relative_reduction": 0.2801306515732809,
+              "relative_to_original_after": 0.3311436936125748
+            },
+            {
+              "stage": 3,
+              "mse_before": 0.5301021067107232,
+              "mse_after": 0.19751398317745786,
+              "relative_reduction": 0.6274038894072133,
+              "relative_to_original_after": 0.1233828522873748
+            }
+          ],
+          "partial_reconstruction": [
+            {
+              "stages": 1,
+              "nominal_bitrate_bps": 800,
+              "waveform_l1": 0.05689568783451974,
+              "spectral_loss_mean_per_file": 0.5734494949877262,
+              "si_snr_db_mean_per_file": -10.982291126847267
+            },
+            {
+              "stages": 2,
+              "nominal_bitrate_bps": 1600,
+              "waveform_l1": 0.051129392366174864,
+              "spectral_loss_mean_per_file": 0.4222811667621136,
+              "si_snr_db_mean_per_file": -6.1303893210180105
+            },
+            {
+              "stages": 3,
+              "nominal_bitrate_bps": 2400,
+              "waveform_l1": 0.01564485701943705,
+              "spectral_loss_mean_per_file": 0.1253418190032244,
+              "si_snr_db_mean_per_file": 5.270711383745074
+            }
+          ],
+          "checkpoint_global_step": 100000
+        },
+        "checkpoint_step": 100000,
+        "checkpoint_sha256": "cb25f19bb4f9504cbfbcb12097f83750a4c3937972438442470f95a9d7b00a1c",
+        "checkpoint": "runs/champion4_a_control/checkpoints/last.pt"
+      }
+    },
+    "b_training": {
+      "effective_config": {
+        "seed": 20261102,
+        "audio": {
+          "sample_rate": 16000,
+          "frame_samples": 160,
+          "segment_samples": 32000
+        },
+        "model": {
+          "sample_rate": 16000,
+          "frame_samples": 160,
+          "quantizer_type": "projected_rvq",
+          "encoder_channels": [
+            8,
+            16,
+            32,
+            64,
+            160
+          ],
+          "encoder_strides": [
+            2,
+            4,
+            4,
+            5
+          ],
+          "decoder_channels": [
+            160,
+            48,
+            24,
+            12,
+            8
+          ],
+          "decoder_strides": [
+            5,
+            4,
+            4,
+            2
+          ],
+          "residual_blocks": 3,
+          "residual_kernel_size": 3,
+          "rvq_num_codebooks": 3,
+          "rvq_codebook_size": 256,
+          "rvq_codebook_dim": 160,
+          "commitment_weight": 0.1,
+          "rvq_ema_decay": 0.95,
+          "rvq_dead_code_threshold": 0.5,
+          "rvq_dead_code_after_updates": 100,
+          "rvq_kmeans_iterations": 10,
+          "encoder_temporal_layers": 4,
+          "decoder_temporal_layers": 2,
+          "temporal_kernel_size": 3,
+          "temporal_expansion": 1,
+          "fsq_levels": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "encoder_lookahead_frames": 3,
+          "decoder_lookahead_frames": 0,
+          "rvq_usage_loss_weight": 0.001,
+          "rvq_usage_temperature": 1.0,
+          "rvq_stage_commitment_weights": [
+            1.0,
+            1.5,
+            2.0
+          ],
+          "projected_stage_dims": [
+            48,
+            64,
+            80
+          ]
+        },
+        "loss": {
+          "waveform_l1_weight": 1.0,
+          "spectral_weight": 1.0,
+          "fft_sizes": [
+            256,
+            512,
+            1024
+          ],
+          "spectral_convergence_weight": 0.25,
+          "linear_magnitude_weight": 0.1,
+          "adversarial_weight": 0.05,
+          "feature_matching_weight": 1.5,
+          "si_snr_weight": 0.003
+        },
+        "adversarial": {
+          "resolutions": [
+            [
+              256,
+              64,
+              256
+            ],
+            [
+              512,
+              128,
+              512
+            ],
+            [
+              1024,
+              256,
+              1024
+            ]
+          ],
+          "start_step": 5000,
+          "warmup_steps": 10000,
+          "learning_rate": 0.0002,
+          "gradient_clip_norm": 10.0,
+          "periods": [
+            2,
+            3,
+            5,
+            7,
+            11
+          ]
+        },
+        "training": {
+          "batch_size": 32,
+          "num_workers": 8,
+          "epochs": 1000,
+          "learning_rate": 2e-05,
+          "weight_decay": 1e-06,
+          "gradient_clip_norm": 1.0,
+          "validation_limit": 32,
+          "validation_checkpoint_interval_steps": 5000,
+          "sample_inference_count": 2,
+          "output_dir": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion4_b_training",
+          "minimum_learning_rate": 5e-06,
+          "warmup_steps": 0,
+          "checkpoint_keep_last": 2,
+          "quantizer_learning_rate": 2e-05,
+          "quantizer_only_steps": 0,
+          "data_order_seed": 20261102,
+          "epoch_addressed_data_order": true,
+          "reset_rng_after_init": true
+        },
+        "champion_training": {
+          "quantizer_bypass_probability": 0.5,
+          "mel_weight": 1.0,
+          "mel_fft_sizes": [
+            256,
+            512,
+            1024
+          ],
+          "mel_bins": [
+            32,
+            64,
+            80
+          ],
+          "mel_reduction_start": 80000,
+          "mel_reduction_ramp": 5000,
+          "mel_final_ratio": 0.06666666666666667
+        }
+      },
+      "metadata": {
+        "created_utc": "2026-11-02T05:47:43.433684+00:00",
+        "command": "scripts/train.py --config configs/champion4/b_training.yaml --train-manifest /storage1/hehaoran/project/course-track2-codec-experiments/data/manifests/vctk_libritts/train.scp --valid-manifest /storage1/hehaoran/project/course-track2-codec-experiments/data/manifests/vctk_libritts/valid.scp --output-dir /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion4_b_training --device cuda --max-total-steps 100000 --init-checkpoint /storage1/hehaoran/project/course-track2-codec-experiments/runs/struct4_b_residual_later/checkpoints/best.pt",
+        "torch_version": "2.13.0+cu129",
+        "world_size": 1,
+        "device": "cuda",
+        "init_checkpoint": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/struct4_b_residual_later/checkpoints/best.pt",
+        "resume_checkpoint": null
+      },
+      "training_curve": [
+        {
+          "timestamp_utc": "2026-11-02T06:10:06.109326+00:00",
+          "epoch": 1,
+          "batch_in_epoch": 5000,
+          "global_step": 5000,
+          "train_loss": 0.2218232667416334,
+          "validation": {
+            "waveform_l1": 0.014041378162801266,
+            "spectral": 0.11315405368804932,
+            "commitment": 0.06501726061105728,
+            "adversarial": 0.8997825980186462,
+            "feature_matching": 0.15963909029960632,
+            "discriminator": 1.3600518703460693,
+            "adversarial_factor": 0.0001,
+            "reconstruction": 0.12719543185085058,
+            "total": 0.1922411372384429
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              256,
+              255
+            ],
+            "perplexity": [
+              124.61710357666016,
+              117.77729797363281,
+              104.67839813232422
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              148.98252868652344,
+              133.9443817138672,
+              129.0489501953125
+            ]
+          },
+          "best_validation": 0.12719543185085058
+        },
+        {
+          "timestamp_utc": "2026-11-02T06:35:00.518010+00:00",
+          "epoch": 1,
+          "batch_in_epoch": 10000,
+          "global_step": 10000,
+          "train_loss": 0.26178041348606346,
+          "validation": {
+            "waveform_l1": 0.0142610352486372,
+            "spectral": 0.11523830145597458,
+            "commitment": 0.08561579138040543,
+            "adversarial": 0.8561791777610779,
+            "feature_matching": 0.16103151440620422,
+            "discriminator": 1.3022533655166626,
+            "adversarial_factor": 0.5001,
+            "reconstruction": 0.12949933670461178,
+            "total": 0.35732167895674705
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              256,
+              256
+            ],
+            "perplexity": [
+              128.3578643798828,
+              123.40583038330078,
+              112.01947784423828
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              160.56451416015625,
+              146.05718994140625,
+              141.6790313720703
+            ]
+          },
+          "best_validation": 0.12719543185085058
+        },
+        {
+          "timestamp_utc": "2026-11-02T06:57:04.537281+00:00",
+          "epoch": 2,
+          "batch_in_epoch": 2657,
+          "global_step": 15000,
+          "train_loss": 0.5091200896816053,
+          "validation": {
+            "waveform_l1": 0.014502395875751972,
+            "spectral": 0.11644488573074341,
+            "commitment": 0.1103929728269577,
+            "adversarial": 0.9831881523132324,
+            "feature_matching": 0.15947188436985016,
+            "discriminator": 1.4201055765151978,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13094728160649538,
+            "total": 0.5297074886038899
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              256,
+              256
+            ],
+            "perplexity": [
+              129.56077575683594,
+              121.59123992919922,
+              111.04205322265625
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              156.39105224609375,
+              145.67214965820312,
+              140.32284545898438
+            ]
+          },
+          "best_validation": 0.12719543185085058
+        },
+        {
+          "timestamp_utc": "2026-11-02T07:17:31.137071+00:00",
+          "epoch": 2,
+          "batch_in_epoch": 7657,
+          "global_step": 20000,
+          "train_loss": 0.5385638440077215,
+          "validation": {
+            "waveform_l1": 0.014462709426879883,
+            "spectral": 0.11693312972784042,
+            "commitment": 0.11687728762626648,
+            "adversarial": 0.7386602163314819,
+            "feature_matching": 0.1583913415670395,
+            "discriminator": 1.3804055452346802,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.1313958391547203,
+            "total": 0.5227931499481201
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              129.53518676757812,
+              121.14469909667969,
+              118.70211029052734
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              156.30799865722656,
+              141.41357421875,
+              144.4373016357422
+            ]
+          },
+          "best_validation": 0.12719543185085058
+        },
+        {
+          "timestamp_utc": "2026-11-02T07:38:47.338485+00:00",
+          "epoch": 3,
+          "batch_in_epoch": 314,
+          "global_step": 25000,
+          "train_loss": 0.5534260644085088,
+          "validation": {
+            "waveform_l1": 0.01438645925372839,
+            "spectral": 0.11624398827552795,
+            "commitment": 0.1175307035446167,
+            "adversarial": 0.7729153633117676,
+            "feature_matching": 0.15748870372772217,
+            "discriminator": 1.3654499053955078,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13063044752925634,
+            "total": 0.5230399748310447
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              256,
+              255
+            ],
+            "perplexity": [
+              121.4168472290039,
+              119.43986511230469,
+              115.40359497070312
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              150.4440460205078,
+              139.0858154296875,
+              146.01805114746094
+            ]
+          },
+          "best_validation": 0.12719543185085058
+        },
+        {
+          "timestamp_utc": "2026-11-02T08:00:20.898632+00:00",
+          "epoch": 3,
+          "batch_in_epoch": 5314,
+          "global_step": 30000,
+          "train_loss": 0.5525291962398369,
+          "validation": {
+            "waveform_l1": 0.014419700019061565,
+            "spectral": 0.11618538945913315,
+            "commitment": 0.11568371951580048,
+            "adversarial": 0.9288989901542664,
+            "feature_matching": 0.15711578726768494,
+            "discriminator": 1.4346566200256348,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.1306050894781947,
+            "total": 0.5284074394032359
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              256,
+              256
+            ],
+            "perplexity": [
+              123.71928405761719,
+              121.90821075439453,
+              111.25076293945312
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              151.69537353515625,
+              141.8378143310547,
+              137.11563110351562
+            ]
+          },
+          "best_validation": 0.12719543185085058
+        },
+        {
+          "timestamp_utc": "2026-11-02T08:20:31.007831+00:00",
+          "epoch": 3,
+          "batch_in_epoch": 10314,
+          "global_step": 35000,
+          "train_loss": 0.5504286444496919,
+          "validation": {
+            "waveform_l1": 0.014395656064152718,
+            "spectral": 0.11614860594272614,
+            "commitment": 0.11709272116422653,
+            "adversarial": 0.8568148016929626,
+            "feature_matching": 0.15656788647174835,
+            "discriminator": 1.4037739038467407,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13054426200687885,
+            "total": 0.525329552963376
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              121.47150421142578,
+              120.28886413574219,
+              116.5875244140625
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              148.0025634765625,
+              137.1693115234375,
+              140.52078247070312
+            ]
+          },
+          "best_validation": 0.12719543185085058
+        },
+        {
+          "timestamp_utc": "2026-11-02T08:40:58.494432+00:00",
+          "epoch": 4,
+          "batch_in_epoch": 2971,
+          "global_step": 40000,
+          "train_loss": 0.5498525850482358,
+          "validation": {
+            "waveform_l1": 0.014529899694025517,
+            "spectral": 0.11653748899698257,
+            "commitment": 0.11839861422777176,
+            "adversarial": 0.8920315504074097,
+            "feature_matching": 0.1571119725704193,
+            "discriminator": 1.4126416444778442,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.1310673886910081,
+            "total": 0.5297355392947793
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              255,
+              256
+            ],
+            "perplexity": [
+              118.65497589111328,
+              119.22427368164062,
+              117.42189025878906
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              147.78985595703125,
+              139.5792999267578,
+              145.0303497314453
+            ]
+          },
+          "best_validation": 0.12719543185085058
+        },
+        {
+          "timestamp_utc": "2026-11-02T09:01:43.149162+00:00",
+          "epoch": 4,
+          "batch_in_epoch": 7971,
+          "global_step": 45000,
+          "train_loss": 0.5515936524023631,
+          "validation": {
+            "waveform_l1": 0.01440957747399807,
+            "spectral": 0.11628618836402893,
+            "commitment": 0.11806918680667877,
+            "adversarial": 0.8835335969924927,
+            "feature_matching": 0.15653619170188904,
+            "discriminator": 1.425850749015808,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.130695765838027,
+            "total": 0.5277459200471639
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              256,
+              255
+            ],
+            "perplexity": [
+              121.78277587890625,
+              121.15734100341797,
+              111.97125244140625
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              152.3360137939453,
+              145.0680389404297,
+              143.6034698486328
+            ]
+          },
+          "best_validation": 0.12719543185085058
+        },
+        {
+          "timestamp_utc": "2026-11-02T09:21:00.802806+00:00",
+          "epoch": 5,
+          "batch_in_epoch": 628,
+          "global_step": 50000,
+          "train_loss": 0.5478535535134328,
+          "validation": {
+            "waveform_l1": 0.014370044693350792,
+            "spectral": 0.11608763039112091,
+            "commitment": 0.11846719682216644,
+            "adversarial": 0.9430719017982483,
+            "feature_matching": 0.15717418491840363,
+            "discriminator": 1.4102784395217896,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.1304576750844717,
+            "total": 0.531839744374156
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              255,
+              256
+            ],
+            "perplexity": [
+              121.12689971923828,
+              116.30506134033203,
+              114.9084701538086
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              152.7673797607422,
+              137.36685180664062,
+              145.50677490234375
+            ]
+          },
+          "best_validation": 0.12719543185085058
+        },
+        {
+          "timestamp_utc": "2026-11-02T09:45:02.680007+00:00",
+          "epoch": 5,
+          "batch_in_epoch": 5628,
+          "global_step": 55000,
+          "train_loss": 0.552149989399278,
+          "validation": {
+            "waveform_l1": 0.014449396170675755,
+            "spectral": 0.11623592674732208,
+            "commitment": 0.12199199944734573,
+            "adversarial": 0.9621149897575378,
+            "feature_matching": 0.15694332122802734,
+            "discriminator": 1.4348872900009155,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13068532291799784,
+            "total": 0.5361980536952615
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              125.16546630859375,
+              121.9527587890625,
+              117.84673309326172
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              158.67776489257812,
+              147.75929260253906,
+              151.52093505859375
+            ]
+          },
+          "best_validation": 0.12719543185085058
+        },
+        {
+          "timestamp_utc": "2026-11-02T10:03:47.983104+00:00",
+          "epoch": 5,
+          "batch_in_epoch": 10628,
+          "global_step": 60000,
+          "train_loss": 0.5518889933779673,
+          "validation": {
+            "waveform_l1": 0.01440285611897707,
+            "spectral": 0.11607716977596283,
+            "commitment": 0.1231653168797493,
+            "adversarial": 0.8088865876197815,
+            "feature_matching": 0.15757131576538086,
+            "discriminator": 1.4013748168945312,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.1304800258949399,
+            "total": 0.5304466458037496
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              121.6409912109375,
+              118.59732818603516,
+              116.31082916259766
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              149.00881958007812,
+              138.55447387695312,
+              143.49305725097656
+            ]
+          },
+          "best_validation": 0.12719543185085058
+        },
+        {
+          "timestamp_utc": "2026-11-02T10:22:31.915677+00:00",
+          "epoch": 6,
+          "batch_in_epoch": 3285,
+          "global_step": 65000,
+          "train_loss": 0.5493551419659474,
+          "validation": {
+            "waveform_l1": 0.014406941831111908,
+            "spectral": 0.11630748957395554,
+            "commitment": 0.12178905308246613,
+            "adversarial": 0.8136462569236755,
+            "feature_matching": 0.1580476015806198,
+            "discriminator": 1.3866963386535645,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13071443140506744,
+            "total": 0.530257199704647
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              255,
+              256
+            ],
+            "perplexity": [
+              123.38771057128906,
+              120.37154388427734,
+              116.57173156738281
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              149.2039031982422,
+              139.5335235595703,
+              141.93727111816406
+            ]
+          },
+          "best_validation": 0.12719543185085058
+        },
+        {
+          "timestamp_utc": "2026-11-02T10:41:16.805291+00:00",
+          "epoch": 6,
+          "batch_in_epoch": 8285,
+          "global_step": 70000,
+          "train_loss": 0.5528033607431975,
+          "validation": {
+            "waveform_l1": 0.014416287653148174,
+            "spectral": 0.11599492281675339,
+            "commitment": 0.12147089838981628,
+            "adversarial": 0.8236529231071472,
+            "feature_matching": 0.15784938633441925,
+            "discriminator": 1.3868335485458374,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13041121046990156,
+            "total": 0.5298388345167041
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              256,
+              256
+            ],
+            "perplexity": [
+              121.42251586914062,
+              121.22570037841797,
+              115.09052276611328
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              147.54469299316406,
+              143.76132202148438,
+              144.15802001953125
+            ]
+          },
+          "best_validation": 0.12719543185085058
+        },
+        {
+          "timestamp_utc": "2026-11-02T11:00:00.881867+00:00",
+          "epoch": 7,
+          "batch_in_epoch": 942,
+          "global_step": 75000,
+          "train_loss": 0.5493608588499121,
+          "validation": {
+            "waveform_l1": 0.01442902535200119,
+            "spectral": 0.11583374440670013,
+            "commitment": 0.12200559675693512,
+            "adversarial": 0.7750443816184998,
+            "feature_matching": 0.1579575091600418,
+            "discriminator": 1.3747518062591553,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13026276975870132,
+            "total": 0.5279568493366241
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              122.10631561279297,
+              116.6598129272461,
+              116.72146606445312
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              150.9025115966797,
+              138.49989318847656,
+              146.32907104492188
+            ]
+          },
+          "best_validation": 0.12719543185085058
+        },
+        {
+          "timestamp_utc": "2026-11-02T11:18:44.713306+00:00",
+          "epoch": 7,
+          "batch_in_epoch": 5942,
+          "global_step": 80000,
+          "train_loss": 0.551429211521582,
+          "validation": {
+            "waveform_l1": 0.014401513151824474,
+            "spectral": 0.11596120148897171,
+            "commitment": 0.12380223721265793,
+            "adversarial": 0.8375951647758484,
+            "feature_matching": 0.15784616768360138,
+            "discriminator": 1.3873142004013062,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13036271464079618,
+            "total": 0.5328139616176486
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              255,
+              256
+            ],
+            "perplexity": [
+              126.87684631347656,
+              118.44541931152344,
+              116.41436004638672
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              151.7135467529297,
+              135.10169982910156,
+              144.1851043701172
+            ]
+          },
+          "best_validation": 0.12719543185085058
+        },
+        {
+          "timestamp_utc": "2026-11-02T11:37:29.255828+00:00",
+          "epoch": 7,
+          "batch_in_epoch": 10942,
+          "global_step": 85000,
+          "train_loss": 0.5412083412846576,
+          "validation": {
+            "waveform_l1": 0.014395932666957378,
+            "spectral": 0.11609460413455963,
+            "commitment": 0.11365404725074768,
+            "adversarial": 0.8745187520980835,
+            "feature_matching": 0.15796147286891937,
+            "discriminator": 1.3966517448425293,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.130490536801517,
+            "total": 0.5248127309605479
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              121.72222137451172,
+              120.28926849365234,
+              111.42166137695312
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              150.48336791992188,
+              144.97654724121094,
+              142.89178466796875
+            ]
+          },
+          "best_validation": 0.12719543185085058
+        },
+        {
+          "timestamp_utc": "2026-11-02T11:56:12.788916+00:00",
+          "epoch": 8,
+          "batch_in_epoch": 3599,
+          "global_step": 90000,
+          "train_loss": 0.49959190114069796,
+          "validation": {
+            "waveform_l1": 0.014402777887880802,
+            "spectral": 0.11622658371925354,
+            "commitment": 0.11135361343622208,
+            "adversarial": 0.784235954284668,
+            "feature_matching": 0.15853682160377502,
+            "discriminator": 1.3928860425949097,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13062936160713434,
+            "total": 0.5190000051632524
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              256,
+              255
+            ],
+            "perplexity": [
+              115.61703491210938,
+              116.34593963623047,
+              115.67218017578125
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              142.8212127685547,
+              137.74636840820312,
+              143.70245361328125
+            ]
+          },
+          "best_validation": 0.12719543185085058
+        },
+        {
+          "timestamp_utc": "2026-11-02T12:14:56.011623+00:00",
+          "epoch": 8,
+          "batch_in_epoch": 8599,
+          "global_step": 95000,
+          "train_loss": 0.499567927808481,
+          "validation": {
+            "waveform_l1": 0.014393538236618042,
+            "spectral": 0.11619406193494797,
+            "commitment": 0.11015430092811584,
+            "adversarial": 0.7856424450874329,
+            "feature_matching": 0.15938840806484222,
+            "discriminator": 1.3998466730117798,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.130587600171566,
+            "total": 0.5191066354513169
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              255,
+              256
+            ],
+            "perplexity": [
+              116.54711151123047,
+              115.50495147705078,
+              116.20970916748047
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              143.4090576171875,
+              138.53126525878906,
+              144.87510681152344
+            ]
+          },
+          "best_validation": 0.12719543185085058
+        },
+        {
+          "timestamp_utc": "2026-11-02T12:33:39.561578+00:00",
+          "epoch": 9,
+          "batch_in_epoch": 1256,
+          "global_step": 100000,
+          "train_loss": 0.49862514163373384,
+          "validation": {
+            "waveform_l1": 0.014399339444935322,
+            "spectral": 0.1163046583533287,
+            "commitment": 0.10952448844909668,
+            "adversarial": 0.7812646627426147,
+            "feature_matching": 0.15925587713718414,
+            "discriminator": 1.3823785781860352,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13070399779826403,
+            "total": 0.5181755350902677
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              256,
+              256
+            ],
+            "perplexity": [
+              117.19383239746094,
+              113.87455749511719,
+              115.15249633789062
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              146.1767578125,
+              136.44976806640625,
+              145.95895385742188
+            ]
+          },
+          "best_validation": 0.12719543185085058
+        }
+      ],
+      "phase_samples": [
+        {
+          "global_step": 5000,
+          "quantizer_bypass": true,
+          "mel_weight": 1.0,
+          "mel_loss": 0.044941991567611694,
+          "waveform_l1": 0.014010418206453323,
+          "spectral_loss": 0.11820016801357269,
+          "quantizer_loss": 0.0,
+          "loss": 0.1615242063999176,
+          "gan_factor": 0.0001,
+          "peak_allocated_MiB": 5320.111328125
+        },
+        {
+          "global_step": 15000,
+          "quantizer_bypass": false,
+          "mel_weight": 1.0,
+          "mel_loss": 0.0610557496547699,
+          "waveform_l1": 0.0204471405595541,
+          "spectral_loss": 0.14798521995544434,
+          "quantizer_loss": 0.17811860144138336,
+          "loss": 0.7600274085998535,
+          "gan_factor": 1.0,
+          "peak_allocated_MiB": 6403.55810546875
+        },
+        {
+          "global_step": 80000,
+          "quantizer_bypass": true,
+          "mel_weight": 1.0,
+          "mel_loss": 0.04209499806165695,
+          "waveform_l1": 0.0129898302257061,
+          "spectral_loss": 0.11621644347906113,
+          "quantizer_loss": 0.0,
+          "loss": 0.4227454960346222,
+          "gan_factor": 1.0,
+          "peak_allocated_MiB": 6404.654296875
+        },
+        {
+          "global_step": 82500,
+          "quantizer_bypass": false,
+          "mel_weight": 0.5333333333333333,
+          "mel_loss": 0.054303836077451706,
+          "waveform_l1": 0.016707781702280045,
+          "spectral_loss": 0.1252865046262741,
+          "quantizer_loss": 0.15917335450649261,
+          "loss": 0.6213554739952087,
+          "gan_factor": 1.0,
+          "peak_allocated_MiB": 6404.654296875
+        },
+        {
+          "global_step": 85000,
+          "quantizer_bypass": false,
+          "mel_weight": 0.06666666666666665,
+          "mel_loss": 0.05496932193636894,
+          "waveform_l1": 0.017218442633748055,
+          "spectral_loss": 0.14175769686698914,
+          "quantizer_loss": 0.13881075382232666,
+          "loss": 0.6128981113433838,
+          "gan_factor": 1.0,
+          "peak_allocated_MiB": 6404.654296875
+        },
+        {
+          "global_step": 100000,
+          "quantizer_bypass": false,
+          "mel_weight": 0.06666666666666665,
+          "mel_loss": 0.05829397588968277,
+          "waveform_l1": 0.01881435513496399,
+          "spectral_loss": 0.14654740691184998,
+          "quantizer_loss": 0.1473078429698944,
+          "loss": 0.6418317556381226,
+          "gan_factor": 1.0,
+          "peak_allocated_MiB": 6404.654296875
+        }
+      ],
+      "primary": {
+        "summary": {
+          "files": 200,
+          "means": {
+            "PESQ": 2.0799425703287127,
+            "ESTOI": 0.7520595692791777,
+            "SI_SNR": 5.30046548766559,
+            "UTMOS": 2.7126018637418747
+          },
+          "objective_quality_score": 46.7819173125051,
+          "utmos_skipped": false
+        },
+        "complexity": {
+          "sample_rate_hz": 16000,
+          "duration_seconds": 1.0,
+          "frame_samples": 160,
+          "bitrate_bps": 2400,
+          "encoder_mmac_per_s": 168.576,
+          "decoder_mmac_per_s": 138.72,
+          "quantizer_mmac_per_s": 17.8176,
+          "unclassified_mmac_per_s": 0.0,
+          "total_mflop_per_s": 650.2272,
+          "decoder_mflop_per_s": 277.44,
+          "decoder_modulation_mflop_per_s": 0.0,
+          "parameters": 662109,
+          "quantizer_type": "projected_rvq",
+          "algorithmic_lookahead_ms": 30,
+          "notes": "Counts Conv1d, ConvTranspose1d, Linear, bounded attention QK/AV, approximate VQ nearest-neighbour search and Conv2Former elementwise modulation multiplications. Quantizer synthesis projections count toward the decoder budget. MMAC fields exclude the separately reported non-MAC modulation product. FSQ scalar rounding is reported as zero MACs. Excludes activations, normalization, padding and file I/O."
+        },
+        "rvq": {
+          "checkpoint": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion4_b_training/checkpoints/best.pt",
+          "files": 200,
+          "samples": 16197971,
+          "frames": 101286,
+          "occupancy": [
+            {
+              "stage": 1,
+              "active_codes": 256,
+              "perplexity": 146.3465817202148,
+              "entropy_bits": 7.193245238268993,
+              "top1_fraction": 0.04963173587662658,
+              "top10_fraction": 0.24255079675374683,
+              "codes_for_95pct_mass": 177,
+              "codes_for_99pct_mass": 225
+            },
+            {
+              "stage": 2,
+              "active_codes": 256,
+              "perplexity": 137.8260021805541,
+              "entropy_bits": 7.10670428157675,
+              "top1_fraction": 0.06906186442351361,
+              "top10_fraction": 0.2773038722034634,
+              "codes_for_95pct_mass": 182,
+              "codes_for_99pct_mass": 224
+            },
+            {
+              "stage": 3,
+              "active_codes": 256,
+              "perplexity": 129.31371564300645,
+              "entropy_bits": 7.014731492306744,
+              "top1_fraction": 0.07377130106826214,
+              "top10_fraction": 0.30371423493868843,
+              "codes_for_95pct_mass": 185,
+              "codes_for_99pct_mass": 227
+            }
+          ],
+          "entropy": {
+            "marginal_bits": [
+              7.193245238268993,
+              7.10670428157675,
+              7.014731492306744
+            ],
+            "sum_marginal_bits": 21.314681012152487,
+            "naive_plugin_joint_stage12_bits": 12.887881500166479,
+            "naive_plugin_joint_stage123_bits": 15.171101847446616,
+            "naive_plugin_conditional_stage2_given_stage1_bits": 5.694636261897486,
+            "naive_plugin_conditional_stage3_given_stage12_bits": 2.283220347280137,
+            "naive_plugin_interstage_redundancy_bits": 6.143579164705871,
+            "joint_entropy_caveat": "Sparse plug-in joint entropy is downward-biased and capped by log2(frames); do not interpret 24 minus this estimate as unused capacity."
+          },
+          "residual_quantization": [
+            {
+              "stage": 1,
+              "mse_before": 1.2243249750051677,
+              "mse_after": 0.5261732920935848,
+              "relative_reduction": 0.5702339633385622,
+              "relative_to_original_after": 0.42976603666143776
+            },
+            {
+              "stage": 2,
+              "mse_before": 0.5261732920935848,
+              "mse_after": 0.36448988330435356,
+              "relative_reduction": 0.30728167168255727,
+              "relative_to_original_after": 0.297706810483724
+            },
+            {
+              "stage": 3,
+              "mse_before": 0.36448988330435356,
+              "mse_after": 0.10461268641695586,
+              "relative_reduction": 0.7129887790888205,
+              "relative_to_original_after": 0.08544519515050675
+            }
+          ],
+          "partial_reconstruction": [
+            {
+              "stages": 1,
+              "nominal_bitrate_bps": 800,
+              "waveform_l1": 0.04398478172144269,
+              "spectral_loss_mean_per_file": 0.4293771126866341,
+              "si_snr_db_mean_per_file": -9.617422000542284
+            },
+            {
+              "stages": 2,
+              "nominal_bitrate_bps": 1600,
+              "waveform_l1": 0.03943514844824914,
+              "spectral_loss_mean_per_file": 0.3042445169389248,
+              "si_snr_db_mean_per_file": -3.8383138626557773
+            },
+            {
+              "stages": 3,
+              "nominal_bitrate_bps": 2400,
+              "waveform_l1": 0.015507847761901917,
+              "spectral_loss_mean_per_file": 0.12163699455559254,
+              "si_snr_db_mean_per_file": 5.300468825018033
+            }
+          ],
+          "checkpoint_global_step": 5000
+        },
+        "checkpoint_step": 5000,
+        "checkpoint_sha256": "7a82b4efca8f299fcf51593f6f1a8a83540219336c175f359e17de7623fa0c84",
+        "checkpoint": "runs/champion4_b_training/checkpoints/best.pt"
+      },
+      "final100k": {
+        "summary": {
+          "files": 200,
+          "means": {
+            "PESQ": 2.0195422840118407,
+            "ESTOI": 0.7372080854115481,
+            "SI_SNR": 5.257274657348646,
+            "UTMOS": 2.9216009366512297
+          },
+          "objective_quality_score": 47.258449536000654,
+          "utmos_skipped": false
+        },
+        "complexity": {
+          "sample_rate_hz": 16000,
+          "duration_seconds": 1.0,
+          "frame_samples": 160,
+          "bitrate_bps": 2400,
+          "encoder_mmac_per_s": 168.576,
+          "decoder_mmac_per_s": 138.72,
+          "quantizer_mmac_per_s": 17.8176,
+          "unclassified_mmac_per_s": 0.0,
+          "total_mflop_per_s": 650.2272,
+          "decoder_mflop_per_s": 277.44,
+          "decoder_modulation_mflop_per_s": 0.0,
+          "parameters": 662109,
+          "quantizer_type": "projected_rvq",
+          "algorithmic_lookahead_ms": 30,
+          "notes": "Counts Conv1d, ConvTranspose1d, Linear, bounded attention QK/AV, approximate VQ nearest-neighbour search and Conv2Former elementwise modulation multiplications. Quantizer synthesis projections count toward the decoder budget. MMAC fields exclude the separately reported non-MAC modulation product. FSQ scalar rounding is reported as zero MACs. Excludes activations, normalization, padding and file I/O."
+        },
+        "rvq": {
+          "checkpoint": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion4_b_training/checkpoints/last.pt",
+          "files": 200,
+          "samples": 16197971,
+          "frames": 101286,
+          "occupancy": [
+            {
+              "stage": 1,
+              "active_codes": 256,
+              "perplexity": 132.56792266004717,
+              "entropy_bits": 7.050587919842689,
+              "top1_fraction": 0.06168670892324704,
+              "top10_fraction": 0.29545050648658255,
+              "codes_for_95pct_mass": 175,
+              "codes_for_99pct_mass": 223
+            },
+            {
+              "stage": 2,
+              "active_codes": 256,
+              "perplexity": 133.1840227676893,
+              "entropy_bits": 7.0572772117006926,
+              "top1_fraction": 0.05986019785557728,
+              "top10_fraction": 0.2895859250044429,
+              "codes_for_95pct_mass": 178,
+              "codes_for_99pct_mass": 221
+            },
+            {
+              "stage": 3,
+              "active_codes": 256,
+              "perplexity": 140.53166711913573,
+              "entropy_bits": 7.134751450811354,
+              "top1_fraction": 0.05490393539087337,
+              "top10_fraction": 0.2787354619592046,
+              "codes_for_95pct_mass": 188,
+              "codes_for_99pct_mass": 228
+            }
+          ],
+          "entropy": {
+            "marginal_bits": [
+              7.050587919842689,
+              7.0572772117006926,
+              7.134751450811354
+            ],
+            "sum_marginal_bits": 21.242616582354735,
+            "naive_plugin_joint_stage12_bits": 12.826887334035888,
+            "naive_plugin_joint_stage123_bits": 15.253150980505527,
+            "naive_plugin_conditional_stage2_given_stage1_bits": 5.776299414193199,
+            "naive_plugin_conditional_stage3_given_stage12_bits": 2.426263646469639,
+            "naive_plugin_interstage_redundancy_bits": 5.989465601849208,
+            "joint_entropy_caveat": "Sparse plug-in joint entropy is downward-biased and capped by log2(frames); do not interpret 24 minus this estimate as unused capacity."
+          },
+          "residual_quantization": [
+            {
+              "stage": 1,
+              "mse_before": 1.6700481884258673,
+              "mse_after": 0.8413198337796264,
+              "relative_reduction": 0.49623020484658775,
+              "relative_to_original_after": 0.5037697951534122
+            },
+            {
+              "stage": 2,
+              "mse_before": 0.8413198337796264,
+              "mse_after": 0.7286518731654233,
+              "relative_reduction": 0.13391810829900752,
+              "relative_to_original_after": 0.4363058971682887
+            },
+            {
+              "stage": 3,
+              "mse_before": 0.7286518731654233,
+              "mse_after": 0.20458685943157265,
+              "relative_reduction": 0.7192255081390204,
+              "relative_to_original_after": 0.12250356657337505
+            }
+          ],
+          "partial_reconstruction": [
+            {
+              "stages": 1,
+              "nominal_bitrate_bps": 800,
+              "waveform_l1": 0.052854483057727566,
+              "spectral_loss_mean_per_file": 0.5174611772596837,
+              "si_snr_db_mean_per_file": -10.786801605448126
+            },
+            {
+              "stages": 2,
+              "nominal_bitrate_bps": 1600,
+              "waveform_l1": 0.05016446308868342,
+              "spectral_loss_mean_per_file": 0.41207783326506614,
+              "si_snr_db_mean_per_file": -5.4731051244214175
+            },
+            {
+              "stages": 3,
+              "nominal_bitrate_bps": 2400,
+              "waveform_l1": 0.01582450623957525,
+              "spectral_loss_mean_per_file": 0.12543338745832444,
+              "si_snr_db_mean_per_file": 5.257277191244066
+            }
+          ],
+          "checkpoint_global_step": 100000
+        },
+        "checkpoint_step": 100000,
+        "checkpoint_sha256": "3639f2762a58315cdd3903883098417f567db0708e55381236d445f478667d06",
+        "checkpoint": "runs/champion4_b_training/checkpoints/last.pt"
+      }
+    },
+    "c_conv2former": {
+      "effective_config": {
+        "seed": 20261102,
+        "audio": {
+          "sample_rate": 16000,
+          "frame_samples": 160,
+          "segment_samples": 32000
+        },
+        "model": {
+          "sample_rate": 16000,
+          "frame_samples": 160,
+          "quantizer_type": "projected_rvq",
+          "encoder_channels": [
+            8,
+            16,
+            32,
+            64,
+            160
+          ],
+          "encoder_strides": [
+            2,
+            4,
+            4,
+            5
+          ],
+          "decoder_channels": [
+            160,
+            48,
+            24,
+            12,
+            8
+          ],
+          "decoder_strides": [
+            5,
+            4,
+            4,
+            2
+          ],
+          "residual_blocks": 3,
+          "residual_kernel_size": 3,
+          "rvq_num_codebooks": 3,
+          "rvq_codebook_size": 256,
+          "rvq_codebook_dim": 160,
+          "commitment_weight": 0.1,
+          "rvq_ema_decay": 0.95,
+          "rvq_dead_code_threshold": 0.5,
+          "rvq_dead_code_after_updates": 100,
+          "rvq_kmeans_iterations": 10,
+          "encoder_temporal_layers": 4,
+          "decoder_temporal_layers": 2,
+          "temporal_kernel_size": 3,
+          "temporal_expansion": 1,
+          "fsq_levels": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "encoder_lookahead_frames": 3,
+          "decoder_lookahead_frames": 0,
+          "rvq_usage_loss_weight": 0.001,
+          "rvq_usage_temperature": 1.0,
+          "rvq_stage_commitment_weights": [
+            1.0,
+            1.5,
+            2.0
+          ],
+          "projected_stage_dims": [
+            48,
+            64,
+            80
+          ],
+          "decoder_conv2former_layers": 4,
+          "decoder_conv2former_hidden": 48,
+          "decoder_conv2former_kernel": 7
+        },
+        "loss": {
+          "waveform_l1_weight": 1.0,
+          "spectral_weight": 1.0,
+          "fft_sizes": [
+            256,
+            512,
+            1024
+          ],
+          "spectral_convergence_weight": 0.25,
+          "linear_magnitude_weight": 0.1,
+          "adversarial_weight": 0.05,
+          "feature_matching_weight": 1.5,
+          "si_snr_weight": 0.003
+        },
+        "adversarial": {
+          "resolutions": [
+            [
+              256,
+              64,
+              256
+            ],
+            [
+              512,
+              128,
+              512
+            ],
+            [
+              1024,
+              256,
+              1024
+            ]
+          ],
+          "start_step": 5000,
+          "warmup_steps": 10000,
+          "learning_rate": 0.0002,
+          "gradient_clip_norm": 10.0,
+          "periods": [
+            2,
+            3,
+            5,
+            7,
+            11
+          ]
+        },
+        "training": {
+          "batch_size": 32,
+          "num_workers": 8,
+          "epochs": 1000,
+          "learning_rate": 2e-05,
+          "weight_decay": 1e-06,
+          "gradient_clip_norm": 1.0,
+          "validation_limit": 32,
+          "validation_checkpoint_interval_steps": 5000,
+          "sample_inference_count": 2,
+          "output_dir": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion4_c_conv2former",
+          "minimum_learning_rate": 5e-06,
+          "warmup_steps": 0,
+          "checkpoint_keep_last": 2,
+          "quantizer_learning_rate": 2e-05,
+          "quantizer_only_steps": 0,
+          "data_order_seed": 20261102,
+          "epoch_addressed_data_order": true,
+          "reset_rng_after_init": true
+        },
+        "champion_training": {
+          "quantizer_bypass_probability": 0.0,
+          "mel_weight": 0.0,
+          "mel_fft_sizes": [
+            256,
+            512,
+            1024
+          ],
+          "mel_bins": [
+            32,
+            64,
+            80
+          ],
+          "mel_reduction_start": 80000,
+          "mel_reduction_ramp": 5000,
+          "mel_final_ratio": 0.06666666666666667
+        }
+      },
+      "metadata": {
+        "created_utc": "2026-11-02T05:47:43.428233+00:00",
+        "command": "scripts/train.py --config configs/champion4/c_conv2former.yaml --train-manifest /storage1/hehaoran/project/course-track2-codec-experiments/data/manifests/vctk_libritts/train.scp --valid-manifest /storage1/hehaoran/project/course-track2-codec-experiments/data/manifests/vctk_libritts/valid.scp --output-dir /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion4_c_conv2former --device cuda --max-total-steps 100000 --init-checkpoint /storage1/hehaoran/project/course-track2-codec-experiments/runs/struct4_b_residual_later/checkpoints/best.pt",
+        "torch_version": "2.13.0+cu129",
+        "world_size": 1,
+        "device": "cuda",
+        "init_checkpoint": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/struct4_b_residual_later/checkpoints/best.pt",
+        "resume_checkpoint": null
+      },
+      "training_curve": [
+        {
+          "timestamp_utc": "2026-11-02T06:10:06.287759+00:00",
+          "epoch": 1,
+          "batch_in_epoch": 5000,
+          "global_step": 5000,
+          "train_loss": 0.20000044571757317,
+          "validation": {
+            "waveform_l1": 0.013706166297197342,
+            "spectral": 0.11337293684482574,
+            "commitment": 0.0469510555267334,
+            "adversarial": 0.567340075969696,
+            "feature_matching": 0.16085444390773773,
+            "discriminator": 1.2986352443695068,
+            "adversarial_factor": 0.0001,
+            "reconstruction": 0.1270791031420231,
+            "total": 0.1740571235357225
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              256,
+              256
+            ],
+            "perplexity": [
+              112.2010269165039,
+              107.71585845947266,
+              99.5620346069336
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              139.75140380859375,
+              131.18177795410156,
+              125.86607360839844
+            ]
+          },
+          "best_validation": 0.1270791031420231
+        },
+        {
+          "timestamp_utc": "2026-11-02T06:35:00.282476+00:00",
+          "epoch": 1,
+          "batch_in_epoch": 10000,
+          "global_step": 10000,
+          "train_loss": 0.24875281437635421,
+          "validation": {
+            "waveform_l1": 0.014117288403213024,
+            "spectral": 0.11586100608110428,
+            "commitment": 0.07149268686771393,
+            "adversarial": 0.8694997429847717,
+            "feature_matching": 0.16270144283771515,
+            "discriminator": 1.3592325448989868,
+            "adversarial_factor": 0.5001,
+            "reconstruction": 0.1299782944843173,
+            "total": 0.34526330977007746
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              254,
+              255,
+              256
+            ],
+            "perplexity": [
+              127.76029968261719,
+              112.61417388916016,
+              112.87458801269531
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              159.1618194580078,
+              132.56011962890625,
+              139.53086853027344
+            ]
+          },
+          "best_validation": 0.1270791031420231
+        },
+        {
+          "timestamp_utc": "2026-11-02T06:57:08.007796+00:00",
+          "epoch": 2,
+          "batch_in_epoch": 2657,
+          "global_step": 15000,
+          "train_loss": 0.5354814102517782,
+          "validation": {
+            "waveform_l1": 0.014253180474042892,
+            "spectral": 0.11646313220262527,
+            "commitment": 0.0959223061800003,
+            "adversarial": 0.919565737247467,
+            "feature_matching": 0.16171380877494812,
+            "discriminator": 1.412616491317749,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13071631267666817,
+            "total": 0.515187618881464
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              256,
+              256
+            ],
+            "perplexity": [
+              121.65909576416016,
+              115.19566345214844,
+              113.74186706542969
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              153.57369995117188,
+              137.11595153808594,
+              141.4375762939453
+            ]
+          },
+          "best_validation": 0.1270791031420231
+        },
+        {
+          "timestamp_utc": "2026-11-02T07:17:35.551184+00:00",
+          "epoch": 2,
+          "batch_in_epoch": 7657,
+          "global_step": 20000,
+          "train_loss": 0.5701810366626008,
+          "validation": {
+            "waveform_l1": 0.01435443852096796,
+            "spectral": 0.11659830808639526,
+            "commitment": 0.0988093689084053,
+            "adversarial": 0.7925513982772827,
+            "feature_matching": 0.16042576730251312,
+            "discriminator": 1.4135788679122925,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13095274660736322,
+            "total": 0.5100283363834024
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              256,
+              256
+            ],
+            "perplexity": [
+              124.880859375,
+              117.96491241455078,
+              120.1258544921875
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              153.21852111816406,
+              138.1965789794922,
+              143.1381072998047
+            ]
+          },
+          "best_validation": 0.1270791031420231
+        },
+        {
+          "timestamp_utc": "2026-11-02T07:38:51.315874+00:00",
+          "epoch": 3,
+          "batch_in_epoch": 314,
+          "global_step": 25000,
+          "train_loss": 0.5873896651397086,
+          "validation": {
+            "waveform_l1": 0.014429079368710518,
+            "spectral": 0.116622194647789,
+            "commitment": 0.1014164462685585,
+            "adversarial": 0.7762179374694824,
+            "feature_matching": 0.16114486753940582,
+            "discriminator": 1.4352550506591797,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13105127401649952,
+            "total": 0.5129959184676409
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              255,
+              255
+            ],
+            "perplexity": [
+              130.72377014160156,
+              119.0177993774414,
+              115.91716766357422
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              161.80029296875,
+              137.74282836914062,
+              142.94105529785156
+            ]
+          },
+          "best_validation": 0.1270791031420231
+        },
+        {
+          "timestamp_utc": "2026-11-02T08:00:21.107657+00:00",
+          "epoch": 3,
+          "batch_in_epoch": 5314,
+          "global_step": 30000,
+          "train_loss": 0.590240010769465,
+          "validation": {
+            "waveform_l1": 0.014332163147628307,
+            "spectral": 0.11649885028600693,
+            "commitment": 0.0996653214097023,
+            "adversarial": 0.8515645861625671,
+            "feature_matching": 0.1610082983970642,
+            "discriminator": 1.457924485206604,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13083101343363523,
+            "total": 0.5145870117470622
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              254,
+              256,
+              256
+            ],
+            "perplexity": [
+              126.29761505126953,
+              121.80821990966797,
+              115.90013885498047
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              155.441650390625,
+              136.91993713378906,
+              138.53060913085938
+            ]
+          },
+          "best_validation": 0.1270791031420231
+        },
+        {
+          "timestamp_utc": "2026-11-02T08:20:36.631590+00:00",
+          "epoch": 3,
+          "batch_in_epoch": 10314,
+          "global_step": 35000,
+          "train_loss": 0.5902578668791308,
+          "validation": {
+            "waveform_l1": 0.014364630915224552,
+            "spectral": 0.11676237732172012,
+            "commitment": 0.1015613004565239,
+            "adversarial": 0.8376792073249817,
+            "feature_matching": 0.16113349795341492,
+            "discriminator": 1.4290337562561035,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13112700823694468,
+            "total": 0.51627251598984
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              126.61726379394531,
+              121.77906036376953,
+              117.75342559814453
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              157.36575317382812,
+              140.87501525878906,
+              142.7905731201172
+            ]
+          },
+          "best_validation": 0.1270791031420231
+        },
+        {
+          "timestamp_utc": "2026-11-02T08:41:10.955426+00:00",
+          "epoch": 4,
+          "batch_in_epoch": 2971,
+          "global_step": 40000,
+          "train_loss": 0.592838306111625,
+          "validation": {
+            "waveform_l1": 0.014361012727022171,
+            "spectral": 0.11636889725923538,
+            "commitment": 0.10108491033315659,
+            "adversarial": 0.8504592776298523,
+            "feature_matching": 0.16197657585144043,
+            "discriminator": 1.4339181184768677,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13072990998625755,
+            "total": 0.5173026479780674
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              256,
+              256
+            ],
+            "perplexity": [
+              120.79190826416016,
+              116.79395294189453,
+              115.58753204345703
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              148.762451171875,
+              134.44105529785156,
+              138.8460693359375
+            ]
+          },
+          "best_validation": 0.1270791031420231
+        },
+        {
+          "timestamp_utc": "2026-11-02T09:01:59.158208+00:00",
+          "epoch": 4,
+          "batch_in_epoch": 7971,
+          "global_step": 45000,
+          "train_loss": 0.5925779365196594,
+          "validation": {
+            "waveform_l1": 0.014357173815369606,
+            "spectral": 0.11647194623947144,
+            "commitment": 0.10017786175012589,
+            "adversarial": 0.863092303276062,
+            "feature_matching": 0.161394402384758,
+            "discriminator": 1.4294935464859009,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13082912005484104,
+            "total": 0.5162532005459071
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              255,
+              256
+            ],
+            "perplexity": [
+              119.36978912353516,
+              120.55621337890625,
+              119.19386291503906
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              152.2732696533203,
+              142.45135498046875,
+              145.5745849609375
+            ]
+          },
+          "best_validation": 0.1270791031420231
+        },
+        {
+          "timestamp_utc": "2026-11-02T09:21:20.830397+00:00",
+          "epoch": 5,
+          "batch_in_epoch": 628,
+          "global_step": 50000,
+          "train_loss": 0.5931684010347743,
+          "validation": {
+            "waveform_l1": 0.01435838546603918,
+            "spectral": 0.11646264046430588,
+            "commitment": 0.10112222284078598,
+            "adversarial": 0.8682770729064941,
+            "feature_matching": 0.16244126856327057,
+            "discriminator": 1.4324406385421753,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13082102593034506,
+            "total": 0.5190190052613616
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              124.20563507080078,
+              117.47990417480469,
+              114.8108139038086
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              158.1746368408203,
+              140.98301696777344,
+              143.86659240722656
+            ]
+          },
+          "best_validation": 0.1270791031420231
+        },
+        {
+          "timestamp_utc": "2026-11-02T09:45:27.424546+00:00",
+          "epoch": 5,
+          "batch_in_epoch": 5628,
+          "global_step": 55000,
+          "train_loss": 0.5939799959386759,
+          "validation": {
+            "waveform_l1": 0.014414685778319836,
+            "spectral": 0.11663728952407837,
+            "commitment": 0.10505834221839905,
+            "adversarial": 0.747463047504425,
+            "feature_matching": 0.16327914595603943,
+            "discriminator": 1.5009522438049316,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.1310519753023982,
+            "total": 0.5184021888300776
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              255,
+              256
+            ],
+            "perplexity": [
+              128.67813110351562,
+              122.9744873046875,
+              119.22745513916016
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              160.04525756835938,
+              144.87261962890625,
+              146.5089874267578
+            ]
+          },
+          "best_validation": 0.1270791031420231
+        },
+        {
+          "timestamp_utc": "2026-11-02T10:04:21.250231+00:00",
+          "epoch": 5,
+          "batch_in_epoch": 10628,
+          "global_step": 60000,
+          "train_loss": 0.5942437117642417,
+          "validation": {
+            "waveform_l1": 0.014334915205836296,
+            "spectral": 0.11633053421974182,
+            "commitment": 0.1021907702088356,
+            "adversarial": 0.8213434815406799,
+            "feature_matching": 0.1629028469324112,
+            "discriminator": 1.4306360483169556,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13066544942557812,
+            "total": 0.5182776641100645
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              256,
+              256
+            ],
+            "perplexity": [
+              123.07474517822266,
+              120.77486419677734,
+              116.20085144042969
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              153.11911010742188,
+              139.27845764160156,
+              140.51341247558594
+            ]
+          },
+          "best_validation": 0.1270791031420231
+        },
+        {
+          "timestamp_utc": "2026-11-02T10:23:11.770838+00:00",
+          "epoch": 6,
+          "batch_in_epoch": 3285,
+          "global_step": 65000,
+          "train_loss": 0.596395011643115,
+          "validation": {
+            "waveform_l1": 0.014362337067723274,
+            "spectral": 0.11633995175361633,
+            "commitment": 0.10305598378181458,
+            "adversarial": 0.7866706252098083,
+            "feature_matching": 0.1634548157453537,
+            "discriminator": 1.4211349487304688,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.1307022888213396,
+            "total": 0.5182740274816752
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              124.42900085449219,
+              119.88916778564453,
+              118.74773406982422
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              151.46957397460938,
+              137.2091522216797,
+              140.08058166503906
+            ]
+          },
+          "best_validation": 0.1270791031420231
+        },
+        {
+          "timestamp_utc": "2026-11-02T10:42:02.740961+00:00",
+          "epoch": 6,
+          "batch_in_epoch": 8285,
+          "global_step": 70000,
+          "train_loss": 0.5981181835545498,
+          "validation": {
+            "waveform_l1": 0.014364277012646198,
+            "spectral": 0.11648355424404144,
+            "commitment": 0.1040697768330574,
+            "adversarial": 0.7839298248291016,
+            "feature_matching": 0.16360490024089813,
+            "discriminator": 1.418220043182373,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13084783125668764,
+            "total": 0.5195214496925473
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              255,
+              256
+            ],
+            "perplexity": [
+              120.47640228271484,
+              121.49016571044922,
+              117.27667236328125
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              151.8111572265625,
+              141.67782592773438,
+              142.21530151367188
+            ]
+          },
+          "best_validation": 0.1270791031420231
+        },
+        {
+          "timestamp_utc": "2026-11-02T11:00:54.025722+00:00",
+          "epoch": 7,
+          "batch_in_epoch": 942,
+          "global_step": 75000,
+          "train_loss": 0.5986797802640628,
+          "validation": {
+            "waveform_l1": 0.014334753155708313,
+            "spectral": 0.11651740223169327,
+            "commitment": 0.10346639156341553,
+            "adversarial": 0.712810754776001,
+            "feature_matching": 0.165228009223938,
+            "discriminator": 1.3983314037322998,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13085215538740158,
+            "total": 0.5178010985255241
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              119.17009735107422,
+              121.45975494384766,
+              118.18060302734375
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              152.0919189453125,
+              142.5560760498047,
+              145.8726043701172
+            ]
+          },
+          "best_validation": 0.1270791031420231
+        },
+        {
+          "timestamp_utc": "2026-11-02T11:19:44.332967+00:00",
+          "epoch": 7,
+          "batch_in_epoch": 5942,
+          "global_step": 80000,
+          "train_loss": 0.5983383986072001,
+          "validation": {
+            "waveform_l1": 0.014367099851369858,
+            "spectral": 0.11635751277208328,
+            "commitment": 0.10309375077486038,
+            "adversarial": 0.8127972483634949,
+            "feature_matching": 0.16476917266845703,
+            "discriminator": 1.4485726356506348,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13072461262345314,
+            "total": 0.5216119848191738
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              122.61421966552734,
+              120.61797332763672,
+              119.69757843017578
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              150.70936584472656,
+              139.02281188964844,
+              143.8956756591797
+            ]
+          },
+          "best_validation": 0.1270791031420231
+        },
+        {
+          "timestamp_utc": "2026-11-02T11:38:34.618369+00:00",
+          "epoch": 7,
+          "batch_in_epoch": 10942,
+          "global_step": 85000,
+          "train_loss": 0.5995204947375441,
+          "validation": {
+            "waveform_l1": 0.014359080232679844,
+            "spectral": 0.11635176837444305,
+            "commitment": 0.10391555726528168,
+            "adversarial": 0.8481311798095703,
+            "feature_matching": 0.16488651931285858,
+            "discriminator": 1.4204013347625732,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.1307108486071229,
+            "total": 0.524362743832171
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              122.54489135742188,
+              122.26927947998047,
+              116.4906005859375
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              154.0882110595703,
+              142.43519592285156,
+              141.99534606933594
+            ]
+          },
+          "best_validation": 0.1270791031420231
+        },
+        {
+          "timestamp_utc": "2026-11-02T11:57:24.500505+00:00",
+          "epoch": 8,
+          "batch_in_epoch": 3599,
+          "global_step": 90000,
+          "train_loss": 0.6014332388317827,
+          "validation": {
+            "waveform_l1": 0.014363301917910576,
+            "spectral": 0.11638502776622772,
+            "commitment": 0.1041024774312973,
+            "adversarial": 0.8465948104858398,
+            "feature_matching": 0.16526851058006287,
+            "discriminator": 1.4259053468704224,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.1307483296841383,
+            "total": 0.5250833135098218
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              256,
+              256
+            ],
+            "perplexity": [
+              122.35279846191406,
+              118.80329895019531,
+              116.26530456542969
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              152.3053741455078,
+              136.8294219970703,
+              141.5233917236328
+            ]
+          },
+          "best_validation": 0.1270791031420231
+        },
+        {
+          "timestamp_utc": "2026-11-02T12:16:14.293916+00:00",
+          "epoch": 8,
+          "batch_in_epoch": 8599,
+          "global_step": 95000,
+          "train_loss": 0.6025906086993891,
+          "validation": {
+            "waveform_l1": 0.014339616522192955,
+            "spectral": 0.11646264046430588,
+            "commitment": 0.10396088659763336,
+            "adversarial": 0.7319485545158386,
+            "feature_matching": 0.16581882536411285,
+            "discriminator": 1.4224376678466797,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13080225698649883,
+            "total": 0.5200888093560934
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              256,
+              256
+            ],
+            "perplexity": [
+              123.3502426147461,
+              115.32971954345703,
+              115.18995666503906
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              154.15228271484375,
+              134.40478515625,
+              139.7961883544922
+            ]
+          },
+          "best_validation": 0.1270791031420231
+        },
+        {
+          "timestamp_utc": "2026-11-02T12:35:12.192813+00:00",
+          "epoch": 9,
+          "batch_in_epoch": 1256,
+          "global_step": 100000,
+          "train_loss": 0.6032410488719013,
+          "validation": {
+            "waveform_l1": 0.014350241050124168,
+            "spectral": 0.11632553488016129,
+            "commitment": 0.10353442281484604,
+            "adversarial": 0.8068931698799133,
+            "feature_matching": 0.16677485406398773,
+            "discriminator": 1.4186121225357056,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13067577593028545,
+            "total": 0.5247171383351088
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              256,
+              256
+            ],
+            "perplexity": [
+              122.8087158203125,
+              119.31173706054688,
+              116.17430114746094
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              154.0729217529297,
+              139.7667236328125,
+              144.0473175048828
+            ]
+          },
+          "best_validation": 0.1270791031420231
+        }
+      ],
+      "phase_samples": [
+        {
+          "global_step": 5000,
+          "quantizer_bypass": false,
+          "mel_weight": 0.0,
+          "mel_loss": 0.0,
+          "waveform_l1": 0.016408219933509827,
+          "spectral_loss": 0.13203173875808716,
+          "quantizer_loss": 0.059368669986724854,
+          "loss": 0.19632291793823242,
+          "gan_factor": 0.0001,
+          "peak_allocated_MiB": 5320.11767578125
+        },
+        {
+          "global_step": 15000,
+          "quantizer_bypass": false,
+          "mel_weight": 0.0,
+          "mel_loss": 0.0,
+          "waveform_l1": 0.020420009270310402,
+          "spectral_loss": 0.1485482156276703,
+          "quantizer_loss": 0.15545855462551117,
+          "loss": 0.680091381072998,
+          "gan_factor": 1.0,
+          "peak_allocated_MiB": 6359.90673828125
+        },
+        {
+          "global_step": 80000,
+          "quantizer_bypass": false,
+          "mel_weight": 0.0,
+          "mel_loss": 0.0,
+          "waveform_l1": 0.01604212075471878,
+          "spectral_loss": 0.13478419184684753,
+          "quantizer_loss": 0.13068750500679016,
+          "loss": 0.5802898406982422,
+          "gan_factor": 1.0,
+          "peak_allocated_MiB": 6360.44873046875
+        },
+        {
+          "global_step": 82500,
+          "quantizer_bypass": false,
+          "mel_weight": 0.0,
+          "mel_loss": 0.0,
+          "waveform_l1": 0.01654420606791973,
+          "spectral_loss": 0.12597036361694336,
+          "quantizer_loss": 0.1370217204093933,
+          "loss": 0.5805764198303223,
+          "gan_factor": 1.0,
+          "peak_allocated_MiB": 6360.44873046875
+        },
+        {
+          "global_step": 85000,
+          "quantizer_bypass": false,
+          "mel_weight": 0.0,
+          "mel_loss": 0.0,
+          "waveform_l1": 0.01733211986720562,
+          "spectral_loss": 0.14275231957435608,
+          "quantizer_loss": 0.12774357199668884,
+          "loss": 0.611680805683136,
+          "gan_factor": 1.0,
+          "peak_allocated_MiB": 6360.44873046875
+        },
+        {
+          "global_step": 100000,
+          "quantizer_bypass": false,
+          "mel_weight": 0.0,
+          "mel_loss": 0.0,
+          "waveform_l1": 0.018779391422867775,
+          "spectral_loss": 0.14576825499534607,
+          "quantizer_loss": 0.1391441822052002,
+          "loss": 0.6455108523368835,
+          "gan_factor": 1.0,
+          "peak_allocated_MiB": 6360.44873046875
+        }
+      ],
+      "primary": {
+        "summary": {
+          "files": 200,
+          "means": {
+            "PESQ": 2.0449302929639814,
+            "ESTOI": 0.7435504164729226,
+            "SI_SNR": 5.5589700726797595,
+            "UTMOS": 2.634667733311653
+          },
+          "objective_quality_score": 45.99357784733134,
+          "utmos_skipped": false
+        },
+        "complexity": {
+          "sample_rate_hz": 16000,
+          "duration_seconds": 1.0,
+          "frame_samples": 160,
+          "bitrate_bps": 2400,
+          "encoder_mmac_per_s": 168.576,
+          "decoder_mmac_per_s": 148.0704,
+          "quantizer_mmac_per_s": 17.8176,
+          "unclassified_mmac_per_s": 0.0,
+          "total_mflop_per_s": 668.9472,
+          "decoder_mflop_per_s": 296.16,
+          "decoder_modulation_mflop_per_s": 0.0192,
+          "parameters": 758109,
+          "quantizer_type": "projected_rvq",
+          "algorithmic_lookahead_ms": 30,
+          "notes": "Counts Conv1d, ConvTranspose1d, Linear, bounded attention QK/AV, approximate VQ nearest-neighbour search and Conv2Former elementwise modulation multiplications. Quantizer synthesis projections count toward the decoder budget. MMAC fields exclude the separately reported non-MAC modulation product. FSQ scalar rounding is reported as zero MACs. Excludes activations, normalization, padding and file I/O."
+        },
+        "rvq": {
+          "checkpoint": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion4_c_conv2former/checkpoints/best.pt",
+          "files": 200,
+          "samples": 16197971,
+          "frames": 101286,
+          "occupancy": [
+            {
+              "stage": 1,
+              "active_codes": 256,
+              "perplexity": 134.66562948812316,
+              "entropy_bits": 7.073237870609078,
+              "top1_fraction": 0.060738897774618404,
+              "top10_fraction": 0.2848962344252908,
+              "codes_for_95pct_mass": 173,
+              "codes_for_99pct_mass": 221
+            },
+            {
+              "stage": 2,
+              "active_codes": 256,
+              "perplexity": 127.94034696963301,
+              "entropy_bits": 6.999327490693345,
+              "top1_fraction": 0.08424658886716822,
+              "top10_fraction": 0.29947870386825426,
+              "codes_for_95pct_mass": 176,
+              "codes_for_99pct_mass": 220
+            },
+            {
+              "stage": 3,
+              "active_codes": 256,
+              "perplexity": 121.28143562074507,
+              "entropy_bits": 6.922214925826044,
+              "top1_fraction": 0.09236222182730092,
+              "top10_fraction": 0.31147443871808544,
+              "codes_for_95pct_mass": 177,
+              "codes_for_99pct_mass": 221
+            }
+          ],
+          "entropy": {
+            "marginal_bits": [
+              7.073237870609078,
+              6.999327490693345,
+              6.922214925826044
+            ],
+            "sum_marginal_bits": 20.994780287128467,
+            "naive_plugin_joint_stage12_bits": 12.613534489559793,
+            "naive_plugin_joint_stage123_bits": 14.93295462725817,
+            "naive_plugin_conditional_stage2_given_stage1_bits": 5.540296618950715,
+            "naive_plugin_conditional_stage3_given_stage12_bits": 2.3194201376983763,
+            "naive_plugin_interstage_redundancy_bits": 6.061825659870298,
+            "joint_entropy_caveat": "Sparse plug-in joint entropy is downward-biased and capped by log2(frames); do not interpret 24 minus this estimate as unused capacity."
+          },
+          "residual_quantization": [
+            {
+              "stage": 1,
+              "mse_before": 1.0231429665645426,
+              "mse_after": 0.3747846402740095,
+              "relative_reduction": 0.6336927951208595,
+              "relative_to_original_after": 0.3663072048791405
+            },
+            {
+              "stage": 2,
+              "mse_before": 0.3747846402740095,
+              "mse_after": 0.19336802732160924,
+              "relative_reduction": 0.4840556241039238,
+              "relative_to_original_after": 0.18899414220760424
+            },
+            {
+              "stage": 3,
+              "mse_before": 0.19336802732160924,
+              "mse_after": 0.09052014727247154,
+              "relative_reduction": 0.5318763472623184,
+              "relative_to_original_after": 0.08847262819624854
+            }
+          ],
+          "partial_reconstruction": [
+            {
+              "stages": 1,
+              "nominal_bitrate_bps": 800,
+              "waveform_l1": 0.05692405975439788,
+              "spectral_loss_mean_per_file": 0.5721939733624458,
+              "si_snr_db_mean_per_file": -11.725344774723053
+            },
+            {
+              "stages": 2,
+              "nominal_bitrate_bps": 1600,
+              "waveform_l1": 0.041928432405564015,
+              "spectral_loss_mean_per_file": 0.32493401780724523,
+              "si_snr_db_mean_per_file": -4.300413892045617
+            },
+            {
+              "stages": 3,
+              "nominal_bitrate_bps": 2400,
+              "waveform_l1": 0.01512398395738223,
+              "spectral_loss_mean_per_file": 0.12206173745915294,
+              "si_snr_db_mean_per_file": 5.558970095813274
+            }
+          ],
+          "checkpoint_global_step": 5000
+        },
+        "checkpoint_step": 5000,
+        "checkpoint_sha256": "ae971f8ab253d3fab72d970e7bc2964087d44429a89fe8de6d5522fdb614becc",
+        "checkpoint": "runs/champion4_c_conv2former/checkpoints/best.pt"
+      },
+      "final100k": {
+        "summary": {
+          "files": 200,
+          "means": {
+            "PESQ": 2.0181530100107192,
+            "ESTOI": 0.7324424870822775,
+            "SI_SNR": 5.2553576179857195,
+            "UTMOS": 2.9230731636285783
+          },
+          "objective_quality_score": 47.13738946105319,
+          "utmos_skipped": false
+        },
+        "complexity": {
+          "sample_rate_hz": 16000,
+          "duration_seconds": 1.0,
+          "frame_samples": 160,
+          "bitrate_bps": 2400,
+          "encoder_mmac_per_s": 168.576,
+          "decoder_mmac_per_s": 148.0704,
+          "quantizer_mmac_per_s": 17.8176,
+          "unclassified_mmac_per_s": 0.0,
+          "total_mflop_per_s": 668.9472,
+          "decoder_mflop_per_s": 296.16,
+          "decoder_modulation_mflop_per_s": 0.0192,
+          "parameters": 758109,
+          "quantizer_type": "projected_rvq",
+          "algorithmic_lookahead_ms": 30,
+          "notes": "Counts Conv1d, ConvTranspose1d, Linear, bounded attention QK/AV, approximate VQ nearest-neighbour search and Conv2Former elementwise modulation multiplications. Quantizer synthesis projections count toward the decoder budget. MMAC fields exclude the separately reported non-MAC modulation product. FSQ scalar rounding is reported as zero MACs. Excludes activations, normalization, padding and file I/O."
+        },
+        "rvq": {
+          "checkpoint": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion4_c_conv2former/checkpoints/last.pt",
+          "files": 200,
+          "samples": 16197971,
+          "frames": 101286,
+          "occupancy": [
+            {
+              "stage": 1,
+              "active_codes": 256,
+              "perplexity": 142.10693529828745,
+              "entropy_bits": 7.150833154463024,
+              "top1_fraction": 0.04794344726813182,
+              "top10_fraction": 0.25306557668384577,
+              "codes_for_95pct_mass": 174,
+              "codes_for_99pct_mass": 223
+            },
+            {
+              "stage": 2,
+              "active_codes": 255,
+              "perplexity": 138.67954420516068,
+              "entropy_bits": 7.115611189763594,
+              "top1_fraction": 0.05158659637067314,
+              "top10_fraction": 0.2749047252334972,
+              "codes_for_95pct_mass": 181,
+              "codes_for_99pct_mass": 223
+            },
+            {
+              "stage": 3,
+              "active_codes": 255,
+              "perplexity": 139.13516798497594,
+              "entropy_bits": 7.120343313212378,
+              "top1_fraction": 0.05271212210966965,
+              "top10_fraction": 0.2738483107240882,
+              "codes_for_95pct_mass": 184,
+              "codes_for_99pct_mass": 225
+            }
+          ],
+          "entropy": {
+            "marginal_bits": [
+              7.150833154463024,
+              7.115611189763594,
+              7.120343313212378
+            ],
+            "sum_marginal_bits": 21.386787657438994,
+            "naive_plugin_joint_stage12_bits": 12.986172478114794,
+            "naive_plugin_joint_stage123_bits": 15.40806717971201,
+            "naive_plugin_conditional_stage2_given_stage1_bits": 5.83533932365177,
+            "naive_plugin_conditional_stage3_given_stage12_bits": 2.421894701597216,
+            "naive_plugin_interstage_redundancy_bits": 5.978720477726984,
+            "joint_entropy_caveat": "Sparse plug-in joint entropy is downward-biased and capped by log2(frames); do not interpret 24 minus this estimate as unused capacity."
+          },
+          "residual_quantization": [
+            {
+              "stage": 1,
+              "mse_before": 1.5603682187535828,
+              "mse_after": 0.7285518767985809,
+              "relative_reduction": 0.5330897745529924,
+              "relative_to_original_after": 0.46691022544700755
+            },
+            {
+              "stage": 2,
+              "mse_before": 0.7285518767985809,
+              "mse_after": 0.5137807214559781,
+              "relative_reduction": 0.2947918496708225,
+              "relative_to_original_after": 0.3292688964572635
+            },
+            {
+              "stage": 3,
+              "mse_before": 0.5137807214559781,
+              "mse_after": 0.18963693229231232,
+              "relative_reduction": 0.6308990890998996,
+              "relative_to_original_after": 0.12153344961344682
+            }
+          ],
+          "partial_reconstruction": [
+            {
+              "stages": 1,
+              "nominal_bitrate_bps": 800,
+              "waveform_l1": 0.062245651407708644,
+              "spectral_loss_mean_per_file": 0.6307352748513222,
+              "si_snr_db_mean_per_file": -10.684203243255615
+            },
+            {
+              "stages": 2,
+              "nominal_bitrate_bps": 1600,
+              "waveform_l1": 0.05196285421010507,
+              "spectral_loss_mean_per_file": 0.43420798748731615,
+              "si_snr_db_mean_per_file": -6.325128580855671
+            },
+            {
+              "stages": 3,
+              "nominal_bitrate_bps": 2400,
+              "waveform_l1": 0.015765061345572234,
+              "spectral_loss_mean_per_file": 0.12503984451293945,
+              "si_snr_db_mean_per_file": 5.255358677133918
+            }
+          ],
+          "checkpoint_global_step": 100000
+        },
+        "checkpoint_step": 100000,
+        "checkpoint_sha256": "41b4fc071a0f092b21e0ef6c6c4f00cfc64250486f668a7a7305ca73fa8a14b4",
+        "checkpoint": "runs/champion4_c_conv2former/checkpoints/last.pt"
+      }
+    },
+    "d_combined": {
+      "effective_config": {
+        "seed": 20261102,
+        "audio": {
+          "sample_rate": 16000,
+          "frame_samples": 160,
+          "segment_samples": 32000
+        },
+        "model": {
+          "sample_rate": 16000,
+          "frame_samples": 160,
+          "quantizer_type": "projected_rvq",
+          "encoder_channels": [
+            8,
+            16,
+            32,
+            64,
+            160
+          ],
+          "encoder_strides": [
+            2,
+            4,
+            4,
+            5
+          ],
+          "decoder_channels": [
+            160,
+            48,
+            24,
+            12,
+            8
+          ],
+          "decoder_strides": [
+            5,
+            4,
+            4,
+            2
+          ],
+          "residual_blocks": 3,
+          "residual_kernel_size": 3,
+          "rvq_num_codebooks": 3,
+          "rvq_codebook_size": 256,
+          "rvq_codebook_dim": 160,
+          "commitment_weight": 0.1,
+          "rvq_ema_decay": 0.95,
+          "rvq_dead_code_threshold": 0.5,
+          "rvq_dead_code_after_updates": 100,
+          "rvq_kmeans_iterations": 10,
+          "encoder_temporal_layers": 4,
+          "decoder_temporal_layers": 2,
+          "temporal_kernel_size": 3,
+          "temporal_expansion": 1,
+          "fsq_levels": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "encoder_lookahead_frames": 3,
+          "decoder_lookahead_frames": 0,
+          "rvq_usage_loss_weight": 0.001,
+          "rvq_usage_temperature": 1.0,
+          "rvq_stage_commitment_weights": [
+            1.0,
+            1.5,
+            2.0
+          ],
+          "projected_stage_dims": [
+            48,
+            64,
+            80
+          ],
+          "decoder_conv2former_layers": 4,
+          "decoder_conv2former_hidden": 48,
+          "decoder_conv2former_kernel": 7
+        },
+        "loss": {
+          "waveform_l1_weight": 1.0,
+          "spectral_weight": 1.0,
+          "fft_sizes": [
+            256,
+            512,
+            1024
+          ],
+          "spectral_convergence_weight": 0.25,
+          "linear_magnitude_weight": 0.1,
+          "adversarial_weight": 0.05,
+          "feature_matching_weight": 1.5,
+          "si_snr_weight": 0.003
+        },
+        "adversarial": {
+          "resolutions": [
+            [
+              256,
+              64,
+              256
+            ],
+            [
+              512,
+              128,
+              512
+            ],
+            [
+              1024,
+              256,
+              1024
+            ]
+          ],
+          "start_step": 5000,
+          "warmup_steps": 10000,
+          "learning_rate": 0.0002,
+          "gradient_clip_norm": 10.0,
+          "periods": [
+            2,
+            3,
+            5,
+            7,
+            11
+          ]
+        },
+        "training": {
+          "batch_size": 32,
+          "num_workers": 8,
+          "epochs": 1000,
+          "learning_rate": 2e-05,
+          "weight_decay": 1e-06,
+          "gradient_clip_norm": 1.0,
+          "validation_limit": 32,
+          "validation_checkpoint_interval_steps": 5000,
+          "sample_inference_count": 2,
+          "output_dir": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion4_d_combined",
+          "minimum_learning_rate": 5e-06,
+          "warmup_steps": 0,
+          "checkpoint_keep_last": 2,
+          "quantizer_learning_rate": 2e-05,
+          "quantizer_only_steps": 0,
+          "data_order_seed": 20261102,
+          "epoch_addressed_data_order": true,
+          "reset_rng_after_init": true
+        },
+        "champion_training": {
+          "quantizer_bypass_probability": 0.5,
+          "mel_weight": 1.0,
+          "mel_fft_sizes": [
+            256,
+            512,
+            1024
+          ],
+          "mel_bins": [
+            32,
+            64,
+            80
+          ],
+          "mel_reduction_start": 80000,
+          "mel_reduction_ramp": 5000,
+          "mel_final_ratio": 0.06666666666666667
+        }
+      },
+      "metadata": {
+        "created_utc": "2026-11-02T05:47:43.432541+00:00",
+        "command": "scripts/train.py --config configs/champion4/d_combined.yaml --train-manifest /storage1/hehaoran/project/course-track2-codec-experiments/data/manifests/vctk_libritts/train.scp --valid-manifest /storage1/hehaoran/project/course-track2-codec-experiments/data/manifests/vctk_libritts/valid.scp --output-dir /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion4_d_combined --device cuda --max-total-steps 100000 --init-checkpoint /storage1/hehaoran/project/course-track2-codec-experiments/runs/struct4_b_residual_later/checkpoints/best.pt",
+        "torch_version": "2.13.0+cu129",
+        "world_size": 1,
+        "device": "cuda",
+        "init_checkpoint": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/struct4_b_residual_later/checkpoints/best.pt",
+        "resume_checkpoint": null
+      },
+      "training_curve": [
+        {
+          "timestamp_utc": "2026-11-02T06:10:06.381745+00:00",
+          "epoch": 1,
+          "batch_in_epoch": 5000,
+          "global_step": 5000,
+          "train_loss": 0.22126823309063912,
+          "validation": {
+            "waveform_l1": 0.014016920700669289,
+            "spectral": 0.1131415143609047,
+            "commitment": 0.06436803936958313,
+            "adversarial": 0.8838498592376709,
+            "feature_matching": 0.15941917896270752,
+            "discriminator": 1.3613169193267822,
+            "adversarial_factor": 0.0001,
+            "reconstruction": 0.12715843506157398,
+            "total": 0.1915548065572977
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              256,
+              255
+            ],
+            "perplexity": [
+              119.78042602539062,
+              116.95233917236328,
+              107.84455108642578
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              144.48573303222656,
+              132.52061462402344,
+              132.94525146484375
+            ]
+          },
+          "best_validation": 0.12715843506157398
+        },
+        {
+          "timestamp_utc": "2026-11-02T06:35:00.089821+00:00",
+          "epoch": 1,
+          "batch_in_epoch": 10000,
+          "global_step": 10000,
+          "train_loss": 0.26133126278072594,
+          "validation": {
+            "waveform_l1": 0.014313671737909317,
+            "spectral": 0.11539749801158905,
+            "commitment": 0.08644865453243256,
+            "adversarial": 0.8586324453353882,
+            "feature_matching": 0.16081243753433228,
+            "discriminator": 1.3221547603607178,
+            "adversarial_factor": 0.5001,
+            "reconstruction": 0.12971116974949837,
+            "total": 0.35826337859392166
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              255,
+              256
+            ],
+            "perplexity": [
+              126.65597534179688,
+              116.76744079589844,
+              110.16462707519531
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              157.96026611328125,
+              139.62245178222656,
+              139.95880126953125
+            ]
+          },
+          "best_validation": 0.12715843506157398
+        },
+        {
+          "timestamp_utc": "2026-11-02T06:57:07.146835+00:00",
+          "epoch": 2,
+          "batch_in_epoch": 2657,
+          "global_step": 15000,
+          "train_loss": 0.5084578328824465,
+          "validation": {
+            "waveform_l1": 0.014415564015507698,
+            "spectral": 0.11612274497747421,
+            "commitment": 0.10963208973407745,
+            "adversarial": 0.9416988492012024,
+            "feature_matching": 0.15872853994369507,
+            "discriminator": 1.4136005640029907,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.1305383089929819,
+            "total": 0.5253481511026621
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              255,
+              256
+            ],
+            "perplexity": [
+              119.48014068603516,
+              119.46197509765625,
+              115.09579467773438
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              150.75363159179688,
+              141.5379180908203,
+              145.5038604736328
+            ]
+          },
+          "best_validation": 0.12715843506157398
+        },
+        {
+          "timestamp_utc": "2026-11-02T07:17:27.517569+00:00",
+          "epoch": 2,
+          "batch_in_epoch": 7657,
+          "global_step": 20000,
+          "train_loss": 0.5376261334724708,
+          "validation": {
+            "waveform_l1": 0.01456219982355833,
+            "spectral": 0.11677171289920807,
+            "commitment": 0.1141391173005104,
+            "adversarial": 0.7955520153045654,
+            "feature_matching": 0.15807507932186127,
+            "discriminator": 1.3804830312728882,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.1313339127227664,
+            "total": 0.522363249771297
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              255,
+              256
+            ],
+            "perplexity": [
+              119.77088928222656,
+              120.2548599243164,
+              118.31253814697266
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              147.400390625,
+              139.0074920654297,
+              145.68687438964844
+            ]
+          },
+          "best_validation": 0.12715843506157398
+        },
+        {
+          "timestamp_utc": "2026-11-02T07:38:28.296997+00:00",
+          "epoch": 3,
+          "batch_in_epoch": 314,
+          "global_step": 25000,
+          "train_loss": 0.5510969977280137,
+          "validation": {
+            "waveform_l1": 0.014429997652769089,
+            "spectral": 0.11618060618638992,
+            "commitment": 0.11615186929702759,
+            "adversarial": 0.7728939056396484,
+            "feature_matching": 0.15694750845432281,
+            "discriminator": 1.3862979412078857,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.130610603839159,
+            "total": 0.5208284310996533
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              256,
+              255
+            ],
+            "perplexity": [
+              123.99188995361328,
+              117.41220092773438,
+              115.99606323242188
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              151.8813934326172,
+              136.83665466308594,
+              143.54684448242188
+            ]
+          },
+          "best_validation": 0.12715843506157398
+        },
+        {
+          "timestamp_utc": "2026-11-02T07:59:41.841840+00:00",
+          "epoch": 3,
+          "batch_in_epoch": 5314,
+          "global_step": 30000,
+          "train_loss": 0.5514968738638462,
+          "validation": {
+            "waveform_l1": 0.014395161531865597,
+            "spectral": 0.11602822691202164,
+            "commitment": 0.11603116989135742,
+            "adversarial": 0.9821512699127197,
+            "feature_matching": 0.1572514772415161,
+            "discriminator": 1.4591609239578247,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13042338844388723,
+            "total": 0.5314393376931548
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              119.50886535644531,
+              121.78044891357422,
+              116.14855194091797
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              145.90878295898438,
+              142.31639099121094,
+              143.20999145507812
+            ]
+          },
+          "best_validation": 0.12715843506157398
+        },
+        {
+          "timestamp_utc": "2026-11-02T08:19:54.373618+00:00",
+          "epoch": 3,
+          "batch_in_epoch": 10314,
+          "global_step": 35000,
+          "train_loss": 0.5496310114583143,
+          "validation": {
+            "waveform_l1": 0.014375023543834686,
+            "spectral": 0.11593778431415558,
+            "commitment": 0.11678285896778107,
+            "adversarial": 0.8682569265365601,
+            "feature_matching": 0.15653303265571594,
+            "discriminator": 1.408384084701538,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13031280785799026,
+            "total": 0.5253080621361732
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              120.5926742553711,
+              122.60392761230469,
+              116.60231018066406
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              145.69778442382812,
+              139.44964599609375,
+              142.12013244628906
+            ]
+          },
+          "best_validation": 0.12715843506157398
+        },
+        {
+          "timestamp_utc": "2026-11-02T08:40:13.776274+00:00",
+          "epoch": 4,
+          "batch_in_epoch": 2971,
+          "global_step": 40000,
+          "train_loss": 0.5478258314296398,
+          "validation": {
+            "waveform_l1": 0.014434109441936016,
+            "spectral": 0.11583921313285828,
+            "commitment": 0.11860894411802292,
+            "adversarial": 0.8637480139732361,
+            "feature_matching": 0.15647856891155243,
+            "discriminator": 1.3940188884735107,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.1302733225747943,
+            "total": 0.5267875207588076
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              255,
+              256
+            ],
+            "perplexity": [
+              122.17456817626953,
+              118.49778747558594,
+              111.51679992675781
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              150.47935485839844,
+              137.60935974121094,
+              138.568603515625
+            ]
+          },
+          "best_validation": 0.12715843506157398
+        },
+        {
+          "timestamp_utc": "2026-11-02T09:00:54.957310+00:00",
+          "epoch": 4,
+          "batch_in_epoch": 7971,
+          "global_step": 45000,
+          "train_loss": 0.549875769160829,
+          "validation": {
+            "waveform_l1": 0.014391809701919556,
+            "spectral": 0.11604467779397964,
+            "commitment": 0.11831516772508621,
+            "adversarial": 0.9274532794952393,
+            "feature_matching": 0.15632259845733643,
+            "discriminator": 1.429774522781372,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.1304364874958992,
+            "total": 0.529608216881752
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              256,
+              256
+            ],
+            "perplexity": [
+              124.03955841064453,
+              118.49501037597656,
+              114.92830657958984
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              155.35658264160156,
+              141.97789001464844,
+              145.6151885986328
+            ]
+          },
+          "best_validation": 0.12715843506157398
+        },
+        {
+          "timestamp_utc": "2026-11-02T09:20:22.625234+00:00",
+          "epoch": 5,
+          "batch_in_epoch": 628,
+          "global_step": 50000,
+          "train_loss": 0.5463753830949971,
+          "validation": {
+            "waveform_l1": 0.01439141295850277,
+            "spectral": 0.11590085178613663,
+            "commitment": 0.11828265339136124,
+            "adversarial": 0.9436214566230774,
+            "feature_matching": 0.156769797205925,
+            "discriminator": 1.4186779260635376,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.1302922647446394,
+            "total": 0.530910686776042
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              122.7784423828125,
+              120.90957641601562,
+              113.03897094726562
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              153.07406616210938,
+              144.4131317138672,
+              142.74713134765625
+            ]
+          },
+          "best_validation": 0.12715843506157398
+        },
+        {
+          "timestamp_utc": "2026-11-02T09:44:36.482007+00:00",
+          "epoch": 5,
+          "batch_in_epoch": 5628,
+          "global_step": 55000,
+          "train_loss": 0.5511721263413913,
+          "validation": {
+            "waveform_l1": 0.014444409869611263,
+            "spectral": 0.11591439694166183,
+            "commitment": 0.12076293677091599,
+            "adversarial": 0.9266971945762634,
+            "feature_matching": 0.15727485716342926,
+            "discriminator": 1.4453054666519165,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.1303588068112731,
+            "total": 0.5333688890561461
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              123.35582733154297,
+              121.5667724609375,
+              116.51737976074219
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              156.9208221435547,
+              148.15184020996094,
+              150.02146911621094
+            ]
+          },
+          "best_validation": 0.12715843506157398
+        },
+        {
+          "timestamp_utc": "2026-11-02T10:03:35.600137+00:00",
+          "epoch": 5,
+          "batch_in_epoch": 10628,
+          "global_step": 60000,
+          "train_loss": 0.5503772219624069,
+          "validation": {
+            "waveform_l1": 0.014396574348211288,
+            "spectral": 0.1157173290848732,
+            "commitment": 0.1206902340054512,
+            "adversarial": 0.8128725290298462,
+            "feature_matching": 0.15692900121212006,
+            "discriminator": 1.4122278690338135,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.1301139034330845,
+            "total": 0.5268412657082081
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              256,
+              256
+            ],
+            "perplexity": [
+              122.45720672607422,
+              119.56877136230469,
+              117.49565124511719
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              146.12657165527344,
+              138.97781372070312,
+              142.63079833984375
+            ]
+          },
+          "best_validation": 0.12715843506157398
+        },
+        {
+          "timestamp_utc": "2026-11-02T10:22:32.795203+00:00",
+          "epoch": 6,
+          "batch_in_epoch": 3285,
+          "global_step": 65000,
+          "train_loss": 0.5467983722505323,
+          "validation": {
+            "waveform_l1": 0.014397013001143932,
+            "spectral": 0.1159662976861,
+            "commitment": 0.12059518694877625,
+            "adversarial": 0.7996636629104614,
+            "feature_matching": 0.15762944519519806,
+            "discriminator": 1.3981082439422607,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13036331068724394,
+            "total": 0.5273858485743403
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              116.90304565429688,
+              118.0381088256836,
+              114.81130981445312
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              143.0121612548828,
+              138.1747589111328,
+              142.0867919921875
+            ]
+          },
+          "best_validation": 0.12715843506157398
+        },
+        {
+          "timestamp_utc": "2026-11-02T10:41:29.876157+00:00",
+          "epoch": 6,
+          "batch_in_epoch": 8285,
+          "global_step": 70000,
+          "train_loss": 0.5504503905809134,
+          "validation": {
+            "waveform_l1": 0.014413838274776936,
+            "spectral": 0.11582660675048828,
+            "commitment": 0.12160339206457138,
+            "adversarial": 0.8268871903419495,
+            "feature_matching": 0.1577940732240677,
+            "discriminator": 1.4036836624145508,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13024044502526522,
+            "total": 0.5298793064430356
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              255,
+              256
+            ],
+            "perplexity": [
+              118.81327056884766,
+              121.31140899658203,
+              116.65492248535156
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              146.2472381591797,
+              142.43614196777344,
+              146.5856475830078
+            ]
+          },
+          "best_validation": 0.12715843506157398
+        },
+        {
+          "timestamp_utc": "2026-11-02T11:00:26.476309+00:00",
+          "epoch": 7,
+          "batch_in_epoch": 942,
+          "global_step": 75000,
+          "train_loss": 0.547041423729524,
+          "validation": {
+            "waveform_l1": 0.014450390823185444,
+            "spectral": 0.1157492995262146,
+            "commitment": 0.12046203762292862,
+            "adversarial": 0.7653259634971619,
+            "feature_matching": 0.1575039178133011,
+            "discriminator": 1.3898134231567383,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13019969034940004,
+            "total": 0.5251839028671383
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              120.8725814819336,
+              120.54237365722656,
+              113.3665771484375
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              149.50885009765625,
+              142.06272888183594,
+              142.55654907226562
+            ]
+          },
+          "best_validation": 0.12715843506157398
+        },
+        {
+          "timestamp_utc": "2026-11-02T11:19:22.372249+00:00",
+          "epoch": 7,
+          "batch_in_epoch": 5942,
+          "global_step": 80000,
+          "train_loss": 0.5497590674620932,
+          "validation": {
+            "waveform_l1": 0.014418885111808777,
+            "spectral": 0.11577004939317703,
+            "commitment": 0.12282244116067886,
+            "adversarial": 0.7897295355796814,
+            "feature_matching": 0.15792077779769897,
+            "discriminator": 1.3942229747772217,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.1301889345049858,
+            "total": 0.5293790191411972
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              121.27346801757812,
+              123.44585418701172,
+              115.63506317138672
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              145.2991943359375,
+              141.07211303710938,
+              140.4053192138672
+            ]
+          },
+          "best_validation": 0.12715843506157398
+        },
+        {
+          "timestamp_utc": "2026-11-02T11:38:19.197909+00:00",
+          "epoch": 7,
+          "batch_in_epoch": 10942,
+          "global_step": 85000,
+          "train_loss": 0.5394118042804711,
+          "validation": {
+            "waveform_l1": 0.014394951984286308,
+            "spectral": 0.11586117744445801,
+            "commitment": 0.11366758495569229,
+            "adversarial": 0.8836357593536377,
+            "feature_matching": 0.15781299769878387,
+            "discriminator": 1.4023683071136475,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13025612942874432,
+            "total": 0.5248249989002943
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              255
+            ],
+            "perplexity": [
+              119.11215209960938,
+              122.42597961425781,
+              111.80762481689453
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              147.0016326904297,
+              146.8332977294922,
+              142.90963745117188
+            ]
+          },
+          "best_validation": 0.12715843506157398
+        },
+        {
+          "timestamp_utc": "2026-11-02T11:57:15.108158+00:00",
+          "epoch": 8,
+          "batch_in_epoch": 3599,
+          "global_step": 90000,
+          "train_loss": 0.49764151799576123,
+          "validation": {
+            "waveform_l1": 0.014404729008674622,
+            "spectral": 0.11616343259811401,
+            "commitment": 0.11069542169570923,
+            "adversarial": 0.7902142405509949,
+            "feature_matching": 0.15828920900821686,
+            "discriminator": 1.3922849893569946,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13056816160678864,
+            "total": 0.5182081088423729
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              255
+            ],
+            "perplexity": [
+              117.36182403564453,
+              118.29832458496094,
+              113.37020111083984
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              145.13612365722656,
+              138.3192596435547,
+              141.45120239257812
+            ]
+          },
+          "best_validation": 0.12715843506157398
+        },
+        {
+          "timestamp_utc": "2026-11-02T12:16:11.202304+00:00",
+          "epoch": 8,
+          "batch_in_epoch": 8599,
+          "global_step": 95000,
+          "train_loss": 0.497567506699607,
+          "validation": {
+            "waveform_l1": 0.014404632151126862,
+            "spectral": 0.11592326313257217,
+            "commitment": 0.10957801342010498,
+            "adversarial": 0.8984089493751526,
+            "feature_matching": 0.1592123955488205,
+            "discriminator": 1.4420517683029175,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13032789528369904,
+            "total": 0.5236449494957924
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              255,
+              254
+            ],
+            "perplexity": [
+              114.36271667480469,
+              120.41822052001953,
+              113.66639709472656
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              141.45025634765625,
+              139.7218780517578,
+              142.61305236816406
+            ]
+          },
+          "best_validation": 0.12715843506157398
+        },
+        {
+          "timestamp_utc": "2026-11-02T12:35:07.394935+00:00",
+          "epoch": 9,
+          "batch_in_epoch": 1256,
+          "global_step": 100000,
+          "train_loss": 0.49696148656735756,
+          "validation": {
+            "waveform_l1": 0.01440675649791956,
+            "spectral": 0.11612064391374588,
+            "commitment": 0.10931958258152008,
+            "adversarial": 0.7646470665931702,
+            "feature_matching": 0.1589055210351944,
+            "discriminator": 1.39981210231781,
+            "adversarial_factor": 1.0,
+            "reconstruction": 0.13052740041166544,
+            "total": 0.5164376178756356
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              255,
+              256,
+              256
+            ],
+            "perplexity": [
+              111.97830963134766,
+              120.4653091430664,
+              116.38339233398438
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              140.8188018798828,
+              141.9508056640625,
+              146.39328002929688
+            ]
+          },
+          "best_validation": 0.12715843506157398
+        }
+      ],
+      "phase_samples": [
+        {
+          "global_step": 5000,
+          "quantizer_bypass": true,
+          "mel_weight": 1.0,
+          "mel_loss": 0.04480966180562973,
+          "waveform_l1": 0.013967727310955524,
+          "spectral_loss": 0.11802782863378525,
+          "quantizer_loss": 0.0,
+          "loss": 0.16107314825057983,
+          "gan_factor": 0.0001,
+          "peak_allocated_MiB": 5379.1923828125
+        },
+        {
+          "global_step": 15000,
+          "quantizer_bypass": false,
+          "mel_weight": 1.0,
+          "mel_loss": 0.060679178684949875,
+          "waveform_l1": 0.02052713930606842,
+          "spectral_loss": 0.1489129662513733,
+          "quantizer_loss": 0.17568495869636536,
+          "loss": 0.7567046284675598,
+          "gan_factor": 1.0,
+          "peak_allocated_MiB": 6464.6337890625
+        },
+        {
+          "global_step": 80000,
+          "quantizer_bypass": true,
+          "mel_weight": 1.0,
+          "mel_loss": 0.04166216775774956,
+          "waveform_l1": 0.012961567379534245,
+          "spectral_loss": 0.11585734784603119,
+          "quantizer_loss": 0.0,
+          "loss": 0.4190962016582489,
+          "gan_factor": 1.0,
+          "peak_allocated_MiB": 6466.86279296875
+        },
+        {
+          "global_step": 82500,
+          "quantizer_bypass": false,
+          "mel_weight": 0.5333333333333333,
+          "mel_loss": 0.05424442142248154,
+          "waveform_l1": 0.016687333583831787,
+          "spectral_loss": 0.12541016936302185,
+          "quantizer_loss": 0.15864023566246033,
+          "loss": 0.6186680793762207,
+          "gan_factor": 1.0,
+          "peak_allocated_MiB": 6468.0419921875
+        },
+        {
+          "global_step": 85000,
+          "quantizer_bypass": false,
+          "mel_weight": 0.06666666666666665,
+          "mel_loss": 0.05530733987689018,
+          "waveform_l1": 0.017373904585838318,
+          "spectral_loss": 0.14299233257770538,
+          "quantizer_loss": 0.14100663363933563,
+          "loss": 0.6173112392425537,
+          "gan_factor": 1.0,
+          "peak_allocated_MiB": 6468.0419921875
+        },
+        {
+          "global_step": 100000,
+          "quantizer_bypass": false,
+          "mel_weight": 0.06666666666666665,
+          "mel_loss": 0.05770985409617424,
+          "waveform_l1": 0.018769342452287674,
+          "spectral_loss": 0.14721089601516724,
+          "quantizer_loss": 0.14727742969989777,
+          "loss": 0.6420400738716125,
+          "gan_factor": 1.0,
+          "peak_allocated_MiB": 6468.0419921875
+        }
+      ],
+      "primary": {
+        "summary": {
+          "files": 200,
+          "means": {
+            "PESQ": 2.0802673161029817,
+            "ESTOI": 0.7528098533705716,
+            "SI_SNR": 5.330611037929841,
+            "UTMOS": 2.724453088641167
+          },
+          "objective_quality_score": 46.89590515199903,
+          "utmos_skipped": false
+        },
+        "complexity": {
+          "sample_rate_hz": 16000,
+          "duration_seconds": 1.0,
+          "frame_samples": 160,
+          "bitrate_bps": 2400,
+          "encoder_mmac_per_s": 168.576,
+          "decoder_mmac_per_s": 148.0704,
+          "quantizer_mmac_per_s": 17.8176,
+          "unclassified_mmac_per_s": 0.0,
+          "total_mflop_per_s": 668.9472,
+          "decoder_mflop_per_s": 296.16,
+          "decoder_modulation_mflop_per_s": 0.0192,
+          "parameters": 758109,
+          "quantizer_type": "projected_rvq",
+          "algorithmic_lookahead_ms": 30,
+          "notes": "Counts Conv1d, ConvTranspose1d, Linear, bounded attention QK/AV, approximate VQ nearest-neighbour search and Conv2Former elementwise modulation multiplications. Quantizer synthesis projections count toward the decoder budget. MMAC fields exclude the separately reported non-MAC modulation product. FSQ scalar rounding is reported as zero MACs. Excludes activations, normalization, padding and file I/O."
+        },
+        "rvq": {
+          "checkpoint": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion4_d_combined/checkpoints/best.pt",
+          "files": 200,
+          "samples": 16197971,
+          "frames": 101286,
+          "occupancy": [
+            {
+              "stage": 1,
+              "active_codes": 256,
+              "perplexity": 140.44031515563714,
+              "entropy_bits": 7.133813328595098,
+              "top1_fraction": 0.06215074146476315,
+              "top10_fraction": 0.26608810694469126,
+              "codes_for_95pct_mass": 178,
+              "codes_for_99pct_mass": 226
+            },
+            {
+              "stage": 2,
+              "active_codes": 256,
+              "perplexity": 136.50258450665308,
+              "entropy_bits": 7.092784456814597,
+              "top1_fraction": 0.07682206820291057,
+              "top10_fraction": 0.28909227336453214,
+              "codes_for_95pct_mass": 180,
+              "codes_for_99pct_mass": 224
+            },
+            {
+              "stage": 3,
+              "active_codes": 256,
+              "perplexity": 134.7935027626009,
+              "entropy_bits": 7.074607148029806,
+              "top1_fraction": 0.06650474892877595,
+              "top10_fraction": 0.2903658945955019,
+              "codes_for_95pct_mass": 182,
+              "codes_for_99pct_mass": 224
+            }
+          ],
+          "entropy": {
+            "marginal_bits": [
+              7.133813328595098,
+              7.092784456814597,
+              7.074607148029806
+            ],
+            "sum_marginal_bits": 21.3012049334395,
+            "naive_plugin_joint_stage12_bits": 12.817821432170092,
+            "naive_plugin_joint_stage123_bits": 15.175907913711466,
+            "naive_plugin_conditional_stage2_given_stage1_bits": 5.684008103574994,
+            "naive_plugin_conditional_stage3_given_stage12_bits": 2.358086481541374,
+            "naive_plugin_interstage_redundancy_bits": 6.125297019728034,
+            "joint_entropy_caveat": "Sparse plug-in joint entropy is downward-biased and capped by log2(frames); do not interpret 24 minus this estimate as unused capacity."
+          },
+          "residual_quantization": [
+            {
+              "stage": 1,
+              "mse_before": 1.2036569660633378,
+              "mse_after": 0.5009597329112468,
+              "relative_reduction": 0.5838019078228923,
+              "relative_to_original_after": 0.4161980921771077
+            },
+            {
+              "stage": 2,
+              "mse_before": 0.5009597329112468,
+              "mse_after": 0.335769799109193,
+              "relative_reduction": 0.32974692964258645,
+              "relative_to_original_after": 0.2789580491586042
+            },
+            {
+              "stage": 3,
+              "mse_before": 0.335769799109193,
+              "mse_after": 0.11060763215487489,
+              "relative_reduction": 0.6705849291737371,
+              "relative_to_original_after": 0.09189298552113774
+            }
+          ],
+          "partial_reconstruction": [
+            {
+              "stages": 1,
+              "nominal_bitrate_bps": 800,
+              "waveform_l1": 0.04436983492988067,
+              "spectral_loss_mean_per_file": 0.4295059725642204,
+              "si_snr_db_mean_per_file": -9.922591246515513
+            },
+            {
+              "stages": 2,
+              "nominal_bitrate_bps": 1600,
+              "waveform_l1": 0.03949580326451187,
+              "spectral_loss_mean_per_file": 0.301698948815465,
+              "si_snr_db_mean_per_file": -3.930856903216336
+            },
+            {
+              "stages": 3,
+              "nominal_bitrate_bps": 2400,
+              "waveform_l1": 0.01545674683412952,
+              "spectral_loss_mean_per_file": 0.12155880238860846,
+              "si_snr_db_mean_per_file": 5.3306092388927935
+            }
+          ],
+          "checkpoint_global_step": 5000
+        },
+        "checkpoint_step": 5000,
+        "checkpoint_sha256": "0e5cfea2f6aebc00a76723843e5f313709644241b0d6ee4ff3604b9d2ec2d0a9",
+        "checkpoint": "runs/champion4_d_combined/checkpoints/best.pt"
+      },
+      "final100k": {
+        "summary": {
+          "files": 200,
+          "means": {
+            "PESQ": 2.0316332066059113,
+            "ESTOI": 0.7371333338074655,
+            "SI_SNR": 5.239469719660954,
+            "UTMOS": 2.895588526725769
+          },
+          "objective_quality_score": 47.16923883062444,
+          "utmos_skipped": false
+        },
+        "complexity": {
+          "sample_rate_hz": 16000,
+          "duration_seconds": 1.0,
+          "frame_samples": 160,
+          "bitrate_bps": 2400,
+          "encoder_mmac_per_s": 168.576,
+          "decoder_mmac_per_s": 148.0704,
+          "quantizer_mmac_per_s": 17.8176,
+          "unclassified_mmac_per_s": 0.0,
+          "total_mflop_per_s": 668.9472,
+          "decoder_mflop_per_s": 296.16,
+          "decoder_modulation_mflop_per_s": 0.0192,
+          "parameters": 758109,
+          "quantizer_type": "projected_rvq",
+          "algorithmic_lookahead_ms": 30,
+          "notes": "Counts Conv1d, ConvTranspose1d, Linear, bounded attention QK/AV, approximate VQ nearest-neighbour search and Conv2Former elementwise modulation multiplications. Quantizer synthesis projections count toward the decoder budget. MMAC fields exclude the separately reported non-MAC modulation product. FSQ scalar rounding is reported as zero MACs. Excludes activations, normalization, padding and file I/O."
+        },
+        "rvq": {
+          "checkpoint": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion4_d_combined/checkpoints/last.pt",
+          "files": 200,
+          "samples": 16197971,
+          "frames": 101286,
+          "occupancy": [
+            {
+              "stage": 1,
+              "active_codes": 256,
+              "perplexity": 125.86304838315037,
+              "entropy_bits": 6.975710980066477,
+              "top1_fraction": 0.06128191457852023,
+              "top10_fraction": 0.30820646486187625,
+              "codes_for_95pct_mass": 171,
+              "codes_for_99pct_mass": 221
+            },
+            {
+              "stage": 2,
+              "active_codes": 255,
+              "perplexity": 139.76121614162167,
+              "entropy_bits": 7.126820256904578,
+              "top1_fraction": 0.04821001915368363,
+              "top10_fraction": 0.2759611397429062,
+              "codes_for_95pct_mass": 180,
+              "codes_for_99pct_mass": 224
+            },
+            {
+              "stage": 3,
+              "active_codes": 256,
+              "perplexity": 142.57237913944385,
+              "entropy_bits": 7.155550702143715,
+              "top1_fraction": 0.052919455798432165,
+              "top10_fraction": 0.277511205892226,
+              "codes_for_95pct_mass": 187,
+              "codes_for_99pct_mass": 228
+            }
+          ],
+          "entropy": {
+            "marginal_bits": [
+              6.975710980066477,
+              7.126820256904578,
+              7.155550702143715
+            ],
+            "sum_marginal_bits": 21.25808193911477,
+            "naive_plugin_joint_stage12_bits": 12.830041285686569,
+            "naive_plugin_joint_stage123_bits": 15.267740035073604,
+            "naive_plugin_conditional_stage2_given_stage1_bits": 5.854330305620092,
+            "naive_plugin_conditional_stage3_given_stage12_bits": 2.4376987493870352,
+            "naive_plugin_interstage_redundancy_bits": 5.990341904041166,
+            "joint_entropy_caveat": "Sparse plug-in joint entropy is downward-biased and capped by log2(frames); do not interpret 24 minus this estimate as unused capacity."
+          },
+          "residual_quantization": [
+            {
+              "stage": 1,
+              "mse_before": 1.629777316240579,
+              "mse_after": 0.8121420507843288,
+              "relative_reduction": 0.5016852654093238,
+              "relative_to_original_after": 0.4983147345906762
+            },
+            {
+              "stage": 2,
+              "mse_before": 0.8121420507843288,
+              "mse_after": 0.6991112026883046,
+              "relative_reduction": 0.13917620444214684,
+              "relative_to_original_after": 0.4289611812127501
+            },
+            {
+              "stage": 3,
+              "mse_before": 0.6991112026883046,
+              "mse_after": 0.24965868455655443,
+              "relative_reduction": 0.6428913117161654,
+              "relative_to_original_after": 0.15318576474756945
+            }
+          ],
+          "partial_reconstruction": [
+            {
+              "stages": 1,
+              "nominal_bitrate_bps": 800,
+              "waveform_l1": 0.05594636437159224,
+              "spectral_loss_mean_per_file": 0.5507421573996544,
+              "si_snr_db_mean_per_file": -11.48713813662529
+            },
+            {
+              "stages": 2,
+              "nominal_bitrate_bps": 1600,
+              "waveform_l1": 0.05277694056763055,
+              "spectral_loss_mean_per_file": 0.42493188723921776,
+              "si_snr_db_mean_per_file": -6.008834297852591
+            },
+            {
+              "stages": 3,
+              "nominal_bitrate_bps": 2400,
+              "waveform_l1": 0.015798898770614366,
+              "spectral_loss_mean_per_file": 0.12508348062634467,
+              "si_snr_db_mean_per_file": 5.2394684566184875
+            }
+          ],
+          "checkpoint_global_step": 100000
+        },
+        "checkpoint_step": 100000,
+        "checkpoint_sha256": "567d70b5ad74e0db91bc1b218db5e907c433500ea57aea965ea8540c6e92c301",
+        "checkpoint": "runs/champion4_d_combined/checkpoints/last.pt"
+      }
+    }
+  },
+  "effects": {
+    "primary": {
+      "B_minus_A": 0.7704012778325477,
+      "C_minus_A": -0.01793818734121544,
+      "D_minus_A": 0.884389117326478,
+      "D_minus_B": 0.11398783949393021,
+      "D_minus_C": 0.9023273046676934,
+      "training_main_effect": 0.8363642912501206,
+      "model_main_effect": 0.048024826076357385,
+      "interaction": 0.13192602683514565,
+      "paired_file_bootstrap": {
+        "b_training": {
+          "mean_difference": 0.7704012778325506,
+          "CI95_conditional_on_fixed_seed": [
+            0.5789000582414029,
+            0.9496303608751604
+          ],
+          "caveat": "File uncertainty only; not training-seed uncertainty or a promotion test."
+        },
+        "c_conv2former": {
+          "mean_difference": -0.01793818734121585,
+          "CI95_conditional_on_fixed_seed": [
+            -0.1930945913186416,
+            0.1646794015940615
+          ],
+          "caveat": "File uncertainty only; not training-seed uncertainty or a promotion test."
+        },
+        "d_combined": {
+          "mean_difference": 0.8843891173264802,
+          "CI95_conditional_on_fixed_seed": [
+            0.7047291906653331,
+            1.067087713777873
+          ],
+          "caveat": "File uncertainty only; not training-seed uncertainty or a promotion test."
+        }
+      }
+    },
+    "final100k": {
+      "B_minus_A": 0.02012922096000125,
+      "C_minus_A": -0.10093085398746382,
+      "D_minus_A": -0.0690814844162162,
+      "D_minus_B": -0.08921070537621745,
+      "D_minus_C": 0.03184936957124762,
+      "training_main_effect": 0.025989295265624435,
+      "model_main_effect": -0.09507077968184063,
+      "interaction": 0.011720148611246373,
+      "paired_file_bootstrap": {
+        "b_training": {
+          "mean_difference": 0.020129220960003878,
+          "CI95_conditional_on_fixed_seed": [
+            -0.1978005967067881,
+            0.24937831395336688
+          ],
+          "caveat": "File uncertainty only; not training-seed uncertainty or a promotion test."
+        },
+        "c_conv2former": {
+          "mean_difference": -0.10093085398745899,
+          "CI95_conditional_on_fixed_seed": [
+            -0.27463562893590626,
+            0.0751086889593274
+          ],
+          "caveat": "File uncertainty only; not training-seed uncertainty or a promotion test."
+        },
+        "d_combined": {
+          "mean_difference": -0.06908148441621073,
+          "CI95_conditional_on_fixed_seed": [
+            -0.2696877919508732,
+            0.12250808002971368
+          ],
+          "caveat": "File uncertainty only; not training-seed uncertainty or a promotion test."
+        }
+      }
+    }
+  },
+  "guardrails": {
+    "primary": {
+      "control_gate_pass": false,
+      "cells": {
+        "b_training": {
+          "A": {
+            "score_gain": 0.7704012778325477,
+            "component_deltas": {
+              "PESQ": 0.04178718388080638,
+              "ESTOI": 0.00968476457659373,
+              "SI_SNR": -0.20122028330743724,
+              "UTMOS": 0.056890392899513476
+            },
+            "passes": false
+          },
+          "v2": {
+            "score_gain": 0.03557424424870703,
+            "component_deltas": {
+              "PESQ": 0.08178982436656979,
+              "ESTOI": 0.02327751024377922,
+              "SI_SNR": 0.12157488541213457,
+              "UTMOS": -0.19304973542690274
+            },
+            "passes": false
+          }
+        },
+        "c_conv2former": {
+          "A": {
+            "score_gain": -0.01793818734121544,
+            "component_deltas": {
+              "PESQ": 0.006774906516075152,
+              "ESTOI": 0.001175611770338647,
+              "SI_SNR": 0.0572843017067326,
+              "UTMOS": -0.021043737530708206
+            },
+            "passes": false
+          },
+          "v2": {
+            "score_gain": -0.7527652209250562,
+            "component_deltas": {
+              "PESQ": 0.04677754700183856,
+              "ESTOI": 0.014768357437524138,
+              "SI_SNR": 0.3800794704263044,
+              "UTMOS": -0.2709838658571244
+            },
+            "passes": false
+          }
+        },
+        "d_combined": {
+          "A": {
+            "score_gain": 0.884389117326478,
+            "component_deltas": {
+              "PESQ": 0.042111929655075375,
+              "ESTOI": 0.010435048667987612,
+              "SI_SNR": -0.1710747330431861,
+              "UTMOS": 0.06874161779880561
+            },
+            "passes": false
+          },
+          "v2": {
+            "score_gain": 0.14956208374263724,
+            "component_deltas": {
+              "PESQ": 0.08211457014083878,
+              "ESTOI": 0.024027794335173103,
+              "SI_SNR": 0.1517204356763857,
+              "UTMOS": -0.1811985105276106
+            },
+            "passes": false
+          }
+        }
+      }
+    },
+    "final100k": {
+      "control_gate_pass": true,
+      "cells": {
+        "b_training": {
+          "A": {
+            "score_gain": 0.02012922096000125,
+            "component_deltas": {
+              "PESQ": -0.0024243062734603527,
+              "ESTOI": 0.005078331225075838,
+              "SI_SNR": -0.013436245424515825,
+              "UTMOS": -0.0129783892631532
+            },
+            "passes": false
+          },
+          "v2": {
+            "score_gain": 0.5121064677442604,
+            "component_deltas": {
+              "PESQ": 0.021389538049697787,
+              "ESTOI": 0.008426026376149642,
+              "SI_SNR": 0.07838405509519131,
+              "UTMOS": 0.015949337482452197
+            },
+            "passes": true
+          }
+        },
+        "c_conv2former": {
+          "A": {
+            "score_gain": -0.10093085398746382,
+            "component_deltas": {
+              "PESQ": -0.003813580274581785,
+              "ESTOI": 0.00031273289580524555,
+              "SI_SNR": -0.01535328478744269,
+              "UTMOS": -0.011506162285804589
+            },
+            "passes": false
+          },
+          "v2": {
+            "score_gain": 0.3910463927967953,
+            "component_deltas": {
+              "PESQ": 0.020000264048576355,
+              "ESTOI": 0.0036604280468790495,
+              "SI_SNR": 0.07646701573226444,
+              "UTMOS": 0.01742156445980081
+            },
+            "passes": true
+          }
+        },
+        "d_combined": {
+          "A": {
+            "score_gain": -0.0690814844162162,
+            "component_deltas": {
+              "PESQ": 0.009666616320610277,
+              "ESTOI": 0.0050035796209931815,
+              "SI_SNR": -0.03124118311220858,
+              "UTMOS": -0.038990799188614034
+            },
+            "passes": false
+          },
+          "v2": {
+            "score_gain": 0.42289576236804294,
+            "component_deltas": {
+              "PESQ": 0.03348046064376842,
+              "ESTOI": 0.008351274772066986,
+              "SI_SNR": 0.06057911740749855,
+              "UTMOS": -0.010063072443008636
+            },
+            "passes": true
+          }
+        }
+      }
+    }
+  }
+}
