@@ -16,6 +16,7 @@ import torch
 import torch.distributed as dist
 import torch.nn.functional as F
 from torch import nn
+from .champion_synthesis import CausalResidualGRU, CausalFourierDecoder
 
 from .minimimi import (
     LookaheadFusion,
@@ -1182,6 +1183,13 @@ class CourseCodec(nn.Module):
         decoder_conv2former_layers: int = 0,
         decoder_conv2former_hidden: int = 48,
         decoder_conv2former_kernel: int = 7,
+        encoder_gru: bool = False,
+        synthesis_type: str = "waveform",
+        fourier_width: int = 256,
+        fourier_hidden: int = 160,
+        fourier_layers: int = 8,
+        fourier_n_fft: int = 320,
+        synthesis_initialization_seed: int = 20261103,
         architecture: str = "baseline",
         minimimi_encoder_channels: Iterable[int] = (12, 24, 48, 96, 192),
         minimimi_decoder_channels: Iterable[int] = (128, 64, 32, 16, 8),
@@ -1228,6 +1236,15 @@ class CourseCodec(nn.Module):
         if decoder_conv2former_layers < 0:
             raise ValueError("decoder Conv2Former layers must be nonnegative")
         latent_dim = minimimi_latent_dim if architecture == "minimimi" else encoder_channels[-1]
+        self.analysis_gru: nn.Module = nn.Identity()
+        if encoder_gru:
+            with torch.random.fork_rng(devices=[]):
+                torch.manual_seed(synthesis_initialization_seed + 1)
+                self.analysis_gru = CausalResidualGRU(latent_dim)
+        if synthesis_type not in {"waveform", "fourier"}:
+            raise ValueError("unknown synthesis type")
+        if architecture == "minimimi" and synthesis_type != "waveform":
+            raise ValueError("Fourier study uses the baseline encoder architecture")
         self.synthesis_conv2former = nn.Sequential(*(
             CausalConv2FormerUnit(latent_dim, decoder_conv2former_hidden, decoder_conv2former_kernel)
             for _ in range(decoder_conv2former_layers)
@@ -1389,9 +1406,15 @@ class CourseCodec(nn.Module):
                 temporal_transformer_ffn_dim,
                 decoder_history_frames,
             )
-        self.decoder = WaveformDecoder(
-            decoder_channels, decoder_strides, residual_blocks, residual_kernel_size
-        )
+        if synthesis_type == "waveform":
+            self.decoder = WaveformDecoder(
+                decoder_channels, decoder_strides, residual_blocks, residual_kernel_size
+            )
+        else:
+            with torch.random.fork_rng(devices=[]):
+                torch.manual_seed(synthesis_initialization_seed)
+                self.decoder = CausalFourierDecoder(latent_dim, fourier_width,
+                    fourier_hidden, fourier_layers, fourier_n_fft, CausalConv2FormerUnit)
         if decoder_refinement == "none":
             self.decoder_refinement: nn.Module = nn.Identity()
         elif decoder_refinement == "multiscale":
@@ -1425,6 +1448,7 @@ class CourseCodec(nn.Module):
             )
         else:
             embeddings = self.analysis_temporal(self.latent_norm(self.encoder(padded)))
+        embeddings = self.analysis_gru(embeddings)
         _, indices, _ = self.quantizer(embeddings)
         return indices
 
@@ -1455,6 +1479,7 @@ class CourseCodec(nn.Module):
             )
         else:
             embeddings = self.analysis_temporal(self.latent_norm(self.encoder(padded)))
+        embeddings = self.analysis_gru(embeddings)
         if quantizer_bypass:
             if not self.training or return_aux:
                 raise ValueError("RVQ bypass is training-only and incompatible with semantic auxiliaries")

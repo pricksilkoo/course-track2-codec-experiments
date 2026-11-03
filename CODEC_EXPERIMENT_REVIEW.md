@@ -357,3 +357,19 @@ A47.2383、B47.2584、C47.1374、D47.1692。完整GAN终点的control已经恢�
 未训练初始化和已验证500k scratch课程，并在开跑前固定终点评测规则。
 
 详细可复查报告：[CHAMPION4_RESULTS.md](CHAMPION4_RESULTS.md)。
+
+## 12. 第二轮：真正替换合成路径，而非继续追加小模块
+
+在首轮终点对照显示没有额外收益后，登记GRU×Fourier合成的四组：A原模型，B仅加
+encoder单向GRU，C仅换因果逆傅里叶/overlap-add decoder，D组合。由于C/D是全新
+合成器，四组都从同一个未训练encoder/RVQ/判别器状态开始，训练500k步；没有从v2或
+任何成熟权重短训。A复现此前通过正对照的scratch课程，作为同轮控制。
+
+Fourier头每10ms预测320样本，当前输出只融合当前及上一latent产生的窗口，不等待
+下一latent；因果性通过输出前缀不变测试。C/D把较多参数放在100Hz latent域，避免
+波形高采样率卷积，decoder计算降至257.632MFLOP/s。GRU作为独立因素增加过去状态
+建模，保持30ms未来信息上限。四组共同保留10ms帧、24bit、2.4kbps接口。
+
+本轮在新得分产生前固定500000步终点为主要评测，重建最小best只做诊断，吸取首轮
+选模教训。35项测试与完整GAN峰值预检已过，暂无本轮质量结果。预注册详情：
+[CHAMPION5_PLAN.md](CHAMPION5_PLAN.md)。

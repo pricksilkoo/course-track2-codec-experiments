@@ -431,3 +431,20 @@ RVQ, hashes and paired-file uncertainty: CHAMPION4_RESULTS.md and its.audit.
 Next investigate causal inverse-Fourier synthesis and encoder GRU as separate
 architecture factors, only after a new plan and scratch-positive-control
 resource/interface preflight. No sealed evaluation or baseline promotion.
+
+## 2026-11-03 — Champion5 registered: GRU × causal Fourier synthesis, scratch
+
+Register four architecture cells: A original waveform control; B encoder
+forwardGRU; C causal Fourier/overlap-add synthesis; D both. Every codec and
+discriminator starts untrained, with shared encoder/TCN/projected-RVQ/discriminator
+states from the retained step0 snapshot, no inherited learned checkpoint.
+Use the previously validated500k scratch curriculum and seed/data-order20261024.
+Unlike the preceding selection failure, primary evaluation is fixed at500000
+steps before any quality results exist. Reconstruction-best remains diagnostic.
+
+All35 tests pass, including Fourier/GRU causality and actual3-byte/frame roundtrip.
+Total/decoder MFLOP/s for A/B/C/D:650.2272/277.44,686.1152/277.44,
+630.4192/257.632,666.3072/257.632. Conservative FFT/OLA and GRU gate costs included;
+all remain16kHz,10ms/24bit frames,2400bps,30ms lookahead. Full-size GAN backward
+profiling passed for B and D at reserved7064/6380MiB. Full hypotheses, parameters,
+initialization matching, gates and resource rules: CHAMPION5_PLAN.md.

@@ -51,6 +51,12 @@ def main() -> None:
                 reason = "tracked regression checkpoint"
             elif not smoke and path.name in {"best.pt", "raw_best.pt"}:
                 reason = "selected historical comparator / lineage / teacher"
+            elif path.name == "last.pt" and any(
+                certificate.is_file() and relative in certificate.read_text()
+                for certificate in (run / "evaluation/checkpoint.sha256",
+                                    run / "evaluation_final100k/checkpoint.sha256")
+            ):
+                reason = "fixed-endpoint primary or diagnostic evaluation checkpoint"
             elif not smoke and not complete:
                 reason = "no completion marker: preserve resumability"
             elif step is not None and step in averaging.get(run.name, set()):

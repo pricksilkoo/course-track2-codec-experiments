@@ -906,7 +906,7 @@ def main() -> None:
                         * float(parameter_group.get("lr_scale", 1.0))
                     )
             optimizer.zero_grad(set_to_none=True)
-            if config.get("champion_training") is not None and not torch.isfinite(loss):
+            if (config.get("champion_training") is not None or config["training"].get("fail_on_nonfinite", False)) and not torch.isfinite(loss):
                 raise FloatingPointError(f"nonfinite training loss at step {global_step + 1}; preserve latest good checkpoint")
             loss.backward()
             torch.nn.utils.clip_grad_norm_(

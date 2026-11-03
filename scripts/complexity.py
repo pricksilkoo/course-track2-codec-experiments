@@ -50,13 +50,19 @@ def main() -> None:
                 per_output = (module.in_channels // module.groups) * kernel
             elif isinstance(module, nn.Linear):
                 per_output = module.in_features
+            elif isinstance(module, nn.GRU):
+                if module.num_layers != 1 or module.bidirectional:
+                    raise ValueError("GRU counter supports one forward layer")
+                steps = output[0].numel() // module.hidden_size
+                macs[name] = steps * 3 * (module.input_size * module.hidden_size + module.hidden_size ** 2)
+                return
             else:
                 return
             macs[name] = macs.get(name, 0) + output.numel() * per_output
         return count
 
     for name, module in model.named_modules():
-        if isinstance(module, (nn.Conv1d, nn.ConvTranspose1d, nn.Linear)):
+        if isinstance(module, (nn.Conv1d, nn.ConvTranspose1d, nn.Linear, nn.GRU)):
             handles.append(module.register_forward_hook(hook(name)))
     samples = round(args.duration * 16_000)
     with torch.inference_mode():
@@ -67,7 +73,7 @@ def main() -> None:
         value
         for name, value in macs.items()
         if name.startswith(
-            ("encoder.", "analysis_temporal.", "lookahead_fusion.", "analysis_transformer.")
+            ("encoder.", "analysis_temporal.", "lookahead_fusion.", "analysis_transformer.", "analysis_gru.")
         )
     )
     decoder = sum(
@@ -121,6 +127,10 @@ def main() -> None:
         for module in model.modules()
         if module.__class__.__name__ == "CausalConv2FormerUnit"
     )
+    encoder_gate_flops = sum(3 * frames * module.hidden_size
+        for module in model.modules() if isinstance(module, nn.GRU))
+    decoder_fourier_flops = sum(module.extra_flops(frames)
+        for module in model.modules() if module.__class__.__name__ == "CausalFourierDecoder")
     # RVQ reports its approximate squared-distance lookup cost. FSQ has no
     # nearest-neighbour search and therefore returns zero here.
     quantizer_search = model.quantizer.search_macs(frames)
@@ -151,9 +161,11 @@ def main() -> None:
             + decoder_attention
         )
         / args.duration
-        / 1e6 + decoder_modulation_flops / args.duration / 1e6,
-        "decoder_mflop_per_s": (2 * decoder + decoder_modulation_flops) / args.duration / 1e6,
+        / 1e6 + (decoder_modulation_flops + encoder_gate_flops + decoder_fourier_flops) / args.duration / 1e6,
+        "decoder_mflop_per_s": (2 * decoder + decoder_modulation_flops + decoder_fourier_flops) / args.duration / 1e6,
         "decoder_modulation_mflop_per_s": decoder_modulation_flops / args.duration / 1e6,
+        "encoder_gru_gate_mflop_per_s": encoder_gate_flops / args.duration / 1e6,
+        "decoder_fourier_ola_mflop_per_s": decoder_fourier_flops / args.duration / 1e6,
         # EMA codebooks are inference state stored as buffers rather than Adam
         # parameters, but must still count toward the deployed model size.
         "parameters": sum(parameter.numel() for parameter in model.parameters())
@@ -166,7 +178,7 @@ def main() -> None:
         "algorithmic_lookahead_ms": int(
             10 * getattr(model, "algorithmic_lookahead_frames", 0)
         ),
-        "notes": "Counts Conv1d, ConvTranspose1d, Linear, bounded attention QK/AV, approximate VQ nearest-neighbour search and Conv2Former elementwise modulation multiplications. Quantizer synthesis projections count toward the decoder budget. MMAC fields exclude the separately reported non-MAC modulation product. FSQ scalar rounding is reported as zero MACs. Excludes activations, normalization, padding and file I/O.",
+        "notes": "Counts Conv1d, ConvTranspose1d, Linear, one-layer forward GRU matrices, bounded attention QK/AV and VQ nearest-neighbour search. Separately includes GRU gate products, Conv2Former modulation and conservative IRFFT/OLA estimates (5*N*ceil(log2N)+4*N per frame). Quantizer synthesis projections count toward decoder. MMAC fields exclude separately reported non-MAC products/FFT estimates. Excludes activations, normalization, padding and file I/O.",
     }
     text = json.dumps(report, ensure_ascii=False, indent=2)
     print(text)

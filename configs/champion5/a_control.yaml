@@ -1,0 +1,12 @@
+_base_: ../lookahead_scratch2/a_control_30ms.yaml
+seed: 20261024
+model:
+  encoder_gru: false
+  synthesis_type: waveform
+  synthesis_initialization_seed: 20261103
+training:
+  reset_rng_after_init: true
+  data_order_seed: 20261024
+  checkpoint_keep_last: 2
+  fail_on_nonfinite: true
+  output_dir: runs/champion5_a_control

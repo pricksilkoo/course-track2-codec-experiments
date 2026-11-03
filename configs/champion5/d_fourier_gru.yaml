@@ -1,0 +1,5 @@
+_base_: c_fourier.yaml
+model:
+  encoder_gru: true
+training:
+  output_dir: runs/champion5_d_fourier_gru
