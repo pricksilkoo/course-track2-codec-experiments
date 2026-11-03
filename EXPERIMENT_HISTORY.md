@@ -448,3 +448,8 @@ Total/decoder MFLOP/s for A/B/C/D:650.2272/277.44,686.1152/277.44,
 all remain16kHz,10ms/24bit frames,2400bps,30ms lookahead. Full-size GAN backward
 profiling passed for B and D at reserved7064/6380MiB. Full hypotheses, parameters,
 initialization matching, gates and resource rules: CHAMPION5_PLAN.md.
+
+The four guarded workers launched in `codec_champion5_v1` on GPUs0–3 at
+2026-11-03 08:53Asia/Shanghai and all started optimizer iterations. The existing
+monitor was updated to this actual batch rather than duplicated. No current
+quality result or baseline promotion is claimed.

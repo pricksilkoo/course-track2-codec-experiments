@@ -11981,11 +11981,11 @@ champion_training:
 <!-- experiment:champion5_a_control:start -->
 ## champion5_a_control
 
-- Status: `planned`
-- Updated (UTC): `2026-11-03T00:51:13.523929+00:00`
-- Git commit: `e22a41c48c8437a1433ed7a969f54e22b69deed5`
+- Status: `running`
+- Updated (UTC): `2026-11-03T00:53:25.234199+00:00`
+- Git commit: `56168f38c7d6e5108f64b62c63880988173ccdc6`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion5_a_control`
-- Note: Matched never-trained initialization SHA256=2c0cdf86a654b22c952d3d7c5035894eb2a5c6cd60d68ca2e42d9762e4c3bf91;500000-step scratch course, fixed final endpoint primary; no learned checkpoint inherited
+- Note: 500000-step GRU/Fourier scratch study; never-trained codec/discriminator, fixed endpoint primary selection
 
 ### Dataset
 
@@ -11997,16 +11997,6 @@ champion_training:
 | VCTK validation files | 4247 |
 | LibriTTS training files | 354780 |
 | LibriTTS validation files | 10349 |
-
-### Submission constraints
-
-| Item | Value |
-|---|---:|
-| Bitrate (bps) | 2400 |
-| Algorithmic lookahead (ms) | 30 |
-| Total MFLOP/s | 650.227 |
-| Decoder MFLOP/s | 277.440 |
-| Parameters | 662109 |
 
 ### Effective configuration
 
@@ -12135,15 +12125,14 @@ training:
 ```
 
 <!-- experiment:champion5_a_control:end -->
-
 <!-- experiment:champion5_b_encoder_gru:start -->
 ## champion5_b_encoder_gru
 
-- Status: `planned`
-- Updated (UTC): `2026-11-03T00:51:16.326224+00:00`
-- Git commit: `e22a41c48c8437a1433ed7a969f54e22b69deed5`
+- Status: `running`
+- Updated (UTC): `2026-11-03T00:53:25.087605+00:00`
+- Git commit: `56168f38c7d6e5108f64b62c63880988173ccdc6`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion5_b_encoder_gru`
-- Note: Matched never-trained initialization SHA256=8651065cdc29bd8e5dfd7be670774ac238cd83f58e60dd35192c37e6478dc3cb;500000-step scratch course, fixed final endpoint primary; no learned checkpoint inherited
+- Note: 500000-step GRU/Fourier scratch study; never-trained codec/discriminator, fixed endpoint primary selection
 
 ### Dataset
 
@@ -12155,16 +12144,6 @@ training:
 | VCTK validation files | 4247 |
 | LibriTTS training files | 354780 |
 | LibriTTS validation files | 10349 |
-
-### Submission constraints
-
-| Item | Value |
-|---|---:|
-| Bitrate (bps) | 2400 |
-| Algorithmic lookahead (ms) | 30 |
-| Total MFLOP/s | 686.115 |
-| Decoder MFLOP/s | 277.440 |
-| Parameters | 842749 |
 
 ### Effective configuration
 
@@ -12293,15 +12272,14 @@ training:
 ```
 
 <!-- experiment:champion5_b_encoder_gru:end -->
-
 <!-- experiment:champion5_c_fourier:start -->
 ## champion5_c_fourier
 
-- Status: `planned`
-- Updated (UTC): `2026-11-03T00:51:19.008967+00:00`
-- Git commit: `e22a41c48c8437a1433ed7a969f54e22b69deed5`
+- Status: `running`
+- Updated (UTC): `2026-11-03T00:53:25.008481+00:00`
+- Git commit: `56168f38c7d6e5108f64b62c63880988173ccdc6`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion5_c_fourier`
-- Note: Matched never-trained initialization SHA256=eb05423b98d1869fb0295381e279d1fb874f3f5e0f9ccaf712ee72d996a977e0;500000-step scratch course, fixed final endpoint primary; no learned checkpoint inherited
+- Note: 500000-step GRU/Fourier scratch study; never-trained codec/discriminator, fixed endpoint primary selection
 
 ### Dataset
 
@@ -12313,16 +12291,6 @@ training:
 | VCTK validation files | 4247 |
 | LibriTTS training files | 354780 |
 | LibriTTS validation files | 10349 |
-
-### Submission constraints
-
-| Item | Value |
-|---|---:|
-| Bitrate (bps) | 2400 |
-| Algorithmic lookahead (ms) | 30 |
-| Total MFLOP/s | 630.419 |
-| Decoder MFLOP/s | 257.632 |
-| Parameters | 1687424 |
 
 ### Effective configuration
 
@@ -12459,11 +12427,11 @@ training:
 <!-- experiment:champion5_d_fourier_gru:start -->
 ## champion5_d_fourier_gru
 
-- Status: `planned`
-- Updated (UTC): `2026-11-03T00:51:21.656186+00:00`
-- Git commit: `e22a41c48c8437a1433ed7a969f54e22b69deed5`
+- Status: `running`
+- Updated (UTC): `2026-11-03T00:53:25.162865+00:00`
+- Git commit: `56168f38c7d6e5108f64b62c63880988173ccdc6`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion5_d_fourier_gru`
-- Note: Matched never-trained initialization SHA256=f00d84f51b41eb01f3b317b1ef572cd65e6a7a35c317be472fc3fdab0014b701;500000-step scratch course, fixed final endpoint primary; no learned checkpoint inherited
+- Note: 500000-step GRU/Fourier scratch study; never-trained codec/discriminator, fixed endpoint primary selection
 
 ### Dataset
 
@@ -12475,16 +12443,6 @@ training:
 | VCTK validation files | 4247 |
 | LibriTTS training files | 354780 |
 | LibriTTS validation files | 10349 |
-
-### Submission constraints
-
-| Item | Value |
-|---|---:|
-| Bitrate (bps) | 2400 |
-| Algorithmic lookahead (ms) | 30 |
-| Total MFLOP/s | 666.307 |
-| Decoder MFLOP/s | 257.632 |
-| Parameters | 1868064 |
 
 ### Effective configuration
 

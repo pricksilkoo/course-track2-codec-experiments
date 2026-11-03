@@ -1,6 +1,7 @@
 # 第二轮冠军思路：encoder GRU × 因果傅里叶合成，从零四组
 
-日期：2026-11-03。正式长训前登记。承接CHAMPION4_RESULTS.md：上一轮小型追加模块
+日期：2026-11-03。正式长训前登记，35项测试和完整GAN预检通过后于北京时间08:53启动。
+承接CHAMPION4_RESULTS.md：上一轮小型追加模块
 和训练包在完整终点没有可靠增益，本轮转向尚未测试的核心合成结构。
 
 ## 问题与四组
@@ -81,6 +82,9 @@ Fourier头每帧输出320个实数：161个实部系数和159个非DC/non-Nyquis
 | D | 666.3072 | 257.632 | 1868064 | 2400bps | 30ms |
 
 Fourier模型拥有更多参数，却把大部分计算放在100Hz latent层，减少波形高采样率计算。
+该因素同时改变网络位置、参数容量和合成方式，因此即使成功也只能归因于整个合成
+家族，不能单独归功于IRFFT这一操作；GRU因素也包含额外容量。若有效，后续需做
+容量匹配/分量拆解与多seed确认。本轮先回答部署预算内整套结构是否更好。
 GRU矩阵/gate、卷积调制乘法、IRFFT和overlap-add均计入。IRFFT按保守上界
 5*N*ceil(log2N) FLOPs/帧，OLA/window/归一化另计4*N；合计1.568MFLOP/s，
 具体实现可能更省。未分类MAC必须为0。激活、LayerNorm和padding沿原课程口径不计。
@@ -117,3 +121,6 @@ GPU空闲；每2秒检查，空闲低于8GiB或/storage1低于10GiB时只停本�
 脚本：preflight_champion5.py、profile_champion5.py、launch_champion5.py、
 supervise_champion5.py、run_champion5_experiment.sh。完成后写CHAMPION5_RESULTS.md，
 追加EXPERIMENT_HISTORY.md和中文CODEC_EXPERIMENT_REVIEW.md，再据证据决定下一批四组。
+
+启动检查：四个supervisor均running，各组已开始优化迭代；原生实验记录已更新为running。
+当前没有本轮最终质量结果。巡检已从champion4转到本批，仍遵守10GiB磁盘停止线。
