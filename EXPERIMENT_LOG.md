@@ -12724,11 +12724,11 @@ training:
 <!-- experiment:champion6_a_s3407_control:start -->
 ## champion6_a_s3407_control
 
-- Status: `planned`
-- Updated (UTC): `2026-11-04T09:33:20.742831+00:00`
-- Git commit: `ddaf7237ba6b5390a96ec8db7b2369ff8367a105`
+- Status: `running`
+- Updated (UTC): `2026-11-04T09:35:41.689522+00:00`
+- Git commit: `d78829d619519229de27eae01f6c71a805f8c9b0`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion6_a_s3407_control`
-- Note: Matched new-seed scratch confirmation; untrained snapshot SHA256=d34c9966e42e7935e614e46b11af56ffbf9cd356018dc751ad127551d721afdd; fixed500000-step endpoint
+- Note: 500000-step GRU/Fourier scratch study; never-trained codec/discriminator, fixed endpoint primary selection
 
 ### Dataset
 
@@ -12740,16 +12740,6 @@ training:
 | VCTK validation files | 4247 |
 | LibriTTS training files | 354780 |
 | LibriTTS validation files | 10349 |
-
-### Submission constraints
-
-| Item | Value |
-|---|---:|
-| Bitrate (bps) | 2400 |
-| Algorithmic lookahead (ms) | 30 |
-| Total MFLOP/s | 650.227 |
-| Decoder MFLOP/s | 277.440 |
-| Parameters | 662109 |
 
 ### Effective configuration
 
@@ -12882,11 +12872,11 @@ training:
 <!-- experiment:champion6_b_s3407_fourier_gru:start -->
 ## champion6_b_s3407_fourier_gru
 
-- Status: `planned`
-- Updated (UTC): `2026-11-04T09:33:23.244764+00:00`
-- Git commit: `ddaf7237ba6b5390a96ec8db7b2369ff8367a105`
+- Status: `running`
+- Updated (UTC): `2026-11-04T09:35:41.903840+00:00`
+- Git commit: `d78829d619519229de27eae01f6c71a805f8c9b0`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion6_b_s3407_fourier_gru`
-- Note: Matched new-seed scratch confirmation; untrained snapshot SHA256=7c7c5356252a747892bd153f8a17c609506f6998d31947d0ad706f59b85d4aa7; fixed500000-step endpoint
+- Note: 500000-step GRU/Fourier scratch study; never-trained codec/discriminator, fixed endpoint primary selection
 
 ### Dataset
 
@@ -12898,16 +12888,6 @@ training:
 | VCTK validation files | 4247 |
 | LibriTTS training files | 354780 |
 | LibriTTS validation files | 10349 |
-
-### Submission constraints
-
-| Item | Value |
-|---|---:|
-| Bitrate (bps) | 2400 |
-| Algorithmic lookahead (ms) | 30 |
-| Total MFLOP/s | 666.307 |
-| Decoder MFLOP/s | 257.632 |
-| Parameters | 1868064 |
 
 ### Effective configuration
 
@@ -13040,15 +13020,14 @@ training:
 ```
 
 <!-- experiment:champion6_b_s3407_fourier_gru:end -->
-
 <!-- experiment:champion6_c_s8128_control:start -->
 ## champion6_c_s8128_control
 
-- Status: `planned`
-- Updated (UTC): `2026-11-04T09:33:25.580803+00:00`
-- Git commit: `ddaf7237ba6b5390a96ec8db7b2369ff8367a105`
+- Status: `running`
+- Updated (UTC): `2026-11-04T09:35:41.831085+00:00`
+- Git commit: `d78829d619519229de27eae01f6c71a805f8c9b0`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion6_c_s8128_control`
-- Note: Matched new-seed scratch confirmation; untrained snapshot SHA256=9a9a26782b70011cb4b88da3102a557596dce0daf46b6235777f334afa7992ee; fixed500000-step endpoint
+- Note: 500000-step GRU/Fourier scratch study; never-trained codec/discriminator, fixed endpoint primary selection
 
 ### Dataset
 
@@ -13060,16 +13039,6 @@ training:
 | VCTK validation files | 4247 |
 | LibriTTS training files | 354780 |
 | LibriTTS validation files | 10349 |
-
-### Submission constraints
-
-| Item | Value |
-|---|---:|
-| Bitrate (bps) | 2400 |
-| Algorithmic lookahead (ms) | 30 |
-| Total MFLOP/s | 650.227 |
-| Decoder MFLOP/s | 277.440 |
-| Parameters | 662109 |
 
 ### Effective configuration
 
@@ -13198,15 +13167,14 @@ training:
 ```
 
 <!-- experiment:champion6_c_s8128_control:end -->
-
 <!-- experiment:champion6_d_s8128_fourier_gru:start -->
 ## champion6_d_s8128_fourier_gru
 
-- Status: `planned`
-- Updated (UTC): `2026-11-04T09:33:28.026225+00:00`
-- Git commit: `ddaf7237ba6b5390a96ec8db7b2369ff8367a105`
+- Status: `running`
+- Updated (UTC): `2026-11-04T09:35:41.760711+00:00`
+- Git commit: `d78829d619519229de27eae01f6c71a805f8c9b0`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion6_d_s8128_fourier_gru`
-- Note: Matched new-seed scratch confirmation; untrained snapshot SHA256=c8c12013ffa60ffb0811d05ad684ea973d042c0a7d42923c000cae000aae3763; fixed500000-step endpoint
+- Note: 500000-step GRU/Fourier scratch study; never-trained codec/discriminator, fixed endpoint primary selection
 
 ### Dataset
 
@@ -13218,16 +13186,6 @@ training:
 | VCTK validation files | 4247 |
 | LibriTTS training files | 354780 |
 | LibriTTS validation files | 10349 |
-
-### Submission constraints
-
-| Item | Value |
-|---|---:|
-| Bitrate (bps) | 2400 |
-| Algorithmic lookahead (ms) | 30 |
-| Total MFLOP/s | 666.307 |
-| Decoder MFLOP/s | 257.632 |
-| Parameters | 1868064 |
 
 ### Effective configuration
 

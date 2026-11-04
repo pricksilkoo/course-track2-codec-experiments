@@ -476,3 +476,10 @@ deployment upgrade, retain C as a lower-compute alternative. Pre-register exactl
 four new scratch runs: A versus D at seeds3407 and8128, including new matched
 untrained initialization, same500k curriculum/fixed endpoint. This confirms the
 whole combined architecture, not individual mechanisms. See CHAMPION6_PLAN.md.
+
+CHAMPION6 preflight passed35 pytest tests and full-size full-GAN backward checks
+(control reserved7030MiB/candidate6364MiB). Two fresh initialization pairs and
+all data hashes verified; preregistration committed/pushed d78829d before formal
+training. Four guarded500k workers launched2026-11-04 17:35Asia/Shanghai in
+codec_champion6_v1 and entered optimization. The same monitor now follows this
+actual batch; no new confirmation quality result is claimed.

@@ -91,3 +91,8 @@ control allocated6282.09/reserved7030MiB，D allocated5595.49/reserved6364MiB，
 均无非有限损失。首次误用unittest发现0项，未执行任何训练，已保留空发现日志并改用
 正确pytest入口；不能把0项发现称为测试通过。正式四组仍将从未训练step0而非smoke权重启动。
 初始化与profile快照：CHAMPION6_SETUP.audit、CHAMPION6_PROFILE.audit。
+
+方案/配置/预检与上一轮正式结果已在训练前提交推送为d78829d。
+2026-11-04北京时间17:35启动tmux codec_champion6_v1，四组supervisor均running并已进入
+优化迭代；每组从登记的未训练step0加载，无resume。原monitor已更新到本批而非新建。
+当前只有开始训练与资源预检证据，尚无本批最终质量结论。
