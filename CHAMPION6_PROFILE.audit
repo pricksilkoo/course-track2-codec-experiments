@@ -1,0 +1,18 @@
+[
+  {
+    "cell": "a_s3407_control",
+    "full_GAN": true,
+    "batch_size": 32,
+    "segment_samples": 32000,
+    "allocated_peak_MiB": 6282.091796875,
+    "reserved_peak_MiB": 7030.0
+  },
+  {
+    "cell": "b_s3407_fourier_gru",
+    "full_GAN": true,
+    "batch_size": 32,
+    "segment_samples": 32000,
+    "allocated_peak_MiB": 5595.494140625,
+    "reserved_peak_MiB": 6364.0
+  }
+]

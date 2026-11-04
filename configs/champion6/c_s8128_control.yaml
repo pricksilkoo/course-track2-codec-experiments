@@ -1,0 +1,7 @@
+_base_: ../champion5/a_control.yaml
+seed: 8128
+model:
+  synthesis_initialization_seed: 208128
+training:
+  data_order_seed: 8128
+  output_dir: runs/champion6_c_s8128_control

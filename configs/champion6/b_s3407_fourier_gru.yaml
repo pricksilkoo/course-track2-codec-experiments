@@ -1,0 +1,7 @@
+_base_: ../champion5/d_fourier_gru.yaml
+seed: 3407
+model:
+  synthesis_initialization_seed: 203407
+training:
+  data_order_seed: 3407
+  output_dir: runs/champion6_b_s3407_fourier_gru

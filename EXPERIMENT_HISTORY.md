@@ -453,3 +453,26 @@ The four guarded workers launched in `codec_champion5_v1` on GPUs0–3 at
 2026-11-03 08:53Asia/Shanghai and all started optimizer iterations. The existing
 monitor was updated to this actual batch rather than duplicated. No current
 quality result or baseline promotion is claimed.
+
+## 2026-11-04 — Champion5 completed: Fourier family warrants seed confirmation
+
+All four matched scratch runs completed500000 steps without recovery. Primary
+evaluation used only the prospectively fixed last.pt on the same fixed200 dev
+files, not reconstruction-best. A47.000583/B47.330493/C50.370972/D51.412604;
+frozen v2 remains46.746343. A passed the46.25 positive-control gate. C and D beat
+both A and v2 with all four component guardrails. B failed the v2 UTMOS guard
+(-.04352) despite+.32991 over A. D-C=+1.04163 includes SI-SNR-.17052dB, so D
+does not dominate C in every component. Synthesis main effect+3.72625, GRU
+main effect+.68577, interaction+.71172, conditional on one training seed.
+
+Actual200-file bitstreams/audio lengths,500k checkpoint hashes, finite training
+and objective components, constraints and full-path RVQ diagnostics audited.
+No separate minibatch training_components log was enabled; original25k validation
+components and raw logs are retained. Details and machine-readable evidence:
+CHAMPION5_RESULTS.md/.audit; reproducible scripts/audit_champion5_results.py.
+
+No sealed evaluation, v2 promotion or checkpoint pruning. Close GRU-only as a
+deployment upgrade, retain C as a lower-compute alternative. Pre-register exactly
+four new scratch runs: A versus D at seeds3407 and8128, including new matched
+untrained initialization, same500k curriculum/fixed endpoint. This confirms the
+whole combined architecture, not individual mechanisms. See CHAMPION6_PLAN.md.
