@@ -20,6 +20,20 @@ from datetime import datetime, timezone
 ROOT = Path(__file__).resolve().parents[1]
 
 
+class CapacityWindow:
+    """Require continuously eligible observations, not a job-handoff gap."""
+    def __init__(self):
+        self.since = None
+
+    def ready(self, now, free_MiB, pids, allow_shared=False):
+        if free_MiB < 20480 or (pids and not allow_shared):
+            self.since = None
+            return False
+        if self.since is None:
+            self.since = now
+        return now - self.since >= (5 if allow_shared else 600)
+
+
 def gpu_state(index: int) -> tuple[int, int, list[int]]:
     text = subprocess.check_output(["nvidia-smi", f"--id={index}",
         "--query-gpu=uuid,memory.total,memory.free", "--format=csv,noheader,nounits"], text=True)
@@ -81,23 +95,21 @@ def main() -> None:
     signal.signal(signal.SIGTERM, interrupted)
     signal.signal(signal.SIGINT, interrupted)
     previous_status = None
+    capacity_window = CapacityWindow()
     while not completion.is_file():
         if shutil.disk_usage(ROOT).free < 10 * 2**30:
             record("safety_stop", reason="/storage1 below 10 GiB; no launch")
             return
         total, free, pids = gpu_state(args.gpu)
-        if (pids and not args.allow_shared) or free < 20480:
-            if previous_status != "waiting_for_gpu_capacity":
-                record("waiting_for_gpu_capacity", other_gpu_pids=pids, free_MiB=free,
-                       sharing_authorized=args.allow_shared)
-            previous_status = "waiting_for_gpu_capacity"
-            time.sleep(args.poll_seconds)
-            continue
-        # Two consecutive idle samples avoid acquiring a momentary gap between
-        # someone else's restarts. GPU lock prevents our own duplicate workers.
-        time.sleep(5)
-        _, free, pids = gpu_state(args.gpu)
-        if (pids and not args.allow_shared) or free < 20480:
+        if not capacity_window.ready(time.monotonic(), free, pids, args.allow_shared):
+            blocked = (pids and not args.allow_shared) or free < 20480
+            status = "waiting_for_gpu_capacity" if blocked else "waiting_for_stable_idle"
+            if previous_status != status:
+                record(status, other_gpu_pids=pids, free_MiB=free,
+                       sharing_authorized=args.allow_shared,
+                       required_stable_idle_seconds=5 if args.allow_shared else 600)
+            previous_status = status
+            time.sleep(min(30, args.poll_seconds))
             continue
         command = [str(ROOT / ".venv-codec/bin/python"), "scripts/run_champion7_experiment.py", args.run,
                    str(args.gpu), args.config, str(args.steps)]

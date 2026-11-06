@@ -13483,10 +13483,10 @@ training:
 ## champion7_a_continue
 
 - Status: `planned`
-- Updated (UTC): `2026-11-06T06:14:20.485350+00:00`
-- Git commit: `501612f717efabf6eba6de29e5a067b999d989cc`
+- Updated (UTC): `2026-11-06T07:50:28.663778+00:00`
+- Git commit: `b779621ec42b7be323395459fc1367ce3139bbd0`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_a_continue`
-- Note: Idle-GPU queue after external memory surge caused private safety stop; not currently training. No first25k checkpoint existed; approx5802 visible batches lost. Will reload original learned500k parent, not claim checkpoint resume. Same100k new-stage budget/seed/config; parent SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23; no new seed or development outcome selection. Prior raw metadata/logs archived under run/attempts/attempt01_safety_stop; CHAMPION7_RECOVERY01.audit. Idle-only/no sharing retries,20GiB launch/8GiB runtime protection; preserve completed GPU profile. Four declared25k/50k/75k/100k fixed200 score-search nodes unchanged.
+- Note: Waiting for a continuously idle GPU600s, no --allow-shared. Old-job/new-job handoff briefly started loading, new external PID caused exclusive guard stop before new epoch progress; no formal checkpoint. Preserve attempt01 unsaved~6000-step history and attempt02 archived logs. Will load trained500k parent SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23, same100k stage/seed/config; NOT checkpoint resume. Evidence CHAMPION7_RECOVERY01.audit and CHAMPION7_RECOVERY02.audit.16 declared dev score nodes unchanged.
 
 ### Dataset
 
@@ -13645,10 +13645,10 @@ training:
 ## champion7_b_si
 
 - Status: `planned`
-- Updated (UTC): `2026-11-06T06:14:20.567358+00:00`
-- Git commit: `501612f717efabf6eba6de29e5a067b999d989cc`
+- Updated (UTC): `2026-11-06T07:50:28.744960+00:00`
+- Git commit: `b779621ec42b7be323395459fc1367ce3139bbd0`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_b_si`
-- Note: Idle-GPU queue after external memory surge caused private safety stop; not currently training. No first25k checkpoint existed; approx5991 visible batches lost. Will reload original learned500k parent, not claim checkpoint resume. Same100k new-stage budget/seed/config; parent SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23; no new seed or development outcome selection. Prior raw metadata/logs archived under run/attempts/attempt01_safety_stop; CHAMPION7_RECOVERY01.audit. Idle-only/no sharing retries,20GiB launch/8GiB runtime protection; preserve completed GPU profile. Four declared25k/50k/75k/100k fixed200 score-search nodes unchanged.
+- Note: Waiting for a continuously idle GPU600s, no --allow-shared. Old-job/new-job handoff briefly started loading, new external PID caused exclusive guard stop before new epoch progress; no formal checkpoint. Preserve attempt01 unsaved~6000-step history and attempt02 archived logs. Will load trained500k parent SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23, same100k stage/seed/config; NOT checkpoint resume. Evidence CHAMPION7_RECOVERY01.audit and CHAMPION7_RECOVERY02.audit.16 declared dev score nodes unchanged.
 
 ### Dataset
 
@@ -13807,10 +13807,10 @@ training:
 ## champion7_c_gan
 
 - Status: `planned`
-- Updated (UTC): `2026-11-06T06:14:20.641624+00:00`
-- Git commit: `501612f717efabf6eba6de29e5a067b999d989cc`
+- Updated (UTC): `2026-11-06T07:50:28.828648+00:00`
+- Git commit: `b779621ec42b7be323395459fc1367ce3139bbd0`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_c_gan`
-- Note: Idle-GPU queue after external memory surge caused private safety stop; not currently training. No first25k checkpoint existed; approx6049 visible batches lost. Will reload original learned500k parent, not claim checkpoint resume. Same100k new-stage budget/seed/config; parent SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23; no new seed or development outcome selection. Prior raw metadata/logs archived under run/attempts/attempt01_safety_stop; CHAMPION7_RECOVERY01.audit. Idle-only/no sharing retries,20GiB launch/8GiB runtime protection; preserve completed GPU profile. Four declared25k/50k/75k/100k fixed200 score-search nodes unchanged.
+- Note: Waiting for a continuously idle GPU600s, no --allow-shared. Old-job/new-job handoff briefly started loading, new external PID caused exclusive guard stop before new epoch progress; no formal checkpoint. Preserve attempt01 unsaved~6000-step history and attempt02 archived logs. Will load trained500k parent SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23, same100k stage/seed/config; NOT checkpoint resume. Evidence CHAMPION7_RECOVERY01.audit and CHAMPION7_RECOVERY02.audit.16 declared dev score nodes unchanged.
 
 ### Dataset
 
@@ -13969,10 +13969,10 @@ training:
 ## champion7_d_both
 
 - Status: `planned`
-- Updated (UTC): `2026-11-06T06:14:20.722882+00:00`
-- Git commit: `501612f717efabf6eba6de29e5a067b999d989cc`
+- Updated (UTC): `2026-11-06T07:50:28.911272+00:00`
+- Git commit: `b779621ec42b7be323395459fc1367ce3139bbd0`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_d_both`
-- Note: Idle-GPU queue after external memory surge caused private safety stop; not currently training. No first25k checkpoint existed; approx6111 visible batches lost. Will reload original learned500k parent, not claim checkpoint resume. Same100k new-stage budget/seed/config; parent SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23; no new seed or development outcome selection. Prior raw metadata/logs archived under run/attempts/attempt01_safety_stop; CHAMPION7_RECOVERY01.audit. Idle-only/no sharing retries,20GiB launch/8GiB runtime protection; preserve completed GPU profile. Four declared25k/50k/75k/100k fixed200 score-search nodes unchanged.
+- Note: Waiting for a continuously idle GPU600s, no --allow-shared. Old-job/new-job handoff briefly started loading, new external PID caused exclusive guard stop before new epoch progress; no formal checkpoint. Preserve attempt01 unsaved~6000-step history and attempt02 archived logs. Will load trained500k parent SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23, same100k stage/seed/config; NOT checkpoint resume. Evidence CHAMPION7_RECOVERY01.audit and CHAMPION7_RECOVERY02.audit.16 declared dev score nodes unchanged.
 
 ### Dataset
 

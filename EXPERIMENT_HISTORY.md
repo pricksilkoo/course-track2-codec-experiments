@@ -574,3 +574,20 @@ same100k stage/seed/config; disclose the lost~35minutes/unsaved updates, not
 claim a last.pt resume. Completed full-GAN profiles remain valid and must
 never seed formal training. Future recovery after a saved last must resume
 that last. The same monitor was updated, no duplicate automation or new batch.
+
+### Champion7 second handoff stop: require600s continuously idle
+
+At15:09–15:10Asia/Shanghai the outside job exited and the idle-only waiters
+began loading. New outside task2016678 arrived at15:11; exclusive guards
+stopped only our groups despite ample~44GiB free at the detection instant.
+This was outside-PID exclusivity, not OOM or memory exhaustion. No new epoch
+optimization progress was observed; no formal checkpoint/validation exists.
+Attempt02 logs/metadata preserved separately, hashes CHAMPION7_RECOVERY02.audit;
+attempt01 and its unsaved~6000-step disclosure remain unchanged.
+
+Replace the short idle check with600s continuously eligible observations:
+no outside GPU PID,>=20GiB free; any ineligible sample resets the timer.
+Wait-only polling30s, runtime2s/8GiB/disk10GiB protection unchanged. Five new
+pure state/time tests plus7 existing orchestration tests pass before rearming
+only stopped incomplete cells. No sharing retries, seed/config/batch/endpoint
+changes, duplicate monitor, external signals or historical checkpoint deletion.
