@@ -1,0 +1,113 @@
+{
+  "created_utc": "2026-11-06T06:14:19.906781+00:00",
+  "cause": "External GPU memory jumped; all four private groups safety-stopped, no OOM/nonfinite/traceback.",
+  "next_policy": "idle-only: no --allow-shared;20GiB launch,8GiB runtime GPUfree floor, no outside processes altered",
+  "recovery": "No formal last.pt existed before first25k validation. Restart only affected incomplete stage from original trained500k parent with same seed/config; unsaved steps are lost, not resumed.",
+  "parent_sha256": "c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23",
+  "cells": {
+    "a_continue": {
+      "prior_state": {
+        "status": "safety_stop",
+        "gpu": 0,
+        "updated_utc": "2026-11-06T05:56:50.970631+00:00",
+        "reason": "GPU memory risk or external workload appeared",
+        "free_MiB": 257,
+        "other_gpu_pids": [
+          1924870
+        ]
+      },
+      "archive": "runs/champion7_a_continue/attempts/attempt01_safety_stop",
+      "archive_sha256": {
+        "supervisor_state.json": "fd2e391e67cd337fe8e90f349c6f21109bcf66b0378dbb3d5024db88c8164241",
+        "supervisor.log": "3db316646900d446d3c2c6cd1b992b0cba7d8b5272dd8eb1a2a5405efe161d1c",
+        "pipeline.log": "3fb1ca522644fdebcfe896fefaca5baf8be6d15fe30f8c880261689d51c6e9cb",
+        "run_metadata.json": "0a00275032497738da206e7c4740dad5a948be647b5a6bcc2df637697363bdf4",
+        "effective_config.yaml": "8eacf77a65642b90e61b92787dd51c0daef63a395d00944836afbd5ab60aa972",
+        "lineage.json": "6ad74ea2d595b4e56c4d2ae7fdbb21aa72004638277a8b3c45a932066fe99a84"
+      },
+      "last_visible_epoch_batch": 5802,
+      "formal_checkpoint_count": 0,
+      "recovered_local_step": 0,
+      "unchanged_stage_budget": 100000,
+      "original_profile_retained": true
+    },
+    "b_si": {
+      "prior_state": {
+        "status": "safety_stop",
+        "gpu": 1,
+        "updated_utc": "2026-11-06T05:57:43.042927+00:00",
+        "reason": "GPU memory risk or external workload appeared",
+        "free_MiB": 1309,
+        "other_gpu_pids": [
+          1924870
+        ]
+      },
+      "archive": "runs/champion7_b_si/attempts/attempt01_safety_stop",
+      "archive_sha256": {
+        "supervisor_state.json": "c70d2e98338ca3381eedca30be6357a3f1c6b31311ffbab140eeb55ad35a1096",
+        "supervisor.log": "9bc6569081eb7e7c708755bca11ed929f7fd939a3c4d2be0676db34ede948d67",
+        "pipeline.log": "c5c78f860b3985fd9f25ab84905b5a1e8561d59f9cf6f1038210a6b1aff96e57",
+        "run_metadata.json": "609244255b8262acc119d98f5cd3e89d4ab457672a23de211e65268d0007dfd1",
+        "effective_config.yaml": "4917e072ef9049c606189c342ea7ed80c9a7e3bc4138fad945b9c1564f363da6",
+        "lineage.json": "6ad74ea2d595b4e56c4d2ae7fdbb21aa72004638277a8b3c45a932066fe99a84"
+      },
+      "last_visible_epoch_batch": 5991,
+      "formal_checkpoint_count": 0,
+      "recovered_local_step": 0,
+      "unchanged_stage_budget": 100000,
+      "original_profile_retained": true
+    },
+    "c_gan": {
+      "prior_state": {
+        "status": "safety_stop",
+        "gpu": 2,
+        "updated_utc": "2026-11-06T05:57:42.935714+00:00",
+        "reason": "GPU memory risk or external workload appeared",
+        "free_MiB": 1309,
+        "other_gpu_pids": [
+          1924870
+        ]
+      },
+      "archive": "runs/champion7_c_gan/attempts/attempt01_safety_stop",
+      "archive_sha256": {
+        "supervisor_state.json": "545d5d00716b7dce6281a0406938436ed5d1fb27e7ac97d0aef9e86d9ebff267",
+        "supervisor.log": "bccc01b29a9f387618b7668a3df392b141a0f90c6d7503c798e3c78330c8f336",
+        "pipeline.log": "c50177b5bb4c6a45397c61b91f6c00c176eb432af5c0d8eff08bd1cf117bc3c5",
+        "run_metadata.json": "478f204b382f2b0c5eccf79a8c1165ad22b852e7a1b1d034029978c594653fb4",
+        "effective_config.yaml": "1862cf83517ed2bd42262f6532fafb41d901e9158af82f0e88637bdbcb71f688",
+        "lineage.json": "6ad74ea2d595b4e56c4d2ae7fdbb21aa72004638277a8b3c45a932066fe99a84"
+      },
+      "last_visible_epoch_batch": 6049,
+      "formal_checkpoint_count": 0,
+      "recovered_local_step": 0,
+      "unchanged_stage_budget": 100000,
+      "original_profile_retained": true
+    },
+    "d_both": {
+      "prior_state": {
+        "status": "safety_stop",
+        "gpu": 3,
+        "updated_utc": "2026-11-06T05:57:42.978960+00:00",
+        "reason": "GPU memory risk or external workload appeared",
+        "free_MiB": 1309,
+        "other_gpu_pids": [
+          1924870
+        ]
+      },
+      "archive": "runs/champion7_d_both/attempts/attempt01_safety_stop",
+      "archive_sha256": {
+        "supervisor_state.json": "d290548774dd45b1051b58abbda6bcae50710b7a23f2743e0b4ef4ac15734d79",
+        "supervisor.log": "e98c7bc662606340d39040a777776c0e45ae35831abff171dfebee73f2cd22c5",
+        "pipeline.log": "149f0688d38a6e3eee9c2080a5bbfeb535680679f206d63fc4f6ce871a4656b2",
+        "run_metadata.json": "fd092e7e19c90a2caf4fcea7e6d433e79d71ad38841d0470ebe6117461c77129",
+        "effective_config.yaml": "eeabb59aa95623da1a6a66fe4fdcd8494aa807302be742c3aefdc5269c3543ef",
+        "lineage.json": "6ad74ea2d595b4e56c4d2ae7fdbb21aa72004638277a8b3c45a932066fe99a84"
+      },
+      "last_visible_epoch_batch": 6111,
+      "formal_checkpoint_count": 0,
+      "recovered_local_step": 0,
+      "unchanged_stage_budget": 100000,
+      "original_profile_retained": true
+    }
+  }
+}

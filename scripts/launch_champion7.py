@@ -31,6 +31,8 @@ def main():
         else:
             subprocess.run(["tmux", "new-window", "-t", SESSION, "-n", cell,
                 "-c", str(ROOT), shell], check=True)
+        subprocess.run(["tmux", "set-window-option", "-t", f"{SESSION}:{cell}",
+            "remain-on-exit", "on"], check=True)
         print(f"Started protected capacity waiter {run} on GPU{gpu}", flush=True)
 
 

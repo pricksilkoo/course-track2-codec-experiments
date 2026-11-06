@@ -554,3 +554,23 @@ throughput to~2.5–2.7steps/s, so the earlier6h reference is not a launch ETA.
 Full details CHAMPION7_PLAN.md, CHAMPION7_SETUP.audit/CHAMPION7_PROFILE.audit;
 tmux codec_champion7_v1, one new heartbeat only. Private-group8GiB/disk10GiB
 safety remains; no downloads/pruning or unrelated-process actions.
+
+### Champion7 first safety-stop: idle-only queue, no saved stage progress
+
+At13:56–13:57Asia/Shanghai the outside multi-GPU task increased its memory,
+reducing GPUfree to257MiB on0 and1309MiB on1–3 before our guards terminated
+only their private groups. No OOM/Traceback/nonfinite-loss token was found.
+Last visible batches A5802/B5991/C6049/D6111 were below the first25k save,
+so no formal checkpoint exists and this progress cannot be resumed. Preserve
+raw logs/metadata/config/lineage in each run/attempts/attempt01_safety_stop;
+SHA/recovery evidence CHAMPION7_RECOVERY01.audit. Original51.624336 parent
+and all historical weights remain unchanged, no outcome/seed selection.
+
+All four affected incomplete cells are now queued in the same tmux with
+idle-only supervisors (omit --allow-shared), requiring no outside GPU PID
+and>=20GiB free. Do not keep exploiting temporary free-memory troughs of
+the same external job. At actual restart reload original trained500k parent,
+same100k stage/seed/config; disclose the lost~35minutes/unsaved updates, not
+claim a last.pt resume. Completed full-GAN profiles remain valid and must
+never seed formal training. Future recovery after a saved last must resume
+that last. The same monitor was updated, no duplicate automation or new batch.
