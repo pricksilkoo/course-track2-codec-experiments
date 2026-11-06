@@ -522,3 +522,35 @@ without creating a duplicate. Full report/audit: CHAMPION6_RESULTS.md/.audit;
 reproducible checker: scripts/audit_champion6_results.py. Four complete native
 records are in EXPERIMENT_LOG.md; self-contained Chinese review updated in
 CODEC_EXPERIMENT_REVIEW.md.
+
+## 2026-11-06 — Champion7 approved: score-oriented warm-start loss search
+
+User explicitly changed the next-batch goal to competition development score
+and approved four runs, then requested a trial despite shared GPU occupancy.
+Prior CHAMPION6 conclusions remain unchanged; no retroactive confirmation pass.
+All four inherit trained CHAMPION6 B500k score51.624336, SHA256
+c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23,
+including RVQ EMA/discriminator, but reset optimizers. This is NOT scratch.
+A original losses; B SI-SNR weight.003→.010; C GAN weight.05→.10; D both.
+Same100k additional steps, batch32/2s, new-stage seed/data-order20261106,
+G/projection lr5e-5 warmup1k cosine1e-5; D lr5e-5, fullGAN from the start.
+
+Search exactly four extra-step endpoints25k/50k/75k/100k per cell on the same
+fixed200 dev files,16 weights total, selecting actual objective score rather
+than reconstruction-best. Disclose the development search and all components;
+retain the unchanged parent as fallback. No46.25 control veto or old+.15/
+component guard promotion rule for this exploratory search, but fixed interface,
+complexity/delay, genuine bitstream and audio-length checks remain mandatory.
+No sealed evaluation, automatic v2 registry change or further batch launch.
+
+Initially only7.2/11.2GiB free; one requested full-batch probe on GPU1 stopped
+its own process group below8GiB free, with no OOM or external-process changes.
+After external occupancy independently fell to~22GiB free/card, protected
+supervisors launched all four at13:21Asia/Shanghai, after registration push
+35e7e05. Full-batch/fullGAN two-step profiles all passed allocated5611.93/
+reserved6382MiB and formal optimization began from the original learned parent,
+not smoke. All42 CPU tests passed. Current~15GiB free/card; sharing slows initial
+throughput to~2.5–2.7steps/s, so the earlier6h reference is not a launch ETA.
+Full details CHAMPION7_PLAN.md, CHAMPION7_SETUP.audit/CHAMPION7_PROFILE.audit;
+tmux codec_champion7_v1, one new heartbeat only. Private-group8GiB/disk10GiB
+safety remains; no downloads/pruning or unrelated-process actions.

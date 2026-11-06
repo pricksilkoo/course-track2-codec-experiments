@@ -13482,11 +13482,11 @@ training:
 <!-- experiment:champion7_a_continue:start -->
 ## champion7_a_continue
 
-- Status: `planned`
-- Updated (UTC): `2026-11-06T05:21:26.346149+00:00`
-- Git commit: `bfc3eb01ba1056bb8d9e5e9b39b6b9aa1ec663ac`
+- Status: `running`
+- Updated (UTC): `2026-11-06T05:21:55.558563+00:00`
+- Git commit: `35e7e0514fd694b9a55fdfdc83ae6ee90e8be7ee`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_a_continue`
-- Note: Queued for GPU capacity, not yet formal training. Explicit learned-parent fine-tuning, NOT scratch: CHAMPION6 B score51.624336, parent500000-step SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23; inherit codec/RVQ EMA/discriminator, reset optimizers,100000 extra steps, seed/data-order20261106. Four declared25k/50k/75k/100k fixed200 development score-search nodes; best score not reconstruction-best. Lineage/config/data hash evidence CHAMPION7_SETUP.audit and run/lineage.json. One requested shared capacity probe was stopped at8GiB free floor; no OOM. Formal full-batch GPU backward profile remains pending safe capacity.
+- Note: Exploratory learned-parent fine-tuning, NOT scratch; parent CHAMPION6 B500k score51.624336 SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23; inherit all codec/RVQ EMA/discriminator, reset optimizers; extra100k; select by fixed200 score among declared25k/50k/75k/100k, not reconstruction-best. Lineage runs/champion7_a_continue/lineage.json; CHAMPION7_SETUP.audit.
 
 ### Dataset
 
@@ -13640,15 +13640,14 @@ training:
 ```
 
 <!-- experiment:champion7_a_continue:end -->
-
 <!-- experiment:champion7_b_si:start -->
 ## champion7_b_si
 
-- Status: `planned`
-- Updated (UTC): `2026-11-06T05:21:26.417385+00:00`
-- Git commit: `bfc3eb01ba1056bb8d9e5e9b39b6b9aa1ec663ac`
+- Status: `running`
+- Updated (UTC): `2026-11-06T05:21:54.905866+00:00`
+- Git commit: `35e7e0514fd694b9a55fdfdc83ae6ee90e8be7ee`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_b_si`
-- Note: Queued for GPU capacity, not yet formal training. Explicit learned-parent fine-tuning, NOT scratch: CHAMPION6 B score51.624336, parent500000-step SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23; inherit codec/RVQ EMA/discriminator, reset optimizers,100000 extra steps, seed/data-order20261106. Four declared25k/50k/75k/100k fixed200 development score-search nodes; best score not reconstruction-best. Lineage/config/data hash evidence CHAMPION7_SETUP.audit and run/lineage.json. One requested shared capacity probe was stopped at8GiB free floor; no OOM. Formal full-batch GPU backward profile remains pending safe capacity.
+- Note: Exploratory learned-parent fine-tuning, NOT scratch; parent CHAMPION6 B500k score51.624336 SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23; inherit all codec/RVQ EMA/discriminator, reset optimizers; extra100k; select by fixed200 score among declared25k/50k/75k/100k, not reconstruction-best. Lineage runs/champion7_b_si/lineage.json; CHAMPION7_SETUP.audit.
 
 ### Dataset
 
@@ -13802,15 +13801,14 @@ training:
 ```
 
 <!-- experiment:champion7_b_si:end -->
-
 <!-- experiment:champion7_c_gan:start -->
 ## champion7_c_gan
 
-- Status: `planned`
-- Updated (UTC): `2026-11-06T05:21:26.488082+00:00`
-- Git commit: `bfc3eb01ba1056bb8d9e5e9b39b6b9aa1ec663ac`
+- Status: `running`
+- Updated (UTC): `2026-11-06T05:21:54.835176+00:00`
+- Git commit: `35e7e0514fd694b9a55fdfdc83ae6ee90e8be7ee`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_c_gan`
-- Note: Queued for GPU capacity, not yet formal training. Explicit learned-parent fine-tuning, NOT scratch: CHAMPION6 B score51.624336, parent500000-step SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23; inherit codec/RVQ EMA/discriminator, reset optimizers,100000 extra steps, seed/data-order20261106. Four declared25k/50k/75k/100k fixed200 development score-search nodes; best score not reconstruction-best. Lineage/config/data hash evidence CHAMPION7_SETUP.audit and run/lineage.json. One requested shared capacity probe was stopped at8GiB free floor; no OOM. Formal full-batch GPU backward profile remains pending safe capacity.
+- Note: Exploratory learned-parent fine-tuning, NOT scratch; parent CHAMPION6 B500k score51.624336 SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23; inherit all codec/RVQ EMA/discriminator, reset optimizers; extra100k; select by fixed200 score among declared25k/50k/75k/100k, not reconstruction-best. Lineage runs/champion7_c_gan/lineage.json; CHAMPION7_SETUP.audit.
 
 ### Dataset
 
@@ -13968,11 +13966,11 @@ training:
 <!-- experiment:champion7_d_both:start -->
 ## champion7_d_both
 
-- Status: `planned`
-- Updated (UTC): `2026-11-06T05:21:26.556755+00:00`
-- Git commit: `bfc3eb01ba1056bb8d9e5e9b39b6b9aa1ec663ac`
+- Status: `running`
+- Updated (UTC): `2026-11-06T05:21:54.976598+00:00`
+- Git commit: `35e7e0514fd694b9a55fdfdc83ae6ee90e8be7ee`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_d_both`
-- Note: Queued for GPU capacity, not yet formal training. Explicit learned-parent fine-tuning, NOT scratch: CHAMPION6 B score51.624336, parent500000-step SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23; inherit codec/RVQ EMA/discriminator, reset optimizers,100000 extra steps, seed/data-order20261106. Four declared25k/50k/75k/100k fixed200 development score-search nodes; best score not reconstruction-best. Lineage/config/data hash evidence CHAMPION7_SETUP.audit and run/lineage.json. One requested shared capacity probe was stopped at8GiB free floor; no OOM. Formal full-batch GPU backward profile remains pending safe capacity.
+- Note: Exploratory learned-parent fine-tuning, NOT scratch; parent CHAMPION6 B500k score51.624336 SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23; inherit all codec/RVQ EMA/discriminator, reset optimizers; extra100k; select by fixed200 score among declared25k/50k/75k/100k, not reconstruction-best. Lineage runs/champion7_d_both/lineage.json; CHAMPION7_SETUP.audit.
 
 ### Dataset
 
