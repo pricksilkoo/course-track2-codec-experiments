@@ -591,3 +591,18 @@ Wait-only polling30s, runtime2s/8GiB/disk10GiB protection unchanged. Five new
 pure state/time tests plus7 existing orchestration tests pass before rearming
 only stopped incomplete cells. No sharing retries, seed/config/batch/endpoint
 changes, duplicate monitor, external signals or historical checkpoint deletion.
+
+### Champion7 third exclusive stop: resource-policy decision required
+
+After600s idle the four cells launched16:40Asia/Shanghai and reached~1575
+batches; new outside GPU PIDs triggered exclusive guards16:47 despite~38GiB
+free. No OOM/Traceback/nonfinite loss; still before first25k checkpoint.
+That~6m40s unsaved trajectory is not recoverable and is separate from the
+earlier~6000 lost updates. Evidence/hashes CHAMPION7_RECOVERY03.audit and
+run/attempts/attempt03_exclusive_guard; earlier archives/source remain intact.
+
+All4 stopped, NO live capacity waiters, no automatic rearm. User asked to
+choose ample-memory sharing with8GiB protection/frequent recovery saves, or
+continue exclusive waiting. Until answered do not change resource policy,
+checkpoint cadence, batch or training factors. No new quality results and no
+batch8; same monitor tracks this decision state without repeated alerts.

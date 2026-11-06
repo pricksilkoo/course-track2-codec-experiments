@@ -13483,10 +13483,10 @@ training:
 ## champion7_a_continue
 
 - Status: `planned`
-- Updated (UTC): `2026-11-06T07:50:28.663778+00:00`
-- Git commit: `b779621ec42b7be323395459fc1367ce3139bbd0`
+- Updated (UTC): `2026-11-06T09:00:39.249690+00:00`
+- Git commit: `c2b85c6629cb3e2269596f9a827dbaf51f897162`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_a_continue`
-- Note: Waiting for a continuously idle GPU600s, no --allow-shared. Old-job/new-job handoff briefly started loading, new external PID caused exclusive guard stop before new epoch progress; no formal checkpoint. Preserve attempt01 unsaved~6000-step history and attempt02 archived logs. Will load trained500k parent SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23, same100k stage/seed/config; NOT checkpoint resume. Evidence CHAMPION7_RECOVERY01.audit and CHAMPION7_RECOVERY02.audit.16 declared dev score nodes unchanged.
+- Note: TRAINING STOPPED; awaiting user resource-policy choice, no live GPU waiter. Third attempt reached about1575 batches after600s idle then exclusive guard saw other PID, despite ample memory. No formal checkpoint: progress cannot resume. Preserve all3 attempt archives; CHAMPION7_RECOVERY03.audit. Parent trained500k SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23. Do not automatically retry or revert to sharing until user chooses. No change to model/batch/seed100k-stage/16 fixed200 search nodes; no new quality result.
 
 ### Dataset
 
@@ -13645,10 +13645,10 @@ training:
 ## champion7_b_si
 
 - Status: `planned`
-- Updated (UTC): `2026-11-06T07:50:28.744960+00:00`
-- Git commit: `b779621ec42b7be323395459fc1367ce3139bbd0`
+- Updated (UTC): `2026-11-06T09:00:39.747545+00:00`
+- Git commit: `c2b85c6629cb3e2269596f9a827dbaf51f897162`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_b_si`
-- Note: Waiting for a continuously idle GPU600s, no --allow-shared. Old-job/new-job handoff briefly started loading, new external PID caused exclusive guard stop before new epoch progress; no formal checkpoint. Preserve attempt01 unsaved~6000-step history and attempt02 archived logs. Will load trained500k parent SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23, same100k stage/seed/config; NOT checkpoint resume. Evidence CHAMPION7_RECOVERY01.audit and CHAMPION7_RECOVERY02.audit.16 declared dev score nodes unchanged.
+- Note: TRAINING STOPPED; awaiting user resource-policy choice, no live GPU waiter. Third attempt reached about1575 batches after600s idle then exclusive guard saw other PID, despite ample memory. No formal checkpoint: progress cannot resume. Preserve all3 attempt archives; CHAMPION7_RECOVERY03.audit. Parent trained500k SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23. Do not automatically retry or revert to sharing until user chooses. No change to model/batch/seed100k-stage/16 fixed200 search nodes; no new quality result.
 
 ### Dataset
 
@@ -13807,10 +13807,10 @@ training:
 ## champion7_c_gan
 
 - Status: `planned`
-- Updated (UTC): `2026-11-06T07:50:28.828648+00:00`
-- Git commit: `b779621ec42b7be323395459fc1367ce3139bbd0`
+- Updated (UTC): `2026-11-06T09:00:40.115570+00:00`
+- Git commit: `c2b85c6629cb3e2269596f9a827dbaf51f897162`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_c_gan`
-- Note: Waiting for a continuously idle GPU600s, no --allow-shared. Old-job/new-job handoff briefly started loading, new external PID caused exclusive guard stop before new epoch progress; no formal checkpoint. Preserve attempt01 unsaved~6000-step history and attempt02 archived logs. Will load trained500k parent SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23, same100k stage/seed/config; NOT checkpoint resume. Evidence CHAMPION7_RECOVERY01.audit and CHAMPION7_RECOVERY02.audit.16 declared dev score nodes unchanged.
+- Note: TRAINING STOPPED; awaiting user resource-policy choice, no live GPU waiter. Third attempt reached about1575 batches after600s idle then exclusive guard saw other PID, despite ample memory. No formal checkpoint: progress cannot resume. Preserve all3 attempt archives; CHAMPION7_RECOVERY03.audit. Parent trained500k SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23. Do not automatically retry or revert to sharing until user chooses. No change to model/batch/seed100k-stage/16 fixed200 search nodes; no new quality result.
 
 ### Dataset
 
@@ -13969,10 +13969,10 @@ training:
 ## champion7_d_both
 
 - Status: `planned`
-- Updated (UTC): `2026-11-06T07:50:28.911272+00:00`
-- Git commit: `b779621ec42b7be323395459fc1367ce3139bbd0`
+- Updated (UTC): `2026-11-06T09:00:40.532616+00:00`
+- Git commit: `c2b85c6629cb3e2269596f9a827dbaf51f897162`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_d_both`
-- Note: Waiting for a continuously idle GPU600s, no --allow-shared. Old-job/new-job handoff briefly started loading, new external PID caused exclusive guard stop before new epoch progress; no formal checkpoint. Preserve attempt01 unsaved~6000-step history and attempt02 archived logs. Will load trained500k parent SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23, same100k stage/seed/config; NOT checkpoint resume. Evidence CHAMPION7_RECOVERY01.audit and CHAMPION7_RECOVERY02.audit.16 declared dev score nodes unchanged.
+- Note: TRAINING STOPPED; awaiting user resource-policy choice, no live GPU waiter. Third attempt reached about1575 batches after600s idle then exclusive guard saw other PID, despite ample memory. No formal checkpoint: progress cannot resume. Preserve all3 attempt archives; CHAMPION7_RECOVERY03.audit. Parent trained500k SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23. Do not automatically retry or revert to sharing until user chooses. No change to model/batch/seed100k-stage/16 fixed200 search nodes; no new quality result.
 
 ### Dataset
 
