@@ -13478,3 +13478,651 @@ training:
 ```
 
 <!-- experiment:champion6_d_s8128_fourier_gru:end -->
+
+<!-- experiment:champion7_a_continue:start -->
+## champion7_a_continue
+
+- Status: `planned`
+- Updated (UTC): `2026-11-06T05:21:26.346149+00:00`
+- Git commit: `bfc3eb01ba1056bb8d9e5e9b39b6b9aa1ec663ac`
+- Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_a_continue`
+- Note: Queued for GPU capacity, not yet formal training. Explicit learned-parent fine-tuning, NOT scratch: CHAMPION6 B score51.624336, parent500000-step SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23; inherit codec/RVQ EMA/discriminator, reset optimizers,100000 extra steps, seed/data-order20261106. Four declared25k/50k/75k/100k fixed200 development score-search nodes; best score not reconstruction-best. Lineage/config/data hash evidence CHAMPION7_SETUP.audit and run/lineage.json. One requested shared capacity probe was stopped at8GiB free floor; no OOM. Formal full-batch GPU backward profile remains pending safe capacity.
+
+### Dataset
+
+| Item | Value |
+|---|---:|
+| Training files | 394988 |
+| Validation files | 14596 |
+| VCTK training files | 40208 |
+| VCTK validation files | 4247 |
+| LibriTTS training files | 354780 |
+| LibriTTS validation files | 10349 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Algorithmic lookahead (ms) | 30 |
+| Total MFLOP/s | 666.307 |
+| Decoder MFLOP/s | 257.632 |
+| Parameters | 1868064 |
+
+### Effective configuration
+
+```yaml
+seed: 20261106
+audio:
+  sample_rate: 16000
+  frame_samples: 160
+  segment_samples: 32000
+model:
+  sample_rate: 16000
+  frame_samples: 160
+  quantizer_type: projected_rvq
+  encoder_channels:
+  - 8
+  - 16
+  - 32
+  - 64
+  - 160
+  encoder_strides:
+  - 2
+  - 4
+  - 4
+  - 5
+  decoder_channels:
+  - 160
+  - 48
+  - 24
+  - 12
+  - 8
+  decoder_strides:
+  - 5
+  - 4
+  - 4
+  - 2
+  residual_blocks: 3
+  residual_kernel_size: 3
+  rvq_num_codebooks: 3
+  rvq_codebook_size: 256
+  rvq_codebook_dim: 160
+  commitment_weight: 0.1
+  rvq_ema_decay: 0.95
+  rvq_dead_code_threshold: 0.5
+  rvq_dead_code_after_updates: 100
+  rvq_kmeans_iterations: 10
+  encoder_temporal_layers: 4
+  decoder_temporal_layers: 2
+  temporal_kernel_size: 3
+  temporal_expansion: 1
+  fsq_levels:
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  encoder_lookahead_frames: 3
+  decoder_lookahead_frames: 0
+  rvq_usage_loss_weight: 0.001
+  rvq_usage_temperature: 1.0
+  rvq_stage_commitment_weights:
+  - 1.0
+  - 1.5
+  - 2.0
+  projected_stage_dims:
+  - 48
+  - 64
+  - 80
+  encoder_gru: true
+  synthesis_type: fourier
+  synthesis_initialization_seed: 203407
+  fourier_width: 256
+  fourier_hidden: 160
+  fourier_layers: 8
+  fourier_n_fft: 320
+loss:
+  waveform_l1_weight: 1.0
+  spectral_weight: 1.0
+  fft_sizes:
+  - 256
+  - 512
+  - 1024
+  spectral_convergence_weight: 0.25
+  linear_magnitude_weight: 0.1
+  adversarial_weight: 0.05
+  feature_matching_weight: 1.5
+  si_snr_weight: 0.003
+adversarial:
+  resolutions:
+  - - 256
+    - 64
+    - 256
+  - - 512
+    - 128
+    - 512
+  - - 1024
+    - 256
+    - 1024
+  start_step: 0
+  warmup_steps: 0
+  learning_rate: 5.0e-05
+  gradient_clip_norm: 10.0
+  periods:
+  - 2
+  - 3
+  - 5
+  - 7
+  - 11
+training:
+  batch_size: 32
+  num_workers: 8
+  epochs: 1000
+  learning_rate: 5.0e-05
+  weight_decay: 1.0e-06
+  gradient_clip_norm: 1.0
+  validation_limit: 64
+  validation_checkpoint_interval_steps: 25000
+  sample_inference_count: 2
+  output_dir: /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_a_continue
+  minimum_learning_rate: 1.0e-05
+  warmup_steps: 1000
+  checkpoint_keep_last: 4
+  quantizer_learning_rate: 5.0e-05
+  quantizer_only_steps: 0
+  data_order_seed: 20261106
+  reset_rng_after_init: true
+  fail_on_nonfinite: true
+```
+
+<!-- experiment:champion7_a_continue:end -->
+
+<!-- experiment:champion7_b_si:start -->
+## champion7_b_si
+
+- Status: `planned`
+- Updated (UTC): `2026-11-06T05:21:26.417385+00:00`
+- Git commit: `bfc3eb01ba1056bb8d9e5e9b39b6b9aa1ec663ac`
+- Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_b_si`
+- Note: Queued for GPU capacity, not yet formal training. Explicit learned-parent fine-tuning, NOT scratch: CHAMPION6 B score51.624336, parent500000-step SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23; inherit codec/RVQ EMA/discriminator, reset optimizers,100000 extra steps, seed/data-order20261106. Four declared25k/50k/75k/100k fixed200 development score-search nodes; best score not reconstruction-best. Lineage/config/data hash evidence CHAMPION7_SETUP.audit and run/lineage.json. One requested shared capacity probe was stopped at8GiB free floor; no OOM. Formal full-batch GPU backward profile remains pending safe capacity.
+
+### Dataset
+
+| Item | Value |
+|---|---:|
+| Training files | 394988 |
+| Validation files | 14596 |
+| VCTK training files | 40208 |
+| VCTK validation files | 4247 |
+| LibriTTS training files | 354780 |
+| LibriTTS validation files | 10349 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Algorithmic lookahead (ms) | 30 |
+| Total MFLOP/s | 666.307 |
+| Decoder MFLOP/s | 257.632 |
+| Parameters | 1868064 |
+
+### Effective configuration
+
+```yaml
+seed: 20261106
+audio:
+  sample_rate: 16000
+  frame_samples: 160
+  segment_samples: 32000
+model:
+  sample_rate: 16000
+  frame_samples: 160
+  quantizer_type: projected_rvq
+  encoder_channels:
+  - 8
+  - 16
+  - 32
+  - 64
+  - 160
+  encoder_strides:
+  - 2
+  - 4
+  - 4
+  - 5
+  decoder_channels:
+  - 160
+  - 48
+  - 24
+  - 12
+  - 8
+  decoder_strides:
+  - 5
+  - 4
+  - 4
+  - 2
+  residual_blocks: 3
+  residual_kernel_size: 3
+  rvq_num_codebooks: 3
+  rvq_codebook_size: 256
+  rvq_codebook_dim: 160
+  commitment_weight: 0.1
+  rvq_ema_decay: 0.95
+  rvq_dead_code_threshold: 0.5
+  rvq_dead_code_after_updates: 100
+  rvq_kmeans_iterations: 10
+  encoder_temporal_layers: 4
+  decoder_temporal_layers: 2
+  temporal_kernel_size: 3
+  temporal_expansion: 1
+  fsq_levels:
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  encoder_lookahead_frames: 3
+  decoder_lookahead_frames: 0
+  rvq_usage_loss_weight: 0.001
+  rvq_usage_temperature: 1.0
+  rvq_stage_commitment_weights:
+  - 1.0
+  - 1.5
+  - 2.0
+  projected_stage_dims:
+  - 48
+  - 64
+  - 80
+  encoder_gru: true
+  synthesis_type: fourier
+  synthesis_initialization_seed: 203407
+  fourier_width: 256
+  fourier_hidden: 160
+  fourier_layers: 8
+  fourier_n_fft: 320
+loss:
+  waveform_l1_weight: 1.0
+  spectral_weight: 1.0
+  fft_sizes:
+  - 256
+  - 512
+  - 1024
+  spectral_convergence_weight: 0.25
+  linear_magnitude_weight: 0.1
+  adversarial_weight: 0.05
+  feature_matching_weight: 1.5
+  si_snr_weight: 0.01
+adversarial:
+  resolutions:
+  - - 256
+    - 64
+    - 256
+  - - 512
+    - 128
+    - 512
+  - - 1024
+    - 256
+    - 1024
+  start_step: 0
+  warmup_steps: 0
+  learning_rate: 5.0e-05
+  gradient_clip_norm: 10.0
+  periods:
+  - 2
+  - 3
+  - 5
+  - 7
+  - 11
+training:
+  batch_size: 32
+  num_workers: 8
+  epochs: 1000
+  learning_rate: 5.0e-05
+  weight_decay: 1.0e-06
+  gradient_clip_norm: 1.0
+  validation_limit: 64
+  validation_checkpoint_interval_steps: 25000
+  sample_inference_count: 2
+  output_dir: /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_b_si
+  minimum_learning_rate: 1.0e-05
+  warmup_steps: 1000
+  checkpoint_keep_last: 4
+  quantizer_learning_rate: 5.0e-05
+  quantizer_only_steps: 0
+  data_order_seed: 20261106
+  reset_rng_after_init: true
+  fail_on_nonfinite: true
+```
+
+<!-- experiment:champion7_b_si:end -->
+
+<!-- experiment:champion7_c_gan:start -->
+## champion7_c_gan
+
+- Status: `planned`
+- Updated (UTC): `2026-11-06T05:21:26.488082+00:00`
+- Git commit: `bfc3eb01ba1056bb8d9e5e9b39b6b9aa1ec663ac`
+- Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_c_gan`
+- Note: Queued for GPU capacity, not yet formal training. Explicit learned-parent fine-tuning, NOT scratch: CHAMPION6 B score51.624336, parent500000-step SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23; inherit codec/RVQ EMA/discriminator, reset optimizers,100000 extra steps, seed/data-order20261106. Four declared25k/50k/75k/100k fixed200 development score-search nodes; best score not reconstruction-best. Lineage/config/data hash evidence CHAMPION7_SETUP.audit and run/lineage.json. One requested shared capacity probe was stopped at8GiB free floor; no OOM. Formal full-batch GPU backward profile remains pending safe capacity.
+
+### Dataset
+
+| Item | Value |
+|---|---:|
+| Training files | 394988 |
+| Validation files | 14596 |
+| VCTK training files | 40208 |
+| VCTK validation files | 4247 |
+| LibriTTS training files | 354780 |
+| LibriTTS validation files | 10349 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Algorithmic lookahead (ms) | 30 |
+| Total MFLOP/s | 666.307 |
+| Decoder MFLOP/s | 257.632 |
+| Parameters | 1868064 |
+
+### Effective configuration
+
+```yaml
+seed: 20261106
+audio:
+  sample_rate: 16000
+  frame_samples: 160
+  segment_samples: 32000
+model:
+  sample_rate: 16000
+  frame_samples: 160
+  quantizer_type: projected_rvq
+  encoder_channels:
+  - 8
+  - 16
+  - 32
+  - 64
+  - 160
+  encoder_strides:
+  - 2
+  - 4
+  - 4
+  - 5
+  decoder_channels:
+  - 160
+  - 48
+  - 24
+  - 12
+  - 8
+  decoder_strides:
+  - 5
+  - 4
+  - 4
+  - 2
+  residual_blocks: 3
+  residual_kernel_size: 3
+  rvq_num_codebooks: 3
+  rvq_codebook_size: 256
+  rvq_codebook_dim: 160
+  commitment_weight: 0.1
+  rvq_ema_decay: 0.95
+  rvq_dead_code_threshold: 0.5
+  rvq_dead_code_after_updates: 100
+  rvq_kmeans_iterations: 10
+  encoder_temporal_layers: 4
+  decoder_temporal_layers: 2
+  temporal_kernel_size: 3
+  temporal_expansion: 1
+  fsq_levels:
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  encoder_lookahead_frames: 3
+  decoder_lookahead_frames: 0
+  rvq_usage_loss_weight: 0.001
+  rvq_usage_temperature: 1.0
+  rvq_stage_commitment_weights:
+  - 1.0
+  - 1.5
+  - 2.0
+  projected_stage_dims:
+  - 48
+  - 64
+  - 80
+  encoder_gru: true
+  synthesis_type: fourier
+  synthesis_initialization_seed: 203407
+  fourier_width: 256
+  fourier_hidden: 160
+  fourier_layers: 8
+  fourier_n_fft: 320
+loss:
+  waveform_l1_weight: 1.0
+  spectral_weight: 1.0
+  fft_sizes:
+  - 256
+  - 512
+  - 1024
+  spectral_convergence_weight: 0.25
+  linear_magnitude_weight: 0.1
+  adversarial_weight: 0.1
+  feature_matching_weight: 1.5
+  si_snr_weight: 0.003
+adversarial:
+  resolutions:
+  - - 256
+    - 64
+    - 256
+  - - 512
+    - 128
+    - 512
+  - - 1024
+    - 256
+    - 1024
+  start_step: 0
+  warmup_steps: 0
+  learning_rate: 5.0e-05
+  gradient_clip_norm: 10.0
+  periods:
+  - 2
+  - 3
+  - 5
+  - 7
+  - 11
+training:
+  batch_size: 32
+  num_workers: 8
+  epochs: 1000
+  learning_rate: 5.0e-05
+  weight_decay: 1.0e-06
+  gradient_clip_norm: 1.0
+  validation_limit: 64
+  validation_checkpoint_interval_steps: 25000
+  sample_inference_count: 2
+  output_dir: /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_c_gan
+  minimum_learning_rate: 1.0e-05
+  warmup_steps: 1000
+  checkpoint_keep_last: 4
+  quantizer_learning_rate: 5.0e-05
+  quantizer_only_steps: 0
+  data_order_seed: 20261106
+  reset_rng_after_init: true
+  fail_on_nonfinite: true
+```
+
+<!-- experiment:champion7_c_gan:end -->
+
+<!-- experiment:champion7_d_both:start -->
+## champion7_d_both
+
+- Status: `planned`
+- Updated (UTC): `2026-11-06T05:21:26.556755+00:00`
+- Git commit: `bfc3eb01ba1056bb8d9e5e9b39b6b9aa1ec663ac`
+- Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_d_both`
+- Note: Queued for GPU capacity, not yet formal training. Explicit learned-parent fine-tuning, NOT scratch: CHAMPION6 B score51.624336, parent500000-step SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23; inherit codec/RVQ EMA/discriminator, reset optimizers,100000 extra steps, seed/data-order20261106. Four declared25k/50k/75k/100k fixed200 development score-search nodes; best score not reconstruction-best. Lineage/config/data hash evidence CHAMPION7_SETUP.audit and run/lineage.json. One requested shared capacity probe was stopped at8GiB free floor; no OOM. Formal full-batch GPU backward profile remains pending safe capacity.
+
+### Dataset
+
+| Item | Value |
+|---|---:|
+| Training files | 394988 |
+| Validation files | 14596 |
+| VCTK training files | 40208 |
+| VCTK validation files | 4247 |
+| LibriTTS training files | 354780 |
+| LibriTTS validation files | 10349 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Algorithmic lookahead (ms) | 30 |
+| Total MFLOP/s | 666.307 |
+| Decoder MFLOP/s | 257.632 |
+| Parameters | 1868064 |
+
+### Effective configuration
+
+```yaml
+seed: 20261106
+audio:
+  sample_rate: 16000
+  frame_samples: 160
+  segment_samples: 32000
+model:
+  sample_rate: 16000
+  frame_samples: 160
+  quantizer_type: projected_rvq
+  encoder_channels:
+  - 8
+  - 16
+  - 32
+  - 64
+  - 160
+  encoder_strides:
+  - 2
+  - 4
+  - 4
+  - 5
+  decoder_channels:
+  - 160
+  - 48
+  - 24
+  - 12
+  - 8
+  decoder_strides:
+  - 5
+  - 4
+  - 4
+  - 2
+  residual_blocks: 3
+  residual_kernel_size: 3
+  rvq_num_codebooks: 3
+  rvq_codebook_size: 256
+  rvq_codebook_dim: 160
+  commitment_weight: 0.1
+  rvq_ema_decay: 0.95
+  rvq_dead_code_threshold: 0.5
+  rvq_dead_code_after_updates: 100
+  rvq_kmeans_iterations: 10
+  encoder_temporal_layers: 4
+  decoder_temporal_layers: 2
+  temporal_kernel_size: 3
+  temporal_expansion: 1
+  fsq_levels:
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  encoder_lookahead_frames: 3
+  decoder_lookahead_frames: 0
+  rvq_usage_loss_weight: 0.001
+  rvq_usage_temperature: 1.0
+  rvq_stage_commitment_weights:
+  - 1.0
+  - 1.5
+  - 2.0
+  projected_stage_dims:
+  - 48
+  - 64
+  - 80
+  encoder_gru: true
+  synthesis_type: fourier
+  synthesis_initialization_seed: 203407
+  fourier_width: 256
+  fourier_hidden: 160
+  fourier_layers: 8
+  fourier_n_fft: 320
+loss:
+  waveform_l1_weight: 1.0
+  spectral_weight: 1.0
+  fft_sizes:
+  - 256
+  - 512
+  - 1024
+  spectral_convergence_weight: 0.25
+  linear_magnitude_weight: 0.1
+  adversarial_weight: 0.1
+  feature_matching_weight: 1.5
+  si_snr_weight: 0.01
+adversarial:
+  resolutions:
+  - - 256
+    - 64
+    - 256
+  - - 512
+    - 128
+    - 512
+  - - 1024
+    - 256
+    - 1024
+  start_step: 0
+  warmup_steps: 0
+  learning_rate: 5.0e-05
+  gradient_clip_norm: 10.0
+  periods:
+  - 2
+  - 3
+  - 5
+  - 7
+  - 11
+training:
+  batch_size: 32
+  num_workers: 8
+  epochs: 1000
+  learning_rate: 5.0e-05
+  weight_decay: 1.0e-06
+  gradient_clip_norm: 1.0
+  validation_limit: 64
+  validation_checkpoint_interval_steps: 25000
+  sample_inference_count: 2
+  output_dir: /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_d_both
+  minimum_learning_rate: 1.0e-05
+  warmup_steps: 1000
+  checkpoint_keep_last: 4
+  quantizer_learning_rate: 5.0e-05
+  quantizer_only_steps: 0
+  data_order_seed: 20261106
+  reset_rng_after_init: true
+  fail_on_nonfinite: true
+```
+
+<!-- experiment:champion7_d_both:end -->

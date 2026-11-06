@@ -1,0 +1,14 @@
+_base_: ../champion6/b_s3407_fourier_gru.yaml
+seed: 20261106
+adversarial:
+  start_step: 0
+  warmup_steps: 0
+  learning_rate: 0.00005
+training:
+  learning_rate: 0.00005
+  quantizer_learning_rate: 0.00005
+  minimum_learning_rate: 0.00001
+  warmup_steps: 1000
+  data_order_seed: 20261106
+  checkpoint_keep_last: 4
+  output_dir: runs/champion7_a_continue

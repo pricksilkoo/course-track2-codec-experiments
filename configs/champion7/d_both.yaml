@@ -1,0 +1,6 @@
+_base_: a_continue.yaml
+loss:
+  si_snr_weight: 0.01
+  adversarial_weight: 0.1
+training:
+  output_dir: runs/champion7_d_both
