@@ -12724,11 +12724,18 @@ training:
 <!-- experiment:champion6_a_s3407_control:start -->
 ## champion6_a_s3407_control
 
-- Status: `running`
-- Updated (UTC): `2026-11-04T09:35:41.689522+00:00`
-- Git commit: `d78829d619519229de27eae01f6c71a805f8c9b0`
+- Status: `complete`
+- Updated (UTC): `2026-11-05T14:50:24.296757+00:00`
+- Git commit: `81f2d16acb86037c45a1342b79ec6e8b41e2ff28`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion6_a_s3407_control`
-- Note: 500000-step GRU/Fourier scratch study; never-trained codec/discriminator, fixed endpoint primary selection
+- Note: 500000-step GRU/Fourier scratch study complete; fixed endpoint checkpoint evaluated; 2400bps, 10ms frames, <=30ms lookahead; diagnostics: /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion6_a_s3407_control/rvq_diagnostics.json
+- Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion6_a_s3407_control/checkpoints/last.pt`
+- Checkpoint SHA-256: `b28285ab1a66b14677000a559103ea4d6564895fcaa870611c95eda35867f3ae`
+- Selected checkpoint global step: `500000`
+- Initialization: genuinely untrained (`trained=false`, `global_step=0`), seed/data-order3407; `runs/champion6_setup/step0_a_s3407_control.pt` SHA256 `d34c9966e42e7935e614e46b11af56ffbf9cd356018dc751ad127551d721afdd`; no resume or learned parent.
+- Pair source: `runs/champion6_setup/source_step0_seed3407.pt`, SHA256 `0537e2b716e6f2d649c3b69b875d805372ecb2f8eebba0411319911299353e95`.
+- Data/config/training/bitstream evidence: [CHAMPION6_RESULTS.audit](CHAMPION6_RESULTS.audit), cell `a_s3407_control`; manifest counts/hashes and fixed200 audio hashes in the same audit, matching [CHAMPION6_SETUP.audit](CHAMPION6_SETUP.audit).
+- Registered interpretation: score45.974350 fails46.25 control gate; not rescued by best/mean/another seed. See [CHAMPION6_RESULTS.md](CHAMPION6_RESULTS.md).
 
 ### Dataset
 
@@ -12740,6 +12747,39 @@ training:
 | VCTK validation files | 4247 |
 | LibriTTS training files | 354780 |
 | LibriTTS validation files | 10349 |
+
+### Last training validation
+
+| Item | Value |
+|---|---:|
+| Epoch | 41 |
+| Global step | 500000 |
+| Train loss | 0.582089 |
+| Reconstruction loss | 0.131595 |
+| Waveform L1 | 0.013884 |
+| Spectral loss | 0.117711 |
+| Commitment loss | 0.127620 |
+
+### Objective evaluation
+
+| Item | Value |
+|---|---:|
+| Files | 200 |
+| PESQ-WB | 1.9760 |
+| ESTOI | 0.7281 |
+| SI-SNR (dB) | 5.6322 |
+| UTMOS | 2.7647 |
+| Course objective score | 45.9744 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Algorithmic lookahead (ms) | 30 |
+| Total MFLOP/s | 650.227 |
+| Decoder MFLOP/s | 277.440 |
+| Parameters | 662109 |
 
 ### Effective configuration
 
@@ -12856,7 +12896,7 @@ training:
   validation_limit: 64
   validation_checkpoint_interval_steps: 25000
   sample_inference_count: 2
-  output_dir: runs/champion6_a_s3407_control
+  output_dir: /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion6_a_s3407_control
   minimum_learning_rate: 1.0e-05
   warmup_steps: 5000
   checkpoint_keep_last: 2
@@ -12868,15 +12908,21 @@ training:
 ```
 
 <!-- experiment:champion6_a_s3407_control:end -->
-
 <!-- experiment:champion6_b_s3407_fourier_gru:start -->
 ## champion6_b_s3407_fourier_gru
 
-- Status: `running`
-- Updated (UTC): `2026-11-04T09:35:41.903840+00:00`
-- Git commit: `d78829d619519229de27eae01f6c71a805f8c9b0`
+- Status: `complete`
+- Updated (UTC): `2026-11-05T11:37:02.677393+00:00`
+- Git commit: `81f2d16acb86037c45a1342b79ec6e8b41e2ff28`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion6_b_s3407_fourier_gru`
-- Note: 500000-step GRU/Fourier scratch study; never-trained codec/discriminator, fixed endpoint primary selection
+- Note: 500000-step GRU/Fourier scratch study complete; fixed endpoint checkpoint evaluated; 2400bps, 10ms frames, <=30ms lookahead; diagnostics: /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion6_b_s3407_fourier_gru/rvq_diagnostics.json
+- Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion6_b_s3407_fourier_gru/checkpoints/last.pt`
+- Checkpoint SHA-256: `c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23`
+- Selected checkpoint global step: `500000`
+- Initialization: genuinely untrained (`trained=false`, `global_step=0`), seed/data-order3407; `runs/champion6_setup/step0_b_s3407_fourier_gru.pt` SHA256 `7c7c5356252a747892bd153f8a17c609506f6998d31947d0ad706f59b85d4aa7`; no resume or learned parent.
+- Pair source: `runs/champion6_setup/source_step0_seed3407.pt`, SHA256 `0537e2b716e6f2d649c3b69b875d805372ecb2f8eebba0411319911299353e95`; shared encoder/TCN/RVQ/discriminator verified; new synthesis/GRU seed203407 (GRU internally+1).
+- Data/config/training/bitstream evidence: [CHAMPION6_RESULTS.audit](CHAMPION6_RESULTS.audit), cell `b_s3407_fourier_gru`; manifest counts/hashes and fixed200 audio hashes in the same audit, matching [CHAMPION6_SETUP.audit](CHAMPION6_SETUP.audit).
+- Registered interpretation: score51.624336 passes numeric candidate/component gates versus own control/v2, but own control gate failed; not a clean confirmation or promotion. See [CHAMPION6_RESULTS.md](CHAMPION6_RESULTS.md).
 
 ### Dataset
 
@@ -12888,6 +12934,39 @@ training:
 | VCTK validation files | 4247 |
 | LibriTTS training files | 354780 |
 | LibriTTS validation files | 10349 |
+
+### Last training validation
+
+| Item | Value |
+|---|---:|
+| Epoch | 41 |
+| Global step | 500000 |
+| Train loss | 0.440534 |
+| Reconstruction loss | 0.125832 |
+| Waveform L1 | 0.012957 |
+| Spectral loss | 0.112875 |
+| Commitment loss | 0.072601 |
+
+### Objective evaluation
+
+| Item | Value |
+|---|---:|
+| Files | 200 |
+| PESQ-WB | 2.2237 |
+| ESTOI | 0.7684 |
+| SI-SNR (dB) | 6.6003 |
+| UTMOS | 3.1278 |
+| Course objective score | 51.6243 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Algorithmic lookahead (ms) | 30 |
+| Total MFLOP/s | 666.307 |
+| Decoder MFLOP/s | 257.632 |
+| Parameters | 1868064 |
 
 ### Effective configuration
 
@@ -13008,7 +13087,7 @@ training:
   validation_limit: 64
   validation_checkpoint_interval_steps: 25000
   sample_inference_count: 2
-  output_dir: runs/champion6_b_s3407_fourier_gru
+  output_dir: /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion6_b_s3407_fourier_gru
   minimum_learning_rate: 1.0e-05
   warmup_steps: 5000
   checkpoint_keep_last: 2
@@ -13020,14 +13099,22 @@ training:
 ```
 
 <!-- experiment:champion6_b_s3407_fourier_gru:end -->
+
 <!-- experiment:champion6_c_s8128_control:start -->
 ## champion6_c_s8128_control
 
-- Status: `running`
-- Updated (UTC): `2026-11-04T09:35:41.831085+00:00`
-- Git commit: `d78829d619519229de27eae01f6c71a805f8c9b0`
+- Status: `complete`
+- Updated (UTC): `2026-11-05T14:50:27.163049+00:00`
+- Git commit: `81f2d16acb86037c45a1342b79ec6e8b41e2ff28`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion6_c_s8128_control`
-- Note: 500000-step GRU/Fourier scratch study; never-trained codec/discriminator, fixed endpoint primary selection
+- Note: 500000-step GRU/Fourier scratch study complete; fixed endpoint checkpoint evaluated; 2400bps, 10ms frames, <=30ms lookahead; diagnostics: /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion6_c_s8128_control/rvq_diagnostics.json
+- Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion6_c_s8128_control/checkpoints/last.pt`
+- Checkpoint SHA-256: `d1af4d0fd2e8cb91e1800c4afee364839d2069db93e2632b555d637c377bbf81`
+- Selected checkpoint global step: `500000`
+- Initialization: genuinely untrained (`trained=false`, `global_step=0`), seed/data-order8128; `runs/champion6_setup/step0_c_s8128_control.pt` SHA256 `9a9a26782b70011cb4b88da3102a557596dce0daf46b6235777f334afa7992ee`; no resume or learned parent.
+- Pair source: `runs/champion6_setup/source_step0_seed8128.pt`, SHA256 `c90622c4a6096a1afc72f815c01c271dc62be1b9cfe6c25d217db904b8f392ed`.
+- Data/config/training/bitstream evidence: [CHAMPION6_RESULTS.audit](CHAMPION6_RESULTS.audit), cell `c_s8128_control`; manifest counts/hashes and fixed200 audio hashes in the same audit, matching [CHAMPION6_SETUP.audit](CHAMPION6_SETUP.audit).
+- Registered interpretation: score46.376849 passes46.25 control gate, but cannot replace failed3407 control. See [CHAMPION6_RESULTS.md](CHAMPION6_RESULTS.md).
 
 ### Dataset
 
@@ -13039,6 +13126,39 @@ training:
 | VCTK validation files | 4247 |
 | LibriTTS training files | 354780 |
 | LibriTTS validation files | 10349 |
+
+### Last training validation
+
+| Item | Value |
+|---|---:|
+| Epoch | 41 |
+| Global step | 500000 |
+| Train loss | 0.571473 |
+| Reconstruction loss | 0.131643 |
+| Waveform L1 | 0.013860 |
+| Spectral loss | 0.117783 |
+| Commitment loss | 0.122655 |
+
+### Objective evaluation
+
+| Item | Value |
+|---|---:|
+| Files | 200 |
+| PESQ-WB | 1.9686 |
+| ESTOI | 0.7281 |
+| SI-SNR (dB) | 5.7939 |
+| UTMOS | 2.8214 |
+| Course objective score | 46.3768 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Algorithmic lookahead (ms) | 30 |
+| Total MFLOP/s | 650.227 |
+| Decoder MFLOP/s | 277.440 |
+| Parameters | 662109 |
 
 ### Effective configuration
 
@@ -13155,7 +13275,7 @@ training:
   validation_limit: 64
   validation_checkpoint_interval_steps: 25000
   sample_inference_count: 2
-  output_dir: runs/champion6_c_s8128_control
+  output_dir: /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion6_c_s8128_control
   minimum_learning_rate: 1.0e-05
   warmup_steps: 5000
   checkpoint_keep_last: 2
@@ -13170,11 +13290,18 @@ training:
 <!-- experiment:champion6_d_s8128_fourier_gru:start -->
 ## champion6_d_s8128_fourier_gru
 
-- Status: `running`
-- Updated (UTC): `2026-11-04T09:35:41.760711+00:00`
-- Git commit: `d78829d619519229de27eae01f6c71a805f8c9b0`
+- Status: `complete`
+- Updated (UTC): `2026-11-05T11:36:59.625580+00:00`
+- Git commit: `81f2d16acb86037c45a1342b79ec6e8b41e2ff28`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion6_d_s8128_fourier_gru`
-- Note: 500000-step GRU/Fourier scratch study; never-trained codec/discriminator, fixed endpoint primary selection
+- Note: 500000-step GRU/Fourier scratch study complete; fixed endpoint checkpoint evaluated; 2400bps, 10ms frames, <=30ms lookahead; diagnostics: /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion6_d_s8128_fourier_gru/rvq_diagnostics.json
+- Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion6_d_s8128_fourier_gru/checkpoints/last.pt`
+- Checkpoint SHA-256: `1dc5ab61dde98b8e281d7168418331eb97233c63a90ec5ead14f138dd9296586`
+- Selected checkpoint global step: `500000`
+- Initialization: genuinely untrained (`trained=false`, `global_step=0`), seed/data-order8128; `runs/champion6_setup/step0_d_s8128_fourier_gru.pt` SHA256 `c8c12013ffa60ffb0811d05ad684ea973d042c0a7d42923c000cae000aae3763`; no resume or learned parent.
+- Pair source: `runs/champion6_setup/source_step0_seed8128.pt`, SHA256 `c90622c4a6096a1afc72f815c01c271dc62be1b9cfe6c25d217db904b8f392ed`; shared encoder/TCN/RVQ/discriminator verified; new synthesis/GRU seed208128 (GRU internally+1).
+- Data/config/training/bitstream evidence: [CHAMPION6_RESULTS.audit](CHAMPION6_RESULTS.audit), cell `d_s8128_fourier_gru`; manifest counts/hashes and fixed200 audio hashes in the same audit, matching [CHAMPION6_SETUP.audit](CHAMPION6_SETUP.audit).
+- Registered interpretation: score50.968929 passes numeric candidate/component gates versus own control/v2 and this pair passes; whole batch still fails the other control gate. See [CHAMPION6_RESULTS.md](CHAMPION6_RESULTS.md).
 
 ### Dataset
 
@@ -13186,6 +13313,39 @@ training:
 | VCTK validation files | 4247 |
 | LibriTTS training files | 354780 |
 | LibriTTS validation files | 10349 |
+
+### Last training validation
+
+| Item | Value |
+|---|---:|
+| Epoch | 41 |
+| Global step | 500000 |
+| Train loss | 0.422288 |
+| Reconstruction loss | 0.126524 |
+| Waveform L1 | 0.012934 |
+| Spectral loss | 0.113590 |
+| Commitment loss | 0.073616 |
+
+### Objective evaluation
+
+| Item | Value |
+|---|---:|
+| Files | 200 |
+| PESQ-WB | 2.1981 |
+| ESTOI | 0.7630 |
+| SI-SNR (dB) | 6.6440 |
+| UTMOS | 3.0695 |
+| Course objective score | 50.9689 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Algorithmic lookahead (ms) | 30 |
+| Total MFLOP/s | 666.307 |
+| Decoder MFLOP/s | 257.632 |
+| Parameters | 1868064 |
 
 ### Effective configuration
 
@@ -13306,7 +13466,7 @@ training:
   validation_limit: 64
   validation_checkpoint_interval_steps: 25000
   sample_inference_count: 2
-  output_dir: runs/champion6_d_s8128_fourier_gru
+  output_dir: /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion6_d_s8128_fourier_gru
   minimum_learning_rate: 1.0e-05
   warmup_steps: 5000
   checkpoint_keep_last: 2

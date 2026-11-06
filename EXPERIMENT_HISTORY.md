@@ -483,3 +483,42 @@ all data hashes verified; preregistration committed/pushed d78829d before formal
 training. Four guarded500k workers launched2026-11-04 17:35Asia/Shanghai in
 codec_champion6_v1 and entered optimization. The same monitor now follows this
 actual batch; no new confirmation quality result is claimed.
+
+## 2026-11-06 — Champion6 complete: repeated candidate gains, control gate failed
+
+All four new-initialization matched-seed runs finished500000 steps on Nov5,
+without OOM, recovery, endpoint substitution or extension. Same fixed200 dev
+files and true3-byte/frame bitstreams; no sealed evaluation or v2 promotion.
+Seed3407: control45.974350 / Fourier+GRU51.624336, paired gain+5.649986.
+Seed8128: control46.376849 / Fourier+GRU50.968929, paired gain+4.592080.
+Both candidates improve all four components versus own control and frozen
+v2=46.746343, with v2 gains+4.877993/+4.222586. However3407 control is below
+the preregistered46.25 gate by.275650: this is NOT a full confirmation pass.
+Do not hide this failure with the mean, a favorable seed, or the best candidate.
+
+Two-new-seed descriptive means/ranges only: candidate51.296632
+[50.968929,51.624336]; control46.175599[45.974350,46.376849]; paired gain
+5.121033[4.592080,5.649986]. n=2 is limited; CHAMPION5 remains separate
+discovery, not pooled confirmation. This is two matched pairs, not a new
+factorial design; no independent GRU/Fourier effect or interaction claims.
+
+Audit verified genuine untrained source/cell initialization, pairwise shared
+model/discriminator tensors, seed/config/manifest hashes and counts,20 finite
+validation component records,100k/150k GAN transitions,500k last.pt hashes,
+all200 real bitstreams/audio lengths, component means/score and full-path RVQ.
+Final35 pytest regressions passed7.05s. No separate minibatch component log
+was enabled; raw pipelines and actual validation records are preserved.
+No configuration/data/lineage/evaluation fault was identified. Weak control
+quality is mainly perceptual/naturalness relative to v2, not SI-SNR collapse;
+seed sensitivity is compatible with the observations, not a proven cause.
+Late reconstruction changes do not clearly establish insufficient convergence.
+
+Close this batch as confirmation-gate failure with promising experimental
+candidates retained. No CHAMPION7, seed replacement, automatic capacity-matched
+training or selective extension: a new control-stability protocol is needed
+before further claims/training. Keep v2 and all historical/current best/last;
+do not repeat the old cleanup. Consolidate and remove the existing monitor,
+without creating a duplicate. Full report/audit: CHAMPION6_RESULTS.md/.audit;
+reproducible checker: scripts/audit_champion6_results.py. Four complete native
+records are in EXPERIMENT_LOG.md; self-contained Chinese review updated in
+CODEC_EXPERIMENT_REVIEW.md.
