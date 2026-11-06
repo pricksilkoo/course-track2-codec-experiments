@@ -606,3 +606,18 @@ choose ample-memory sharing with8GiB protection/frequent recovery saves, or
 continue exclusive waiting. Until answered do not change resource policy,
 checkpoint cadence, batch or training factors. No new quality results and no
 batch8; same monitor tracks this decision state without repeated alerts.
+
+### CHAMPION7: user approved memory-capacity sharing and1000-step recovery
+
+User explicitly selected sharing whenever memory suffices, retaining8GiB floor.
+This supersedes exclusive-PID/600s-idle and decision-hold policies. Launch threshold20GiB,
+runtime2s GPU8GiB/disk10GiB unchanged. Add only recovery_checkpoint_interval_steps1000:
+atomic last.pt with complete model/EMA/G+D optimizers and epoch/batch/step, no invented
+validation or added search nodes. Existing25k validations and16-node dev search unchanged.
+No formal last exists: restart original51.624336 parent, not lost attempts01/03 progress.
+Preserve all old archives; evidence CHAMPION7_SHARED_RESTART.audit; no automatic batch8.
+
+56 CPU tests passed11.33s before the user requested no further tests. Disposable full-batch
+recovery smoke was cancelled at user request, evidence preserved, NOT a passing smoke.
+Four formal shared supervisors rearmed in existing tmux; original trained500k parent only,
+not disposable/old unsaved progress. Same monitor updated; no batch8 or quality result yet.

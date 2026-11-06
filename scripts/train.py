@@ -38,6 +38,7 @@ from ssp_codec.adversarial import (  # noqa: E402
     generator_hinge_loss,
 )
 from ssp_codec.data import WaveformDataset  # noqa: E402
+from ssp_codec.checkpoint_io import save_checkpoint_atomic, save_recovery_checkpoint, recovery_due  # noqa: E402
 from ssp_codec.config import apply_overrides, load_config  # noqa: E402
 from ssp_codec.losses import multiscale_spectral_loss, negative_si_snr_loss, multiscale_mel_loss  # noqa: E402
 from ssp_codec.model import CourseCodec  # noqa: E402
@@ -463,16 +464,16 @@ def validate_and_checkpoint(
             "quantizer_usage": validation_usage,
             "quantizer_ema_usage": base_model.quantizer.usage_metrics(),
         }
-        torch.save(state, checkpoint_dir / "last.pt")
+        save_checkpoint_atomic(state, checkpoint_dir / "last.pt")
         if write_snapshot:
-            torch.save(state, checkpoint_dir / f"step_{global_step:08d}.pt")
+            save_checkpoint_atomic(state, checkpoint_dir / f"step_{global_step:08d}.pt")
             keep = int(config["training"].get("checkpoint_keep_last", 0))
             if keep > 0:
                 snapshots = sorted(checkpoint_dir.glob("step_*.pt"))
                 for stale in snapshots[:-keep]:
                     stale.unlink()
         if selection_loss < best_validation:
-            torch.save(state, checkpoint_dir / "best.pt")
+            save_checkpoint_atomic(state, checkpoint_dir / "best.pt")
         write_reconstruction_samples(
             base_model,
             valid_set,
@@ -732,6 +733,9 @@ def main() -> None:
     interval_steps = config["training"]["validation_checkpoint_interval_steps"]
     if interval_steps <= 0:
         raise ValueError("validation_checkpoint_interval_steps must be positive")
+    recovery_interval = int(config["training"].get("recovery_checkpoint_interval_steps", 0))
+    if recovery_interval < 0:
+        raise ValueError("recovery_checkpoint_interval_steps must be nonnegative")
     last_validation_step = -1
     reached_max_total_steps = False
     for epoch in range(start_epoch, epochs + 1):
@@ -954,6 +958,18 @@ def main() -> None:
                 best_validation = min(best_validation, validation)
                 last_validation_step = global_step
                 model.train()
+                if distributed:
+                    dist.barrier()
+            elif recovery_due(global_step, recovery_interval, interval_steps):
+                if is_main_process:
+                    save_recovery_checkpoint(
+                        checkpoint_dir=checkpoint_dir, model=base_model,
+                        discriminator=base_discriminator, optimizer=optimizer,
+                        discriminator_optimizer=discriminator_optimizer,
+                        model_config=config["model"], epoch=epoch,
+                        batch_in_epoch=last_batch_in_epoch, global_step=global_step,
+                        best_validation=best_validation,
+                    )
                 if distributed:
                     dist.barrier()
             if args.max_total_steps is not None and global_step >= args.max_total_steps:

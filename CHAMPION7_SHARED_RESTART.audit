@@ -1,0 +1,95 @@
+{
+  "created_utc": "2026-11-06T09:36:43.420830+00:00",
+  "user_authorization": "share whenever GPU memory suffices; retain8GiB floor; add frequent recovery snapshots",
+  "launch_free_MiB": 20480,
+  "runtime_free_MiB": 8192,
+  "disk_floor_GiB": 10,
+  "recovery_checkpoint_interval_steps": 1000,
+  "parent_sha256": "c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23",
+  "all_prior_unsaved_updates_lost": true,
+  "prior_evidence": [
+    "CHAMPION7_RECOVERY01.audit",
+    "CHAMPION7_RECOVERY02.audit",
+    "CHAMPION7_RECOVERY03.audit"
+  ],
+  "search_nodes_unchanged": [
+    25000,
+    50000,
+    75000,
+    100000
+  ],
+  "cells": {
+    "a_continue": {
+      "gpu": 0,
+      "prior_state": {
+        "status": "safety_stop",
+        "gpu": 0,
+        "updated_utc": "2026-11-06T08:47:46.683219+00:00",
+        "reason": "GPU memory risk or external workload appeared",
+        "free_MiB": 38353,
+        "other_gpu_pids": [
+          2045435
+        ]
+      },
+      "initialization": "original trained500k parent; NOT resume of lost updates",
+      "effective_config_change_only": {
+        "training.recovery_checkpoint_interval_steps": 1000
+      },
+      "config_sha256": "c134c9cb3f8d31e193e44469be8bb88071a327fc274d63c108e201a5c79ee22a"
+    },
+    "b_si": {
+      "gpu": 1,
+      "prior_state": {
+        "status": "safety_stop",
+        "gpu": 1,
+        "updated_utc": "2026-11-06T08:47:46.702885+00:00",
+        "reason": "GPU memory risk or external workload appeared",
+        "free_MiB": 38057,
+        "other_gpu_pids": [
+          2047326
+        ]
+      },
+      "initialization": "original trained500k parent; NOT resume of lost updates",
+      "effective_config_change_only": {
+        "training.recovery_checkpoint_interval_steps": 1000
+      },
+      "config_sha256": "435300ceefbe6029cee0f5361e36fec1c80823a57c7617fff2c12a1baa5e891f"
+    },
+    "c_gan": {
+      "gpu": 2,
+      "prior_state": {
+        "status": "safety_stop",
+        "gpu": 2,
+        "updated_utc": "2026-11-06T08:47:46.645108+00:00",
+        "reason": "GPU memory risk or external workload appeared",
+        "free_MiB": 38057,
+        "other_gpu_pids": [
+          2047327
+        ]
+      },
+      "initialization": "original trained500k parent; NOT resume of lost updates",
+      "effective_config_change_only": {
+        "training.recovery_checkpoint_interval_steps": 1000
+      },
+      "config_sha256": "f2026cc43b9e19ea17ef4db92730237df52cc477810ece39afbf19b2043ac0ed"
+    },
+    "d_both": {
+      "gpu": 3,
+      "prior_state": {
+        "status": "safety_stop",
+        "gpu": 3,
+        "updated_utc": "2026-11-06T08:47:46.674178+00:00",
+        "reason": "GPU memory risk or external workload appeared",
+        "free_MiB": 38057,
+        "other_gpu_pids": [
+          2047328
+        ]
+      },
+      "initialization": "original trained500k parent; NOT resume of lost updates",
+      "effective_config_change_only": {
+        "training.recovery_checkpoint_interval_steps": 1000
+      },
+      "config_sha256": "f24497a546fc761ae85c7ec4f29b4a936d26813ae95d54337dab429c38c64589"
+    }
+  }
+}

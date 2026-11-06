@@ -11,4 +11,5 @@ training:
   warmup_steps: 1000
   data_order_seed: 20261106
   checkpoint_keep_last: 4
+  recovery_checkpoint_interval_steps: 1000
   output_dir: runs/champion7_a_continue

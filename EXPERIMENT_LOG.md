@@ -13482,11 +13482,11 @@ training:
 <!-- experiment:champion7_a_continue:start -->
 ## champion7_a_continue
 
-- Status: `planned`
-- Updated (UTC): `2026-11-06T09:00:39.249690+00:00`
-- Git commit: `c2b85c6629cb3e2269596f9a827dbaf51f897162`
+- Status: `running`
+- Updated (UTC): `2026-11-06T09:37:14.831808+00:00`
+- Git commit: `bf4230749aede1405bd47e5e025df48adfbdf985`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_a_continue`
-- Note: TRAINING STOPPED; awaiting user resource-policy choice, no live GPU waiter. Third attempt reached about1575 batches after600s idle then exclusive guard saw other PID, despite ample memory. No formal checkpoint: progress cannot resume. Preserve all3 attempt archives; CHAMPION7_RECOVERY03.audit. Parent trained500k SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23. Do not automatically retry or revert to sharing until user chooses. No change to model/batch/seed100k-stage/16 fixed200 search nodes; no new quality result.
+- Note: Exploratory learned-parent fine-tuning, NOT scratch; parent CHAMPION6 B500k score51.624336 SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23; inherit all codec/RVQ EMA/discriminator, reset optimizers; extra100k; select by fixed200 score among declared25k/50k/75k/100k, not reconstruction-best. Lineage runs/champion7_a_continue/lineage.json; CHAMPION7_SETUP.audit.
 
 ### Dataset
 
@@ -13644,11 +13644,11 @@ training:
 <!-- experiment:champion7_b_si:start -->
 ## champion7_b_si
 
-- Status: `planned`
-- Updated (UTC): `2026-11-06T09:00:39.747545+00:00`
-- Git commit: `c2b85c6629cb3e2269596f9a827dbaf51f897162`
+- Status: `running`
+- Updated (UTC): `2026-11-06T09:37:14.985580+00:00`
+- Git commit: `bf4230749aede1405bd47e5e025df48adfbdf985`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_b_si`
-- Note: TRAINING STOPPED; awaiting user resource-policy choice, no live GPU waiter. Third attempt reached about1575 batches after600s idle then exclusive guard saw other PID, despite ample memory. No formal checkpoint: progress cannot resume. Preserve all3 attempt archives; CHAMPION7_RECOVERY03.audit. Parent trained500k SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23. Do not automatically retry or revert to sharing until user chooses. No change to model/batch/seed100k-stage/16 fixed200 search nodes; no new quality result.
+- Note: Exploratory learned-parent fine-tuning, NOT scratch; parent CHAMPION6 B500k score51.624336 SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23; inherit all codec/RVQ EMA/discriminator, reset optimizers; extra100k; select by fixed200 score among declared25k/50k/75k/100k, not reconstruction-best. Lineage runs/champion7_b_si/lineage.json; CHAMPION7_SETUP.audit.
 
 ### Dataset
 
@@ -13806,11 +13806,11 @@ training:
 <!-- experiment:champion7_c_gan:start -->
 ## champion7_c_gan
 
-- Status: `planned`
-- Updated (UTC): `2026-11-06T09:00:40.115570+00:00`
-- Git commit: `c2b85c6629cb3e2269596f9a827dbaf51f897162`
+- Status: `running`
+- Updated (UTC): `2026-11-06T09:37:15.293537+00:00`
+- Git commit: `bf4230749aede1405bd47e5e025df48adfbdf985`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_c_gan`
-- Note: TRAINING STOPPED; awaiting user resource-policy choice, no live GPU waiter. Third attempt reached about1575 batches after600s idle then exclusive guard saw other PID, despite ample memory. No formal checkpoint: progress cannot resume. Preserve all3 attempt archives; CHAMPION7_RECOVERY03.audit. Parent trained500k SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23. Do not automatically retry or revert to sharing until user chooses. No change to model/batch/seed100k-stage/16 fixed200 search nodes; no new quality result.
+- Note: Exploratory learned-parent fine-tuning, NOT scratch; parent CHAMPION6 B500k score51.624336 SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23; inherit all codec/RVQ EMA/discriminator, reset optimizers; extra100k; select by fixed200 score among declared25k/50k/75k/100k, not reconstruction-best. Lineage runs/champion7_c_gan/lineage.json; CHAMPION7_SETUP.audit.
 
 ### Dataset
 
@@ -13968,11 +13968,11 @@ training:
 <!-- experiment:champion7_d_both:start -->
 ## champion7_d_both
 
-- Status: `planned`
-- Updated (UTC): `2026-11-06T09:00:40.532616+00:00`
-- Git commit: `c2b85c6629cb3e2269596f9a827dbaf51f897162`
+- Status: `running`
+- Updated (UTC): `2026-11-06T09:37:16.144163+00:00`
+- Git commit: `bf4230749aede1405bd47e5e025df48adfbdf985`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_d_both`
-- Note: TRAINING STOPPED; awaiting user resource-policy choice, no live GPU waiter. Third attempt reached about1575 batches after600s idle then exclusive guard saw other PID, despite ample memory. No formal checkpoint: progress cannot resume. Preserve all3 attempt archives; CHAMPION7_RECOVERY03.audit. Parent trained500k SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23. Do not automatically retry or revert to sharing until user chooses. No change to model/batch/seed100k-stage/16 fixed200 search nodes; no new quality result.
+- Note: Exploratory learned-parent fine-tuning, NOT scratch; parent CHAMPION6 B500k score51.624336 SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23; inherit all codec/RVQ EMA/discriminator, reset optimizers; extra100k; select by fixed200 score among declared25k/50k/75k/100k, not reconstruction-best. Lineage runs/champion7_d_both/lineage.json; CHAMPION7_SETUP.audit.
 
 ### Dataset
 
