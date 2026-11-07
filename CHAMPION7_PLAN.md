@@ -205,3 +205,21 @@ attempt04_shared_memory_guard保留原日志、metadata/config/lineage/恢复事
 不是强行计算重试，也不因其他PID而要求独占。达到启动线后runner只--resume各自last，
 不加载父模型/smoke；披露worker裁剪/RNG非逐bit重放，未保存末段更新丢弃。
 原batch/seed/loss/学习率与总预算、16评分节点、8GiB运行/10GiB磁盘保护全部不变。
+
+## 用户新指示：能放下就训练，取消运行中资源检测（2026-11-07）
+
+用户明确说“只要有空间就去训练……不用实时检测，断了再说”，覆盖此前20GiB启动
+和运行中每2秒8GiB显存/10GiB磁盘保护规则。现在仅启动前查询一次：GPUfree>=8192MiB
+（已有完整batch/fullGAN实测reserved6382MiB，另留约1810MiB）且磁盘>=10GiB，够就
+立即共享，不要求独占或稳定空闲窗口；不足时等待30秒重查。启动后child.wait()，
+不再实时查询GPU/磁盘、不因剩余显存下降或外部PID而主动终止；真实退出/OOM后再诊断，
+不做无限失败自动重试，不静默改batch或训练参数，绝不操作他人任务。默认旧模式不变，
+本批显式--allow-shared --launch-free-mib8192 --no-runtime-resource-poll。
+
+apply_champion7_resource_policy05.py仅替换当时4个无训练子进程的容量等待器，先冻结
+核查再正常结束自己的旧等待器，不中断任何健康训练；保存旧state/log/metadata/policy
+至resource_policy05_prelaunch_waiter及CHAMPION7_RESOURCE_POLICY05.audit。没有新增优化
+丢失，仍从RECOVERY04的A75000/B76000/C73000/D73000完整last恢复，原模型/两优化器/
+RVQ EMA不重置，1000步原子保存保留；不从父模型或smoke重开。未运行新增GPU测试。
+既有4个step评分节点、100k阶段总预算、seed/loss/data/学习率不变；worker裁剪/RNG
+恢复非逐bit一致如实披露。原同一监控同步更新，不再用旧阈值干预运行中的进程。

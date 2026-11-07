@@ -1,0 +1,74 @@
+{
+  "created_utc": "2026-11-07T03:51:47.942676+00:00",
+  "authorization": "User: \u6709\u7a7a\u95f4\u5c31\u8bad\u7ec3\uff0c\u4e0d\u7528\u5b9e\u65f6\u68c0\u6d4b\uff0c\u65ad\u4e86\u518d\u8bf4",
+  "launch_free_MiB": 8192,
+  "profile_reserved_peak_MiB": 6382,
+  "runtime_GPU_and_disk_resource_poll": false,
+  "no_proactive_8GiB_runtime_stop": true,
+  "disk_floor_prelaunch_GiB": 10,
+  "recovery_interval_steps": 1000,
+  "model_training_budget_unchanged": true,
+  "parent_sha256": "c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23",
+  "cells": {
+    "a_continue": {
+      "gpu": 0,
+      "old_waiter_pid": 2666160,
+      "no_training_child": true,
+      "archive": "runs/champion7_a_continue/attempts/resource_policy05_prelaunch_waiter",
+      "archive_sha256": {
+        "supervisor_state.json": "ff5effe42cf4c420852604d3242b2c9b491a92298ab38fbf5452b2f81bd786fe",
+        "supervisor.log": "a4d518f10cca91b36d8b0cfda76a099f1e669a34d72980e046b046cb27d8ed8b",
+        "run_metadata.json": "129a117574a1a57a2948bdd34e787414586437544befefb4558c5eb6af53077e",
+        "recovery_policy.json": "13ebe780502c53ddc8c44854d08dbe775a0f89165560a3a4d13a1e544823f30a"
+      },
+      "resume_step": 75000,
+      "resume_sha256": "bcc38a5cff550cb51ed34178f3e13ded7651104ebcee4322c87031b1895c5c56",
+      "no_extra_optimization_lost": true
+    },
+    "b_si": {
+      "gpu": 1,
+      "old_waiter_pid": 2666192,
+      "no_training_child": true,
+      "archive": "runs/champion7_b_si/attempts/resource_policy05_prelaunch_waiter",
+      "archive_sha256": {
+        "supervisor_state.json": "0a34ac48a5f7d74840f85799a7ea641628e45d929c953b6d76e162f45c271cf2",
+        "supervisor.log": "f4cf4672bda96f76637cda0d5db298391b2708879311475352044536e6762134",
+        "run_metadata.json": "aaf8b9977c15349d9fa39e951ed88d3412c8cec37fc646d3946616048c235b13",
+        "recovery_policy.json": "21bfd4dec5e6fcb61a2a38c92d22343ee0fb93ea73619481bedb329407219662"
+      },
+      "resume_step": 76000,
+      "resume_sha256": "f83cad40c1ffffceadc6707c3da71ee1683d2ff0f8146721d1f0f4a24dd12b89",
+      "no_extra_optimization_lost": true
+    },
+    "c_gan": {
+      "gpu": 2,
+      "old_waiter_pid": 2666223,
+      "no_training_child": true,
+      "archive": "runs/champion7_c_gan/attempts/resource_policy05_prelaunch_waiter",
+      "archive_sha256": {
+        "supervisor_state.json": "d7cb3f1877b9624d978e313f5c13240859af16c72ac859cd679e03f73598c66c",
+        "supervisor.log": "6fa472c8a9fb77f960f4e02ef04df2f021058bebb95e1c4b9b5c2892d8443862",
+        "run_metadata.json": "a0b201797f3e7c0b97852c4cc91bef64da9268dd0e5877e1f7c51a21e8828ad6",
+        "recovery_policy.json": "190f681a9841e334a0ede74fd090f0b780822bceb7bbf3eb0f35a29ae079bff7"
+      },
+      "resume_step": 73000,
+      "resume_sha256": "ddba139ee2bc01395fed8ece67a0a1484c20877b1e2ed38f2c3165863308bc9d",
+      "no_extra_optimization_lost": true
+    },
+    "d_both": {
+      "gpu": 3,
+      "old_waiter_pid": 2666260,
+      "no_training_child": true,
+      "archive": "runs/champion7_d_both/attempts/resource_policy05_prelaunch_waiter",
+      "archive_sha256": {
+        "supervisor_state.json": "11c9c8add1d540de9d9caf88cab9a1fe44fecca456a78f6d27f016aa9245f2aa",
+        "supervisor.log": "c4f20fa29bf246e5277fb1455f01164605289dc7258c9dcdee0161022052eda9",
+        "run_metadata.json": "7c5a9d8d51b94f36806fe0e0ed48ce84dd0f8e967dcde8554a1025b6e7d0fc6e",
+        "recovery_policy.json": "0212029c4621d1092a3ff08835c42af4db63a9afdd3cee912f0f1a09a2cae122"
+      },
+      "resume_step": 73000,
+      "resume_sha256": "2245c00560faf6b28f1d2d3f9396069fe205b233749b4bbe18324f0ff4cea842",
+      "no_extra_optimization_lost": true
+    }
+  }
+}

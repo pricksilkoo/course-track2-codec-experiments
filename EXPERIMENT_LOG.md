@@ -13482,14 +13482,11 @@ training:
 <!-- experiment:champion7_a_continue:start -->
 ## champion7_a_continue
 
-- Status: `planned`
-- Updated (UTC): `2026-11-07T03:16:29.701197+00:00`
-- Git commit: `bf8778df8e8afaeb963d8b22d72a36a77a8bc788`
+- Status: `running`
+- Updated (UTC): `2026-11-07T03:51:53.159651+00:00`
+- Git commit: `b1ab12dc235bcb997922788278000e5d22ec8f3e`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_a_continue`
-- Note: Diagnosed shared memory guard17:07UTC. Retained genuine last local75000 SHA256 bcc38a5cff550cb51ed34178f3e13ded7651104ebcee4322c87031b1895c5c56; will RESUME it, not original parent/smoke. Wait>=20GiB capacity with user-authorized sharing,8GiB floor. Complete G/D optimizers/EMA preserved; worker/crop/RNG replay non-bitwise. CHAMPION7_RECOVERY04.audit, immutable attempt04 archive. Same100k total stage/16 declared score nodes; no new tests or blind launch.
-- Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_a_continue/checkpoints/last.pt`
-- Checkpoint SHA-256: `bcc38a5cff550cb51ed34178f3e13ded7651104ebcee4322c87031b1895c5c56`
-- Selected checkpoint global step: `75000`
+- Note: Exploratory learned-parent fine-tuning, NOT scratch; parent CHAMPION6 B500k score51.624336 SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23; inherit all codec/RVQ EMA/discriminator, reset optimizers; extra100k; select by fixed200 score among declared25k/50k/75k/100k, not reconstruction-best. Lineage runs/champion7_a_continue/lineage.json; CHAMPION7_SETUP.audit.
 
 ### Dataset
 
@@ -13660,14 +13657,11 @@ training:
 <!-- experiment:champion7_b_si:start -->
 ## champion7_b_si
 
-- Status: `planned`
-- Updated (UTC): `2026-11-07T03:16:35.794970+00:00`
-- Git commit: `bf8778df8e8afaeb963d8b22d72a36a77a8bc788`
+- Status: `running`
+- Updated (UTC): `2026-11-07T03:51:55.348783+00:00`
+- Git commit: `b1ab12dc235bcb997922788278000e5d22ec8f3e`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_b_si`
-- Note: Diagnosed shared memory guard17:07UTC. Retained genuine last local76000 SHA256 f83cad40c1ffffceadc6707c3da71ee1683d2ff0f8146721d1f0f4a24dd12b89; will RESUME it, not original parent/smoke. Wait>=20GiB capacity with user-authorized sharing,8GiB floor. Complete G/D optimizers/EMA preserved; worker/crop/RNG replay non-bitwise. CHAMPION7_RECOVERY04.audit, immutable attempt04 archive. Same100k total stage/16 declared score nodes; no new tests or blind launch.
-- Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_b_si/checkpoints/last.pt`
-- Checkpoint SHA-256: `f83cad40c1ffffceadc6707c3da71ee1683d2ff0f8146721d1f0f4a24dd12b89`
-- Selected checkpoint global step: `76000`
+- Note: Exploratory learned-parent fine-tuning, NOT scratch; parent CHAMPION6 B500k score51.624336 SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23; inherit all codec/RVQ EMA/discriminator, reset optimizers; extra100k; select by fixed200 score among declared25k/50k/75k/100k, not reconstruction-best. Lineage runs/champion7_b_si/lineage.json; CHAMPION7_SETUP.audit.
 
 ### Dataset
 
@@ -13838,14 +13832,11 @@ training:
 <!-- experiment:champion7_c_gan:start -->
 ## champion7_c_gan
 
-- Status: `planned`
-- Updated (UTC): `2026-11-07T03:16:37.948161+00:00`
-- Git commit: `bf8778df8e8afaeb963d8b22d72a36a77a8bc788`
+- Status: `running`
+- Updated (UTC): `2026-11-07T03:51:57.585954+00:00`
+- Git commit: `b1ab12dc235bcb997922788278000e5d22ec8f3e`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_c_gan`
-- Note: Diagnosed shared memory guard17:07UTC. Retained genuine last local73000 SHA256 ddba139ee2bc01395fed8ece67a0a1484c20877b1e2ed38f2c3165863308bc9d; will RESUME it, not original parent/smoke. Wait>=20GiB capacity with user-authorized sharing,8GiB floor. Complete G/D optimizers/EMA preserved; worker/crop/RNG replay non-bitwise. CHAMPION7_RECOVERY04.audit, immutable attempt04 archive. Same100k total stage/16 declared score nodes; no new tests or blind launch.
-- Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_c_gan/checkpoints/last.pt`
-- Checkpoint SHA-256: `ddba139ee2bc01395fed8ece67a0a1484c20877b1e2ed38f2c3165863308bc9d`
-- Selected checkpoint global step: `73000`
+- Note: Exploratory learned-parent fine-tuning, NOT scratch; parent CHAMPION6 B500k score51.624336 SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23; inherit all codec/RVQ EMA/discriminator, reset optimizers; extra100k; select by fixed200 score among declared25k/50k/75k/100k, not reconstruction-best. Lineage runs/champion7_c_gan/lineage.json; CHAMPION7_SETUP.audit.
 
 ### Dataset
 
@@ -14016,14 +14007,11 @@ training:
 <!-- experiment:champion7_d_both:start -->
 ## champion7_d_both
 
-- Status: `planned`
-- Updated (UTC): `2026-11-07T03:16:40.094849+00:00`
-- Git commit: `bf8778df8e8afaeb963d8b22d72a36a77a8bc788`
+- Status: `running`
+- Updated (UTC): `2026-11-07T03:51:57.984666+00:00`
+- Git commit: `b1ab12dc235bcb997922788278000e5d22ec8f3e`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_d_both`
-- Note: Diagnosed shared memory guard17:07UTC. Retained genuine last local73000 SHA256 2245c00560faf6b28f1d2d3f9396069fe205b233749b4bbe18324f0ff4cea842; will RESUME it, not original parent/smoke. Wait>=20GiB capacity with user-authorized sharing,8GiB floor. Complete G/D optimizers/EMA preserved; worker/crop/RNG replay non-bitwise. CHAMPION7_RECOVERY04.audit, immutable attempt04 archive. Same100k total stage/16 declared score nodes; no new tests or blind launch.
-- Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_d_both/checkpoints/last.pt`
-- Checkpoint SHA-256: `2245c00560faf6b28f1d2d3f9396069fe205b233749b4bbe18324f0ff4cea842`
-- Selected checkpoint global step: `73000`
+- Note: Exploratory learned-parent fine-tuning, NOT scratch; parent CHAMPION6 B500k score51.624336 SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23; inherit all codec/RVQ EMA/discriminator, reset optimizers; extra100k; select by fixed200 score among declared25k/50k/75k/100k, not reconstruction-best. Lineage runs/champion7_d_both/lineage.json; CHAMPION7_SETUP.audit.
 
 ### Dataset
 

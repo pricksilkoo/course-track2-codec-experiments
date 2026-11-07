@@ -25,8 +25,8 @@ class CapacityWindow:
     def __init__(self):
         self.since = None
 
-    def ready(self, now, free_MiB, pids, allow_shared=False):
-        if free_MiB < 20480 or (pids and not allow_shared):
+    def ready(self, now, free_MiB, pids, allow_shared=False, minimum_free_MiB=20480):
+        if free_MiB < minimum_free_MiB or (pids and not allow_shared):
             self.since = None
             return False
         if self.since is None:
@@ -63,10 +63,17 @@ def main() -> None:
     parser.add_argument("--steps", type=int, default=100000)
     parser.add_argument("--poll-seconds", type=int, default=30)
     parser.add_argument("--allow-shared", action="store_true")
+    parser.add_argument("--launch-free-mib", type=int, default=20480)
+    parser.add_argument("--no-runtime-resource-poll", action="store_true",
+                        help="Explicit opt-in: only check resources before launch, then wait for exit")
     args = parser.parse_args()
     allowed = {"champion7_a_continue", "champion7_b_si", "champion7_c_gan", "champion7_d_both"}
     if args.run not in allowed or args.gpu not in range(4) or args.steps != 100000:
         raise ValueError("supervisor is restricted to the registered study")
+    if args.launch_free_mib < 8192:
+        raise ValueError("Launch must cover the measured6382MiB peak with headroom")
+    if args.no_runtime_resource_poll and not args.allow_shared:
+        raise ValueError("No-runtime-poll mode requires explicitly authorized sharing")
     run = ROOT / "runs" / args.run
     run.mkdir(parents=True, exist_ok=True)
     lock = (run / ".supervisor.lock").open("w")
@@ -101,22 +108,34 @@ def main() -> None:
             record("safety_stop", reason="/storage1 below 10 GiB; no launch")
             return
         total, free, pids = gpu_state(args.gpu)
-        if not capacity_window.ready(time.monotonic(), free, pids, args.allow_shared):
-            blocked = (pids and not args.allow_shared) or free < 20480
+        capacity_ok = free >= args.launch_free_mib and (args.allow_shared or not pids)
+        if not args.no_runtime_resource_poll:
+            capacity_ok = capacity_window.ready(time.monotonic(), free, pids, args.allow_shared,
+                                                minimum_free_MiB=args.launch_free_mib)
+        if not capacity_ok:
+            blocked = (pids and not args.allow_shared) or free < args.launch_free_mib
             status = "waiting_for_gpu_capacity" if blocked else "waiting_for_stable_idle"
             if previous_status != status:
                 record(status, other_gpu_pids=pids, free_MiB=free,
                        sharing_authorized=args.allow_shared,
-                       required_stable_idle_seconds=5 if args.allow_shared else 600)
+                       launch_free_MiB=args.launch_free_mib,
+                       runtime_resource_poll=not args.no_runtime_resource_poll,
+                       required_stable_idle_seconds=0 if args.no_runtime_resource_poll else (5 if args.allow_shared else 600))
             previous_status = status
             time.sleep(min(30, args.poll_seconds))
             continue
         command = [str(ROOT / ".venv-codec/bin/python"), "scripts/run_champion7_experiment.py", args.run,
                    str(args.gpu), args.config, str(args.steps)]
         record("running", command=command, free_MiB=free,
-               sharing_authorized=args.allow_shared, existing_gpu_pids=pids)
+               sharing_authorized=args.allow_shared, existing_gpu_pids=pids,
+               launch_free_MiB=args.launch_free_mib,
+               runtime_resource_poll=not args.no_runtime_resource_poll)
         child = subprocess.Popen(command, cwd=ROOT, start_new_session=True,
                                  env={**os.environ, "PYTHONUNBUFFERED": "1", "OMP_NUM_THREADS": "4"})
+        if args.no_runtime_resource_poll:
+            # User-authorized mode: no GPU/disk sampling or proactive resource stop.
+            # Keep the run/group lock, signal handling, and normal exit diagnostics.
+            child.wait()
         while child.poll() is None:
             time.sleep(min(2, args.poll_seconds))
             if child.poll() is not None:

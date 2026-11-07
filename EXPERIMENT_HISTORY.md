@@ -631,3 +631,14 @@ A/B retain3 validations, C/D2. Immutable attempt04 logs/config/metadata/checkpoi
 SHA audit CHAMPION7_RECOVERY04.audit. Capacity waiters shared>=20GiB (currently8–12GiB),
 no forced launch or new GPU tests. Budget100k total and16 search nodes unchanged; disclose
 discarded unsaved updates and non-bitwise worker/crop/RNG replay. No automatic next batch.
+
+### CHAMPION7 user resource policy05: prelaunch capacity only, no runtime polling
+
+User explicitly requested run whenever it fits, no realtime resource detection; handle actual
+failure afterwards. Overrides20GiB launch and8GiB runtime stop: opt-in launch>=8192MiB,
+profile6382MiB+1810MiB headroom, prelaunch disk>=10GiB, no runtime GPU/disk queries or
+proactive resource stop. Shared flag retained. Only four no-training-child waiters replaced;
+report CHAMPION7_RESOURCE_POLICY05.audit, original waiter evidence archived. Resume genuine
+A75000/B76000/C73000/D73000 last, no optimizer/model/EMA reset or new lost progress.1000-step
+recovery retained; no new GPU tests. Defaults unchanged outside explicit opt-in. Same100k
+budget/16 dev search nodes; actual failure gets diagnosis, not an infinite blind retry loop.
