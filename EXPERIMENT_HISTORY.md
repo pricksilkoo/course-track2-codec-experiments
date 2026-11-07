@@ -642,3 +642,24 @@ report CHAMPION7_RESOURCE_POLICY05.audit, original waiter evidence archived. Res
 A75000/B76000/C73000/D73000 last, no optimizer/model/EMA reset or new lost progress.1000-step
 recovery retained; no new GPU tests. Defaults unchanged outside explicit opt-in. Same100k
 budget/16 dev search nodes; actual failure gets diagnosis, not an infinite blind retry loop.
+
+## CHAMPION7 complete — no improvement, keep51.624336 parent (2026-11-07)
+
+All4 cells completed exactly100000 additional local steps,4 actual25k validations each,
+16 declared fixed200 score-search weights and16 node+4 main COMPLETE experiment records.
+Selected A100k51.52590320119037 (-0.09843293744895), B100k51.53128750969333
+(-0.09304862894599), C75k50.24617303487055 (-1.37816310376877),
+D100k50.00145192175998 (-1.62288421687934), all versus unchanged parent51.62433613863932.
+All16 score/component rows and regressions appear in CHAMPION7_RESULTS.md/.audit.
+SI emphasis gained B SI-SNR+0.31057453dB but lost PESQ/ESTOI/UTMOS; GAN.10 cells worse.
+No successful score gain, no automatic continuation/promotion; retain parent and close batch.
+
+Read-only final evidence audit independently recomputed CSV score aggregation, checked all16
+checkpoint SHA/config/step, real200-file audio+byte roundtrips (16197971samples/101286frames/
+303858bytes each), finite decoded audio/original lengths,4 selected full-path RVQ diagnostics,
+20 complete records and frozen v2/parent hashes.1868064params,666.3072total/257.632decoder
+MFLOP/s,2400bps,30ms,unclassified0. No new GPU tests/evaluation or sealed access.
+Initial scratch-free trained-parent lineage and all discarded attempts/recovery04 saved steps,
+non-bitwise worker/crop/RNG replay and latest no-runtime-resource-poll policy05 are disclosed.
+All checkpoints/archives retained; no pruning. Full results and self-contained Chinese review
+pushed main; this batch monitor deleted after archival. Next experiment requires user approval.
