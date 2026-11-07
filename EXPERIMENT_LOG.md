@@ -13482,11 +13482,14 @@ training:
 <!-- experiment:champion7_a_continue:start -->
 ## champion7_a_continue
 
-- Status: `running`
-- Updated (UTC): `2026-11-06T09:37:14.831808+00:00`
-- Git commit: `bf4230749aede1405bd47e5e025df48adfbdf985`
+- Status: `planned`
+- Updated (UTC): `2026-11-07T03:16:29.701197+00:00`
+- Git commit: `bf8778df8e8afaeb963d8b22d72a36a77a8bc788`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_a_continue`
-- Note: Exploratory learned-parent fine-tuning, NOT scratch; parent CHAMPION6 B500k score51.624336 SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23; inherit all codec/RVQ EMA/discriminator, reset optimizers; extra100k; select by fixed200 score among declared25k/50k/75k/100k, not reconstruction-best. Lineage runs/champion7_a_continue/lineage.json; CHAMPION7_SETUP.audit.
+- Note: Diagnosed shared memory guard17:07UTC. Retained genuine last local75000 SHA256 bcc38a5cff550cb51ed34178f3e13ded7651104ebcee4322c87031b1895c5c56; will RESUME it, not original parent/smoke. Wait>=20GiB capacity with user-authorized sharing,8GiB floor. Complete G/D optimizers/EMA preserved; worker/crop/RNG replay non-bitwise. CHAMPION7_RECOVERY04.audit, immutable attempt04 archive. Same100k total stage/16 declared score nodes; no new tests or blind launch.
+- Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_a_continue/checkpoints/last.pt`
+- Checkpoint SHA-256: `bcc38a5cff550cb51ed34178f3e13ded7651104ebcee4322c87031b1895c5c56`
+- Selected checkpoint global step: `75000`
 
 ### Dataset
 
@@ -13498,6 +13501,18 @@ training:
 | VCTK validation files | 4247 |
 | LibriTTS training files | 354780 |
 | LibriTTS validation files | 10349 |
+
+### Last training validation
+
+| Item | Value |
+|---|---:|
+| Epoch | 7 |
+| Global step | 75000 |
+| Train loss | 0.459786 |
+| Reconstruction loss | 0.126389 |
+| Waveform L1 | 0.013088 |
+| Spectral loss | 0.113300 |
+| Commitment loss | 0.078256 |
 
 ### Submission constraints
 
@@ -13637,6 +13652,7 @@ training:
   data_order_seed: 20261106
   reset_rng_after_init: true
   fail_on_nonfinite: true
+  recovery_checkpoint_interval_steps: 1000
 ```
 
 <!-- experiment:champion7_a_continue:end -->
@@ -13644,11 +13660,14 @@ training:
 <!-- experiment:champion7_b_si:start -->
 ## champion7_b_si
 
-- Status: `running`
-- Updated (UTC): `2026-11-06T09:37:14.985580+00:00`
-- Git commit: `bf4230749aede1405bd47e5e025df48adfbdf985`
+- Status: `planned`
+- Updated (UTC): `2026-11-07T03:16:35.794970+00:00`
+- Git commit: `bf8778df8e8afaeb963d8b22d72a36a77a8bc788`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_b_si`
-- Note: Exploratory learned-parent fine-tuning, NOT scratch; parent CHAMPION6 B500k score51.624336 SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23; inherit all codec/RVQ EMA/discriminator, reset optimizers; extra100k; select by fixed200 score among declared25k/50k/75k/100k, not reconstruction-best. Lineage runs/champion7_b_si/lineage.json; CHAMPION7_SETUP.audit.
+- Note: Diagnosed shared memory guard17:07UTC. Retained genuine last local76000 SHA256 f83cad40c1ffffceadc6707c3da71ee1683d2ff0f8146721d1f0f4a24dd12b89; will RESUME it, not original parent/smoke. Wait>=20GiB capacity with user-authorized sharing,8GiB floor. Complete G/D optimizers/EMA preserved; worker/crop/RNG replay non-bitwise. CHAMPION7_RECOVERY04.audit, immutable attempt04 archive. Same100k total stage/16 declared score nodes; no new tests or blind launch.
+- Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_b_si/checkpoints/last.pt`
+- Checkpoint SHA-256: `f83cad40c1ffffceadc6707c3da71ee1683d2ff0f8146721d1f0f4a24dd12b89`
+- Selected checkpoint global step: `76000`
 
 ### Dataset
 
@@ -13660,6 +13679,18 @@ training:
 | VCTK validation files | 4247 |
 | LibriTTS training files | 354780 |
 | LibriTTS validation files | 10349 |
+
+### Last training validation
+
+| Item | Value |
+|---|---:|
+| Epoch | 7 |
+| Global step | 75000 |
+| Train loss | 0.445080 |
+| Reconstruction loss | 0.126557 |
+| Waveform L1 | 0.012822 |
+| Spectral loss | 0.113734 |
+| Commitment loss | 0.101140 |
 
 ### Submission constraints
 
@@ -13799,6 +13830,7 @@ training:
   data_order_seed: 20261106
   reset_rng_after_init: true
   fail_on_nonfinite: true
+  recovery_checkpoint_interval_steps: 1000
 ```
 
 <!-- experiment:champion7_b_si:end -->
@@ -13806,11 +13838,14 @@ training:
 <!-- experiment:champion7_c_gan:start -->
 ## champion7_c_gan
 
-- Status: `running`
-- Updated (UTC): `2026-11-06T09:37:15.293537+00:00`
-- Git commit: `bf4230749aede1405bd47e5e025df48adfbdf985`
+- Status: `planned`
+- Updated (UTC): `2026-11-07T03:16:37.948161+00:00`
+- Git commit: `bf8778df8e8afaeb963d8b22d72a36a77a8bc788`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_c_gan`
-- Note: Exploratory learned-parent fine-tuning, NOT scratch; parent CHAMPION6 B500k score51.624336 SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23; inherit all codec/RVQ EMA/discriminator, reset optimizers; extra100k; select by fixed200 score among declared25k/50k/75k/100k, not reconstruction-best. Lineage runs/champion7_c_gan/lineage.json; CHAMPION7_SETUP.audit.
+- Note: Diagnosed shared memory guard17:07UTC. Retained genuine last local73000 SHA256 ddba139ee2bc01395fed8ece67a0a1484c20877b1e2ed38f2c3165863308bc9d; will RESUME it, not original parent/smoke. Wait>=20GiB capacity with user-authorized sharing,8GiB floor. Complete G/D optimizers/EMA preserved; worker/crop/RNG replay non-bitwise. CHAMPION7_RECOVERY04.audit, immutable attempt04 archive. Same100k total stage/16 declared score nodes; no new tests or blind launch.
+- Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_c_gan/checkpoints/last.pt`
+- Checkpoint SHA-256: `ddba139ee2bc01395fed8ece67a0a1484c20877b1e2ed38f2c3165863308bc9d`
+- Selected checkpoint global step: `73000`
 
 ### Dataset
 
@@ -13822,6 +13857,18 @@ training:
 | VCTK validation files | 4247 |
 | LibriTTS training files | 354780 |
 | LibriTTS validation files | 10349 |
+
+### Last training validation
+
+| Item | Value |
+|---|---:|
+| Epoch | 5 |
+| Global step | 50000 |
+| Train loss | 0.470648 |
+| Reconstruction loss | 0.129807 |
+| Waveform L1 | 0.013451 |
+| Spectral loss | 0.116356 |
+| Commitment loss | 0.074844 |
 
 ### Submission constraints
 
@@ -13961,6 +14008,7 @@ training:
   data_order_seed: 20261106
   reset_rng_after_init: true
   fail_on_nonfinite: true
+  recovery_checkpoint_interval_steps: 1000
 ```
 
 <!-- experiment:champion7_c_gan:end -->
@@ -13968,11 +14016,14 @@ training:
 <!-- experiment:champion7_d_both:start -->
 ## champion7_d_both
 
-- Status: `running`
-- Updated (UTC): `2026-11-06T09:37:16.144163+00:00`
-- Git commit: `bf4230749aede1405bd47e5e025df48adfbdf985`
+- Status: `planned`
+- Updated (UTC): `2026-11-07T03:16:40.094849+00:00`
+- Git commit: `bf8778df8e8afaeb963d8b22d72a36a77a8bc788`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_d_both`
-- Note: Exploratory learned-parent fine-tuning, NOT scratch; parent CHAMPION6 B500k score51.624336 SHA256 c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23; inherit all codec/RVQ EMA/discriminator, reset optimizers; extra100k; select by fixed200 score among declared25k/50k/75k/100k, not reconstruction-best. Lineage runs/champion7_d_both/lineage.json; CHAMPION7_SETUP.audit.
+- Note: Diagnosed shared memory guard17:07UTC. Retained genuine last local73000 SHA256 2245c00560faf6b28f1d2d3f9396069fe205b233749b4bbe18324f0ff4cea842; will RESUME it, not original parent/smoke. Wait>=20GiB capacity with user-authorized sharing,8GiB floor. Complete G/D optimizers/EMA preserved; worker/crop/RNG replay non-bitwise. CHAMPION7_RECOVERY04.audit, immutable attempt04 archive. Same100k total stage/16 declared score nodes; no new tests or blind launch.
+- Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_d_both/checkpoints/last.pt`
+- Checkpoint SHA-256: `2245c00560faf6b28f1d2d3f9396069fe205b233749b4bbe18324f0ff4cea842`
+- Selected checkpoint global step: `73000`
 
 ### Dataset
 
@@ -13984,6 +14035,18 @@ training:
 | VCTK validation files | 4247 |
 | LibriTTS training files | 354780 |
 | LibriTTS validation files | 10349 |
+
+### Last training validation
+
+| Item | Value |
+|---|---:|
+| Epoch | 5 |
+| Global step | 50000 |
+| Train loss | 0.456522 |
+| Reconstruction loss | 0.129084 |
+| Waveform L1 | 0.013040 |
+| Spectral loss | 0.116044 |
+| Commitment loss | 0.097029 |
 
 ### Submission constraints
 
@@ -14123,6 +14186,7 @@ training:
   data_order_seed: 20261106
   reset_rng_after_init: true
   fail_on_nonfinite: true
+  recovery_checkpoint_interval_steps: 1000
 ```
 
 <!-- experiment:champion7_d_both:end -->

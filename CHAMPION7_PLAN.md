@@ -188,3 +188,20 @@ fsync后原子替换，写入中断仍保留上一份完整last。恢复日志�
 按新授权在原tmux重启，--allow-shared、1000步恢复保存；旧archives不动。新启动没有
 正式last可续，所以仍从原训练过500k父模型开始。原监控已替换为一致的共享规则，
 不会再因外部PID自动独占停机；非零失败仍须诊断后只恢复受影响组。
+
+## 第四次资源保护：真正断点恢复（2026-11-07北京时间01:07）
+
+共享运行到局部约73k–76k时，外部多卡任务显存上涨，GPU0 free4600MiB，GPU1–3
+free2561MiB，实际低于8GiB；四组只停止本组私有进程组。这次不是外部PID出现即
+独占停机。末段日志未见OOM/Traceback/nonfinite；已有1000步恢复机制起效。
+保留的last分别A75000（真实验证点）、B76000、C73000、D73000；保留模型/RVQ EMA、
+两个优化器及epoch/batch/global_step。不能把恢复称为从父模型重开或新增100k预算。
+A/B已有25k/50k/75k验证与快照，C/D已有25k/50k；评分仍等训练100k后进行。
+
+CHAMPION7_RECOVERY04.audit记录原停机、checkpoint SHA和实际验证；各run/attempts/
+attempt04_shared_memory_guard保留原日志、metadata/config/lineage/恢复事件/metrics及
+该次完整last副本（有SHA），旧attempt01–03不动。只核对断点完整性，不新增GPU测试。
+当前free约8–12GiB，低于20GiB启动线；同一tmux建立共享容量等待器，--allow-shared，
+不是强行计算重试，也不因其他PID而要求独占。达到启动线后runner只--resume各自last，
+不加载父模型/smoke；披露worker裁剪/RNG非逐bit重放，未保存末段更新丢弃。
+原batch/seed/loss/学习率与总预算、16评分节点、8GiB运行/10GiB磁盘保护全部不变。

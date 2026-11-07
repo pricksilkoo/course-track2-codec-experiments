@@ -1,0 +1,195 @@
+{
+  "created_utc": "2026-11-07T03:16:25.666153+00:00",
+  "cause": "2026-11-06T17:07:51-53Z external task memory surge caused GPUfree4600/2561MiB, below8192MiB guard",
+  "not_an_exclusive_pid_stop": true,
+  "policy": "user-authorized shared capacity waiting;>=20GiB launch,8GiB runtime,disk10GiB; no forced launch while current free8-12GiB",
+  "no_blind_oom_retry": true,
+  "parent_sha256": "c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23",
+  "resume_not_parent_restart": true,
+  "worker_crop_rng_replay_bitwise": false,
+  "model_loss_seed_batch_budget_search_unchanged": true,
+  "new_gpu_tests": false,
+  "cells": {
+    "a_continue": {
+      "gpu": 0,
+      "prior_state": {
+        "status": "safety_stop",
+        "gpu": 0,
+        "updated_utc": "2026-11-06T17:07:53.586105+00:00",
+        "reason": "GPU memory risk or external workload appeared",
+        "free_MiB": 4600,
+        "other_gpu_pids": [
+          2220674,
+          2259027
+        ]
+      },
+      "archive": "runs/champion7_a_continue/attempts/attempt04_shared_memory_guard",
+      "archive_sha256": {
+        "supervisor_state.json": "ccad756aa0fd6157b0fcd540f323eb72312257e737a4729cb04c1c9202b30416",
+        "supervisor.log": "aa212cd5e05369517e68a154dbdb8a4ba16ff7d0e1d2acabc1af5177035fda8d",
+        "pipeline.log": "e984053f10800eb50946f5f979bb834857b2505d10f65268e6a418634bd16b3f",
+        "run_metadata.json": "129a117574a1a57a2948bdd34e787414586437544befefb4558c5eb6af53077e",
+        "effective_config.yaml": "217fbb6c12e454d6a65bf225fd112fb762d8e68cb46e9ceb0ff8db5cfcf18ff7",
+        "lineage.json": "6ad74ea2d595b4e56c4d2ae7fdbb21aa72004638277a8b3c45a932066fe99a84",
+        "recovery_policy.json": "13ebe780502c53ddc8c44854d08dbe775a0f89165560a3a4d13a1e544823f30a",
+        "recovery_checkpoints.jsonl": "7429a68b7e0a60dc9c3ddee1d613a4d6fc3adcabd0dcb8ea36be8bfa9e42339e",
+        "metrics.jsonl": "cf5fcdbb8c325c42ec0fdf168375cb1dd3a76bf503c62b5627313544354ac012"
+      },
+      "resume_checkpoint": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_a_continue/checkpoints/last.pt",
+      "resume_checkpoint_sha256": "bcc38a5cff550cb51ed34178f3e13ded7651104ebcee4322c87031b1895c5c56",
+      "archived_checkpoint_sha256": "bcc38a5cff550cb51ed34178f3e13ded7651104ebcee4322c87031b1895c5c56",
+      "resume_global_step": 75000,
+      "resume_cumulative_parent_step": 575000,
+      "checkpoint_kind": "validated",
+      "epoch": 7,
+      "batch_in_epoch": 942,
+      "complete_optimizer_and_ema_state_verified_finite": true,
+      "last_visible_step_approx": 75376,
+      "unsaved_visible_updates_discarded_approx": 376,
+      "actual_validation_steps": [
+        25000,
+        50000,
+        75000
+      ],
+      "existing_step_snapshots_sha256": {
+        "step_00025000.pt": "68483342fdc2c4d4a036b36920d49900dcb2832d092610023508b894805203de",
+        "step_00050000.pt": "1076e462239a8984438e0b21ba38c9d9cf0ebc2e924a42802bbabb84272acac8",
+        "step_00075000.pt": "d08b19e36f5a9ed7661fad466f577eba64bad28b3eef73a3b5da8c04254337e7"
+      }
+    },
+    "b_si": {
+      "gpu": 1,
+      "prior_state": {
+        "status": "safety_stop",
+        "gpu": 1,
+        "updated_utc": "2026-11-06T17:07:51.311821+00:00",
+        "reason": "GPU memory risk or external workload appeared",
+        "free_MiB": 2561,
+        "other_gpu_pids": [
+          2220674
+        ]
+      },
+      "archive": "runs/champion7_b_si/attempts/attempt04_shared_memory_guard",
+      "archive_sha256": {
+        "supervisor_state.json": "fbabad51bdbcbcb0eb9d63a24ed1ad1855ac06eb5b4f0383a1c3031503c9a11a",
+        "supervisor.log": "73df1c08f670e493601627c85bdfefca319450b8af631d6143ef780156d6591d",
+        "pipeline.log": "3b9b22e5a9c8162e265cfc85f9c75e7bbc3c4732f0a18965efe573f36591a2b9",
+        "run_metadata.json": "aaf8b9977c15349d9fa39e951ed88d3412c8cec37fc646d3946616048c235b13",
+        "effective_config.yaml": "006d8aed15cd035522f13cf2cb66d34d3c5a33bb071008f6b8f53df8e25885db",
+        "lineage.json": "6ad74ea2d595b4e56c4d2ae7fdbb21aa72004638277a8b3c45a932066fe99a84",
+        "recovery_policy.json": "21bfd4dec5e6fcb61a2a38c92d22343ee0fb93ea73619481bedb329407219662",
+        "recovery_checkpoints.jsonl": "7e035172c60ae0a61124f78ffda06d5180a70c4ea3c8885abaa78c4e5b441af9",
+        "metrics.jsonl": "dccb473e22007bbf540dfd19188f6a769b632dc9e439f7f22b847b4150729050"
+      },
+      "resume_checkpoint": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_b_si/checkpoints/last.pt",
+      "resume_checkpoint_sha256": "f83cad40c1ffffceadc6707c3da71ee1683d2ff0f8146721d1f0f4a24dd12b89",
+      "archived_checkpoint_sha256": "f83cad40c1ffffceadc6707c3da71ee1683d2ff0f8146721d1f0f4a24dd12b89",
+      "resume_global_step": 76000,
+      "resume_cumulative_parent_step": 576000,
+      "checkpoint_kind": "recovery_only",
+      "epoch": 7,
+      "batch_in_epoch": 1942,
+      "complete_optimizer_and_ema_state_verified_finite": true,
+      "last_visible_step_approx": 76228,
+      "unsaved_visible_updates_discarded_approx": 228,
+      "actual_validation_steps": [
+        25000,
+        50000,
+        75000
+      ],
+      "existing_step_snapshots_sha256": {
+        "step_00025000.pt": "42e906f38290e62ef3b56a6ca44ed52a11acab2bc3e3ca490a9c5ea2781a5986",
+        "step_00050000.pt": "5ea5347b6a769e427de6c62008d15a0a54be4a0b2de8530c793f43066dc3134d",
+        "step_00075000.pt": "8a5e142c4ab94f1a087a9f4863eba9c172c277909a4298976dd2b9485e4649c9"
+      }
+    },
+    "c_gan": {
+      "gpu": 2,
+      "prior_state": {
+        "status": "safety_stop",
+        "gpu": 2,
+        "updated_utc": "2026-11-06T17:07:51.441540+00:00",
+        "reason": "GPU memory risk or external workload appeared",
+        "free_MiB": 2561,
+        "other_gpu_pids": [
+          2220674
+        ]
+      },
+      "archive": "runs/champion7_c_gan/attempts/attempt04_shared_memory_guard",
+      "archive_sha256": {
+        "supervisor_state.json": "bad6b0478844201dec16023c829e3e5a2b6cd6e2522dd6b423cc4c8b539e201e",
+        "supervisor.log": "90e342c2a1fea8bfa50af2f6cd6fb086f596b988a632da19cb6e061bce44cfc7",
+        "pipeline.log": "2c18f17d877a9136241a2d4bea48171412ff5da9d42ff0d7422c6c697d8c2776",
+        "run_metadata.json": "a0b201797f3e7c0b97852c4cc91bef64da9268dd0e5877e1f7c51a21e8828ad6",
+        "effective_config.yaml": "40a0c238283a366f5593bd7ed5bee6da97c358b8736ced0c80dde9dfbe1b81fe",
+        "lineage.json": "6ad74ea2d595b4e56c4d2ae7fdbb21aa72004638277a8b3c45a932066fe99a84",
+        "recovery_policy.json": "190f681a9841e334a0ede74fd090f0b780822bceb7bbf3eb0f35a29ae079bff7",
+        "recovery_checkpoints.jsonl": "88c41e630ff1ac97a39f437809adb28c045e892a85bd64b8b14b50c3a69fb595",
+        "metrics.jsonl": "845f156ba7af2664e5c2f9a69db370523d677511972558cc907a6ce2ae946a84"
+      },
+      "resume_checkpoint": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_c_gan/checkpoints/last.pt",
+      "resume_checkpoint_sha256": "ddba139ee2bc01395fed8ece67a0a1484c20877b1e2ed38f2c3165863308bc9d",
+      "archived_checkpoint_sha256": "ddba139ee2bc01395fed8ece67a0a1484c20877b1e2ed38f2c3165863308bc9d",
+      "resume_global_step": 73000,
+      "resume_cumulative_parent_step": 573000,
+      "checkpoint_kind": "recovery_only",
+      "epoch": 6,
+      "batch_in_epoch": 11285,
+      "complete_optimizer_and_ema_state_verified_finite": true,
+      "last_visible_step_approx": 73451,
+      "unsaved_visible_updates_discarded_approx": 451,
+      "actual_validation_steps": [
+        25000,
+        50000
+      ],
+      "existing_step_snapshots_sha256": {
+        "step_00025000.pt": "fe1bed31ce31e60549c835f7d749425881482bb72b140e4d46dd26f20556aa2c",
+        "step_00050000.pt": "2f28d20db0db628d91133038880e3407a497a5a40074ab76a2efebbf27ec5898"
+      }
+    },
+    "d_both": {
+      "gpu": 3,
+      "prior_state": {
+        "status": "safety_stop",
+        "gpu": 3,
+        "updated_utc": "2026-11-06T17:07:51.313351+00:00",
+        "reason": "GPU memory risk or external workload appeared",
+        "free_MiB": 2561,
+        "other_gpu_pids": [
+          2220674
+        ]
+      },
+      "archive": "runs/champion7_d_both/attempts/attempt04_shared_memory_guard",
+      "archive_sha256": {
+        "supervisor_state.json": "6acfa7e53d4bb48620ac85282ad665c052a5cea3f12d7ece2de107001424b684",
+        "supervisor.log": "b71e3cf32fb244f66d9e97fa0c9b1dd7120524394e3b3e005130c86826d2e622",
+        "pipeline.log": "981e9e19b6ed9cb0eb6d2ae63af8180819867d98a387b1bf3f0847c6ebf79dfa",
+        "run_metadata.json": "7c5a9d8d51b94f36806fe0e0ed48ce84dd0f8e967dcde8554a1025b6e7d0fc6e",
+        "effective_config.yaml": "7298237e99a61e707164fbe28910daab2a8f4005c436525d5851b3050d9e6d74",
+        "lineage.json": "6ad74ea2d595b4e56c4d2ae7fdbb21aa72004638277a8b3c45a932066fe99a84",
+        "recovery_policy.json": "0212029c4621d1092a3ff08835c42af4db63a9afdd3cee912f0f1a09a2cae122",
+        "recovery_checkpoints.jsonl": "05fe3211e2cbb2249da8eb37b811763fefc8260008883ed0db811ac190cadf10",
+        "metrics.jsonl": "aa9b961dd7bfca7da62d01523f5d46932e8f5978293117c85796a7f4f73e5a20"
+      },
+      "resume_checkpoint": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion7_d_both/checkpoints/last.pt",
+      "resume_checkpoint_sha256": "2245c00560faf6b28f1d2d3f9396069fe205b233749b4bbe18324f0ff4cea842",
+      "archived_checkpoint_sha256": "2245c00560faf6b28f1d2d3f9396069fe205b233749b4bbe18324f0ff4cea842",
+      "resume_global_step": 73000,
+      "resume_cumulative_parent_step": 573000,
+      "checkpoint_kind": "recovery_only",
+      "epoch": 6,
+      "batch_in_epoch": 11285,
+      "complete_optimizer_and_ema_state_verified_finite": true,
+      "last_visible_step_approx": 73677,
+      "unsaved_visible_updates_discarded_approx": 677,
+      "actual_validation_steps": [
+        25000,
+        50000
+      ],
+      "existing_step_snapshots_sha256": {
+        "step_00025000.pt": "b254d293a90971330b60da6b51070a5f9cabcca440a75b4ea85813df1b5eb748",
+        "step_00050000.pt": "996e4e658c515c11b9492e08e8c8b4aac6b29bd2f50df212085ca97bcd31a08f"
+      }
+    }
+  }
+}

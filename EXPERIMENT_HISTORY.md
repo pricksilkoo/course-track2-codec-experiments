@@ -621,3 +621,13 @@ Preserve all old archives; evidence CHAMPION7_SHARED_RESTART.audit; no automatic
 recovery smoke was cancelled at user request, evidence preserved, NOT a passing smoke.
 Four formal shared supervisors rearmed in existing tmux; original trained500k parent only,
 not disposable/old unsaved progress. Same monitor updated; no batch8 or quality result yet.
+
+### CHAMPION7 recovery04: memory floor stop, retained real checkpoints
+
+At2026-11-06T17:07:51–53Z external GPU memory rose, free4600/2561MiB, below8GiB.
+Only own groups stopped; no OOM/Traceback/nonfinite in log tails, not a PID-exclusivity stop.
+Resume last localA75000/B76000/C73000/D73000 with model/EMA/G+D optimizers; no parent reset.
+A/B retain3 validations, C/D2. Immutable attempt04 logs/config/metadata/checkpoint copies and
+SHA audit CHAMPION7_RECOVERY04.audit. Capacity waiters shared>=20GiB (currently8–12GiB),
+no forced launch or new GPU tests. Budget100k total and16 search nodes unchanged; disclose
+discarded unsaved updates and non-bitwise worker/crop/RNG replay. No automatic next batch.
