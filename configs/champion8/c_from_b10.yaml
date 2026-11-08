@@ -1,0 +1,5 @@
+_base_: a_from_a10.yaml
+training:
+  output_dir: runs/champion8_c_from_b10
+posthoc_interpolation:
+  donor_label: b

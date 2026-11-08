@@ -1,0 +1,9 @@
+_base_: ../champion7/a_continue.yaml
+training:
+  output_dir: runs/champion8_a_from_a10
+posthoc_interpolation:
+  donor_label: a
+  alpha: 0.10
+  new_gradient_updates: 0
+  frozen_encoder_and_entire_rvq: true
+  interpolate_parameters_only: true
