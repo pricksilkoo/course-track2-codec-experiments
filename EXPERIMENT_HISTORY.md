@@ -663,3 +663,9 @@ Initial scratch-free trained-parent lineage and all discarded attempts/recovery0
 non-bitwise worker/crop/RNG replay and latest no-runtime-resource-poll policy05 are disclosed.
 All checkpoints/archives retained; no pruning. Full results and self-contained Chinese review
 pushed main; this batch monitor deleted after archival. Next experiment requires user approval.
+
+## CHAMPION8 complete — four zero-training decoder interpolations (2026-11-08)
+
+最高新候选c_from_b10，51.6670665400，比父模型增加0.0427304014。
+User approved exactly4 posthoc decoder-only parameter interpolations: C7A100k donor.10/.25 and C7B100k donor.10/.25, with trained C6B500k parent51.62433613863932. Zero new optimizer updates;98 decoder parameters mixed/113 tensors frozen, entire encoder/RVQ projections/codebook/EMA/all buffers parent-exact. Inference-only exports never overwrite parents.
+All4 fixed200 actual encode/decode/quality/complexity complete and all4 experiment records verified. Each200 bitstreams byte-identical to parent,16197971samples/101286frames/303858bytes,16kmono original lengths/finite audio; independent CSV reaggregation and checkpoint/config/source hashes pass.1868064params,666.3072/257.632MFLOP/s,2400bps/30ms/unclassified0 unchanged. All scores/components/regressions reported in CHAMPION8_RESULTS.md/.audit and self-contained Chinese review. No sealed evaluation, registry promotion, new alpha nodes or automatic training. Next training requires separate approval.
