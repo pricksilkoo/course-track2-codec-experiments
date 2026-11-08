@@ -17992,11 +17992,11 @@ posthoc_interpolation:
 <!-- experiment:champion9_a_g4_d0:start -->
 ## champion9_a_g4_d0
 
-- Status: `planned`
-- Updated (UTC): `2026-11-08T02:35:14.511949+00:00`
-- Git commit: `28f3a942ffafb35a2e725344d3e86f0f758c0ccb`
+- Status: `running`
+- Updated (UTC): `2026-11-08T02:36:43.269666+00:00`
+- Git commit: `2f97ff9f8b9e9639e6e94c59a7c6a5b6b982cd9b`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_a_g4_d0`
-- Note: CHAMPION9 new grouped/SnakeBeta encoder, no encoder TCN; groups4/decoderTCN0; genuinely UNTRAINED step0 SHA1a97674af58af9b361ada1895dff6d9f04d1e0b7b254e708f2a98255e439f924. 500k scratch; score only250k/500k;20 validations;10ms collection+20ms lookahead=30ms total. CHAMPION9_PLAN.md.
+- Note: CHAMPION9 scratch, no learned parent. groups4/decoderTCN0; encoder TCN0;lookahead20ms+packet10ms=total30ms. Newly untrained codec/RVQ/D step0; initSHA1a97674af58af9b361ada1895dff6d9f04d1e0b7b254e708f2a98255e439f924; fresh initial optimizers.500000 total steps; score search ONLY250k/500k. Full states resume latest own last, no budget reset; worker/crop/RNG replay may be non-bitwise. CHAMPION9_PLAN.md/SETUP.audit.
 - Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_setup/step0_a_g4_d0.pt`
 - Checkpoint SHA-256: `1a97674af58af9b361ada1895dff6d9f04d1e0b7b254e708f2a98255e439f924`
 - Selected checkpoint global step: `0`
@@ -18156,15 +18156,14 @@ training:
 ```
 
 <!-- experiment:champion9_a_g4_d0:end -->
-
 <!-- experiment:champion9_b_g8_d0:start -->
 ## champion9_b_g8_d0
 
-- Status: `planned`
-- Updated (UTC): `2026-11-08T02:35:18.946158+00:00`
-- Git commit: `28f3a942ffafb35a2e725344d3e86f0f758c0ccb`
+- Status: `running`
+- Updated (UTC): `2026-11-08T02:36:41.330323+00:00`
+- Git commit: `2f97ff9f8b9e9639e6e94c59a7c6a5b6b982cd9b`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_b_g8_d0`
-- Note: CHAMPION9 new grouped/SnakeBeta encoder, no encoder TCN; groups8/decoderTCN0; genuinely UNTRAINED step0 SHA7188179004a7c1035bd68bc22338c425b7cc5ceedea68c44f6bcace204635f4c. 500k scratch; score only250k/500k;20 validations;10ms collection+20ms lookahead=30ms total. CHAMPION9_PLAN.md.
+- Note: CHAMPION9 scratch, no learned parent. groups8/decoderTCN0; encoder TCN0;lookahead20ms+packet10ms=total30ms. Newly untrained codec/RVQ/D step0; initSHA7188179004a7c1035bd68bc22338c425b7cc5ceedea68c44f6bcace204635f4c; fresh initial optimizers.500000 total steps; score search ONLY250k/500k. Full states resume latest own last, no budget reset; worker/crop/RNG replay may be non-bitwise. CHAMPION9_PLAN.md/SETUP.audit.
 - Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_setup/step0_b_g8_d0.pt`
 - Checkpoint SHA-256: `7188179004a7c1035bd68bc22338c425b7cc5ceedea68c44f6bcace204635f4c`
 - Selected checkpoint global step: `0`
@@ -18328,11 +18327,11 @@ training:
 <!-- experiment:champion9_c_g4_d2:start -->
 ## champion9_c_g4_d2
 
-- Status: `planned`
-- Updated (UTC): `2026-11-08T02:35:23.483297+00:00`
-- Git commit: `28f3a942ffafb35a2e725344d3e86f0f758c0ccb`
+- Status: `running`
+- Updated (UTC): `2026-11-08T02:36:45.338799+00:00`
+- Git commit: `2f97ff9f8b9e9639e6e94c59a7c6a5b6b982cd9b`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_c_g4_d2`
-- Note: CHAMPION9 new grouped/SnakeBeta encoder, no encoder TCN; groups4/decoderTCN2; genuinely UNTRAINED step0 SHA71a15c2160c634c4ac44f2f9dfe32984cf4062e69005087c356ddc7e405bf4c6. 500k scratch; score only250k/500k;20 validations;10ms collection+20ms lookahead=30ms total. CHAMPION9_PLAN.md.
+- Note: CHAMPION9 scratch, no learned parent. groups4/decoderTCN2; encoder TCN0;lookahead20ms+packet10ms=total30ms. Newly untrained codec/RVQ/D step0; initSHA71a15c2160c634c4ac44f2f9dfe32984cf4062e69005087c356ddc7e405bf4c6; fresh initial optimizers.500000 total steps; score search ONLY250k/500k. Full states resume latest own last, no budget reset; worker/crop/RNG replay may be non-bitwise. CHAMPION9_PLAN.md/SETUP.audit.
 - Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_setup/step0_c_g4_d2.pt`
 - Checkpoint SHA-256: `71a15c2160c634c4ac44f2f9dfe32984cf4062e69005087c356ddc7e405bf4c6`
 - Selected checkpoint global step: `0`
@@ -18496,11 +18495,11 @@ training:
 <!-- experiment:champion9_d_g8_d2:start -->
 ## champion9_d_g8_d2
 
-- Status: `planned`
-- Updated (UTC): `2026-11-08T02:35:27.954600+00:00`
-- Git commit: `28f3a942ffafb35a2e725344d3e86f0f758c0ccb`
+- Status: `running`
+- Updated (UTC): `2026-11-08T02:36:47.473223+00:00`
+- Git commit: `2f97ff9f8b9e9639e6e94c59a7c6a5b6b982cd9b`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_d_g8_d2`
-- Note: CHAMPION9 new grouped/SnakeBeta encoder, no encoder TCN; groups8/decoderTCN2; genuinely UNTRAINED step0 SHA8359bd16760cec323ae11ab0f5712725abbcbe734a57a0a75e45c695d05ffc61. 500k scratch; score only250k/500k;20 validations;10ms collection+20ms lookahead=30ms total. CHAMPION9_PLAN.md.
+- Note: CHAMPION9 scratch, no learned parent. groups8/decoderTCN2; encoder TCN0;lookahead20ms+packet10ms=total30ms. Newly untrained codec/RVQ/D step0; initSHA8359bd16760cec323ae11ab0f5712725abbcbe734a57a0a75e45c695d05ffc61; fresh initial optimizers.500000 total steps; score search ONLY250k/500k. Full states resume latest own last, no budget reset; worker/crop/RNG replay may be non-bitwise. CHAMPION9_PLAN.md/SETUP.audit.
 - Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_setup/step0_d_g8_d2.pt`
 - Checkpoint SHA-256: `8359bd16760cec323ae11ab0f5712725abbcbe734a57a0a75e45c695d05ffc61`
 - Selected checkpoint global step: `0`

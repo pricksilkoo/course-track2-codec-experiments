@@ -1,0 +1,174 @@
+{
+  "created_utc": "2026-11-08T02:39:19.280994+00:00",
+  "session": "codec_champion9_v1",
+  "git_commit": "2f97ff9f8b9e9639e6e94c59a7c6a5b6b982cd9b",
+  "all_four_began_optimization": true,
+  "no_gpu_smoke_per_user": true,
+  "runtime_resource_poll": false,
+  "cells": {
+    "a_g4_d0": {
+      "supervisor": {
+        "status": "running",
+        "updated_utc": "2026-11-08T02:36:39.513053+00:00",
+        "gpu": 0,
+        "launch_free_MiB": 8192,
+        "runtime_resource_poll": false,
+        "sharing_authorized": true,
+        "training_total_steps": 500000,
+        "command": [
+          "/storage1/hehaoran/project/course-track2-codec-experiments/.venv-codec/bin/python",
+          "-u",
+          "scripts/run_champion9_experiment.py",
+          "a_g4_d0",
+          "0"
+        ],
+        "observed_launch_free_MiB": 45489,
+        "existing_gpu_pids": []
+      },
+      "phase": {
+        "phase": "training",
+        "updated_utc": "2026-11-08T02:36:45.275684+00:00",
+        "resume_step": 0,
+        "initialization": "new untrained step0"
+      },
+      "run_metadata": {
+        "created_utc": "2026-11-08T02:37:07.780394+00:00",
+        "command": "scripts/train.py --config /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_a_g4_d0/effective_config.yaml --train-manifest /storage1/hehaoran/project/course-track2-codec-experiments/data/manifests/vctk_libritts/train.scp --valid-manifest /storage1/hehaoran/project/course-track2-codec-experiments/data/manifests/vctk_libritts/valid.scp --output-dir /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_a_g4_d0 --device cuda --max-total-steps 500000 --init-checkpoint /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_setup/step0_a_g4_d0.pt",
+        "torch_version": "2.13.0+cu129",
+        "world_size": 1,
+        "device": "cuda",
+        "init_checkpoint": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_setup/step0_a_g4_d0.pt",
+        "resume_checkpoint": null
+      },
+      "visible_epoch": 1,
+      "visible_batch": 806,
+      "visible_loss": 0.5439,
+      "config_sha256": "6f04000d89906c2855c3b5a2798be43197e2eb77ac3cc308a59e43cf7148b20d",
+      "snapshot_sha256": "1a97674af58af9b361ada1895dff6d9f04d1e0b7b254e708f2a98255e439f924",
+      "pipeline_tail_sha256": "8aa4cc8b2e1450253e5fe7db34a228bdf36f5b93bd974a0e7f4fc856a88092d0"
+    },
+    "b_g8_d0": {
+      "supervisor": {
+        "status": "running",
+        "updated_utc": "2026-11-08T02:36:39.511905+00:00",
+        "gpu": 1,
+        "launch_free_MiB": 8192,
+        "runtime_resource_poll": false,
+        "sharing_authorized": true,
+        "training_total_steps": 500000,
+        "command": [
+          "/storage1/hehaoran/project/course-track2-codec-experiments/.venv-codec/bin/python",
+          "-u",
+          "scripts/run_champion9_experiment.py",
+          "b_g8_d0",
+          "1"
+        ],
+        "observed_launch_free_MiB": 45489,
+        "existing_gpu_pids": []
+      },
+      "phase": {
+        "phase": "training",
+        "updated_utc": "2026-11-08T02:36:43.206526+00:00",
+        "resume_step": 0,
+        "initialization": "new untrained step0"
+      },
+      "run_metadata": {
+        "created_utc": "2026-11-08T02:37:07.774714+00:00",
+        "command": "scripts/train.py --config /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_b_g8_d0/effective_config.yaml --train-manifest /storage1/hehaoran/project/course-track2-codec-experiments/data/manifests/vctk_libritts/train.scp --valid-manifest /storage1/hehaoran/project/course-track2-codec-experiments/data/manifests/vctk_libritts/valid.scp --output-dir /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_b_g8_d0 --device cuda --max-total-steps 500000 --init-checkpoint /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_setup/step0_b_g8_d0.pt",
+        "torch_version": "2.13.0+cu129",
+        "world_size": 1,
+        "device": "cuda",
+        "init_checkpoint": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_setup/step0_b_g8_d0.pt",
+        "resume_checkpoint": null
+      },
+      "visible_epoch": 1,
+      "visible_batch": 807,
+      "visible_loss": 0.5497,
+      "config_sha256": "5c083bef8a04948ef512b5c8eccadee211f00d6d404ae050098208e8e8cbd54e",
+      "snapshot_sha256": "7188179004a7c1035bd68bc22338c425b7cc5ceedea68c44f6bcace204635f4c",
+      "pipeline_tail_sha256": "c2b075e581b7bd05ff719bbfd11866cc8283b31af31ec5063b266853a0e990f7"
+    },
+    "c_g4_d2": {
+      "supervisor": {
+        "status": "running",
+        "updated_utc": "2026-11-08T02:36:39.496459+00:00",
+        "gpu": 2,
+        "launch_free_MiB": 8192,
+        "runtime_resource_poll": false,
+        "sharing_authorized": true,
+        "training_total_steps": 500000,
+        "command": [
+          "/storage1/hehaoran/project/course-track2-codec-experiments/.venv-codec/bin/python",
+          "-u",
+          "scripts/run_champion9_experiment.py",
+          "c_g4_d2",
+          "2"
+        ],
+        "observed_launch_free_MiB": 45489,
+        "existing_gpu_pids": []
+      },
+      "phase": {
+        "phase": "training",
+        "updated_utc": "2026-11-08T02:36:47.413638+00:00",
+        "resume_step": 0,
+        "initialization": "new untrained step0"
+      },
+      "run_metadata": {
+        "created_utc": "2026-11-08T02:37:07.792937+00:00",
+        "command": "scripts/train.py --config /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_c_g4_d2/effective_config.yaml --train-manifest /storage1/hehaoran/project/course-track2-codec-experiments/data/manifests/vctk_libritts/train.scp --valid-manifest /storage1/hehaoran/project/course-track2-codec-experiments/data/manifests/vctk_libritts/valid.scp --output-dir /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_c_g4_d2 --device cuda --max-total-steps 500000 --init-checkpoint /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_setup/step0_c_g4_d2.pt",
+        "torch_version": "2.13.0+cu129",
+        "world_size": 1,
+        "device": "cuda",
+        "init_checkpoint": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_setup/step0_c_g4_d2.pt",
+        "resume_checkpoint": null
+      },
+      "visible_epoch": 1,
+      "visible_batch": 805,
+      "visible_loss": 0.5452,
+      "config_sha256": "3da9391b5a54d672559b128ef93c770838a45bbf2b6b79c90178d94e08ef32c1",
+      "snapshot_sha256": "71a15c2160c634c4ac44f2f9dfe32984cf4062e69005087c356ddc7e405bf4c6",
+      "pipeline_tail_sha256": "b11717e1684898dd5bdd5f5c3459bf3f2731726a43dc4589821db5df6294ff1e"
+    },
+    "d_g8_d2": {
+      "supervisor": {
+        "status": "running",
+        "updated_utc": "2026-11-08T02:36:39.530675+00:00",
+        "gpu": 3,
+        "launch_free_MiB": 8192,
+        "runtime_resource_poll": false,
+        "sharing_authorized": true,
+        "training_total_steps": 500000,
+        "command": [
+          "/storage1/hehaoran/project/course-track2-codec-experiments/.venv-codec/bin/python",
+          "-u",
+          "scripts/run_champion9_experiment.py",
+          "d_g8_d2",
+          "3"
+        ],
+        "observed_launch_free_MiB": 45489,
+        "existing_gpu_pids": []
+      },
+      "phase": {
+        "phase": "training",
+        "updated_utc": "2026-11-08T02:36:49.437681+00:00",
+        "resume_step": 0,
+        "initialization": "new untrained step0"
+      },
+      "run_metadata": {
+        "created_utc": "2026-11-08T02:37:07.774931+00:00",
+        "command": "scripts/train.py --config /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_d_g8_d2/effective_config.yaml --train-manifest /storage1/hehaoran/project/course-track2-codec-experiments/data/manifests/vctk_libritts/train.scp --valid-manifest /storage1/hehaoran/project/course-track2-codec-experiments/data/manifests/vctk_libritts/valid.scp --output-dir /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_d_g8_d2 --device cuda --max-total-steps 500000 --init-checkpoint /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_setup/step0_d_g8_d2.pt",
+        "torch_version": "2.13.0+cu129",
+        "world_size": 1,
+        "device": "cuda",
+        "init_checkpoint": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_setup/step0_d_g8_d2.pt",
+        "resume_checkpoint": null
+      },
+      "visible_epoch": 1,
+      "visible_batch": 807,
+      "visible_loss": 0.5477,
+      "config_sha256": "e1f0c3beeccd3f524b78fce2ea1fb52fb83f687df86a5d07f9989dafa571919f",
+      "snapshot_sha256": "8359bd16760cec323ae11ab0f5712725abbcbe734a57a0a75e45c695d05ffc61",
+      "pipeline_tail_sha256": "954527703e8f1e041a14d41bc50843ca0b6d75b1f947a46630e6262bef200e9c"
+    }
+  }
+}
