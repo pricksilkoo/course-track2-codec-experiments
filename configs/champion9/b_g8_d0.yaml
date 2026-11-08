@@ -1,0 +1,5 @@
+_base_: a_g4_d0.yaml
+model:
+  encoder_groups: 8
+training:
+  output_dir: runs/champion9_b_g8_d0

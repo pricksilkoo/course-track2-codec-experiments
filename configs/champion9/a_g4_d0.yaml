@@ -1,0 +1,14 @@
+_base_: ../champion6/b_s3407_fourier_gru.yaml
+seed: 20261108
+model:
+  encoder_type: champion_grouped
+  encoder_groups: 4
+  encoder_temporal_layers: 0
+  decoder_temporal_layers: 0
+  encoder_lookahead_frames: 2
+  synthesis_initialization_seed: 20461108
+training:
+  output_dir: runs/champion9_a_g4_d0
+  data_order_seed: 20261108
+  checkpoint_keep_last: 20
+  recovery_checkpoint_interval_steps: 1000

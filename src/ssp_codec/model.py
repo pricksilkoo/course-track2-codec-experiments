@@ -17,6 +17,7 @@ import torch.distributed as dist
 import torch.nn.functional as F
 from torch import nn
 from .champion_synthesis import CausalResidualGRU, CausalFourierDecoder
+from .champion_analysis import GroupedWaveformEncoder
 
 from .minimimi import (
     LookaheadFusion,
@@ -1206,6 +1207,8 @@ class CourseCodec(nn.Module):
         minimimi_hybrid_kernel_size: int = 0,
         minimimi_semantic_dim: int = 32,
         minimimi_acoustic_dim: int = 64,
+        encoder_type: str = "waveform",
+        encoder_groups: int = 4,
     ) -> None:
         super().__init__()
         encoder_channels = tuple(encoder_channels)
@@ -1323,9 +1326,22 @@ class CourseCodec(nn.Module):
             return
         if architecture != "baseline":
             raise ValueError(f"unsupported codec architecture: {architecture}")
-        self.encoder = WaveformEncoder(
-            encoder_channels, encoder_strides, residual_blocks, residual_kernel_size
-        )
+        if encoder_type == "champion_grouped":
+            if temporal_model != "tcn" or encoder_temporal_layers != 0:
+                raise ValueError("Grouped study has no independent encoder TCN/Transformer")
+            if not encoder_gru or synthesis_type != "fourier" or decoder_lookahead_frames:
+                raise ValueError("Grouped study requires forward GRU and causal Fourier synthesis")
+            self.frame_collection_ms = 10
+            self.total_algorithmic_delay_ms = 10 + 10 * encoder_lookahead_frames
+            if self.total_algorithmic_delay_ms > 30:
+                raise ValueError("Grouped study counts frame collection plus lookahead within30ms")
+            self.encoder = GroupedWaveformEncoder(encoder_channels, encoder_strides, encoder_groups)
+        elif encoder_type == "waveform":
+            self.encoder = WaveformEncoder(
+                encoder_channels, encoder_strides, residual_blocks, residual_kernel_size
+            )
+        else:
+            raise ValueError(f"unknown encoder_type: {encoder_type}")
         # Fixed per-frame normalization prevents the encoder and EMA codebooks
         # from reducing loss by inflating their absolute scale. With no affine
         # parameters, each latent frame remains centered with unit variance.

@@ -1,0 +1,5 @@
+_base_: a_g4_d0.yaml
+model:
+  decoder_temporal_layers: 2
+training:
+  output_dir: runs/champion9_c_g4_d2

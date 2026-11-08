@@ -17988,3 +17988,675 @@ posthoc_interpolation:
 ```
 
 <!-- experiment:champion8_b_from_a25:end -->
+
+<!-- experiment:champion9_a_g4_d0:start -->
+## champion9_a_g4_d0
+
+- Status: `planned`
+- Updated (UTC): `2026-11-08T02:35:14.511949+00:00`
+- Git commit: `28f3a942ffafb35a2e725344d3e86f0f758c0ccb`
+- Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_a_g4_d0`
+- Note: CHAMPION9 new grouped/SnakeBeta encoder, no encoder TCN; groups4/decoderTCN0; genuinely UNTRAINED step0 SHA1a97674af58af9b361ada1895dff6d9f04d1e0b7b254e708f2a98255e439f924. 500k scratch; score only250k/500k;20 validations;10ms collection+20ms lookahead=30ms total. CHAMPION9_PLAN.md.
+- Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_setup/step0_a_g4_d0.pt`
+- Checkpoint SHA-256: `1a97674af58af9b361ada1895dff6d9f04d1e0b7b254e708f2a98255e439f924`
+- Selected checkpoint global step: `0`
+
+### Dataset
+
+| Item | Value |
+|---|---:|
+| Training files | 394988 |
+| Validation files | 14596 |
+| VCTK training files | 40208 |
+| VCTK validation files | 4247 |
+| LibriTTS training files | 354780 |
+| LibriTTS validation files | 10349 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Algorithmic lookahead (ms) | 20 |
+| Total MFLOP/s | 540.954 |
+| Decoder MFLOP/s | 236.960 |
+| Parameters | 1548960 |
+
+### Effective configuration
+
+```yaml
+seed: 20261108
+audio:
+  sample_rate: 16000
+  frame_samples: 160
+  segment_samples: 32000
+model:
+  sample_rate: 16000
+  frame_samples: 160
+  quantizer_type: projected_rvq
+  encoder_channels:
+  - 8
+  - 16
+  - 32
+  - 64
+  - 160
+  encoder_strides:
+  - 2
+  - 4
+  - 4
+  - 5
+  decoder_channels:
+  - 160
+  - 48
+  - 24
+  - 12
+  - 8
+  decoder_strides:
+  - 5
+  - 4
+  - 4
+  - 2
+  residual_blocks: 3
+  residual_kernel_size: 3
+  rvq_num_codebooks: 3
+  rvq_codebook_size: 256
+  rvq_codebook_dim: 160
+  commitment_weight: 0.1
+  rvq_ema_decay: 0.95
+  rvq_dead_code_threshold: 0.5
+  rvq_dead_code_after_updates: 100
+  rvq_kmeans_iterations: 10
+  encoder_temporal_layers: 0
+  decoder_temporal_layers: 0
+  temporal_kernel_size: 3
+  temporal_expansion: 1
+  fsq_levels:
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  encoder_lookahead_frames: 2
+  decoder_lookahead_frames: 0
+  rvq_usage_loss_weight: 0.001
+  rvq_usage_temperature: 1.0
+  rvq_stage_commitment_weights:
+  - 1.0
+  - 1.5
+  - 2.0
+  projected_stage_dims:
+  - 48
+  - 64
+  - 80
+  encoder_gru: true
+  synthesis_type: fourier
+  synthesis_initialization_seed: 20461108
+  fourier_width: 256
+  fourier_hidden: 160
+  fourier_layers: 8
+  fourier_n_fft: 320
+  encoder_type: champion_grouped
+  encoder_groups: 4
+loss:
+  waveform_l1_weight: 1.0
+  spectral_weight: 1.0
+  fft_sizes:
+  - 256
+  - 512
+  - 1024
+  spectral_convergence_weight: 0.25
+  linear_magnitude_weight: 0.1
+  adversarial_weight: 0.05
+  feature_matching_weight: 1.5
+  si_snr_weight: 0.003
+adversarial:
+  resolutions:
+  - - 256
+    - 64
+    - 256
+  - - 512
+    - 128
+    - 512
+  - - 1024
+    - 256
+    - 1024
+  start_step: 100000
+  warmup_steps: 50000
+  learning_rate: 0.0002
+  gradient_clip_norm: 10.0
+  periods:
+  - 2
+  - 3
+  - 5
+  - 7
+  - 11
+training:
+  batch_size: 32
+  num_workers: 8
+  epochs: 1000
+  learning_rate: 0.0002
+  weight_decay: 1.0e-06
+  gradient_clip_norm: 1.0
+  validation_limit: 64
+  validation_checkpoint_interval_steps: 25000
+  sample_inference_count: 2
+  output_dir: /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_a_g4_d0
+  minimum_learning_rate: 1.0e-05
+  warmup_steps: 5000
+  checkpoint_keep_last: 20
+  quantizer_learning_rate: 0.0002
+  quantizer_only_steps: 0
+  data_order_seed: 20261108
+  reset_rng_after_init: true
+  fail_on_nonfinite: true
+  recovery_checkpoint_interval_steps: 1000
+```
+
+<!-- experiment:champion9_a_g4_d0:end -->
+
+<!-- experiment:champion9_b_g8_d0:start -->
+## champion9_b_g8_d0
+
+- Status: `planned`
+- Updated (UTC): `2026-11-08T02:35:18.946158+00:00`
+- Git commit: `28f3a942ffafb35a2e725344d3e86f0f758c0ccb`
+- Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_b_g8_d0`
+- Note: CHAMPION9 new grouped/SnakeBeta encoder, no encoder TCN; groups8/decoderTCN0; genuinely UNTRAINED step0 SHA7188179004a7c1035bd68bc22338c425b7cc5ceedea68c44f6bcace204635f4c. 500k scratch; score only250k/500k;20 validations;10ms collection+20ms lookahead=30ms total. CHAMPION9_PLAN.md.
+- Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_setup/step0_b_g8_d0.pt`
+- Checkpoint SHA-256: `7188179004a7c1035bd68bc22338c425b7cc5ceedea68c44f6bcace204635f4c`
+- Selected checkpoint global step: `0`
+
+### Dataset
+
+| Item | Value |
+|---|---:|
+| Training files | 394988 |
+| Validation files | 14596 |
+| VCTK training files | 40208 |
+| VCTK validation files | 4247 |
+| LibriTTS training files | 354780 |
+| LibriTTS validation files | 10349 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Algorithmic lookahead (ms) | 20 |
+| Total MFLOP/s | 524.826 |
+| Decoder MFLOP/s | 236.960 |
+| Parameters | 1542840 |
+
+### Effective configuration
+
+```yaml
+seed: 20261108
+audio:
+  sample_rate: 16000
+  frame_samples: 160
+  segment_samples: 32000
+model:
+  sample_rate: 16000
+  frame_samples: 160
+  quantizer_type: projected_rvq
+  encoder_channels:
+  - 8
+  - 16
+  - 32
+  - 64
+  - 160
+  encoder_strides:
+  - 2
+  - 4
+  - 4
+  - 5
+  decoder_channels:
+  - 160
+  - 48
+  - 24
+  - 12
+  - 8
+  decoder_strides:
+  - 5
+  - 4
+  - 4
+  - 2
+  residual_blocks: 3
+  residual_kernel_size: 3
+  rvq_num_codebooks: 3
+  rvq_codebook_size: 256
+  rvq_codebook_dim: 160
+  commitment_weight: 0.1
+  rvq_ema_decay: 0.95
+  rvq_dead_code_threshold: 0.5
+  rvq_dead_code_after_updates: 100
+  rvq_kmeans_iterations: 10
+  encoder_temporal_layers: 0
+  decoder_temporal_layers: 0
+  temporal_kernel_size: 3
+  temporal_expansion: 1
+  fsq_levels:
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  encoder_lookahead_frames: 2
+  decoder_lookahead_frames: 0
+  rvq_usage_loss_weight: 0.001
+  rvq_usage_temperature: 1.0
+  rvq_stage_commitment_weights:
+  - 1.0
+  - 1.5
+  - 2.0
+  projected_stage_dims:
+  - 48
+  - 64
+  - 80
+  encoder_gru: true
+  synthesis_type: fourier
+  synthesis_initialization_seed: 20461108
+  fourier_width: 256
+  fourier_hidden: 160
+  fourier_layers: 8
+  fourier_n_fft: 320
+  encoder_type: champion_grouped
+  encoder_groups: 8
+loss:
+  waveform_l1_weight: 1.0
+  spectral_weight: 1.0
+  fft_sizes:
+  - 256
+  - 512
+  - 1024
+  spectral_convergence_weight: 0.25
+  linear_magnitude_weight: 0.1
+  adversarial_weight: 0.05
+  feature_matching_weight: 1.5
+  si_snr_weight: 0.003
+adversarial:
+  resolutions:
+  - - 256
+    - 64
+    - 256
+  - - 512
+    - 128
+    - 512
+  - - 1024
+    - 256
+    - 1024
+  start_step: 100000
+  warmup_steps: 50000
+  learning_rate: 0.0002
+  gradient_clip_norm: 10.0
+  periods:
+  - 2
+  - 3
+  - 5
+  - 7
+  - 11
+training:
+  batch_size: 32
+  num_workers: 8
+  epochs: 1000
+  learning_rate: 0.0002
+  weight_decay: 1.0e-06
+  gradient_clip_norm: 1.0
+  validation_limit: 64
+  validation_checkpoint_interval_steps: 25000
+  sample_inference_count: 2
+  output_dir: /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_b_g8_d0
+  minimum_learning_rate: 1.0e-05
+  warmup_steps: 5000
+  checkpoint_keep_last: 20
+  quantizer_learning_rate: 0.0002
+  quantizer_only_steps: 0
+  data_order_seed: 20261108
+  reset_rng_after_init: true
+  fail_on_nonfinite: true
+  recovery_checkpoint_interval_steps: 1000
+```
+
+<!-- experiment:champion9_b_g8_d0:end -->
+
+<!-- experiment:champion9_c_g4_d2:start -->
+## champion9_c_g4_d2
+
+- Status: `planned`
+- Updated (UTC): `2026-11-08T02:35:23.483297+00:00`
+- Git commit: `28f3a942ffafb35a2e725344d3e86f0f758c0ccb`
+- Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_c_g4_d2`
+- Note: CHAMPION9 new grouped/SnakeBeta encoder, no encoder TCN; groups4/decoderTCN2; genuinely UNTRAINED step0 SHA71a15c2160c634c4ac44f2f9dfe32984cf4062e69005087c356ddc7e405bf4c6. 500k scratch; score only250k/500k;20 validations;10ms collection+20ms lookahead=30ms total. CHAMPION9_PLAN.md.
+- Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_setup/step0_c_g4_d2.pt`
+- Checkpoint SHA-256: `71a15c2160c634c4ac44f2f9dfe32984cf4062e69005087c356ddc7e405bf4c6`
+- Selected checkpoint global step: `0`
+
+### Dataset
+
+| Item | Value |
+|---|---:|
+| Training files | 394988 |
+| Validation files | 14596 |
+| VCTK training files | 40208 |
+| VCTK validation files | 4247 |
+| LibriTTS training files | 354780 |
+| LibriTTS validation files | 10349 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Algorithmic lookahead (ms) | 20 |
+| Total MFLOP/s | 561.626 |
+| Decoder MFLOP/s | 257.632 |
+| Parameters | 1653280 |
+
+### Effective configuration
+
+```yaml
+seed: 20261108
+audio:
+  sample_rate: 16000
+  frame_samples: 160
+  segment_samples: 32000
+model:
+  sample_rate: 16000
+  frame_samples: 160
+  quantizer_type: projected_rvq
+  encoder_channels:
+  - 8
+  - 16
+  - 32
+  - 64
+  - 160
+  encoder_strides:
+  - 2
+  - 4
+  - 4
+  - 5
+  decoder_channels:
+  - 160
+  - 48
+  - 24
+  - 12
+  - 8
+  decoder_strides:
+  - 5
+  - 4
+  - 4
+  - 2
+  residual_blocks: 3
+  residual_kernel_size: 3
+  rvq_num_codebooks: 3
+  rvq_codebook_size: 256
+  rvq_codebook_dim: 160
+  commitment_weight: 0.1
+  rvq_ema_decay: 0.95
+  rvq_dead_code_threshold: 0.5
+  rvq_dead_code_after_updates: 100
+  rvq_kmeans_iterations: 10
+  encoder_temporal_layers: 0
+  decoder_temporal_layers: 2
+  temporal_kernel_size: 3
+  temporal_expansion: 1
+  fsq_levels:
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  encoder_lookahead_frames: 2
+  decoder_lookahead_frames: 0
+  rvq_usage_loss_weight: 0.001
+  rvq_usage_temperature: 1.0
+  rvq_stage_commitment_weights:
+  - 1.0
+  - 1.5
+  - 2.0
+  projected_stage_dims:
+  - 48
+  - 64
+  - 80
+  encoder_gru: true
+  synthesis_type: fourier
+  synthesis_initialization_seed: 20461108
+  fourier_width: 256
+  fourier_hidden: 160
+  fourier_layers: 8
+  fourier_n_fft: 320
+  encoder_type: champion_grouped
+  encoder_groups: 4
+loss:
+  waveform_l1_weight: 1.0
+  spectral_weight: 1.0
+  fft_sizes:
+  - 256
+  - 512
+  - 1024
+  spectral_convergence_weight: 0.25
+  linear_magnitude_weight: 0.1
+  adversarial_weight: 0.05
+  feature_matching_weight: 1.5
+  si_snr_weight: 0.003
+adversarial:
+  resolutions:
+  - - 256
+    - 64
+    - 256
+  - - 512
+    - 128
+    - 512
+  - - 1024
+    - 256
+    - 1024
+  start_step: 100000
+  warmup_steps: 50000
+  learning_rate: 0.0002
+  gradient_clip_norm: 10.0
+  periods:
+  - 2
+  - 3
+  - 5
+  - 7
+  - 11
+training:
+  batch_size: 32
+  num_workers: 8
+  epochs: 1000
+  learning_rate: 0.0002
+  weight_decay: 1.0e-06
+  gradient_clip_norm: 1.0
+  validation_limit: 64
+  validation_checkpoint_interval_steps: 25000
+  sample_inference_count: 2
+  output_dir: /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_c_g4_d2
+  minimum_learning_rate: 1.0e-05
+  warmup_steps: 5000
+  checkpoint_keep_last: 20
+  quantizer_learning_rate: 0.0002
+  quantizer_only_steps: 0
+  data_order_seed: 20261108
+  reset_rng_after_init: true
+  fail_on_nonfinite: true
+  recovery_checkpoint_interval_steps: 1000
+```
+
+<!-- experiment:champion9_c_g4_d2:end -->
+
+<!-- experiment:champion9_d_g8_d2:start -->
+## champion9_d_g8_d2
+
+- Status: `planned`
+- Updated (UTC): `2026-11-08T02:35:27.954600+00:00`
+- Git commit: `28f3a942ffafb35a2e725344d3e86f0f758c0ccb`
+- Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_d_g8_d2`
+- Note: CHAMPION9 new grouped/SnakeBeta encoder, no encoder TCN; groups8/decoderTCN2; genuinely UNTRAINED step0 SHA8359bd16760cec323ae11ab0f5712725abbcbe734a57a0a75e45c695d05ffc61. 500k scratch; score only250k/500k;20 validations;10ms collection+20ms lookahead=30ms total. CHAMPION9_PLAN.md.
+- Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_setup/step0_d_g8_d2.pt`
+- Checkpoint SHA-256: `8359bd16760cec323ae11ab0f5712725abbcbe734a57a0a75e45c695d05ffc61`
+- Selected checkpoint global step: `0`
+
+### Dataset
+
+| Item | Value |
+|---|---:|
+| Training files | 394988 |
+| Validation files | 14596 |
+| VCTK training files | 40208 |
+| VCTK validation files | 4247 |
+| LibriTTS training files | 354780 |
+| LibriTTS validation files | 10349 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Algorithmic lookahead (ms) | 20 |
+| Total MFLOP/s | 545.498 |
+| Decoder MFLOP/s | 257.632 |
+| Parameters | 1647160 |
+
+### Effective configuration
+
+```yaml
+seed: 20261108
+audio:
+  sample_rate: 16000
+  frame_samples: 160
+  segment_samples: 32000
+model:
+  sample_rate: 16000
+  frame_samples: 160
+  quantizer_type: projected_rvq
+  encoder_channels:
+  - 8
+  - 16
+  - 32
+  - 64
+  - 160
+  encoder_strides:
+  - 2
+  - 4
+  - 4
+  - 5
+  decoder_channels:
+  - 160
+  - 48
+  - 24
+  - 12
+  - 8
+  decoder_strides:
+  - 5
+  - 4
+  - 4
+  - 2
+  residual_blocks: 3
+  residual_kernel_size: 3
+  rvq_num_codebooks: 3
+  rvq_codebook_size: 256
+  rvq_codebook_dim: 160
+  commitment_weight: 0.1
+  rvq_ema_decay: 0.95
+  rvq_dead_code_threshold: 0.5
+  rvq_dead_code_after_updates: 100
+  rvq_kmeans_iterations: 10
+  encoder_temporal_layers: 0
+  decoder_temporal_layers: 2
+  temporal_kernel_size: 3
+  temporal_expansion: 1
+  fsq_levels:
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  encoder_lookahead_frames: 2
+  decoder_lookahead_frames: 0
+  rvq_usage_loss_weight: 0.001
+  rvq_usage_temperature: 1.0
+  rvq_stage_commitment_weights:
+  - 1.0
+  - 1.5
+  - 2.0
+  projected_stage_dims:
+  - 48
+  - 64
+  - 80
+  encoder_gru: true
+  synthesis_type: fourier
+  synthesis_initialization_seed: 20461108
+  fourier_width: 256
+  fourier_hidden: 160
+  fourier_layers: 8
+  fourier_n_fft: 320
+  encoder_type: champion_grouped
+  encoder_groups: 8
+loss:
+  waveform_l1_weight: 1.0
+  spectral_weight: 1.0
+  fft_sizes:
+  - 256
+  - 512
+  - 1024
+  spectral_convergence_weight: 0.25
+  linear_magnitude_weight: 0.1
+  adversarial_weight: 0.05
+  feature_matching_weight: 1.5
+  si_snr_weight: 0.003
+adversarial:
+  resolutions:
+  - - 256
+    - 64
+    - 256
+  - - 512
+    - 128
+    - 512
+  - - 1024
+    - 256
+    - 1024
+  start_step: 100000
+  warmup_steps: 50000
+  learning_rate: 0.0002
+  gradient_clip_norm: 10.0
+  periods:
+  - 2
+  - 3
+  - 5
+  - 7
+  - 11
+training:
+  batch_size: 32
+  num_workers: 8
+  epochs: 1000
+  learning_rate: 0.0002
+  weight_decay: 1.0e-06
+  gradient_clip_norm: 1.0
+  validation_limit: 64
+  validation_checkpoint_interval_steps: 25000
+  sample_inference_count: 2
+  output_dir: /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_d_g8_d2
+  minimum_learning_rate: 1.0e-05
+  warmup_steps: 5000
+  checkpoint_keep_last: 20
+  quantizer_learning_rate: 0.0002
+  quantizer_only_steps: 0
+  data_order_seed: 20261108
+  reset_rng_after_init: true
+  fail_on_nonfinite: true
+  recovery_checkpoint_interval_steps: 1000
+```
+
+<!-- experiment:champion9_d_g8_d2:end -->
