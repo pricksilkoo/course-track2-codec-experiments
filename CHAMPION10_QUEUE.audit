@@ -1,0 +1,65 @@
+{
+  "created_utc": "2026-11-10T01:59:25.424296+00:00",
+  "preregistration_commit": "d662a1aedfd8d7754baedd4195b155cdb3aef168",
+  "session": "codec_champion10_v1",
+  "all_four_began_optimization": false,
+  "description": "Supervisors queued persistently; no claim of actual training start",
+  "cells": {
+    "a_base": {
+      "supervisor": {
+        "status": "waiting_for_gpu_capacity",
+        "updated_utc": "2026-11-10T01:57:30.841533+00:00",
+        "gpu": 0,
+        "launch_free_MiB": 8192,
+        "runtime_resource_poll": false,
+        "sharing_authorized": true,
+        "training_total_steps": 500000,
+        "observed_free_MiB": 7425,
+        "disk_free_GiB": 75.67687606811523
+      },
+      "pane_pid_dead": "4095984 0"
+    },
+    "b_enc": {
+      "supervisor": {
+        "status": "waiting_for_gpu_capacity",
+        "updated_utc": "2026-11-10T01:57:30.804827+00:00",
+        "gpu": 1,
+        "launch_free_MiB": 8192,
+        "runtime_resource_poll": false,
+        "sharing_authorized": true,
+        "training_total_steps": 500000,
+        "observed_free_MiB": 7419,
+        "disk_free_GiB": 75.67690658569336
+      },
+      "pane_pid_dead": "4095989 0"
+    },
+    "c_dec": {
+      "supervisor": {
+        "status": "waiting_for_gpu_capacity",
+        "updated_utc": "2026-11-10T01:57:30.846155+00:00",
+        "gpu": 2,
+        "launch_free_MiB": 8192,
+        "runtime_resource_poll": false,
+        "sharing_authorized": true,
+        "training_total_steps": 500000,
+        "observed_free_MiB": 7467,
+        "disk_free_GiB": 75.67687606811523
+      },
+      "pane_pid_dead": "4095994 0"
+    },
+    "d_both": {
+      "supervisor": {
+        "status": "waiting_for_gpu_capacity",
+        "updated_utc": "2026-11-10T01:57:30.793085+00:00",
+        "gpu": 3,
+        "launch_free_MiB": 8192,
+        "runtime_resource_poll": false,
+        "sharing_authorized": true,
+        "training_total_steps": 500000,
+        "observed_free_MiB": 7415,
+        "disk_free_GiB": 75.67699813842773
+      },
+      "pane_pid_dead": "4095999 0"
+    }
+  }
+}

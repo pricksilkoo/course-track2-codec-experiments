@@ -919,3 +919,19 @@ L1=1/spectral1/SC.25/linear.1/SI.003/commit.1/GAN.05/FM1.5；jointcodecRVQ从0�
 保留所有历史来源/teacher/comparison/averaging/scratch和C4–9所有best/final/评测快照；本次无下载/清理/删除任何模型文件。
 结果CHAMPION9_RESULTS.md/.audit，初始化CHAMPION9_SETUP.audit，启动CHAMPION9_LAUNCH.audit，预登记CHAMPION9_PLAN.md，完整记录EXPERIMENT_LOG.md。
 本批归档完成后删除仅codec-champion9-monitor这一个监控，不启动下一批；下一实验需用户另行批准。
+
+## CHAMPION10四格容量实验已入队，尚未实际训练（2026-11-10）
+
+用户批准保持CHAMPION9D结构大致不变、增加容量的四组实验。预注册先提交推送，随后仅一次启动持久tmux codec_champion10_v1。
+同新seed/data-order20261110：A原规模，B只扩encoder通道8/24/40/80/160，C只扩Fourier hidden184，D两端扩；A/C原encoder8/16/32/64/160，A/B hidden160。
+统一groups8、encoder独立TCN0、decoder因果TCN2、GRU160、原3x256 projectedRVQ dims48/64/80、20ms前瞻+10ms成帧=30msTOTAL；16kmono/160sample/24bit3bytes/2400bps。
+总/decoder MFLOP/s：A545.4978/257.632，B640.58436/257.632，C575.277/287.4112，D670.36356/287.4112；参数1647160/1699688/1796536/1849064，均满足700/300。统一解析口径含SnakeBeta/GRU/IRFFT/OLA，unclassifiedMAC0，不冒称实测算子延迟。
+68项远端CPU形状、真实字节往返、强制前瞻/前缀因果、梯度和旧兼容回归28.78s通过；未做用户禁止的额外GPU烟测/反向profile，新扩容fullGAN显存峰值未测。
+codec/RVQ/D真正未训练step0，码本initializedFALSE/EMAupdate_count0，初始优化器新建；无任何学得C6–9或smoke权重。相同形状配对精确共享，A/C、B/D step0音频/码流完全一致。来源/config/data/code哈希冻结CHAMPION10_SETUP.audit，不再生成。
+每组500000TOTAL、batch32x2s/8workers、394988train/14596valid；全部损失、lr/warmup/cosine/clip/weightdecay和GAN100k开始150kfull保持C9。每25k/64batches真验证共20条、保留20step+best/last，每1000完整更新原子last恢复EMA/G+D优化器；不补造逐batch分量。
+先训满500k再只评每组250k/500k共8节点，同冻结200dev16197971samples/101286frames/303858bytes，实码流/原长度有限16kmono音频与PESQ/ESTOI/SI-SNR/UTMOS四指标；按实际总分选择、平分取早。
+同端点B-A/D-C编码容量、C-A/D-B解码容量单因素对照，n=1不是确认；对历史C9还含seed变化，不能当纯容量提升。C8历史最佳51.66706654001837及其SHA保持回退，v2冻结46.746343，不自动晋升/新sealed评测/下一批。
+
+首次监督检查四张卡可用显存均约7.4GiB，低于原8GiB启动门槛，因此四组目前只有健康容量等待任务，尚无run_metadata、真实优化或质量结果。证据CHAMPION10_QUEUE.audit；真正开始后另生成CHAMPION10_LAUNCH.audit，不能将本次排队当成训练启动。
+监督器每30s仅启动前检查free>=8192MiB/disk>=10GiB，允许共享而不排斥其它PID；启动后child.wait，无GPU/磁盘运行期轮询，不停止其它任务、不改batch、不盲目重试。实际退出后先诊断和留证据，仅受影响组从最新自己的last恢复，仍500kTOTAL；无last披露丢失并从新step0重启，worker/crop/RNG重放非bitwise需披露。
+保持一个低频监控，健康进展/不变等待静默；结果、失败/恢复/完成或需决定时通知。最终独立审计8节点+4主记录、80step快照、CSV重算/字节音频SHA/配对效应/全路径RVQ，写CHAMPION10_RESULTS.md/.audit，追加历史和中文复盘并限定commit/push main。保护所有历史权重，本地baseline只读，无清理/下载。完成删除仅本批监控，下一批另获批准。
