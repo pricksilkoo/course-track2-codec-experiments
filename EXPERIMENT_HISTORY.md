@@ -857,3 +857,17 @@ codec/RVQ/D真正未训练step0，码本initializedFALSE/EMAupdate_count0，初�
 首次监督检查四张卡可用显存均约7.4GiB，低于原8GiB启动门槛，因此四组目前只有健康容量等待任务，尚无run_metadata、真实优化或质量结果。证据CHAMPION10_QUEUE.audit；真正开始后另生成CHAMPION10_LAUNCH.audit，不能将本次排队当成训练启动。
 监督器每30s仅启动前检查free>=8192MiB/disk>=10GiB，允许共享而不排斥其它PID；启动后child.wait，无GPU/磁盘运行期轮询，不停止其它任务、不改batch、不盲目重试。实际退出后先诊断和留证据，仅受影响组从最新自己的last恢复，仍500kTOTAL；无last披露丢失并从新step0重启，worker/crop/RNG重放非bitwise需披露。
 保持一个低频监控，健康进展/不变等待静默；结果、失败/恢复/完成或需决定时通知。最终独立审计8节点+4主记录、80step快照、CSV重算/字节音频SHA/配对效应/全路径RVQ，写CHAMPION10_RESULTS.md/.audit，追加历史和中文复盘并限定commit/push main。保护所有历史权重，本地baseline只读，无清理/下载。完成删除仅本批监控，下一批另获批准。
+
+## CHAMPION10部分真实启动：B/D已优化，A/C仍容量等待（2026-11-10）
+
+同一tmux codec_champion10_v1、原四个监督进程未替换。D（两端加宽）随后B（仅编码器加宽）自行满足启动容量后进入正式scratch训练；A（原规模）、C（仅解码器加宽）仍由原健康监督器等待。未停止外部任务、未改batch或门槛、未增加GPU烟测/反向profile、未查询运行期显存/磁盘。
+B/D的run_metadata确认从本批各自真正未训练step0启动，resume_checkpoint=null；pipeline有真实优化和有限loss，不是只加载。CPU只读检查原子last文件，证据CHAMPION10_PARTIAL_LAUNCH.audit：
+
+|cell|审计last完整更新step|可见有限loss（日志滚动值，非开发评分）|
+|---|---:|---:|
+|b_enc|4000|0.5409|
+|d_both|6000|0.2359|
+
+检查点的model_config与冻结配置一致，RVQ update_count等于global_step、三层码本已由训练初始化，G优化器状态非空，D优化器对象保留但100k前状态为空符合GAN关闭计划。epoch/batch/model/RVQEMA/buffers/G+D优化器均在last内。没有resume事件、没有到25k，因而没有伪造验证、没有开发质量分数。
+本批继续同seed20261110的2x2容量对照：groups8/encoderTCN0/decoderTCN2/GRU160/RVQ3x256/20ms前瞻不变，总延迟30ms、2400bps；B/D只扩encoder，C/D只扩Fourier hidden。每组仍500000TOTAL、batch32x2s/8workers，全部原损失和GAN100k–150k计划不变；先训满500k再只评每组250k/500k，共8节点，实际分数最高选择。历史C8回退不变，不启动新批次。
+CHAMPION10_QUEUE.audit仍是最初四组等待的历史事实；本次partial审计不能当成四组全部启动。只有日后A/C也观察到真实有限优化时才运行一次capture_champion10_launch.py生成CHAMPION10_LAUNCH.audit；不得为补齐启动记录重跑launch/preflight或替换健康等待者。最终统一审计8节点、4主记录、80step快照和完整RVQ后另写结果与中文复盘。
