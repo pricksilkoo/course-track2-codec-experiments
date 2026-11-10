@@ -1,0 +1,15 @@
+_base_: ../champion9/d_g8_d2.yaml
+seed: 20261110
+model:
+  encoder_channels: [8, 16, 32, 64, 160]
+  encoder_groups: 8
+  encoder_temporal_layers: 0
+  decoder_temporal_layers: 2
+  encoder_lookahead_frames: 2
+  fourier_width: 256
+  fourier_hidden: 160
+  fourier_layers: 8
+  synthesis_initialization_seed: 20461110
+training:
+  output_dir: runs/champion10_a_base
+  data_order_seed: 20261110

@@ -1,0 +1,6 @@
+_base_: a_base.yaml
+model:
+  encoder_channels: [8, 24, 40, 80, 160]
+  fourier_hidden: 184
+training:
+  output_dir: runs/champion10_d_both
