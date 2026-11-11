@@ -871,3 +871,36 @@ B/D的run_metadata确认从本批各自真正未训练step0启动，resume_check
 检查点的model_config与冻结配置一致，RVQ update_count等于global_step、三层码本已由训练初始化，G优化器状态非空，D优化器对象保留但100k前状态为空符合GAN关闭计划。epoch/batch/model/RVQEMA/buffers/G+D优化器均在last内。没有resume事件、没有到25k，因而没有伪造验证、没有开发质量分数。
 本批继续同seed20261110的2x2容量对照：groups8/encoderTCN0/decoderTCN2/GRU160/RVQ3x256/20ms前瞻不变，总延迟30ms、2400bps；B/D只扩encoder，C/D只扩Fourier hidden。每组仍500000TOTAL、batch32x2s/8workers，全部原损失和GAN100k–150k计划不变；先训满500k再只评每组250k/500k，共8节点，实际分数最高选择。历史C8回退不变，不启动新批次。
 CHAMPION10_QUEUE.audit仍是最初四组等待的历史事实；本次partial审计不能当成四组全部启动。只有日后A/C也观察到真实有限优化时才运行一次capture_champion10_launch.py生成CHAMPION10_LAUNCH.audit；不得为补齐启动记录重跑launch/preflight或替换健康等待者。最终统一审计8节点、4主记录、80step快照和完整RVQ后另写结果与中文复盘。
+
+## CHAMPION10四格容量实验已实际启动（2026-11-11取证，暂无质量结论）
+
+用户批准结构大致不变、用更多计算容量，四组为新原规模对照/仅编码加宽/仅解码加宽/两端加宽。
+同新seed/data-order20261110，从真正未训练codec/RVQ/D step0开始，初始优化器新建；非C9旧seed重跑、非已训练模型微调。
+四个tmux codec_champion10_v1监督任务均已看到实际优化和有限loss，证据CHAMPION10_LAUNCH.audit。取证时A/C为epoch3，B/D为epoch10；各组异步开始，非同时启动。A/C已有25k真实验证，B/D已有100k真实验证并进入GAN渐增阶段；这些是训练验证记录，尚无开发集质量评分。
+
+|cell|GPU|encoder channels|Fourier hidden|total MFLOP/s|decoder MFLOP/s|
+|---|---:|---|---:|---:|---:|
+|a_base|0|8/16/32/64/160|160|545.49780|257.6320|
+|b_enc|1|8/24/40/80/160|160|640.58436|257.6320|
+|c_dec|2|8/16/32/64/160|184|575.27700|287.4112|
+|d_both|3|8/24/40/80/160|184|670.36356|287.4112|
+
+其余结构全固定：groups8、k7入口、4级stride2/4/4/5、每级3个SnakeBeta/groupk3/dense1x1残差dilation1/3/9，无编码独立TCN。
+LN→一次20ms前瞻→GRU160→原3级256码字projectedRVQ dims48/64/80→原2层decoderTCN→Fourier width256/8块/320IRFFT/hop160/当前hop OLA。
+只扩中间encoder通道和Fourier hidden160/184；末端160、码本、GRU、前瞻与损失不变。10ms成帧+20ms前瞻=30msTOTAL，16kmono/160samples/3bytes/2400bps。
+CPU计数包含GRU矩阵/门、调制、保守IRFFT/OLA及SnakeBeta36op/元素+65/通道/调用，unclassifiedMAC0，总700/decoder300均满足；不是实测算子延迟。
+全新A共同来源、不同形状fresh，D编码来自新B其它来自新C；各单因素对照其它tensor精确一致，较宽decoder零输出残差使A/C、B/D step0音频和码流一致。
+所有保存初态码本initializedFALSE/EMA0，新source/config/data/core-code哈希冻结SETUP.audit，禁止正式启动后再生成；D种子20361110、GRU/Fourier20461110（GRU内部+1）。
+
+每组500kTOTAL scratch，batch32×2s/8workers、394988train/14596valid。G/VQ2e-4、5kwarmup/cosine1e-5、D2e-4、wd1e-6、clipG1/D10。
+沿用L1=1/spectral1/SC.25/linear.1/SI.003/commit.1/GAN.05/FM1.5，GAN100k开始150kfull；不加mel/teacher/bypass或其它新因素。
+每25k验证64batches共20真分量，保留20step+best/last；每1000完整更新原子last含模型/EMA/G+D优化器，recovery事件不伪造验证，未启用的逐batch日志不补造。
+先训满500k再评测每组250k/500k，恰好8开发搜索模型，按实际总分选、平分取早，非reconstruction-best，无选择性延长/额外种子。
+固定同200dev，每节点16197971samples/101286frames/303858真实字节、16kmono原长度有限音频、4评分/CSV/复杂度/checkpointSHA/选中完整GRU-RVQ-synthesis诊断。
+同端点B−A/D−C编码容量、C−A/D−B解码容量，n=1不是确认实验；历史C9比较含seed差异。旧C8最佳51.6670665400保留回退，v2冻结46.746343不自动晋升。
+遵守用户不做额外GPU烟测/反向profile，新扩容fullGAN峰值未实测；只做必要CPU形状/真实字节/因果/梯度/旧兼容与原子恢复回归，结果见setup日志。
+资源只启动前>=8192MiB显存/10GiB磁盘，不足30s容量等候；允许共享，不因其它PID排他。启动后child.wait，无GPU/磁盘实时轮询/主动停止，无batch降低。
+真实退出才诊断/留attempt证据，仅恢复受影响组自己的最新last继承EMA/G+D优化器，仍500kTOTAL，worker/crop/RNG重放可能非bitwise；无last披露丢失并回新未训练step0，重复真实共享OOM诊断后等待空闲卡。
+本地baseline只读，C4–9归档不重跑、不清理任何历史来源/模型；无sealed新评测。仅一个本批监控，健康进展静默。
+计划CHAMPION10_PLAN.md、初态CHAMPION10_SETUP.audit、实际启动CHAMPION10_LAUNCH.audit、4主实验running记录已保存；暂未完成训练、没有质量提升结论。
+完成写CHAMPION10_RESULTS.md/.audit，追加历史和中文复盘、限定commit/push，通知全组结果及确切试听目录并删除本批监控；下一批另获批准。

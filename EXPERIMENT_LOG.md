@@ -20281,11 +20281,11 @@ training:
 <!-- experiment:champion10_a_base:start -->
 ## champion10_a_base
 
-- Status: `planned`
-- Updated (UTC): `2026-11-10T01:59:25.493866+00:00`
-- Git commit: `d662a1aedfd8d7754baedd4195b155cdb3aef168`
+- Status: `running`
+- Updated (UTC): `2026-11-10T22:10:02.195298+00:00`
+- Git commit: `6d634fb230e6c93cbc5f1d7d29a6fa28a1e732ba`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_a_base`
-- Note: CHAMPION10 registered scratch capacity2x2, new seed20261110,500kTOTAL. Persistent supervisor queued on GPU0; startup free<8192MiB, waiting30s, NO actual optimization yet as of this queue audit. No runtime polling, no external-job stops or batch changes. See CHAMPION10_PLAN.md/SETUP.audit/QUEUE.audit. Exactly250k/500k development nodes after500k training.
+- Note: CHAMPION10 scratch capacity2x2, no learned parent. groups8/decoderTCN2; encoder[8, 16, 32, 64, 160]/decoderhidden160; encoder TCN0;lookahead20ms+packet10ms=total30ms. Newly untrained codec/RVQ/D step0; initSHAf582f93b44a5d64c1f9a9b651cd4e065782deb7622e692c48cc854f13bf09cb2; fresh initial optimizers.500000 total steps; score search ONLY250k/500k. Full states resume latest own last, no budget reset; worker/crop/RNG replay may be non-bitwise. CHAMPION10_PLAN.md/SETUP.audit.
 - Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_setup/step0_a_base.pt`
 - Checkpoint SHA-256: `f582f93b44a5d64c1f9a9b651cd4e065782deb7622e692c48cc854f13bf09cb2`
 - Selected checkpoint global step: `0`
@@ -20445,7 +20445,6 @@ training:
 ```
 
 <!-- experiment:champion10_a_base:end -->
-
 <!-- experiment:champion10_b_enc:start -->
 ## champion10_b_enc
 
@@ -20613,14 +20612,15 @@ training:
 ```
 
 <!-- experiment:champion10_b_enc:end -->
+
 <!-- experiment:champion10_c_dec:start -->
 ## champion10_c_dec
 
-- Status: `planned`
-- Updated (UTC): `2026-11-10T01:59:29.854130+00:00`
-- Git commit: `d662a1aedfd8d7754baedd4195b155cdb3aef168`
+- Status: `running`
+- Updated (UTC): `2026-11-10T22:10:19.404611+00:00`
+- Git commit: `6d634fb230e6c93cbc5f1d7d29a6fa28a1e732ba`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_c_dec`
-- Note: CHAMPION10 registered scratch capacity2x2, new seed20261110,500kTOTAL. Persistent supervisor queued on GPU2; startup free<8192MiB, waiting30s, NO actual optimization yet as of this queue audit. No runtime polling, no external-job stops or batch changes. See CHAMPION10_PLAN.md/SETUP.audit/QUEUE.audit. Exactly250k/500k development nodes after500k training.
+- Note: CHAMPION10 scratch capacity2x2, no learned parent. groups8/decoderTCN2; encoder[8, 16, 32, 64, 160]/decoderhidden184; encoder TCN0;lookahead20ms+packet10ms=total30ms. Newly untrained codec/RVQ/D step0; initSHAbfe7c8b02ef3e1aa16af52a85f49badf3e7ac7a43920ea926d4ff117ac5f1b04; fresh initial optimizers.500000 total steps; score search ONLY250k/500k. Full states resume latest own last, no budget reset; worker/crop/RNG replay may be non-bitwise. CHAMPION10_PLAN.md/SETUP.audit.
 - Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_setup/step0_c_dec.pt`
 - Checkpoint SHA-256: `bfe7c8b02ef3e1aa16af52a85f49badf3e7ac7a43920ea926d4ff117ac5f1b04`
 - Selected checkpoint global step: `0`
@@ -20780,7 +20780,6 @@ training:
 ```
 
 <!-- experiment:champion10_c_dec:end -->
-
 <!-- experiment:champion10_d_both:start -->
 ## champion10_d_both
 
