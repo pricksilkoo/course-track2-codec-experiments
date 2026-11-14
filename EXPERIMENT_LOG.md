@@ -20281,14 +20281,14 @@ training:
 <!-- experiment:champion10_a_base:start -->
 ## champion10_a_base
 
-- Status: `running`
-- Updated (UTC): `2026-11-10T22:10:02.195298+00:00`
-- Git commit: `6d634fb230e6c93cbc5f1d7d29a6fa28a1e732ba`
+- Status: `complete`
+- Updated (UTC): `2026-11-13T11:06:22.586868+00:00`
+- Git commit: `e0dda7dee35f4b7b6e7873dd626f7890c4f621a1`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_a_base`
-- Note: CHAMPION10 scratch capacity2x2, no learned parent. groups8/decoderTCN2; encoder[8, 16, 32, 64, 160]/decoderhidden160; encoder TCN0;lookahead20ms+packet10ms=total30ms. Newly untrained codec/RVQ/D step0; initSHAf582f93b44a5d64c1f9a9b651cd4e065782deb7622e692c48cc854f13bf09cb2; fresh initial optimizers.500000 total steps; score search ONLY250k/500k. Full states resume latest own last, no budget reset; worker/crop/RNG replay may be non-bitwise. CHAMPION10_PLAN.md/SETUP.audit.
-- Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_setup/step0_a_base.pt`
-- Checkpoint SHA-256: `f582f93b44a5d64c1f9a9b651cd4e065782deb7622e692c48cc854f13bf09cb2`
-- Selected checkpoint global step: `0`
+- Note: CHAMPION10 scratch capacity2x2, no learned parent. groups8/decoderTCN2; encoder[8, 16, 32, 64, 160]/decoderhidden160; encoder TCN0;lookahead20ms+packet10ms=total30ms. Newly untrained codec/RVQ/D step0; initSHAf582f93b44a5d64c1f9a9b651cd4e065782deb7622e692c48cc854f13bf09cb2; fresh initial optimizers.500000 total steps; score search ONLY250k/500k. Full states resume latest own last, no budget reset; worker/crop/RNG replay may be non-bitwise. CHAMPION10_PLAN.md/SETUP.audit. Selectedstep500000;delta_vs51.667066=-2.5315088730.
+- Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_a_base/checkpoints/step_00500000.pt`
+- Checkpoint SHA-256: `85b4018efb5f575a51ac855fc72ee76fcfe886c5dd46a3185b947cfe89fe7418`
+- Selected checkpoint global step: `500000`
 
 ### Dataset
 
@@ -20300,6 +20300,29 @@ training:
 | VCTK validation files | 4247 |
 | LibriTTS training files | 354780 |
 | LibriTTS validation files | 10349 |
+
+### Last training validation
+
+| Item | Value |
+|---|---:|
+| Epoch | 41 |
+| Global step | 500000 |
+| Train loss | 0.510416 |
+| Reconstruction loss | 0.131095 |
+| Waveform L1 | 0.013234 |
+| Spectral loss | 0.117861 |
+| Commitment loss | 0.109238 |
+
+### Objective evaluation
+
+| Item | Value |
+|---|---:|
+| Files | 200 |
+| PESQ-WB | 2.1130 |
+| ESTOI | 0.7508 |
+| SI-SNR (dB) | 6.4306 |
+| UTMOS | 2.9436 |
+| Course objective score | 49.1356 |
 
 ### Submission constraints
 
@@ -20448,14 +20471,14 @@ training:
 <!-- experiment:champion10_b_enc:start -->
 ## champion10_b_enc
 
-- Status: `running`
-- Updated (UTC): `2026-11-10T13:37:21.439562+00:00`
-- Git commit: `8f4d3c745027bfb0fce1a099c6e09cc478f39507`
+- Status: `complete`
+- Updated (UTC): `2026-11-12T18:19:13.127332+00:00`
+- Git commit: `e0dda7dee35f4b7b6e7873dd626f7890c4f621a1`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_b_enc`
-- Note: CHAMPION10 scratch capacity2x2, no learned parent. groups8/decoderTCN2; encoder[8, 24, 40, 80, 160]/decoderhidden160; encoder TCN0;lookahead20ms+packet10ms=total30ms. Newly untrained codec/RVQ/D step0; initSHA85687d4e4825de1d3fec97091d05181ebb6f4dfe9f88a4212cba7ab728ff7848; fresh initial optimizers.500000 total steps; score search ONLY250k/500k. Full states resume latest own last, no budget reset; worker/crop/RNG replay may be non-bitwise. CHAMPION10_PLAN.md/SETUP.audit.
-- Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_setup/step0_b_enc.pt`
-- Checkpoint SHA-256: `85687d4e4825de1d3fec97091d05181ebb6f4dfe9f88a4212cba7ab728ff7848`
-- Selected checkpoint global step: `0`
+- Note: CHAMPION10 scratch capacity2x2, no learned parent. groups8/decoderTCN2; encoder[8, 24, 40, 80, 160]/decoderhidden160; encoder TCN0;lookahead20ms+packet10ms=total30ms. Newly untrained codec/RVQ/D step0; initSHA85687d4e4825de1d3fec97091d05181ebb6f4dfe9f88a4212cba7ab728ff7848; fresh initial optimizers.500000 total steps; score search ONLY250k/500k. Full states resume latest own last, no budget reset; worker/crop/RNG replay may be non-bitwise. CHAMPION10_PLAN.md/SETUP.audit. Selectedstep500000;delta_vs51.667066=-2.8010326946.
+- Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_b_enc/checkpoints/step_00500000.pt`
+- Checkpoint SHA-256: `62ebf16124489a6edb8724ae190a849628844f86ab80b487dfca9b7a492657e8`
+- Selected checkpoint global step: `500000`
 
 ### Dataset
 
@@ -20467,6 +20490,29 @@ training:
 | VCTK validation files | 4247 |
 | LibriTTS training files | 354780 |
 | LibriTTS validation files | 10349 |
+
+### Last training validation
+
+| Item | Value |
+|---|---:|
+| Epoch | 41 |
+| Global step | 500000 |
+| Train loss | 0.418751 |
+| Reconstruction loss | 0.130763 |
+| Waveform L1 | 0.013196 |
+| Spectral loss | 0.117567 |
+| Commitment loss | 0.060968 |
+
+### Objective evaluation
+
+| Item | Value |
+|---|---:|
+| Files | 200 |
+| PESQ-WB | 2.1247 |
+| ESTOI | 0.7457 |
+| SI-SNR (dB) | 6.2977 |
+| UTMOS | 2.9207 |
+| Course objective score | 48.8660 |
 
 ### Submission constraints
 
@@ -20616,14 +20662,14 @@ training:
 <!-- experiment:champion10_c_dec:start -->
 ## champion10_c_dec
 
-- Status: `running`
-- Updated (UTC): `2026-11-10T22:10:19.404611+00:00`
-- Git commit: `6d634fb230e6c93cbc5f1d7d29a6fa28a1e732ba`
+- Status: `complete`
+- Updated (UTC): `2026-11-13T05:05:09.995180+00:00`
+- Git commit: `e0dda7dee35f4b7b6e7873dd626f7890c4f621a1`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_c_dec`
-- Note: CHAMPION10 scratch capacity2x2, no learned parent. groups8/decoderTCN2; encoder[8, 16, 32, 64, 160]/decoderhidden184; encoder TCN0;lookahead20ms+packet10ms=total30ms. Newly untrained codec/RVQ/D step0; initSHAbfe7c8b02ef3e1aa16af52a85f49badf3e7ac7a43920ea926d4ff117ac5f1b04; fresh initial optimizers.500000 total steps; score search ONLY250k/500k. Full states resume latest own last, no budget reset; worker/crop/RNG replay may be non-bitwise. CHAMPION10_PLAN.md/SETUP.audit.
-- Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_setup/step0_c_dec.pt`
-- Checkpoint SHA-256: `bfe7c8b02ef3e1aa16af52a85f49badf3e7ac7a43920ea926d4ff117ac5f1b04`
-- Selected checkpoint global step: `0`
+- Note: CHAMPION10 scratch capacity2x2, no learned parent. groups8/decoderTCN2; encoder[8, 16, 32, 64, 160]/decoderhidden184; encoder TCN0;lookahead20ms+packet10ms=total30ms. Newly untrained codec/RVQ/D step0; initSHAbfe7c8b02ef3e1aa16af52a85f49badf3e7ac7a43920ea926d4ff117ac5f1b04; fresh initial optimizers.500000 total steps; score search ONLY250k/500k. Full states resume latest own last, no budget reset; worker/crop/RNG replay may be non-bitwise. CHAMPION10_PLAN.md/SETUP.audit. Selectedstep500000;delta_vs51.667066=-2.1269288844.
+- Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_c_dec/checkpoints/step_00500000.pt`
+- Checkpoint SHA-256: `8deef797654510969b0cfa294ffc3b05ecca9c0051a21ac05045122ee25f7ad9`
+- Selected checkpoint global step: `500000`
 
 ### Dataset
 
@@ -20635,6 +20681,29 @@ training:
 | VCTK validation files | 4247 |
 | LibriTTS training files | 354780 |
 | LibriTTS validation files | 10349 |
+
+### Last training validation
+
+| Item | Value |
+|---|---:|
+| Epoch | 41 |
+| Global step | 500000 |
+| Train loss | 0.486007 |
+| Reconstruction loss | 0.130171 |
+| Waveform L1 | 0.013049 |
+| Spectral loss | 0.117122 |
+| Commitment loss | 0.100723 |
+
+### Objective evaluation
+
+| Item | Value |
+|---|---:|
+| Files | 200 |
+| PESQ-WB | 2.1515 |
+| ESTOI | 0.7549 |
+| SI-SNR (dB) | 6.6081 |
+| UTMOS | 2.9302 |
+| Course objective score | 49.5401 |
 
 ### Submission constraints
 
@@ -20783,14 +20852,14 @@ training:
 <!-- experiment:champion10_d_both:start -->
 ## champion10_d_both
 
-- Status: `running`
-- Updated (UTC): `2026-11-10T13:10:58.993675+00:00`
-- Git commit: `8f4d3c745027bfb0fce1a099c6e09cc478f39507`
+- Status: `complete`
+- Updated (UTC): `2026-11-12T20:31:24.464644+00:00`
+- Git commit: `e0dda7dee35f4b7b6e7873dd626f7890c4f621a1`
 - Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_d_both`
-- Note: CHAMPION10 scratch capacity2x2, no learned parent. groups8/decoderTCN2; encoder[8, 24, 40, 80, 160]/decoderhidden184; encoder TCN0;lookahead20ms+packet10ms=total30ms. Newly untrained codec/RVQ/D step0; initSHA33fe56190e1e60a17ebf40208281982d547a771f1933f846227a3255aeec83d6; fresh initial optimizers.500000 total steps; score search ONLY250k/500k. Full states resume latest own last, no budget reset; worker/crop/RNG replay may be non-bitwise. CHAMPION10_PLAN.md/SETUP.audit.
-- Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_setup/step0_d_both.pt`
-- Checkpoint SHA-256: `33fe56190e1e60a17ebf40208281982d547a771f1933f846227a3255aeec83d6`
-- Selected checkpoint global step: `0`
+- Note: CHAMPION10 scratch capacity2x2, no learned parent. groups8/decoderTCN2; encoder[8, 24, 40, 80, 160]/decoderhidden184; encoder TCN0;lookahead20ms+packet10ms=total30ms. Newly untrained codec/RVQ/D step0; initSHA33fe56190e1e60a17ebf40208281982d547a771f1933f846227a3255aeec83d6; fresh initial optimizers.500000 total steps; score search ONLY250k/500k. Full states resume latest own last, no budget reset; worker/crop/RNG replay may be non-bitwise. CHAMPION10_PLAN.md/SETUP.audit. Selectedstep500000;delta_vs51.667066=-1.4534737931.
+- Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_d_both/checkpoints/step_00500000.pt`
+- Checkpoint SHA-256: `6ef9c3081595db45d0ce90bdc7d9381bad718fdfdb7c8df7c27fff8c91bd07bd`
+- Selected checkpoint global step: `500000`
 
 ### Dataset
 
@@ -20802,6 +20871,29 @@ training:
 | VCTK validation files | 4247 |
 | LibriTTS training files | 354780 |
 | LibriTTS validation files | 10349 |
+
+### Last training validation
+
+| Item | Value |
+|---|---:|
+| Epoch | 41 |
+| Global step | 500000 |
+| Train loss | 0.458397 |
+| Reconstruction loss | 0.127595 |
+| Waveform L1 | 0.012971 |
+| Spectral loss | 0.114624 |
+| Commitment loss | 0.077238 |
+
+### Objective evaluation
+
+| Item | Value |
+|---|---:|
+| Files | 200 |
+| PESQ-WB | 2.1613 |
+| ESTOI | 0.7558 |
+| SI-SNR (dB) | 6.5809 |
+| UTMOS | 3.0258 |
+| Course objective score | 50.2136 |
 
 ### Submission constraints
 
@@ -20947,3 +21039,1530 @@ training:
 ```
 
 <!-- experiment:champion10_d_both:end -->
+<!-- experiment:champion10_b_enc_step250000:start -->
+## champion10_b_enc_step250000
+
+- Status: `complete`
+- Updated (UTC): `2026-11-12T18:17:00.534742+00:00`
+- Git commit: `e0dda7dee35f4b7b6e7873dd626f7890c4f621a1`
+- Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_b_enc`
+- Note: CHAMPION10 scratch capacity2x2, no learned parent. groups8/decoderTCN2; encoder[8, 24, 40, 80, 160]/decoderhidden160; encoder TCN0;lookahead20ms+packet10ms=total30ms. Newly untrained codec/RVQ/D step0; initSHA85687d4e4825de1d3fec97091d05181ebb6f4dfe9f88a4212cba7ab728ff7848; fresh initial optimizers.500000 total steps; score search ONLY250k/500k. Full states resume latest own last, no budget reset; worker/crop/RNG replay may be non-bitwise. CHAMPION10_PLAN.md/SETUP.audit. Declared searched scratch endpoint250000.
+- Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_b_enc/checkpoints/step_00250000.pt`
+- Checkpoint SHA-256: `b7f5d29fc9f577cf8dc5125800323f23fa81aab7ae7f5d85018461554d643d09`
+- Selected checkpoint global step: `250000`
+
+### Dataset
+
+| Item | Value |
+|---|---:|
+| Training files | 394988 |
+| Validation files | 14596 |
+| VCTK training files | 40208 |
+| VCTK validation files | 4247 |
+| LibriTTS training files | 354780 |
+| LibriTTS validation files | 10349 |
+
+### Last training validation
+
+| Item | Value |
+|---|---:|
+| Epoch | 41 |
+| Global step | 500000 |
+| Train loss | 0.418751 |
+| Reconstruction loss | 0.130763 |
+| Waveform L1 | 0.013196 |
+| Spectral loss | 0.117567 |
+| Commitment loss | 0.060968 |
+
+### Objective evaluation
+
+| Item | Value |
+|---|---:|
+| Files | 200 |
+| PESQ-WB | 2.0235 |
+| ESTOI | 0.7366 |
+| SI-SNR (dB) | 5.9572 |
+| UTMOS | 2.7686 |
+| Course objective score | 46.7513 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Algorithmic lookahead (ms) | 20 |
+| Total MFLOP/s | 640.584 |
+| Decoder MFLOP/s | 257.632 |
+| Parameters | 1699688 |
+
+### Effective configuration
+
+```yaml
+seed: 20261110
+audio:
+  sample_rate: 16000
+  frame_samples: 160
+  segment_samples: 32000
+model:
+  sample_rate: 16000
+  frame_samples: 160
+  quantizer_type: projected_rvq
+  encoder_channels:
+  - 8
+  - 24
+  - 40
+  - 80
+  - 160
+  encoder_strides:
+  - 2
+  - 4
+  - 4
+  - 5
+  decoder_channels:
+  - 160
+  - 48
+  - 24
+  - 12
+  - 8
+  decoder_strides:
+  - 5
+  - 4
+  - 4
+  - 2
+  residual_blocks: 3
+  residual_kernel_size: 3
+  rvq_num_codebooks: 3
+  rvq_codebook_size: 256
+  rvq_codebook_dim: 160
+  commitment_weight: 0.1
+  rvq_ema_decay: 0.95
+  rvq_dead_code_threshold: 0.5
+  rvq_dead_code_after_updates: 100
+  rvq_kmeans_iterations: 10
+  encoder_temporal_layers: 0
+  decoder_temporal_layers: 2
+  temporal_kernel_size: 3
+  temporal_expansion: 1
+  fsq_levels:
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  encoder_lookahead_frames: 2
+  decoder_lookahead_frames: 0
+  rvq_usage_loss_weight: 0.001
+  rvq_usage_temperature: 1.0
+  rvq_stage_commitment_weights:
+  - 1.0
+  - 1.5
+  - 2.0
+  projected_stage_dims:
+  - 48
+  - 64
+  - 80
+  encoder_gru: true
+  synthesis_type: fourier
+  synthesis_initialization_seed: 20461110
+  fourier_width: 256
+  fourier_hidden: 160
+  fourier_layers: 8
+  fourier_n_fft: 320
+  encoder_type: champion_grouped
+  encoder_groups: 8
+loss:
+  waveform_l1_weight: 1.0
+  spectral_weight: 1.0
+  fft_sizes:
+  - 256
+  - 512
+  - 1024
+  spectral_convergence_weight: 0.25
+  linear_magnitude_weight: 0.1
+  adversarial_weight: 0.05
+  feature_matching_weight: 1.5
+  si_snr_weight: 0.003
+adversarial:
+  resolutions:
+  - - 256
+    - 64
+    - 256
+  - - 512
+    - 128
+    - 512
+  - - 1024
+    - 256
+    - 1024
+  start_step: 100000
+  warmup_steps: 50000
+  learning_rate: 0.0002
+  gradient_clip_norm: 10.0
+  periods:
+  - 2
+  - 3
+  - 5
+  - 7
+  - 11
+training:
+  batch_size: 32
+  num_workers: 8
+  epochs: 1000
+  learning_rate: 0.0002
+  weight_decay: 1.0e-06
+  gradient_clip_norm: 1.0
+  validation_limit: 64
+  validation_checkpoint_interval_steps: 25000
+  sample_inference_count: 2
+  output_dir: /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_b_enc
+  minimum_learning_rate: 1.0e-05
+  warmup_steps: 5000
+  checkpoint_keep_last: 20
+  quantizer_learning_rate: 0.0002
+  quantizer_only_steps: 0
+  data_order_seed: 20261110
+  reset_rng_after_init: true
+  fail_on_nonfinite: true
+  recovery_checkpoint_interval_steps: 1000
+```
+
+<!-- experiment:champion10_b_enc_step250000:end -->
+
+<!-- experiment:champion10_b_enc_step500000:start -->
+## champion10_b_enc_step500000
+
+- Status: `complete`
+- Updated (UTC): `2026-11-12T18:18:22.372971+00:00`
+- Git commit: `e0dda7dee35f4b7b6e7873dd626f7890c4f621a1`
+- Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_b_enc`
+- Note: CHAMPION10 scratch capacity2x2, no learned parent. groups8/decoderTCN2; encoder[8, 24, 40, 80, 160]/decoderhidden160; encoder TCN0;lookahead20ms+packet10ms=total30ms. Newly untrained codec/RVQ/D step0; initSHA85687d4e4825de1d3fec97091d05181ebb6f4dfe9f88a4212cba7ab728ff7848; fresh initial optimizers.500000 total steps; score search ONLY250k/500k. Full states resume latest own last, no budget reset; worker/crop/RNG replay may be non-bitwise. CHAMPION10_PLAN.md/SETUP.audit. Declared searched scratch endpoint500000.
+- Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_b_enc/checkpoints/step_00500000.pt`
+- Checkpoint SHA-256: `62ebf16124489a6edb8724ae190a849628844f86ab80b487dfca9b7a492657e8`
+- Selected checkpoint global step: `500000`
+
+### Dataset
+
+| Item | Value |
+|---|---:|
+| Training files | 394988 |
+| Validation files | 14596 |
+| VCTK training files | 40208 |
+| VCTK validation files | 4247 |
+| LibriTTS training files | 354780 |
+| LibriTTS validation files | 10349 |
+
+### Last training validation
+
+| Item | Value |
+|---|---:|
+| Epoch | 41 |
+| Global step | 500000 |
+| Train loss | 0.418751 |
+| Reconstruction loss | 0.130763 |
+| Waveform L1 | 0.013196 |
+| Spectral loss | 0.117567 |
+| Commitment loss | 0.060968 |
+
+### Objective evaluation
+
+| Item | Value |
+|---|---:|
+| Files | 200 |
+| PESQ-WB | 2.1247 |
+| ESTOI | 0.7457 |
+| SI-SNR (dB) | 6.2977 |
+| UTMOS | 2.9207 |
+| Course objective score | 48.8660 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Algorithmic lookahead (ms) | 20 |
+| Total MFLOP/s | 640.584 |
+| Decoder MFLOP/s | 257.632 |
+| Parameters | 1699688 |
+
+### Effective configuration
+
+```yaml
+seed: 20261110
+audio:
+  sample_rate: 16000
+  frame_samples: 160
+  segment_samples: 32000
+model:
+  sample_rate: 16000
+  frame_samples: 160
+  quantizer_type: projected_rvq
+  encoder_channels:
+  - 8
+  - 24
+  - 40
+  - 80
+  - 160
+  encoder_strides:
+  - 2
+  - 4
+  - 4
+  - 5
+  decoder_channels:
+  - 160
+  - 48
+  - 24
+  - 12
+  - 8
+  decoder_strides:
+  - 5
+  - 4
+  - 4
+  - 2
+  residual_blocks: 3
+  residual_kernel_size: 3
+  rvq_num_codebooks: 3
+  rvq_codebook_size: 256
+  rvq_codebook_dim: 160
+  commitment_weight: 0.1
+  rvq_ema_decay: 0.95
+  rvq_dead_code_threshold: 0.5
+  rvq_dead_code_after_updates: 100
+  rvq_kmeans_iterations: 10
+  encoder_temporal_layers: 0
+  decoder_temporal_layers: 2
+  temporal_kernel_size: 3
+  temporal_expansion: 1
+  fsq_levels:
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  encoder_lookahead_frames: 2
+  decoder_lookahead_frames: 0
+  rvq_usage_loss_weight: 0.001
+  rvq_usage_temperature: 1.0
+  rvq_stage_commitment_weights:
+  - 1.0
+  - 1.5
+  - 2.0
+  projected_stage_dims:
+  - 48
+  - 64
+  - 80
+  encoder_gru: true
+  synthesis_type: fourier
+  synthesis_initialization_seed: 20461110
+  fourier_width: 256
+  fourier_hidden: 160
+  fourier_layers: 8
+  fourier_n_fft: 320
+  encoder_type: champion_grouped
+  encoder_groups: 8
+loss:
+  waveform_l1_weight: 1.0
+  spectral_weight: 1.0
+  fft_sizes:
+  - 256
+  - 512
+  - 1024
+  spectral_convergence_weight: 0.25
+  linear_magnitude_weight: 0.1
+  adversarial_weight: 0.05
+  feature_matching_weight: 1.5
+  si_snr_weight: 0.003
+adversarial:
+  resolutions:
+  - - 256
+    - 64
+    - 256
+  - - 512
+    - 128
+    - 512
+  - - 1024
+    - 256
+    - 1024
+  start_step: 100000
+  warmup_steps: 50000
+  learning_rate: 0.0002
+  gradient_clip_norm: 10.0
+  periods:
+  - 2
+  - 3
+  - 5
+  - 7
+  - 11
+training:
+  batch_size: 32
+  num_workers: 8
+  epochs: 1000
+  learning_rate: 0.0002
+  weight_decay: 1.0e-06
+  gradient_clip_norm: 1.0
+  validation_limit: 64
+  validation_checkpoint_interval_steps: 25000
+  sample_inference_count: 2
+  output_dir: /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_b_enc
+  minimum_learning_rate: 1.0e-05
+  warmup_steps: 5000
+  checkpoint_keep_last: 20
+  quantizer_learning_rate: 0.0002
+  quantizer_only_steps: 0
+  data_order_seed: 20261110
+  reset_rng_after_init: true
+  fail_on_nonfinite: true
+  recovery_checkpoint_interval_steps: 1000
+```
+
+<!-- experiment:champion10_b_enc_step500000:end -->
+
+<!-- experiment:champion10_d_both_step250000:start -->
+## champion10_d_both_step250000
+
+- Status: `complete`
+- Updated (UTC): `2026-11-12T20:29:23.579823+00:00`
+- Git commit: `e0dda7dee35f4b7b6e7873dd626f7890c4f621a1`
+- Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_d_both`
+- Note: CHAMPION10 scratch capacity2x2, no learned parent. groups8/decoderTCN2; encoder[8, 24, 40, 80, 160]/decoderhidden184; encoder TCN0;lookahead20ms+packet10ms=total30ms. Newly untrained codec/RVQ/D step0; initSHA33fe56190e1e60a17ebf40208281982d547a771f1933f846227a3255aeec83d6; fresh initial optimizers.500000 total steps; score search ONLY250k/500k. Full states resume latest own last, no budget reset; worker/crop/RNG replay may be non-bitwise. CHAMPION10_PLAN.md/SETUP.audit. Declared searched scratch endpoint250000.
+- Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_d_both/checkpoints/step_00250000.pt`
+- Checkpoint SHA-256: `dd117179d8082e07f0da82bf1183f4756609f821b8e21ec09bfa726cd1a100e7`
+- Selected checkpoint global step: `250000`
+
+### Dataset
+
+| Item | Value |
+|---|---:|
+| Training files | 394988 |
+| Validation files | 14596 |
+| VCTK training files | 40208 |
+| VCTK validation files | 4247 |
+| LibriTTS training files | 354780 |
+| LibriTTS validation files | 10349 |
+
+### Last training validation
+
+| Item | Value |
+|---|---:|
+| Epoch | 41 |
+| Global step | 500000 |
+| Train loss | 0.458397 |
+| Reconstruction loss | 0.127595 |
+| Waveform L1 | 0.012971 |
+| Spectral loss | 0.114624 |
+| Commitment loss | 0.077238 |
+
+### Objective evaluation
+
+| Item | Value |
+|---|---:|
+| Files | 200 |
+| PESQ-WB | 2.0266 |
+| ESTOI | 0.7410 |
+| SI-SNR (dB) | 6.4121 |
+| UTMOS | 2.8513 |
+| Course objective score | 47.6871 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Algorithmic lookahead (ms) | 20 |
+| Total MFLOP/s | 670.364 |
+| Decoder MFLOP/s | 287.411 |
+| Parameters | 1849064 |
+
+### Effective configuration
+
+```yaml
+seed: 20261110
+audio:
+  sample_rate: 16000
+  frame_samples: 160
+  segment_samples: 32000
+model:
+  sample_rate: 16000
+  frame_samples: 160
+  quantizer_type: projected_rvq
+  encoder_channels:
+  - 8
+  - 24
+  - 40
+  - 80
+  - 160
+  encoder_strides:
+  - 2
+  - 4
+  - 4
+  - 5
+  decoder_channels:
+  - 160
+  - 48
+  - 24
+  - 12
+  - 8
+  decoder_strides:
+  - 5
+  - 4
+  - 4
+  - 2
+  residual_blocks: 3
+  residual_kernel_size: 3
+  rvq_num_codebooks: 3
+  rvq_codebook_size: 256
+  rvq_codebook_dim: 160
+  commitment_weight: 0.1
+  rvq_ema_decay: 0.95
+  rvq_dead_code_threshold: 0.5
+  rvq_dead_code_after_updates: 100
+  rvq_kmeans_iterations: 10
+  encoder_temporal_layers: 0
+  decoder_temporal_layers: 2
+  temporal_kernel_size: 3
+  temporal_expansion: 1
+  fsq_levels:
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  encoder_lookahead_frames: 2
+  decoder_lookahead_frames: 0
+  rvq_usage_loss_weight: 0.001
+  rvq_usage_temperature: 1.0
+  rvq_stage_commitment_weights:
+  - 1.0
+  - 1.5
+  - 2.0
+  projected_stage_dims:
+  - 48
+  - 64
+  - 80
+  encoder_gru: true
+  synthesis_type: fourier
+  synthesis_initialization_seed: 20461110
+  fourier_width: 256
+  fourier_hidden: 184
+  fourier_layers: 8
+  fourier_n_fft: 320
+  encoder_type: champion_grouped
+  encoder_groups: 8
+loss:
+  waveform_l1_weight: 1.0
+  spectral_weight: 1.0
+  fft_sizes:
+  - 256
+  - 512
+  - 1024
+  spectral_convergence_weight: 0.25
+  linear_magnitude_weight: 0.1
+  adversarial_weight: 0.05
+  feature_matching_weight: 1.5
+  si_snr_weight: 0.003
+adversarial:
+  resolutions:
+  - - 256
+    - 64
+    - 256
+  - - 512
+    - 128
+    - 512
+  - - 1024
+    - 256
+    - 1024
+  start_step: 100000
+  warmup_steps: 50000
+  learning_rate: 0.0002
+  gradient_clip_norm: 10.0
+  periods:
+  - 2
+  - 3
+  - 5
+  - 7
+  - 11
+training:
+  batch_size: 32
+  num_workers: 8
+  epochs: 1000
+  learning_rate: 0.0002
+  weight_decay: 1.0e-06
+  gradient_clip_norm: 1.0
+  validation_limit: 64
+  validation_checkpoint_interval_steps: 25000
+  sample_inference_count: 2
+  output_dir: /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_d_both
+  minimum_learning_rate: 1.0e-05
+  warmup_steps: 5000
+  checkpoint_keep_last: 20
+  quantizer_learning_rate: 0.0002
+  quantizer_only_steps: 0
+  data_order_seed: 20261110
+  reset_rng_after_init: true
+  fail_on_nonfinite: true
+  recovery_checkpoint_interval_steps: 1000
+```
+
+<!-- experiment:champion10_d_both_step250000:end -->
+
+<!-- experiment:champion10_d_both_step500000:start -->
+## champion10_d_both_step500000
+
+- Status: `complete`
+- Updated (UTC): `2026-11-12T20:30:42.078144+00:00`
+- Git commit: `e0dda7dee35f4b7b6e7873dd626f7890c4f621a1`
+- Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_d_both`
+- Note: CHAMPION10 scratch capacity2x2, no learned parent. groups8/decoderTCN2; encoder[8, 24, 40, 80, 160]/decoderhidden184; encoder TCN0;lookahead20ms+packet10ms=total30ms. Newly untrained codec/RVQ/D step0; initSHA33fe56190e1e60a17ebf40208281982d547a771f1933f846227a3255aeec83d6; fresh initial optimizers.500000 total steps; score search ONLY250k/500k. Full states resume latest own last, no budget reset; worker/crop/RNG replay may be non-bitwise. CHAMPION10_PLAN.md/SETUP.audit. Declared searched scratch endpoint500000.
+- Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_d_both/checkpoints/step_00500000.pt`
+- Checkpoint SHA-256: `6ef9c3081595db45d0ce90bdc7d9381bad718fdfdb7c8df7c27fff8c91bd07bd`
+- Selected checkpoint global step: `500000`
+
+### Dataset
+
+| Item | Value |
+|---|---:|
+| Training files | 394988 |
+| Validation files | 14596 |
+| VCTK training files | 40208 |
+| VCTK validation files | 4247 |
+| LibriTTS training files | 354780 |
+| LibriTTS validation files | 10349 |
+
+### Last training validation
+
+| Item | Value |
+|---|---:|
+| Epoch | 41 |
+| Global step | 500000 |
+| Train loss | 0.458397 |
+| Reconstruction loss | 0.127595 |
+| Waveform L1 | 0.012971 |
+| Spectral loss | 0.114624 |
+| Commitment loss | 0.077238 |
+
+### Objective evaluation
+
+| Item | Value |
+|---|---:|
+| Files | 200 |
+| PESQ-WB | 2.1613 |
+| ESTOI | 0.7558 |
+| SI-SNR (dB) | 6.5809 |
+| UTMOS | 3.0258 |
+| Course objective score | 50.2136 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Algorithmic lookahead (ms) | 20 |
+| Total MFLOP/s | 670.364 |
+| Decoder MFLOP/s | 287.411 |
+| Parameters | 1849064 |
+
+### Effective configuration
+
+```yaml
+seed: 20261110
+audio:
+  sample_rate: 16000
+  frame_samples: 160
+  segment_samples: 32000
+model:
+  sample_rate: 16000
+  frame_samples: 160
+  quantizer_type: projected_rvq
+  encoder_channels:
+  - 8
+  - 24
+  - 40
+  - 80
+  - 160
+  encoder_strides:
+  - 2
+  - 4
+  - 4
+  - 5
+  decoder_channels:
+  - 160
+  - 48
+  - 24
+  - 12
+  - 8
+  decoder_strides:
+  - 5
+  - 4
+  - 4
+  - 2
+  residual_blocks: 3
+  residual_kernel_size: 3
+  rvq_num_codebooks: 3
+  rvq_codebook_size: 256
+  rvq_codebook_dim: 160
+  commitment_weight: 0.1
+  rvq_ema_decay: 0.95
+  rvq_dead_code_threshold: 0.5
+  rvq_dead_code_after_updates: 100
+  rvq_kmeans_iterations: 10
+  encoder_temporal_layers: 0
+  decoder_temporal_layers: 2
+  temporal_kernel_size: 3
+  temporal_expansion: 1
+  fsq_levels:
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  encoder_lookahead_frames: 2
+  decoder_lookahead_frames: 0
+  rvq_usage_loss_weight: 0.001
+  rvq_usage_temperature: 1.0
+  rvq_stage_commitment_weights:
+  - 1.0
+  - 1.5
+  - 2.0
+  projected_stage_dims:
+  - 48
+  - 64
+  - 80
+  encoder_gru: true
+  synthesis_type: fourier
+  synthesis_initialization_seed: 20461110
+  fourier_width: 256
+  fourier_hidden: 184
+  fourier_layers: 8
+  fourier_n_fft: 320
+  encoder_type: champion_grouped
+  encoder_groups: 8
+loss:
+  waveform_l1_weight: 1.0
+  spectral_weight: 1.0
+  fft_sizes:
+  - 256
+  - 512
+  - 1024
+  spectral_convergence_weight: 0.25
+  linear_magnitude_weight: 0.1
+  adversarial_weight: 0.05
+  feature_matching_weight: 1.5
+  si_snr_weight: 0.003
+adversarial:
+  resolutions:
+  - - 256
+    - 64
+    - 256
+  - - 512
+    - 128
+    - 512
+  - - 1024
+    - 256
+    - 1024
+  start_step: 100000
+  warmup_steps: 50000
+  learning_rate: 0.0002
+  gradient_clip_norm: 10.0
+  periods:
+  - 2
+  - 3
+  - 5
+  - 7
+  - 11
+training:
+  batch_size: 32
+  num_workers: 8
+  epochs: 1000
+  learning_rate: 0.0002
+  weight_decay: 1.0e-06
+  gradient_clip_norm: 1.0
+  validation_limit: 64
+  validation_checkpoint_interval_steps: 25000
+  sample_inference_count: 2
+  output_dir: /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_d_both
+  minimum_learning_rate: 1.0e-05
+  warmup_steps: 5000
+  checkpoint_keep_last: 20
+  quantizer_learning_rate: 0.0002
+  quantizer_only_steps: 0
+  data_order_seed: 20261110
+  reset_rng_after_init: true
+  fail_on_nonfinite: true
+  recovery_checkpoint_interval_steps: 1000
+```
+
+<!-- experiment:champion10_d_both_step500000:end -->
+
+<!-- experiment:champion10_c_dec_step250000:start -->
+## champion10_c_dec_step250000
+
+- Status: `complete`
+- Updated (UTC): `2026-11-13T05:02:22.197226+00:00`
+- Git commit: `e0dda7dee35f4b7b6e7873dd626f7890c4f621a1`
+- Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_c_dec`
+- Note: CHAMPION10 scratch capacity2x2, no learned parent. groups8/decoderTCN2; encoder[8, 16, 32, 64, 160]/decoderhidden184; encoder TCN0;lookahead20ms+packet10ms=total30ms. Newly untrained codec/RVQ/D step0; initSHAbfe7c8b02ef3e1aa16af52a85f49badf3e7ac7a43920ea926d4ff117ac5f1b04; fresh initial optimizers.500000 total steps; score search ONLY250k/500k. Full states resume latest own last, no budget reset; worker/crop/RNG replay may be non-bitwise. CHAMPION10_PLAN.md/SETUP.audit. Declared searched scratch endpoint250000.
+- Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_c_dec/checkpoints/step_00250000.pt`
+- Checkpoint SHA-256: `83fcc29f7fb9b33f6518a5b3cbdb714e88bf08fe5650aa09c88b6fef6c63e613`
+- Selected checkpoint global step: `250000`
+
+### Dataset
+
+| Item | Value |
+|---|---:|
+| Training files | 394988 |
+| Validation files | 14596 |
+| VCTK training files | 40208 |
+| VCTK validation files | 4247 |
+| LibriTTS training files | 354780 |
+| LibriTTS validation files | 10349 |
+
+### Last training validation
+
+| Item | Value |
+|---|---:|
+| Epoch | 41 |
+| Global step | 500000 |
+| Train loss | 0.486007 |
+| Reconstruction loss | 0.130171 |
+| Waveform L1 | 0.013049 |
+| Spectral loss | 0.117122 |
+| Commitment loss | 0.100723 |
+
+### Objective evaluation
+
+| Item | Value |
+|---|---:|
+| Files | 200 |
+| PESQ-WB | 2.0221 |
+| ESTOI | 0.7443 |
+| SI-SNR (dB) | 6.4167 |
+| UTMOS | 2.7792 |
+| Course objective score | 47.2873 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Algorithmic lookahead (ms) | 20 |
+| Total MFLOP/s | 575.277 |
+| Decoder MFLOP/s | 287.411 |
+| Parameters | 1796536 |
+
+### Effective configuration
+
+```yaml
+seed: 20261110
+audio:
+  sample_rate: 16000
+  frame_samples: 160
+  segment_samples: 32000
+model:
+  sample_rate: 16000
+  frame_samples: 160
+  quantizer_type: projected_rvq
+  encoder_channels:
+  - 8
+  - 16
+  - 32
+  - 64
+  - 160
+  encoder_strides:
+  - 2
+  - 4
+  - 4
+  - 5
+  decoder_channels:
+  - 160
+  - 48
+  - 24
+  - 12
+  - 8
+  decoder_strides:
+  - 5
+  - 4
+  - 4
+  - 2
+  residual_blocks: 3
+  residual_kernel_size: 3
+  rvq_num_codebooks: 3
+  rvq_codebook_size: 256
+  rvq_codebook_dim: 160
+  commitment_weight: 0.1
+  rvq_ema_decay: 0.95
+  rvq_dead_code_threshold: 0.5
+  rvq_dead_code_after_updates: 100
+  rvq_kmeans_iterations: 10
+  encoder_temporal_layers: 0
+  decoder_temporal_layers: 2
+  temporal_kernel_size: 3
+  temporal_expansion: 1
+  fsq_levels:
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  encoder_lookahead_frames: 2
+  decoder_lookahead_frames: 0
+  rvq_usage_loss_weight: 0.001
+  rvq_usage_temperature: 1.0
+  rvq_stage_commitment_weights:
+  - 1.0
+  - 1.5
+  - 2.0
+  projected_stage_dims:
+  - 48
+  - 64
+  - 80
+  encoder_gru: true
+  synthesis_type: fourier
+  synthesis_initialization_seed: 20461110
+  fourier_width: 256
+  fourier_hidden: 184
+  fourier_layers: 8
+  fourier_n_fft: 320
+  encoder_type: champion_grouped
+  encoder_groups: 8
+loss:
+  waveform_l1_weight: 1.0
+  spectral_weight: 1.0
+  fft_sizes:
+  - 256
+  - 512
+  - 1024
+  spectral_convergence_weight: 0.25
+  linear_magnitude_weight: 0.1
+  adversarial_weight: 0.05
+  feature_matching_weight: 1.5
+  si_snr_weight: 0.003
+adversarial:
+  resolutions:
+  - - 256
+    - 64
+    - 256
+  - - 512
+    - 128
+    - 512
+  - - 1024
+    - 256
+    - 1024
+  start_step: 100000
+  warmup_steps: 50000
+  learning_rate: 0.0002
+  gradient_clip_norm: 10.0
+  periods:
+  - 2
+  - 3
+  - 5
+  - 7
+  - 11
+training:
+  batch_size: 32
+  num_workers: 8
+  epochs: 1000
+  learning_rate: 0.0002
+  weight_decay: 1.0e-06
+  gradient_clip_norm: 1.0
+  validation_limit: 64
+  validation_checkpoint_interval_steps: 25000
+  sample_inference_count: 2
+  output_dir: /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_c_dec
+  minimum_learning_rate: 1.0e-05
+  warmup_steps: 5000
+  checkpoint_keep_last: 20
+  quantizer_learning_rate: 0.0002
+  quantizer_only_steps: 0
+  data_order_seed: 20261110
+  reset_rng_after_init: true
+  fail_on_nonfinite: true
+  recovery_checkpoint_interval_steps: 1000
+```
+
+<!-- experiment:champion10_c_dec_step250000:end -->
+
+<!-- experiment:champion10_c_dec_step500000:start -->
+## champion10_c_dec_step500000
+
+- Status: `complete`
+- Updated (UTC): `2026-11-13T05:03:57.514520+00:00`
+- Git commit: `e0dda7dee35f4b7b6e7873dd626f7890c4f621a1`
+- Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_c_dec`
+- Note: CHAMPION10 scratch capacity2x2, no learned parent. groups8/decoderTCN2; encoder[8, 16, 32, 64, 160]/decoderhidden184; encoder TCN0;lookahead20ms+packet10ms=total30ms. Newly untrained codec/RVQ/D step0; initSHAbfe7c8b02ef3e1aa16af52a85f49badf3e7ac7a43920ea926d4ff117ac5f1b04; fresh initial optimizers.500000 total steps; score search ONLY250k/500k. Full states resume latest own last, no budget reset; worker/crop/RNG replay may be non-bitwise. CHAMPION10_PLAN.md/SETUP.audit. Declared searched scratch endpoint500000.
+- Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_c_dec/checkpoints/step_00500000.pt`
+- Checkpoint SHA-256: `8deef797654510969b0cfa294ffc3b05ecca9c0051a21ac05045122ee25f7ad9`
+- Selected checkpoint global step: `500000`
+
+### Dataset
+
+| Item | Value |
+|---|---:|
+| Training files | 394988 |
+| Validation files | 14596 |
+| VCTK training files | 40208 |
+| VCTK validation files | 4247 |
+| LibriTTS training files | 354780 |
+| LibriTTS validation files | 10349 |
+
+### Last training validation
+
+| Item | Value |
+|---|---:|
+| Epoch | 41 |
+| Global step | 500000 |
+| Train loss | 0.486007 |
+| Reconstruction loss | 0.130171 |
+| Waveform L1 | 0.013049 |
+| Spectral loss | 0.117122 |
+| Commitment loss | 0.100723 |
+
+### Objective evaluation
+
+| Item | Value |
+|---|---:|
+| Files | 200 |
+| PESQ-WB | 2.1515 |
+| ESTOI | 0.7549 |
+| SI-SNR (dB) | 6.6081 |
+| UTMOS | 2.9302 |
+| Course objective score | 49.5401 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Algorithmic lookahead (ms) | 20 |
+| Total MFLOP/s | 575.277 |
+| Decoder MFLOP/s | 287.411 |
+| Parameters | 1796536 |
+
+### Effective configuration
+
+```yaml
+seed: 20261110
+audio:
+  sample_rate: 16000
+  frame_samples: 160
+  segment_samples: 32000
+model:
+  sample_rate: 16000
+  frame_samples: 160
+  quantizer_type: projected_rvq
+  encoder_channels:
+  - 8
+  - 16
+  - 32
+  - 64
+  - 160
+  encoder_strides:
+  - 2
+  - 4
+  - 4
+  - 5
+  decoder_channels:
+  - 160
+  - 48
+  - 24
+  - 12
+  - 8
+  decoder_strides:
+  - 5
+  - 4
+  - 4
+  - 2
+  residual_blocks: 3
+  residual_kernel_size: 3
+  rvq_num_codebooks: 3
+  rvq_codebook_size: 256
+  rvq_codebook_dim: 160
+  commitment_weight: 0.1
+  rvq_ema_decay: 0.95
+  rvq_dead_code_threshold: 0.5
+  rvq_dead_code_after_updates: 100
+  rvq_kmeans_iterations: 10
+  encoder_temporal_layers: 0
+  decoder_temporal_layers: 2
+  temporal_kernel_size: 3
+  temporal_expansion: 1
+  fsq_levels:
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  encoder_lookahead_frames: 2
+  decoder_lookahead_frames: 0
+  rvq_usage_loss_weight: 0.001
+  rvq_usage_temperature: 1.0
+  rvq_stage_commitment_weights:
+  - 1.0
+  - 1.5
+  - 2.0
+  projected_stage_dims:
+  - 48
+  - 64
+  - 80
+  encoder_gru: true
+  synthesis_type: fourier
+  synthesis_initialization_seed: 20461110
+  fourier_width: 256
+  fourier_hidden: 184
+  fourier_layers: 8
+  fourier_n_fft: 320
+  encoder_type: champion_grouped
+  encoder_groups: 8
+loss:
+  waveform_l1_weight: 1.0
+  spectral_weight: 1.0
+  fft_sizes:
+  - 256
+  - 512
+  - 1024
+  spectral_convergence_weight: 0.25
+  linear_magnitude_weight: 0.1
+  adversarial_weight: 0.05
+  feature_matching_weight: 1.5
+  si_snr_weight: 0.003
+adversarial:
+  resolutions:
+  - - 256
+    - 64
+    - 256
+  - - 512
+    - 128
+    - 512
+  - - 1024
+    - 256
+    - 1024
+  start_step: 100000
+  warmup_steps: 50000
+  learning_rate: 0.0002
+  gradient_clip_norm: 10.0
+  periods:
+  - 2
+  - 3
+  - 5
+  - 7
+  - 11
+training:
+  batch_size: 32
+  num_workers: 8
+  epochs: 1000
+  learning_rate: 0.0002
+  weight_decay: 1.0e-06
+  gradient_clip_norm: 1.0
+  validation_limit: 64
+  validation_checkpoint_interval_steps: 25000
+  sample_inference_count: 2
+  output_dir: /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_c_dec
+  minimum_learning_rate: 1.0e-05
+  warmup_steps: 5000
+  checkpoint_keep_last: 20
+  quantizer_learning_rate: 0.0002
+  quantizer_only_steps: 0
+  data_order_seed: 20261110
+  reset_rng_after_init: true
+  fail_on_nonfinite: true
+  recovery_checkpoint_interval_steps: 1000
+```
+
+<!-- experiment:champion10_c_dec_step500000:end -->
+
+<!-- experiment:champion10_a_base_step250000:start -->
+## champion10_a_base_step250000
+
+- Status: `complete`
+- Updated (UTC): `2026-11-13T11:03:55.471884+00:00`
+- Git commit: `e0dda7dee35f4b7b6e7873dd626f7890c4f621a1`
+- Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_a_base`
+- Note: CHAMPION10 scratch capacity2x2, no learned parent. groups8/decoderTCN2; encoder[8, 16, 32, 64, 160]/decoderhidden160; encoder TCN0;lookahead20ms+packet10ms=total30ms. Newly untrained codec/RVQ/D step0; initSHAf582f93b44a5d64c1f9a9b651cd4e065782deb7622e692c48cc854f13bf09cb2; fresh initial optimizers.500000 total steps; score search ONLY250k/500k. Full states resume latest own last, no budget reset; worker/crop/RNG replay may be non-bitwise. CHAMPION10_PLAN.md/SETUP.audit. Declared searched scratch endpoint250000.
+- Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_a_base/checkpoints/step_00250000.pt`
+- Checkpoint SHA-256: `85f882fa92fd1b0bbb1cc59dacbb8c984af743e61c1175aa1b2074bc123f8453`
+- Selected checkpoint global step: `250000`
+
+### Dataset
+
+| Item | Value |
+|---|---:|
+| Training files | 394988 |
+| Validation files | 14596 |
+| VCTK training files | 40208 |
+| VCTK validation files | 4247 |
+| LibriTTS training files | 354780 |
+| LibriTTS validation files | 10349 |
+
+### Last training validation
+
+| Item | Value |
+|---|---:|
+| Epoch | 41 |
+| Global step | 500000 |
+| Train loss | 0.510416 |
+| Reconstruction loss | 0.131095 |
+| Waveform L1 | 0.013234 |
+| Spectral loss | 0.117861 |
+| Commitment loss | 0.109238 |
+
+### Objective evaluation
+
+| Item | Value |
+|---|---:|
+| Files | 200 |
+| PESQ-WB | 1.9942 |
+| ESTOI | 0.7346 |
+| SI-SNR (dB) | 6.3158 |
+| UTMOS | 2.7349 |
+| Course objective score | 46.5072 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Algorithmic lookahead (ms) | 20 |
+| Total MFLOP/s | 545.498 |
+| Decoder MFLOP/s | 257.632 |
+| Parameters | 1647160 |
+
+### Effective configuration
+
+```yaml
+seed: 20261110
+audio:
+  sample_rate: 16000
+  frame_samples: 160
+  segment_samples: 32000
+model:
+  sample_rate: 16000
+  frame_samples: 160
+  quantizer_type: projected_rvq
+  encoder_channels:
+  - 8
+  - 16
+  - 32
+  - 64
+  - 160
+  encoder_strides:
+  - 2
+  - 4
+  - 4
+  - 5
+  decoder_channels:
+  - 160
+  - 48
+  - 24
+  - 12
+  - 8
+  decoder_strides:
+  - 5
+  - 4
+  - 4
+  - 2
+  residual_blocks: 3
+  residual_kernel_size: 3
+  rvq_num_codebooks: 3
+  rvq_codebook_size: 256
+  rvq_codebook_dim: 160
+  commitment_weight: 0.1
+  rvq_ema_decay: 0.95
+  rvq_dead_code_threshold: 0.5
+  rvq_dead_code_after_updates: 100
+  rvq_kmeans_iterations: 10
+  encoder_temporal_layers: 0
+  decoder_temporal_layers: 2
+  temporal_kernel_size: 3
+  temporal_expansion: 1
+  fsq_levels:
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  encoder_lookahead_frames: 2
+  decoder_lookahead_frames: 0
+  rvq_usage_loss_weight: 0.001
+  rvq_usage_temperature: 1.0
+  rvq_stage_commitment_weights:
+  - 1.0
+  - 1.5
+  - 2.0
+  projected_stage_dims:
+  - 48
+  - 64
+  - 80
+  encoder_gru: true
+  synthesis_type: fourier
+  synthesis_initialization_seed: 20461110
+  fourier_width: 256
+  fourier_hidden: 160
+  fourier_layers: 8
+  fourier_n_fft: 320
+  encoder_type: champion_grouped
+  encoder_groups: 8
+loss:
+  waveform_l1_weight: 1.0
+  spectral_weight: 1.0
+  fft_sizes:
+  - 256
+  - 512
+  - 1024
+  spectral_convergence_weight: 0.25
+  linear_magnitude_weight: 0.1
+  adversarial_weight: 0.05
+  feature_matching_weight: 1.5
+  si_snr_weight: 0.003
+adversarial:
+  resolutions:
+  - - 256
+    - 64
+    - 256
+  - - 512
+    - 128
+    - 512
+  - - 1024
+    - 256
+    - 1024
+  start_step: 100000
+  warmup_steps: 50000
+  learning_rate: 0.0002
+  gradient_clip_norm: 10.0
+  periods:
+  - 2
+  - 3
+  - 5
+  - 7
+  - 11
+training:
+  batch_size: 32
+  num_workers: 8
+  epochs: 1000
+  learning_rate: 0.0002
+  weight_decay: 1.0e-06
+  gradient_clip_norm: 1.0
+  validation_limit: 64
+  validation_checkpoint_interval_steps: 25000
+  sample_inference_count: 2
+  output_dir: /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_a_base
+  minimum_learning_rate: 1.0e-05
+  warmup_steps: 5000
+  checkpoint_keep_last: 20
+  quantizer_learning_rate: 0.0002
+  quantizer_only_steps: 0
+  data_order_seed: 20261110
+  reset_rng_after_init: true
+  fail_on_nonfinite: true
+  recovery_checkpoint_interval_steps: 1000
+```
+
+<!-- experiment:champion10_a_base_step250000:end -->
+
+<!-- experiment:champion10_a_base_step500000:start -->
+## champion10_a_base_step500000
+
+- Status: `complete`
+- Updated (UTC): `2026-11-13T11:05:27.573751+00:00`
+- Git commit: `e0dda7dee35f4b7b6e7873dd626f7890c4f621a1`
+- Run directory: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_a_base`
+- Note: CHAMPION10 scratch capacity2x2, no learned parent. groups8/decoderTCN2; encoder[8, 16, 32, 64, 160]/decoderhidden160; encoder TCN0;lookahead20ms+packet10ms=total30ms. Newly untrained codec/RVQ/D step0; initSHAf582f93b44a5d64c1f9a9b651cd4e065782deb7622e692c48cc854f13bf09cb2; fresh initial optimizers.500000 total steps; score search ONLY250k/500k. Full states resume latest own last, no budget reset; worker/crop/RNG replay may be non-bitwise. CHAMPION10_PLAN.md/SETUP.audit. Declared searched scratch endpoint500000.
+- Evaluated checkpoint: `/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_a_base/checkpoints/step_00500000.pt`
+- Checkpoint SHA-256: `85b4018efb5f575a51ac855fc72ee76fcfe886c5dd46a3185b947cfe89fe7418`
+- Selected checkpoint global step: `500000`
+
+### Dataset
+
+| Item | Value |
+|---|---:|
+| Training files | 394988 |
+| Validation files | 14596 |
+| VCTK training files | 40208 |
+| VCTK validation files | 4247 |
+| LibriTTS training files | 354780 |
+| LibriTTS validation files | 10349 |
+
+### Last training validation
+
+| Item | Value |
+|---|---:|
+| Epoch | 41 |
+| Global step | 500000 |
+| Train loss | 0.510416 |
+| Reconstruction loss | 0.131095 |
+| Waveform L1 | 0.013234 |
+| Spectral loss | 0.117861 |
+| Commitment loss | 0.109238 |
+
+### Objective evaluation
+
+| Item | Value |
+|---|---:|
+| Files | 200 |
+| PESQ-WB | 2.1130 |
+| ESTOI | 0.7508 |
+| SI-SNR (dB) | 6.4306 |
+| UTMOS | 2.9436 |
+| Course objective score | 49.1356 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Algorithmic lookahead (ms) | 20 |
+| Total MFLOP/s | 545.498 |
+| Decoder MFLOP/s | 257.632 |
+| Parameters | 1647160 |
+
+### Effective configuration
+
+```yaml
+seed: 20261110
+audio:
+  sample_rate: 16000
+  frame_samples: 160
+  segment_samples: 32000
+model:
+  sample_rate: 16000
+  frame_samples: 160
+  quantizer_type: projected_rvq
+  encoder_channels:
+  - 8
+  - 16
+  - 32
+  - 64
+  - 160
+  encoder_strides:
+  - 2
+  - 4
+  - 4
+  - 5
+  decoder_channels:
+  - 160
+  - 48
+  - 24
+  - 12
+  - 8
+  decoder_strides:
+  - 5
+  - 4
+  - 4
+  - 2
+  residual_blocks: 3
+  residual_kernel_size: 3
+  rvq_num_codebooks: 3
+  rvq_codebook_size: 256
+  rvq_codebook_dim: 160
+  commitment_weight: 0.1
+  rvq_ema_decay: 0.95
+  rvq_dead_code_threshold: 0.5
+  rvq_dead_code_after_updates: 100
+  rvq_kmeans_iterations: 10
+  encoder_temporal_layers: 0
+  decoder_temporal_layers: 2
+  temporal_kernel_size: 3
+  temporal_expansion: 1
+  fsq_levels:
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  encoder_lookahead_frames: 2
+  decoder_lookahead_frames: 0
+  rvq_usage_loss_weight: 0.001
+  rvq_usage_temperature: 1.0
+  rvq_stage_commitment_weights:
+  - 1.0
+  - 1.5
+  - 2.0
+  projected_stage_dims:
+  - 48
+  - 64
+  - 80
+  encoder_gru: true
+  synthesis_type: fourier
+  synthesis_initialization_seed: 20461110
+  fourier_width: 256
+  fourier_hidden: 160
+  fourier_layers: 8
+  fourier_n_fft: 320
+  encoder_type: champion_grouped
+  encoder_groups: 8
+loss:
+  waveform_l1_weight: 1.0
+  spectral_weight: 1.0
+  fft_sizes:
+  - 256
+  - 512
+  - 1024
+  spectral_convergence_weight: 0.25
+  linear_magnitude_weight: 0.1
+  adversarial_weight: 0.05
+  feature_matching_weight: 1.5
+  si_snr_weight: 0.003
+adversarial:
+  resolutions:
+  - - 256
+    - 64
+    - 256
+  - - 512
+    - 128
+    - 512
+  - - 1024
+    - 256
+    - 1024
+  start_step: 100000
+  warmup_steps: 50000
+  learning_rate: 0.0002
+  gradient_clip_norm: 10.0
+  periods:
+  - 2
+  - 3
+  - 5
+  - 7
+  - 11
+training:
+  batch_size: 32
+  num_workers: 8
+  epochs: 1000
+  learning_rate: 0.0002
+  weight_decay: 1.0e-06
+  gradient_clip_norm: 1.0
+  validation_limit: 64
+  validation_checkpoint_interval_steps: 25000
+  sample_inference_count: 2
+  output_dir: /storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_a_base
+  minimum_learning_rate: 1.0e-05
+  warmup_steps: 5000
+  checkpoint_keep_last: 20
+  quantizer_learning_rate: 0.0002
+  quantizer_only_steps: 0
+  data_order_seed: 20261110
+  reset_rng_after_init: true
+  fail_on_nonfinite: true
+  recovery_checkpoint_interval_steps: 1000
+```
+
+<!-- experiment:champion10_a_base_step500000:end -->

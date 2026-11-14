@@ -904,3 +904,15 @@ CPU计数包含GRU矩阵/门、调制、保守IRFFT/OLA及SnakeBeta36op/元素+6
 本地baseline只读，C4–9归档不重跑、不清理任何历史来源/模型；无sealed新评测。仅一个本批监控，健康进展静默。
 计划CHAMPION10_PLAN.md、初态CHAMPION10_SETUP.audit、实际启动CHAMPION10_LAUNCH.audit、4主实验running记录已保存；暂未完成训练、没有质量提升结论。
 完成写CHAMPION10_RESULTS.md/.audit，追加历史和中文复盘、限定commit/push，通知全组结果及确切试听目录并删除本批监控；下一批另获批准。
+
+## CHAMPION10四格 scratch 容量实验完成（2026-11-14）
+
+四组均从本批真正未训练 step0 完成 500000 TOTAL 更新，严格先训练满再只评预登记的 250k/500k 两节点；四组实际均选择 500k。A/B/C/D 选中总分分别 49.1355576670、48.8660338454、49.5401376557、50.2135927469。最好 D 比同 seed 新对照 A 高 1.0780350799，比 CHAMPION9D 高 0.5026120379（但 seed 同时变化），仍比历史 C8 最好 51.6670665400 低 1.4534737931。
+
+500k 同端点容量对照：编码器 B−A 为 −0.26952382，D−C 为 +0.67345509；解码器 C−A 为 +0.40457999，D−B 为 +1.34755890。编码器扩容存在明显上下文交互，解码器扩容在两个编码器条件下均提高总分。单 seed n=1 仅为开发探索，不作普遍确认。
+
+独立终审 526 项全通过：4 主/8 节点 COMPLETE、80 step 快照、80 条真实验证、1920 条周期 recovery_only 且 0 个实际恢复事件；8 份 CSV 分数重算、每节点 200 files/16197971 samples/101286 frames/303858 bytes、逐文件码流契约、16 kHz 单声道原长度有限重建音频、checkpoint/config/source/data/code/200 原音/101 历史哈希与选中全路径 RVQ 均通过。四个 last 均含 500k 模型/RVQ EMA 与非空 G+D 优化器状态；无 resume、OOM、重启或丢弃更新。
+
+复杂度/decoder MFLOP/s A 545.4978/257.632、B 640.58436/257.632、C 575.277/287.4112、D 670.36356/287.4112，参数 1647160/1699688/1796536/1849064，全部 30 ms 总延迟并满足 700/300 上限。完整结果 `CHAMPION10_RESULTS.md`，机器审计 `CHAMPION10_RESULTS.audit`，节点记录 `EXPERIMENT_LOG.md`。
+
+历史 C8 checkpoint SHA `a5cffa2dfcf39fc69b36b84e8ca238e7cbd9408ee008a1042bb7bbb253e4eb19` 保持不变且继续回退；不更新 strong_baseline_v2、不做 sealed LibriTTS、不清理历史模型、不启动下一批。下一实验需用户另行批准。

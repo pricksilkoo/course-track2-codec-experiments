@@ -982,3 +982,57 @@ CPU计数包含GRU矩阵/门、调制、保守IRFFT/OLA及SnakeBeta36op/元素+6
 本地baseline只读，C4–9归档不重跑、不清理任何历史来源/模型；无sealed新评测。仅一个本批监控，健康进展静默。
 计划CHAMPION10_PLAN.md、初态CHAMPION10_SETUP.audit、实际启动CHAMPION10_LAUNCH.audit、4主实验running记录已保存；暂未完成训练、没有质量提升结论。
 完成写CHAMPION10_RESULTS.md/.audit，追加历史和中文复盘、限定commit/push，通知全组结果及确切试听目录并删除本批监控；下一批另获批准。
+
+## CHAMPION10复盘：结构固定后的容量交互（2026-11-14，完整自包含）
+
+### 问题与设计
+
+本批回答一个很窄的问题：在 CHAMPION9D 的 groups8/encoder TCN0/decoder TCN2/GRU160/RVQ3×256/20 ms 前瞻结构上，只增加编码器中间通道与 Fourier hidden，是否能提高同一开发协议下的质量。2×2 四格为 A 原规模、B 只宽编码器、C 只宽解码器、D 两端都宽；共同 seed/data-order 为 20261110。A/C 编码器 8/16/32/64/160，B/D 为 8/24/40/80/160；A/B hidden160，C/D hidden184。
+
+音频接口始终是 16 kHz 单声道、160 samples/10 ms、每帧 24 bit/3 bytes/2400 bps。编码器 k7 左因果入口、四级 stride 2/4/4/5、每级三个 dilation 1/3/9 的 SnakeBeta→grouped k3→SnakeBeta→dense 1×1 混组残差；逐帧 LN 后仅一次两帧/20 ms 有限前瞻，再经单向残差 GRU160 与 projected RVQ 3×256（48/64/80）。解码器保留两层因果 TCN、Fourier width256、8 调制块、320 IRFFT/hop160/当前 hop OLA。10 ms 成帧加 20 ms 前瞻就是全部 30 ms 延迟，没有额外未来缓存或隐藏信息。
+
+四个 codec/RVQ/D 均真正从头构造 global_step0，无 C6–9 或 smoke 学得权重。step0 三码本 initialized=false、EMA cluster/embed 全零、无优化器状态；训练时创建全新 G/D 优化器。相同形状配对张量逐 tensor 相同，D 编码器来自新 B、其余来自新 C。所有 source/config/data/core-code 哈希在训练前冻结，正式运行后未重建。
+
+训练固定 500000 TOTAL scratch steps、batch32×2 s、8 workers、394988 train/14596 valid。G/VQ lr 2e-4、5000 warmup/cosine 到 1e-5，D lr 2e-4、weight decay 1e-6、clip G1/D10。损失保持 L1=1、spectral=1、SC=.25、linear=.1、SI=.003、commit=.1、GAN=.05、FM=1.5；GAN 在 100k 开始、150k full。每 25k 做 64 batches 真验证，共 20 条/组并保留 20 个 step 快照；每 1000 完整更新保存可恢复 last。没有 teacher、bypass、mel、新损失或 dev 训练。
+
+### 预登记节点与选择
+
+| cell | 250k 总分 | 500k 总分（选中） | PESQ | ESTOI | SI-SNR | UTMOS |
+|---|---:|---:|---:|---:|---:|---:|
+| A | 46.50717350 | 49.13555767 | 2.11300890 | 0.75075382 | 6.43062383 | 2.94360138 |
+| B | 46.75127764 | 48.86603385 | 2.12470738 | 0.74568221 | 6.29769476 | 2.92068724 |
+| C | 47.28726093 | 49.54013766 | 2.15154193 | 0.75485216 | 6.60806503 | 2.93015894 |
+| D | 47.68709449 | 50.21359275 | 2.16125861 | 0.75579438 | 6.58091334 | 3.02575330 |
+
+所有组都在 500k 得到更高实际总分，因此选择 500k；没有增加节点、种子或选择性延长。D 是本批最好，较 A +1.07803508；较 CHAMPION9D +0.50261204，但该比较还改变 seed，不能视作纯容量提升；较历史 C8 最好仍 −1.45347379。
+
+### 因素解释
+
+500k 时只宽编码器 B−A 为 −0.26952382：PESQ +0.01169848，却伴随 ESTOI −0.00507161、SI-SNR −0.13292907 dB、UTMOS −0.02291414。相同编码器变化放到宽解码器上，D−C 为 +0.67345509，主要来自 UTMOS +0.09559436 和小幅 PESQ/ESTOI 增益，SI-SNR −0.02715169。编码器容量不是独立稳定的正效应。
+
+只宽解码器 C−A 为 +0.40457999，PESQ/ESTOI/SI-SNR 提高但 UTMOS −0.01344244；在宽编码器上 D−B 为 +1.34755890，PESQ +0.03655123、ESTOI +0.01011217、SI-SNR +0.28321858、UTMOS +0.10506606，四项全升。本次最清晰信号是解码器容量与宽编码器的正交互，但只有 common-seed n=1，不能替代复现实验。
+
+### 约束与训练证据
+
+A/B/C/D 总 MFLOP/s 为 545.4978/640.58436/575.277/670.36356，decoder 为 257.632/257.632/287.4112/287.4112，参数为 1647160/1699688/1796536/1849064；全部 30 ms、unclassified MAC0，满足 700/300。该口径包含 GRU、调制、保守 IRFFT/OLA 与 SnakeBeta 解析预算，不冒称实测超越函数延迟；遵守用户要求未做新增 GPU smoke 或 fullGAN backward profile，扩容峰值显存仍未测。
+
+四组 80 条验证均有限，GAN schedule 与预登记一致；最后 reconstruction A/B/C/D 为 0.13109472/0.13076279/0.13017110/0.12759528。每组 480 条 recovery_only 是周期 last 记录，不是恢复；实际 recovery event、resume、OOM、重启和丢弃更新均为 0。四个 last 均含非空 G+D 优化器与完整 RVQ EMA。
+
+### 评测与 RVQ 审计
+
+固定 200dev 仅来自 `runs/fast_b64_2s_v1/validation_200`。每个节点独立验证 200 files、16197971 samples、101286 frames、303858 bytes；逐文件大小严格为 3×ceil(samples/160)，重建均为 16 kHz 单声道、原长度、有限值。8 份 CSV 的四项均值和逐文件裁剪总分重算误差小于 1e-10；checkpoint SHA、复杂度、码流树和音频树均留在 `CHAMPION10_RESULTS.audit`。
+
+四个选中节点的 RVQ 诊断位于各自 `evaluation/step_00500000/rvq_diagnostics.json`，而非 run 根目录。每层 256 个码字都活跃；A/B/C/D 三层 perplexity 分别为 118.759/116.291/112.500、126.210/119.225/128.956、124.918/114.274/113.955、117.314/120.169/113.218。潜在 MSE 有个别阶段反升，但完整三层波形 SI-SNR 与实码流评分误差小于 1e-4 dB，不能据局部潜在量删除码本。
+
+### 决策与路径
+
+本批不替换历史冠军。历史回退仍为 `runs/champion8_c_from_b10/checkpoints/interpolated.pt`，SHA `a5cffa2dfcf39fc69b36b84e8ca238e7cbd9408ee008a1042bb7bbb253e4eb19`，分数 51.6670665400。strong_baseline_v2 继续冻结，不做 sealed LibriTTS，不自动开下一批。
+
+原音：`/storage1/hehaoran/project/course-track2-codec-experiments/runs/fast_b64_2s_v1/validation_200`。
+
+- A：`/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_a_base/evaluation/step_00500000/reconstructed`
+- B：`/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_b_enc/evaluation/step_00500000/reconstructed`
+- C：`/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_c_dec/evaluation/step_00500000/reconstructed`
+- D：`/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_d_both/evaluation/step_00500000/reconstructed`
+
+完整数值、SHA 与审计定义见 `CHAMPION10_RESULTS.md`、`CHAMPION10_RESULTS.audit` 和 `EXPERIMENT_LOG.md`。下一实验必须先向用户申请批准。

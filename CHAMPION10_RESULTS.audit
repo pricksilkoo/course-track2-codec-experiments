@@ -1,0 +1,348 @@
+{
+  "audit_status": "PASS",
+  "best": {
+    "cell": "d_both",
+    "delta_vs_champion9_d": 0.5026120378541918,
+    "delta_vs_historical_best": -1.453473793113801,
+    "gain_vs_a_base": 1.0780350798941214,
+    "score": 50.21359274690457
+  },
+  "cells": {
+    "a_base": {
+      "checkpoint_sha256": "85b4018efb5f575a51ac855fc72ee76fcfe886c5dd46a3185b947cfe89fe7418",
+      "decoder_mflop_s": 257.632,
+      "parameters": 1647160,
+      "reconstructed": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_a_base/evaluation/step_00500000/reconstructed",
+      "score": 49.135557667010445,
+      "selected_step": 500000,
+      "total_mflop_s": 545.4978
+    },
+    "b_enc": {
+      "checkpoint_sha256": "62ebf16124489a6edb8724ae190a849628844f86ab80b487dfca9b7a492657e8",
+      "decoder_mflop_s": 257.632,
+      "parameters": 1699688,
+      "reconstructed": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_b_enc/evaluation/step_00500000/reconstructed",
+      "score": 48.86603384543819,
+      "selected_step": 500000,
+      "total_mflop_s": 640.5843600000001
+    },
+    "c_dec": {
+      "checkpoint_sha256": "8deef797654510969b0cfa294ffc3b05ecca9c0051a21ac05045122ee25f7ad9",
+      "decoder_mflop_s": 287.4112,
+      "parameters": 1796536,
+      "reconstructed": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_c_dec/evaluation/step_00500000/reconstructed",
+      "score": 49.540137655656636,
+      "selected_step": 500000,
+      "total_mflop_s": 575.277
+    },
+    "d_both": {
+      "checkpoint_sha256": "6ef9c3081595db45d0ce90bdc7d9381bad718fdfdb7c8df7c27fff8c91bd07bd",
+      "decoder_mflop_s": 287.4112,
+      "parameters": 1849064,
+      "reconstructed": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_d_both/evaluation/step_00500000/reconstructed",
+      "score": 50.21359274690457,
+      "selected_step": 500000,
+      "total_mflop_s": 670.36356
+    }
+  },
+  "checks_passed": 526,
+  "commits": {
+    "launch_record": "e0dda7dee35f4b7b6e7873dd626f7890c4f621a1",
+    "preregistration": "d662a1aedfd8d7754baedd4195b155cdb3aef168",
+    "queue": "8f4d3c7"
+  },
+  "counts": {
+    "actual_recovery_events": 0,
+    "code_hashes": 12,
+    "data_hashes": 3,
+    "experiment_log_complete_records": 8,
+    "fixed_original_hashes": 200,
+    "historical_hashes": 101,
+    "main_complete_records": 4,
+    "node_complete_records": 8,
+    "real_validation_rows": 80,
+    "recovery_only_rows": 1920,
+    "step_snapshots": 80
+  },
+  "created_utc": "2026-11-14T02:59:18.641646+00:00",
+  "failures": [],
+  "final_training_evidence": {
+    "a_base": {
+      "adversarial": 0.7492563724517822,
+      "commitment": 0.10923794656991959,
+      "discriminator": 1.5777965784072876,
+      "feature_matching": 0.13081853091716766,
+      "reconstruction": 0.13109471835196018,
+      "spectral": 0.1178605780005455,
+      "train_loss": 0.510415516338151,
+      "validation_total": 0.47402327992022036,
+      "waveform_l1": 0.01323414035141468
+    },
+    "b_enc": {
+      "adversarial": 0.689207136631012,
+      "commitment": 0.060968417674303055,
+      "discriminator": 1.5796589851379395,
+      "feature_matching": 0.11021704971790314,
+      "reconstruction": 0.13076279498636723,
+      "spectral": 0.11756686866283417,
+      "train_loss": 0.41875149068559053,
+      "validation_total": 0.39151714406907556,
+      "waveform_l1": 0.013195926323533058
+    },
+    "c_dec": {
+      "adversarial": 0.7308496832847595,
+      "commitment": 0.10072258859872818,
+      "discriminator": 1.6048760414123535,
+      "feature_matching": 0.12441398948431015,
+      "reconstruction": 0.13017109967768192,
+      "spectral": 0.1171223521232605,
+      "train_loss": 0.4860074951865111,
+      "validation_total": 0.4540571566671133,
+      "waveform_l1": 0.013048747554421425
+    },
+    "d_both": {
+      "adversarial": 0.7267143130302429,
+      "commitment": 0.0772375613451004,
+      "discriminator": 1.598846435546875,
+      "feature_matching": 0.12394339591264725,
+      "reconstruction": 0.12759528495371342,
+      "spectral": 0.11462388187646866,
+      "train_loss": 0.4583974198645847,
+      "validation_total": 0.42708365581929686,
+      "waveform_l1": 0.012971403077244759
+    }
+  },
+  "historical_fallback": {
+    "checkpoint": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion8_c_from_b10/checkpoints/interpolated.pt",
+    "score": 51.66706654001837,
+    "sha256": "a5cffa2dfcf39fc69b36b84e8ca238e7cbd9408ee008a1042bb7bbb253e4eb19",
+    "unchanged": true
+  },
+  "initialization": {
+    "codebooks_initialized": [
+      false,
+      false,
+      false
+    ],
+    "ema_zero": true,
+    "global_step": 0,
+    "initial_optimizers_absent": true,
+    "paired_common_tensors_exact": true,
+    "resume_events": 0,
+    "trained": false
+  },
+  "matched_endpoint_contrasts": {
+    "250000_decoder_C_minus_A": {
+      "ESTOI": 0.009663637381131185,
+      "PESQ": 0.027850207686424433,
+      "SI_SNR": 0.10088126213127069,
+      "UTMOS": 0.04424250543117525,
+      "score": 0.7800874372082021
+    },
+    "250000_decoder_D_minus_B": {
+      "ESTOI": 0.0044842357321331905,
+      "PESQ": 0.0031782889366147593,
+      "SI_SNR": 0.45494858641979974,
+      "UTMOS": 0.08266656458377808,
+      "score": 0.935816852297279
+    },
+    "250000_encoder_B_minus_A": {
+      "ESTOI": 0.0019633789184045902,
+      "PESQ": 0.029221265912056094,
+      "SI_SNR": -0.358622821713789,
+      "UTMOS": 0.03366969704627998,
+      "score": 0.24410414387151036
+    },
+    "250000_encoder_D_minus_C": {
+      "ESTOI": -0.003216022730593404,
+      "PESQ": 0.00454934716224642,
+      "SI_SNR": -0.004555497425259958,
+      "UTMOS": 0.07209375619888281,
+      "score": 0.39983355896058725
+    },
+    "500000_decoder_C_minus_A": {
+      "ESTOI": 0.004098341685685236,
+      "PESQ": 0.038533033728599175,
+      "SI_SNR": 0.17744119833016114,
+      "UTMOS": -0.013442441225052004,
+      "score": 0.4045799886461907
+    },
+    "500000_decoder_D_minus_B": {
+      "ESTOI": 0.010112168995998205,
+      "PESQ": 0.03655123054981235,
+      "SI_SNR": 0.28321857681078466,
+      "UTMOS": 0.10506605565547922,
+      "score": 1.3475589014663782
+    },
+    "500000_encoder_B_minus_A": {
+      "ESTOI": -0.005071613973796074,
+      "PESQ": 0.011698479652404448,
+      "SI_SNR": -0.13292906959285844,
+      "UTMOS": -0.02291413962841027,
+      "score": -0.26952382157225685
+    },
+    "500000_encoder_D_minus_C": {
+      "ESTOI": 0.000942213336516895,
+      "PESQ": 0.009716676473617625,
+      "SI_SNR": -0.02715169111223492,
+      "UTMOS": 0.09559435725212095,
+      "score": 0.6734550912479307
+    }
+  },
+  "node_contract": {
+    "actual_bytes": 303858,
+    "bytes_per_frame": 3,
+    "channels": 1,
+    "csv_reaggregation_tolerance": 1e-10,
+    "files": 200,
+    "finite_audio": true,
+    "frames": 101286,
+    "original_lengths": true,
+    "sample_rate": 16000,
+    "samples": 16197971,
+    "total_delay_ms": 30
+  },
+  "nodes": {
+    "a_base_250000": {
+      "ESTOI": 0.7345960569957056,
+      "PESQ": 1.9942357885837554,
+      "SI_SNR": 6.315779090064524,
+      "UTMOS": 2.7349161499738694,
+      "bitstream_tree_sha256": "fc3e8796002549e5ca78c9eb55f63570a429217ce818e90c63850418dbc18c42",
+      "checkpoint_sha256": "85f882fa92fd1b0bbb1cc59dacbb8c984af743e61c1175aa1b2074bc123f8453",
+      "reconstructed_tree_sha256": "725315b066731e604e16b1545b4c2aeca6f47041366bdfce751cc9a6630d2750",
+      "score": 46.50717349768933
+    },
+    "a_base_500000": {
+      "ESTOI": 0.7507538223607813,
+      "PESQ": 2.113008898496628,
+      "SI_SNR": 6.430623834052108,
+      "UTMOS": 2.943601384162903,
+      "bitstream_tree_sha256": "0be32a4d9ea5d7154bcd905cd823631f0a3eded2dc00732911af9a3d518dd1c3",
+      "checkpoint_sha256": "85b4018efb5f575a51ac855fc72ee76fcfe886c5dd46a3185b947cfe89fe7418",
+      "reconstructed_tree_sha256": "c397fb3a5660b2b0a89089cee6e06168ed80ad949690e275e512dc2ba4dad04b",
+      "score": 49.135557667010445
+    },
+    "b_enc_250000": {
+      "ESTOI": 0.7365594359141102,
+      "PESQ": 2.0234570544958115,
+      "SI_SNR": 5.957156268350735,
+      "UTMOS": 2.7685858470201494,
+      "bitstream_tree_sha256": "d9f85a7ce5ca7ed0362a2572730088a72da17049e4abfa48a7a74841d69e7182",
+      "checkpoint_sha256": "b7f5d29fc9f577cf8dc5125800323f23fa81aab7ae7f5d85018461554d643d09",
+      "reconstructed_tree_sha256": "4338eabe8386356a93a0d0733295d49d3c25d072f62065a18375944ad73b952e",
+      "score": 46.75127764156084
+    },
+    "b_enc_500000": {
+      "ESTOI": 0.7456822083869852,
+      "PESQ": 2.1247073781490324,
+      "SI_SNR": 6.29769476445925,
+      "UTMOS": 2.9206872445344927,
+      "bitstream_tree_sha256": "fc945ed2fc72948853bbc026120b1754cc667171a6496d8c25a07aac910a35e4",
+      "checkpoint_sha256": "62ebf16124489a6edb8724ae190a849628844f86ab80b487dfca9b7a492657e8",
+      "reconstructed_tree_sha256": "0e7c61e7763e33b2174b968c4c7c0ea44e7f53d5b2ec3ab2d8c99ee56c8cdd20",
+      "score": 48.86603384543819
+    },
+    "c_dec_250000": {
+      "ESTOI": 0.7442596943768368,
+      "PESQ": 2.02208599627018,
+      "SI_SNR": 6.416660352195795,
+      "UTMOS": 2.7791586554050447,
+      "bitstream_tree_sha256": "d5c76d8bc5f8cb37041e2248d88e2a870a2555aa7e6678f145fb01f7eaa3f23c",
+      "checkpoint_sha256": "83fcc29f7fb9b33f6518a5b3cbdb714e88bf08fe5650aa09c88b6fef6c63e613",
+      "reconstructed_tree_sha256": "05084587898742a542596ec6c4781cfb6e40485c501586a096223454ac21e113",
+      "score": 47.28726093489753
+    },
+    "c_dec_500000": {
+      "ESTOI": 0.7548521640464665,
+      "PESQ": 2.151541932225227,
+      "SI_SNR": 6.608065032382269,
+      "UTMOS": 2.930158942937851,
+      "bitstream_tree_sha256": "456da02a0878b75df41adef731bdf32678020146539a80953fb8cf612b1cbfad",
+      "checkpoint_sha256": "8deef797654510969b0cfa294ffc3b05ecca9c0051a21ac05045122ee25f7ad9",
+      "reconstructed_tree_sha256": "cbb5727b5db2f936e2179dcc76a9ec6843714486406312b227050879ef4c75e2",
+      "score": 49.540137655656636
+    },
+    "d_both_250000": {
+      "ESTOI": 0.7410436716462434,
+      "PESQ": 2.0266353434324262,
+      "SI_SNR": 6.412104854770535,
+      "UTMOS": 2.8512524116039275,
+      "bitstream_tree_sha256": "db673ad9120373b14e4d47f905a86a43c49fabb84373f7f4bb93886e16c5ee83",
+      "checkpoint_sha256": "dd117179d8082e07f0da82bf1183f4756609f821b8e21ec09bfa726cd1a100e7",
+      "reconstructed_tree_sha256": "3a36ed6fe4c99edee0711eaad44e77ec984ca0b25c0d67cf6490f20c66ce795a",
+      "score": 47.68709449385812
+    },
+    "d_both_500000": {
+      "ESTOI": 0.7557943773829834,
+      "PESQ": 2.161258608698845,
+      "SI_SNR": 6.580913341270034,
+      "UTMOS": 3.025753300189972,
+      "bitstream_tree_sha256": "ed109879bd3f88092cb748ba755993c70031a8d0105ce644a44808d4c252acf7",
+      "checkpoint_sha256": "6ef9c3081595db45d0ce90bdc7d9381bad718fdfdb7c8df7c27fff8c91bd07bd",
+      "reconstructed_tree_sha256": "2f0bec11f9034653fad0aeb29e35f7e4aa49693b195782c14bfd38d423a1a666",
+      "score": 50.21359274690457
+    }
+  },
+  "notes": [
+    "All four selected 500000 by actual score after full training.",
+    "No extra nodes, seeds, retries, resumes, promotion, sealed evaluation, or next batch.",
+    "CHAMPION9 comparison changes seed and is not a pure capacity effect."
+  ],
+  "original": {
+    "directory": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/fast_b64_2s_v1/validation_200",
+    "files": 200,
+    "samples": 16197971,
+    "tree_sha256": "9714c7564664f5d6faaaf48b311a0b23352553ef4797ecc638486045f8a43891"
+  },
+  "selected_rvq": {
+    "a_base": {
+      "active_codes": [
+        256,
+        256,
+        256
+      ],
+      "perplexity": [
+        118.75886454405554,
+        116.29140988622842,
+        112.5002856683942
+      ]
+    },
+    "b_enc": {
+      "active_codes": [
+        256,
+        256,
+        256
+      ],
+      "perplexity": [
+        126.21005232005626,
+        119.22465294996668,
+        128.95611469392645
+      ]
+    },
+    "c_dec": {
+      "active_codes": [
+        256,
+        256,
+        256
+      ],
+      "perplexity": [
+        124.91848738243121,
+        114.27410653096386,
+        113.95477724324935
+      ]
+    },
+    "d_both": {
+      "active_codes": [
+        256,
+        256,
+        256
+      ],
+      "perplexity": [
+        117.31426253167152,
+        120.16917209388887,
+        113.21781052596069
+      ]
+    }
+  }
+}
