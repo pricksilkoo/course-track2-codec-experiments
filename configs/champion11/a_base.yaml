@@ -1,0 +1,7 @@
+_base_: ../champion10/a_base.yaml
+seed: 20261117
+model:
+  synthesis_initialization_seed: 20461117
+training:
+  output_dir: runs/champion11_a_base
+  data_order_seed: 20261117

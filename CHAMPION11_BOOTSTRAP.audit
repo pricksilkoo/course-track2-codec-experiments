@@ -1,0 +1,94 @@
+{
+  "source": "CHAMPION10 500k frozen 200 dev files",
+  "resampling": "paired file-level percentile bootstrap; descriptive on this dev set, does not measure seed variability or account for speaker dependence",
+  "seed": 20261117,
+  "replicates": 20000,
+  "contrasts": {
+    "C-A": {
+      "score": {
+        "mean": 0.4045799886461948,
+        "percentile95": [
+          0.13857703530887538,
+          0.6712318175350991
+        ],
+        "positive_files": 116
+      },
+      "PESQ": {
+        "mean": 0.03853303372859955,
+        "percentile95": [
+          0.015053790658712388,
+          0.06107557108998284
+        ],
+        "positive_files": 139
+      },
+      "ESTOI": {
+        "mean": 0.00409834168568541,
+        "percentile95": [
+          0.0017496425410294418,
+          0.006459653648052912
+        ],
+        "positive_files": 120
+      },
+      "SI_SNR": {
+        "mean": 0.17744119833016242,
+        "percentile95": [
+          0.1178591006370894,
+          0.23886192855535224
+        ],
+        "positive_files": 144
+      },
+      "UTMOS": {
+        "mean": -0.01344244122505188,
+        "percentile95": [
+          -0.038426632985472685,
+          0.012040518388152104
+        ],
+        "positive_files": 95
+      },
+      "leave_out_largest_10_score_deltas_mean": 0.20359047458077054
+    },
+    "D-C": {
+      "score": {
+        "mean": 0.6734550912479432,
+        "percentile95": [
+          0.3849735573660487,
+          0.9715929982524644
+        ],
+        "positive_files": 128
+      },
+      "PESQ": {
+        "mean": 0.009716676473617554,
+        "percentile95": [
+          -0.01251358026266098,
+          0.033390245914459216
+        ],
+        "positive_files": 94
+      },
+      "ESTOI": {
+        "mean": 0.0009422133365169128,
+        "percentile95": [
+          -0.0016856851828589152,
+          0.0036387681022153648
+        ],
+        "positive_files": 97
+      },
+      "SI_SNR": {
+        "mean": -0.027151691112234776,
+        "percentile95": [
+          -0.09978959978038779,
+          0.04585748579852301
+        ],
+        "positive_files": 100
+      },
+      "UTMOS": {
+        "mean": 0.09559435725212097,
+        "percentile95": [
+          0.06885510934889316,
+          0.12297556281089779
+        ],
+        "positive_files": 139
+      },
+      "leave_out_largest_10_score_deltas_mean": 0.36260612442139095
+    }
+  }
+}
