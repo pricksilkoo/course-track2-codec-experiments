@@ -1036,3 +1036,11 @@ A/B/C/D 总 MFLOP/s 为 545.4978/640.58436/575.277/670.36356，decoder 为 257.6
 - D：`/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_d_both/evaluation/step_00500000/reconstructed`
 
 完整数值、SHA 与审计定义见 `CHAMPION10_RESULTS.md`、`CHAMPION10_RESULTS.audit` 和 `EXPERIMENT_LOG.md`。下一实验必须先向用户申请批准。
+
+## CHAMPION11 复盘（2026-11-18）
+
+A 为原规模，C 加宽解码器，D 同时加宽编码器和解码器。三组共同使用新种子 20261117，各从未训练 step 0 跑满 500k，先完成训练再评冻结的 200 条开发音频。500k 为预定主端点，以 250k 观察训练趋势。A/C/D 的 500k 总分为 49.203398 / 48.648543 / 50.245769。三组总/解码复杂度分别为 545.49780/257.6320、575.27700/287.4112、670.36356/287.4112 MFLOP/s。接口均为 2.4 kbps、30 ms。
+
+同端点比较，窄编码器下加宽解码器 C−A 在两个种子分别为 +0.404580 和 −0.554855。宽解码器下加宽编码器 D−C 分别为 +0.673455 和 +1.597227，对应额外 95.08656 MFLOP/s，总延迟和解码计算相同。第二个种子 D−C 的 PESQ、ESTOI、SI-SNR 与 UTMOS 均上升，第一种子 SI-SNR 小幅下降。历史 C8 比本次最好的 D 高 1.421297 分并保留回退。
+
+六节点评分、实码流与重建哈希、三份完整路径 RVQ 诊断、训练和恢复历史均已复核。D 的 GPU3 首次启动因 CUDA 初始化失败、零步更新，改由 GPU1 从同个 step 0 跑满。参见 [完整结果与试听路径](CHAMPION11_RESULTS.md)及 [机器可读审计](CHAMPION11_RESULTS.audit)。

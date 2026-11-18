@@ -916,3 +916,9 @@ CPU计数包含GRU矩阵/门、调制、保守IRFFT/OLA及SnakeBeta36op/元素+6
 复杂度/decoder MFLOP/s A 545.4978/257.632、B 640.58436/257.632、C 575.277/287.4112、D 670.36356/287.4112，参数 1647160/1699688/1796536/1849064，全部 30 ms 总延迟并满足 700/300 上限。完整结果 `CHAMPION10_RESULTS.md`，机器审计 `CHAMPION10_RESULTS.audit`，节点记录 `EXPERIMENT_LOG.md`。
 
 历史 C8 checkpoint SHA `a5cffa2dfcf39fc69b36b84e8ca238e7cbd9408ee008a1042bb7bbb253e4eb19` 保持不变且继续回退；不更新 strong_baseline_v2、不做 sealed LibriTTS、不清理历史模型、不启动下一批。下一实验需用户另行批准。
+
+## CHAMPION11 新种子容量复验完成（2026-11-18）
+
+A/C/D 使用共同新种子 20261117，从各自未训练初态跑满 500k。500k 主分 A 49.203398、C 48.648543、D 50.245769。C−A 由旧种子的 +0.404580 变为 −0.554855，D−C 两次为正（+0.673455、+1.597227）。历史 C8 51.667067 继续回退。
+
+独立终审核对三组 500k、六个开发节点、60 条验证、60 个保留步数快照及完整 last、1,440 条周期保存、码流与音频树哈希、CSV 分数、30 ms 约束与 RVQ 诊断。D 在 GPU3 因 CUDA 初始化失败退出，丢失 0 步，在 GPU1 从同一冻结初态完成。见 [结果](CHAMPION11_RESULTS.md)、[终审](CHAMPION11_RESULTS.audit)和 [启动记录](CHAMPION11_LAUNCH.md)。

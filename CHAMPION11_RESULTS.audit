@@ -1,0 +1,3658 @@
+{
+  "status": "PASS",
+  "audit_utc": "2026-11-18T14:37:35.277972+00:00",
+  "preregistration": "74bc86e",
+  "frozen_setup": "e047594",
+  "launch_record": "4c2b477",
+  "setup_sha256": "7f12a0cd289f926b47ea465ae201aa0218ad200498767d0b01a22d0a1e468990",
+  "validation_seed": 20261117,
+  "hash_counts": {
+    "code_sha256": 20,
+    "data_hashes": 3,
+    "unchanged_historical_sha256": 197,
+    "fixed200_sha256": 200
+  },
+  "original": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/fast_b64_2s_v1/validation_200",
+  "original_tree_sha256": "9714c7564664f5d6faaaf48b311a0b23352553ef4797ecc638486045f8a43891",
+  "tree_definition": "SHA256 of lexically sorted relative path + NUL + decimal byte count + NUL + file SHA256 + LF",
+  "initial_failure": {
+    "cell": "d_both",
+    "gpu": 3,
+    "result": "CUDA initialization unavailable, no optimizer updates",
+    "retry_gpu": 1,
+    "evidence": "/var/tmp/hehaoran-codec-champion11.VvwCbAgC/runs/champion11_d_both/attempt_01_cuda_init.bhCCyoFc",
+    "manifest_sha256": "a4b303d69fd2ff1b0a72d6f7ea3a8511fe50085cf34649ed11abf439863b1d8f"
+  },
+  "cells": {
+    "a_base": {
+      "gpu": 0,
+      "supervisor": {
+        "status": "complete",
+        "updated_utc": "2026-11-18T11:10:58.309245+00:00",
+        "gpu": 0,
+        "launch_free_MiB": 8192,
+        "runtime_resource_poll": false,
+        "sharing_authorized": true,
+        "training_total_steps": 500000
+      },
+      "pipeline": {
+        "phase": "complete",
+        "updated_utc": "2026-11-18T11:10:55.927751+00:00",
+        "selected_step": 500000,
+        "score": 49.20339769688131
+      },
+      "metadata": {
+        "created_utc": "2026-11-17T02:04:04.346341+00:00",
+        "command": "scripts/train.py --config /var/tmp/hehaoran-codec-champion11.VvwCbAgC/runs/champion11_a_base/effective_config.yaml --train-manifest /var/tmp/hehaoran-codec-champion11.VvwCbAgC/data/manifests/vctk_libritts/train.scp --valid-manifest /var/tmp/hehaoran-codec-champion11.VvwCbAgC/data/manifests/vctk_libritts/valid.scp --output-dir /var/tmp/hehaoran-codec-champion11.VvwCbAgC/runs/champion11_a_base --device cuda --max-total-steps 500000 --init-checkpoint /var/tmp/hehaoran-codec-champion11.VvwCbAgC/runs/champion11_setup/step0_a_base.pt",
+        "torch_version": "2.13.0+cu129",
+        "world_size": 1,
+        "device": "cuda",
+        "init_checkpoint": "/var/tmp/hehaoran-codec-champion11.VvwCbAgC/runs/champion11_setup/step0_a_base.pt",
+        "resume_checkpoint": null
+      },
+      "step0_sha256": "a998a5d300ef38140760cf944b1c2c291fa7756446456164cf867c5a949026ec",
+      "effective_config_sha256": "4a33f58d1f4c44209905eb032c00017d59efbf6a728fbd8c7b9e14089c507c10",
+      "validation_rows": [
+        {
+          "timestamp_utc": "2026-11-17T03:56:01.874590+00:00",
+          "epoch": 3,
+          "batch_in_epoch": 314,
+          "global_step": 25000,
+          "train_loss": 0.22792347857526912,
+          "validation": {
+            "waveform_l1": 0.061226632446050644,
+            "spectral": 0.1455572247505188,
+            "commitment": 0.014774074777960777,
+            "adversarial": 0,
+            "feature_matching": 0,
+            "discriminator": 0,
+            "adversarial_factor": 0,
+            "reconstruction": 0.20678385719656944,
+            "total": 0.22155793197453022
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              81.71505737304688,
+              80.18458557128906,
+              80.68032836914062
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              110.00257873535156,
+              99.26959228515625,
+              101.9581298828125
+            ]
+          },
+          "best_validation": 0.20678385719656944
+        },
+        {
+          "timestamp_utc": "2026-11-17T05:38:19.160688+00:00",
+          "epoch": 5,
+          "batch_in_epoch": 628,
+          "global_step": 50000,
+          "train_loss": 0.21217975808177025,
+          "validation": {
+            "waveform_l1": 0.06225697696208954,
+            "spectral": 0.12884452939033508,
+            "commitment": 0.016651064157485962,
+            "adversarial": 0,
+            "feature_matching": 0,
+            "discriminator": 0,
+            "adversarial_factor": 0,
+            "reconstruction": 0.19110150635242462,
+            "total": 0.20775257050991058
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              94.79483032226562,
+              88.45845031738281,
+              87.99077606201172
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              111.99779510498047,
+              101.7726821899414,
+              102.41963195800781
+            ]
+          },
+          "best_validation": 0.19110150635242462
+        },
+        {
+          "timestamp_utc": "2026-11-17T06:40:34.241224+00:00",
+          "epoch": 7,
+          "batch_in_epoch": 942,
+          "global_step": 75000,
+          "train_loss": 0.20766916409166503,
+          "validation": {
+            "waveform_l1": 0.062060240656137466,
+            "spectral": 0.12392457574605942,
+            "commitment": 0.017779788002371788,
+            "adversarial": 0,
+            "feature_matching": 0,
+            "discriminator": 0,
+            "adversarial_factor": 0,
+            "reconstruction": 0.18598481640219688,
+            "total": 0.20376460440456867
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              99.3369369506836,
+              105.91757202148438,
+              95.0237808227539
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              121.6898422241211,
+              120.96281433105469,
+              109.85277557373047
+            ]
+          },
+          "best_validation": 0.18598481640219688
+        },
+        {
+          "timestamp_utc": "2026-11-17T07:58:40.869447+00:00",
+          "epoch": 9,
+          "batch_in_epoch": 1256,
+          "global_step": 100000,
+          "train_loss": 0.20523475405944,
+          "validation": {
+            "waveform_l1": 0.06282782554626465,
+            "spectral": 0.11928267776966095,
+            "commitment": 0.019744805991649628,
+            "adversarial": -0.009675939567387104,
+            "feature_matching": 0.01678909733891487,
+            "discriminator": 1.9998483657836914,
+            "adversarial_factor": 0.00002,
+            "reconstruction": 0.1821105033159256,
+            "total": 0.20185580330455583
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              111.93661499023438,
+              112.24666595458984,
+              98.07340240478516
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              124.76229858398438,
+              124.99178314208984,
+              112.42498779296875
+            ]
+          },
+          "best_validation": 0.1821105033159256
+        },
+        {
+          "timestamp_utc": "2026-11-17T09:40:01.113167+00:00",
+          "epoch": 11,
+          "batch_in_epoch": 1570,
+          "global_step": 125000,
+          "train_loss": 0.28928702549569923,
+          "validation": {
+            "waveform_l1": 0.06227070838212967,
+            "spectral": 0.12452942878007889,
+            "commitment": 0.02068052813410759,
+            "adversarial": 0.7045401334762573,
+            "feature_matching": 0.08011089265346527,
+            "discriminator": 1.446510910987854,
+            "adversarial_factor": 0.50002,
+            "reconstruction": 0.18680013716220856,
+            "total": 0.2851804459902346
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              104.23942565917969,
+              107.98924255371094,
+              93.8157958984375
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              120.087646484375,
+              128.695556640625,
+              114.7841567993164
+            ]
+          },
+          "best_validation": 0.1821105033159256
+        },
+        {
+          "timestamp_utc": "2026-11-17T11:26:37.187156+00:00",
+          "epoch": 13,
+          "batch_in_epoch": 1884,
+          "global_step": 150000,
+          "train_loss": 0.3950044134208604,
+          "validation": {
+            "waveform_l1": 0.060815855860710144,
+            "spectral": 0.12716825306415558,
+            "commitment": 0.021560808643698692,
+            "adversarial": 0.540321409702301,
+            "feature_matching": 0.09373721480369568,
+            "discriminator": 1.6422064304351807,
+            "adversarial_factor": 1,
+            "reconstruction": 0.18798410892486572,
+            "total": 0.377166810259223
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              125.03304290771484,
+              121.77690887451172,
+              108.24309539794922
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              143.4044189453125,
+              132.98094177246094,
+              127.74360656738281
+            ]
+          },
+          "best_validation": 0.1821105033159256
+        },
+        {
+          "timestamp_utc": "2026-11-17T13:03:55.829482+00:00",
+          "epoch": 15,
+          "batch_in_epoch": 2198,
+          "global_step": 175000,
+          "train_loss": 0.32165965878551284,
+          "validation": {
+            "waveform_l1": 0.014388310723006725,
+            "spectral": 0.12368665635585785,
+            "commitment": 0.03788357228040695,
+            "adversarial": 0.49191102385520935,
+            "feature_matching": 0.06667149811983109,
+            "discriminator": 1.7275454998016357,
+            "adversarial_factor": 1,
+            "reconstruction": 0.13807496707886457,
+            "total": 0.3005613377317786
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              112.88998413085938,
+              113.98021697998047,
+              105.74735260009766
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              127.99725341796875,
+              120.85562896728516,
+              115.7472152709961
+            ]
+          },
+          "best_validation": 0.13807496707886457
+        },
+        {
+          "timestamp_utc": "2026-11-17T14:44:26.534646+00:00",
+          "epoch": 17,
+          "batch_in_epoch": 2512,
+          "global_step": 200000,
+          "train_loss": 0.3403944278218944,
+          "validation": {
+            "waveform_l1": 0.013903132639825344,
+            "spectral": 0.12127074599266052,
+            "commitment": 0.04311294108629227,
+            "adversarial": 0.5069171786308289,
+            "feature_matching": 0.07436024397611618,
+            "discriminator": 1.704363465309143,
+            "adversarial_factor": 1,
+            "reconstruction": 0.13517387863248587,
+            "total": 0.31517304461449386
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              114.98860168457031,
+              106.32598114013672,
+              98.86805725097656
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              128.08883666992188,
+              115.20171356201172,
+              122.23966217041016
+            ]
+          },
+          "best_validation": 0.13517387863248587
+        },
+        {
+          "timestamp_utc": "2026-11-17T16:23:34.007277+00:00",
+          "epoch": 19,
+          "batch_in_epoch": 2826,
+          "global_step": 225000,
+          "train_loss": 0.35690463435034,
+          "validation": {
+            "waveform_l1": 0.01373472809791565,
+            "spectral": 0.11991102248430252,
+            "commitment": 0.04821471869945526,
+            "adversarial": 0.5870550274848938,
+            "feature_matching": 0.08177649229764938,
+            "discriminator": 1.6767582893371582,
+            "adversarial_factor": 1,
+            "reconstruction": 0.13364575058221817,
+            "total": 0.3338779591023922
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              109.82925415039062,
+              114.62248229980469,
+              104.71049499511719
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              124.49736785888672,
+              121.50151824951172,
+              119.31964874267578
+            ]
+          },
+          "best_validation": 0.13364575058221817
+        },
+        {
+          "timestamp_utc": "2026-11-17T18:01:58.266930+00:00",
+          "epoch": 21,
+          "batch_in_epoch": 3140,
+          "global_step": 250000,
+          "train_loss": 0.3690507940805642,
+          "validation": {
+            "waveform_l1": 0.013641679659485817,
+            "spectral": 0.11924457550048828,
+            "commitment": 0.04923295974731445,
+            "adversarial": 0.5877189040184021,
+            "feature_matching": 0.08815643936395645,
+            "discriminator": 1.6479731798171997,
+            "adversarial_factor": 1,
+            "reconstruction": 0.1328862551599741,
+            "total": 0.3437398191541433
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              108.992431640625,
+              103.79293823242188,
+              104.1462173461914
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              126.77234649658203,
+              116.20782470703125,
+              124.52081298828125
+            ]
+          },
+          "best_validation": 0.1328862551599741
+        },
+        {
+          "timestamp_utc": "2026-11-17T19:39:12.476255+00:00",
+          "epoch": 23,
+          "batch_in_epoch": 3454,
+          "global_step": 275000,
+          "train_loss": 0.3815446259075324,
+          "validation": {
+            "waveform_l1": 0.013662273064255714,
+            "spectral": 0.11836735904216766,
+            "commitment": 0.05273348093032837,
+            "adversarial": 0.5662712454795837,
+            "feature_matching": 0.0936393290758133,
+            "discriminator": 1.6435543298721313,
+            "adversarial_factor": 1,
+            "reconstruction": 0.13202963210642338,
+            "total": 0.3535356689244509
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              114.75148010253906,
+              110.0079345703125,
+              102.45836639404297
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              131.1520233154297,
+              115.31233978271484,
+              119.22393035888672
+            ]
+          },
+          "best_validation": 0.13202963210642338
+        },
+        {
+          "timestamp_utc": "2026-11-17T21:16:16.317601+00:00",
+          "epoch": 25,
+          "batch_in_epoch": 3768,
+          "global_step": 300000,
+          "train_loss": 0.3931501354634635,
+          "validation": {
+            "waveform_l1": 0.013457043096423149,
+            "spectral": 0.11776543408632278,
+            "commitment": 0.054050248116254807,
+            "adversarial": 0.6555764079093933,
+            "feature_matching": 0.09914546459913254,
+            "discriminator": 1.625331163406372,
+            "adversarial_factor": 1,
+            "reconstruction": 0.13122247718274593,
+            "total": 0.3667697425931692
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              117.22122192382812,
+              109.61892700195312,
+              109.98065948486328
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              131.3899383544922,
+              116.68206787109375,
+              125.02374267578125
+            ]
+          },
+          "best_validation": 0.13122247718274593
+        },
+        {
+          "timestamp_utc": "2026-11-17T22:53:20.264651+00:00",
+          "epoch": 27,
+          "batch_in_epoch": 4082,
+          "global_step": 325000,
+          "train_loss": 0.40329370433387074,
+          "validation": {
+            "waveform_l1": 0.013498806394636631,
+            "spectral": 0.11710518598556519,
+            "commitment": 0.05812104418873787,
+            "adversarial": 0.5839802622795105,
+            "feature_matching": 0.1034400537610054,
+            "discriminator": 1.6185370683670044,
+            "adversarial_factor": 1,
+            "reconstruction": 0.13060399238020182,
+            "total": 0.37308413032442334
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              114.33207702636719,
+              117.7244644165039,
+              105.83956909179688
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              132.52137756347656,
+              124.6042709350586,
+              124.0257797241211
+            ]
+          },
+          "best_validation": 0.13060399238020182
+        },
+        {
+          "timestamp_utc": "2026-11-18T00:30:24.450674+00:00",
+          "epoch": 29,
+          "batch_in_epoch": 4396,
+          "global_step": 350000,
+          "train_loss": 0.4123435203897834,
+          "validation": {
+            "waveform_l1": 0.013559063896536827,
+            "spectral": 0.1172599047422409,
+            "commitment": 0.0587971955537796,
+            "adversarial": 0.5342767238616943,
+            "feature_matching": 0.10759903490543365,
+            "discriminator": 1.621803641319275,
+            "adversarial_factor": 1,
+            "reconstruction": 0.13081896863877773,
+            "total": 0.3777285527437925
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              112.44097137451172,
+              112.4159927368164,
+              108.49439239501953
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              128.1631317138672,
+              116.78303527832031,
+              122.41622924804688
+            ]
+          },
+          "best_validation": 0.13060399238020182
+        },
+        {
+          "timestamp_utc": "2026-11-18T02:17:39.140010+00:00",
+          "epoch": 31,
+          "batch_in_epoch": 4710,
+          "global_step": 375000,
+          "train_loss": 0.4204142700841219,
+          "validation": {
+            "waveform_l1": 0.013438724912703037,
+            "spectral": 0.11643170565366745,
+            "commitment": 0.06144726276397705,
+            "adversarial": 0.6328834295272827,
+            "feature_matching": 0.11090830713510513,
+            "discriminator": 1.605047345161438,
+            "adversarial_factor": 1,
+            "reconstruction": 0.1298704305663705,
+            "total": 0.38932432550936935
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              116.64624786376953,
+              115.19979095458984,
+              110.91447448730469
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              132.7914276123047,
+              119.6655044555664,
+              124.70977783203125
+            ]
+          },
+          "best_validation": 0.1298704305663705
+        },
+        {
+          "timestamp_utc": "2026-11-18T04:04:10.005063+00:00",
+          "epoch": 33,
+          "batch_in_epoch": 5024,
+          "global_step": 400000,
+          "train_loss": 0.42618932833622214,
+          "validation": {
+            "waveform_l1": 0.013429181650280952,
+            "spectral": 0.11617221683263779,
+            "commitment": 0.06198325380682945,
+            "adversarial": 0.6471249461174011,
+            "feature_matching": 0.11319570243358612,
+            "discriminator": 1.5887622833251953,
+            "adversarial_factor": 1,
+            "reconstruction": 0.12960139848291874,
+            "total": 0.39373445324599743
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              119.04458618164062,
+              112.07574462890625,
+              105.54312133789062
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              133.3007354736328,
+              117.12344360351562,
+              119.52983856201172
+            ]
+          },
+          "best_validation": 0.12960139848291874
+        },
+        {
+          "timestamp_utc": "2026-11-18T05:49:16.896348+00:00",
+          "epoch": 35,
+          "batch_in_epoch": 5338,
+          "global_step": 425000,
+          "train_loss": 0.42657291249931417,
+          "validation": {
+            "waveform_l1": 0.013345513492822647,
+            "spectral": 0.11587126553058624,
+            "commitment": 0.06240074336528778,
+            "adversarial": 0.5545234084129333,
+            "feature_matching": 0.11247391253709793,
+            "discriminator": 1.6061291694641113,
+            "adversarial_factor": 1,
+            "reconstruction": 0.1292167790234089,
+            "total": 0.38805456161499025
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              122.11457824707031,
+              117.5669937133789,
+              106.14685821533203
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              136.32080078125,
+              121.68102264404297,
+              120.38572692871094
+            ]
+          },
+          "best_validation": 0.1292167790234089
+        },
+        {
+          "timestamp_utc": "2026-11-18T07:34:10.777009+00:00",
+          "epoch": 37,
+          "batch_in_epoch": 5652,
+          "global_step": 450000,
+          "train_loss": 0.4247964275532889,
+          "validation": {
+            "waveform_l1": 0.013251363299787045,
+            "spectral": 0.11618704348802567,
+            "commitment": 0.06241697818040848,
+            "adversarial": 0.7199373245239258,
+            "feature_matching": 0.1118740364909172,
+            "discriminator": 1.588829517364502,
+            "adversarial_factor": 1,
+            "reconstruction": 0.1294384067878127,
+            "total": 0.3956633059307933
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              116.19934844970703,
+              126.2642593383789,
+              109.79857635498047
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              132.74551391601562,
+              130.8512420654297,
+              124.88384246826172
+            ]
+          },
+          "best_validation": 0.1292167790234089
+        },
+        {
+          "timestamp_utc": "2026-11-18T09:18:19.129616+00:00",
+          "epoch": 39,
+          "batch_in_epoch": 5966,
+          "global_step": 475000,
+          "train_loss": 0.42611146536182726,
+          "validation": {
+            "waveform_l1": 0.013299735262989998,
+            "spectral": 0.11606535315513611,
+            "commitment": 0.06312600523233414,
+            "adversarial": 0.5759000182151794,
+            "feature_matching": 0.11333683878183365,
+            "discriminator": 1.5727909803390503,
+            "adversarial_factor": 1,
+            "reconstruction": 0.1293650884181261,
+            "total": 0.3912913527339697
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              115.74571990966797,
+              113.77105712890625,
+              106.3119888305664
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              134.43618774414062,
+              120.3832015991211,
+              124.87681579589844
+            ]
+          },
+          "best_validation": 0.1292167790234089
+        },
+        {
+          "timestamp_utc": "2026-11-18T11:06:01.623611+00:00",
+          "epoch": 41,
+          "batch_in_epoch": 6280,
+          "global_step": 500000,
+          "train_loss": 0.43083728857006237,
+          "validation": {
+            "waveform_l1": 0.013333950191736221,
+            "spectral": 0.11593741923570633,
+            "commitment": 0.06414344161748886,
+            "adversarial": 0.5652492046356201,
+            "feature_matching": 0.11540672183036804,
+            "discriminator": 1.608838677406311,
+            "adversarial_factor": 1,
+            "reconstruction": 0.12927136942744255,
+            "total": 0.3947873540222645
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              119.72270202636719,
+              117.11947631835938,
+              109.50431060791016
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              135.0070343017578,
+              124.6007080078125,
+              126.84600067138672
+            ]
+          },
+          "best_validation": 0.1292167790234089
+        }
+      ],
+      "periodic_checkpoint_events": 480,
+      "resume_events": [],
+      "retained_checkpoint_sha256": {
+        "step_00025000.pt": "8dbf92359e1d86a977b76f4414c6eb6bb977aa50a61022b37497868effa67a99",
+        "step_00050000.pt": "20b5e9ae21fb2b5fbdbec95f7dee55271e462c02c3d18c3d0bf8a4018e4ab405",
+        "step_00075000.pt": "a2fc144c40d8e0d0e826eb3b6ca1ec17914771961c1c3dd0d13b23ec110e2445",
+        "step_00100000.pt": "24945078a591eb21c032a6910b8614a0c3c92ff236d637b88a56f7fa31d170cf",
+        "step_00125000.pt": "a9fe9c07e0412657fdfe22e465651449476a570955125c721bb2c1ce5c9881fd",
+        "step_00150000.pt": "d56d3a38641160b6ce79def7b57f8663a84b470a2342274f451e381702c1fd59",
+        "step_00175000.pt": "6072412b1b43af5d58b1cc37925b36509e2f3fb34d2540f08f084ac24fab713f",
+        "step_00200000.pt": "9e1e33c5ed20acae8d27feaa3c62ee1037bf351f3b4c6144ee2a4917c9c0f2c0",
+        "step_00225000.pt": "b1f7ebdeb4e13db0cc4625ab992185002027cefbc1156467f7eb95adf3621e17",
+        "step_00250000.pt": "c778a3167a97f11889a8c0028958d02d9dfdc6c61df514367ec41206a2f3762d",
+        "step_00275000.pt": "e7179a45de750446adbd657ffb824100648c450dfb2fd5560e72e98c32164fde",
+        "step_00300000.pt": "85503dd25e491e0290ebcdeef885abea576dff2e1e2786c34bda6ce085d7c3f0",
+        "step_00325000.pt": "629cc80e30b75f6b2ad98ee43c84d2b50c410c14489bb2911a11e1c7fff8009e",
+        "step_00350000.pt": "b6849d6bef5f924c000d001dbe14d721d1cbef6794e4cc2f5a0c63ada69411aa",
+        "step_00375000.pt": "3d5434a80d0eaa8d8e37fc15b83a5c0eb83e753b59cc20712f27fdef6da3a0eb",
+        "step_00400000.pt": "7c9c0f11e3c220e395b7f6017f8b1f5459f8601d8f7304d79d92060fdce7a12d",
+        "step_00425000.pt": "d6555d2150e2e05fbb935a6196bf96326e613989d12f1516645de30d8ce57a9b",
+        "step_00450000.pt": "a6e4dd80be1c466244ca9a659126af413a6fe119d802aa9e5c849ab85b033f84",
+        "step_00475000.pt": "a95af74ae41ce1039c0e82899fd9af0df5f0e882a457bc1986f34eec8e7ed778",
+        "step_00500000.pt": "30de254ed79a716c225ae0c34a79a856425c6b7075ef4f080024ddde94da926f",
+        "last.pt": "a079b472f7352479506928093d92c8ba253e7fb17c8df8888f9975fc9a40e6f0",
+        "best.pt": "62ac4c1d7f26ad48a5ed9bdad66d045c590623e3c44501ab2439fae18a5634b1"
+      },
+      "complexity": {
+        "sample_rate_hz": 16000,
+        "duration_seconds": 1,
+        "frame_samples": 160,
+        "bitrate_bps": 2400,
+        "encoder_mmac_per_s": 81.712,
+        "decoder_mmac_per_s": 127.968,
+        "quantizer_mmac_per_s": 17.8176,
+        "unclassified_mmac_per_s": 0,
+        "total_mflop_per_s": 545.4978,
+        "decoder_mflop_per_s": 257.632,
+        "decoder_modulation_mflop_per_s": 0.128,
+        "encoder_gru_gate_mflop_per_s": 0.048,
+        "decoder_fourier_ola_mflop_per_s": 1.568,
+        "parameters": 1647160,
+        "quantizer_type": "projected_rvq",
+        "algorithmic_lookahead_ms": 20,
+        "notes": "Counts Conv1d, ConvTranspose1d, Linear, one-layer forward GRU matrices, bounded attention QK/AV and VQ nearest-neighbour search. Separately includes GRU gate products, Conv2Former modulation and conservative IRFFT/OLA estimates (5*N*ceil(log2N)+4*N per frame). Quantizer synthesis projections count toward decoder. MMAC fields exclude separately reported non-MAC products/FFT estimates. Excludes activations, normalization, padding and file I/O. Exception for grouped encoder: SnakeBeta explicitly includes36 operations/element (sin budget32 plus4 scalar operations) and65/channel/call (two exp budget32 plus negation). This is a conservative analytical convention, not measured transcendental latency. Total algorithmic delay includes10ms packet collection plus encoder lookahead; causal synthesis commits the current hop without next-frame buffering.",
+        "encoder_snakebeta_mflop_per_s": 88.7586,
+        "frame_collection_ms": 10,
+        "total_algorithmic_delay_ms": 30
+      }
+    },
+    "c_dec": {
+      "gpu": 2,
+      "supervisor": {
+        "status": "complete",
+        "updated_utc": "2026-11-18T10:34:29.574131+00:00",
+        "gpu": 2,
+        "launch_free_MiB": 8192,
+        "runtime_resource_poll": false,
+        "sharing_authorized": true,
+        "training_total_steps": 500000
+      },
+      "pipeline": {
+        "phase": "complete",
+        "updated_utc": "2026-11-18T10:34:26.426873+00:00",
+        "selected_step": 500000,
+        "score": 48.648542546232065
+      },
+      "metadata": {
+        "created_utc": "2026-11-17T02:04:04.142385+00:00",
+        "command": "scripts/train.py --config /var/tmp/hehaoran-codec-champion11.VvwCbAgC/runs/champion11_c_dec/effective_config.yaml --train-manifest /var/tmp/hehaoran-codec-champion11.VvwCbAgC/data/manifests/vctk_libritts/train.scp --valid-manifest /var/tmp/hehaoran-codec-champion11.VvwCbAgC/data/manifests/vctk_libritts/valid.scp --output-dir /var/tmp/hehaoran-codec-champion11.VvwCbAgC/runs/champion11_c_dec --device cuda --max-total-steps 500000 --init-checkpoint /var/tmp/hehaoran-codec-champion11.VvwCbAgC/runs/champion11_setup/step0_c_dec.pt",
+        "torch_version": "2.13.0+cu129",
+        "world_size": 1,
+        "device": "cuda",
+        "init_checkpoint": "/var/tmp/hehaoran-codec-champion11.VvwCbAgC/runs/champion11_setup/step0_c_dec.pt",
+        "resume_checkpoint": null
+      },
+      "step0_sha256": "dad704668aa89099d666a637944626e835bd559da894344d35f1558fc88342db",
+      "effective_config_sha256": "ca8ae19b740e72cf6f773884f3a416587c0d8f004fdc8ce5e9a5dafafb7ce890",
+      "validation_rows": [
+        {
+          "timestamp_utc": "2026-11-17T03:56:01.879746+00:00",
+          "epoch": 3,
+          "batch_in_epoch": 314,
+          "global_step": 25000,
+          "train_loss": 0.24262367245877625,
+          "validation": {
+            "waveform_l1": 0.05988088995218277,
+            "spectral": 0.1606082022190094,
+            "commitment": 0.013146385550498962,
+            "adversarial": 0,
+            "feature_matching": 0,
+            "discriminator": 0,
+            "adversarial_factor": 0,
+            "reconstruction": 0.22048909217119217,
+            "total": 0.23363547772169113
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              96.57341003417969,
+              90.50588989257812,
+              80.17819213867188
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              115.6173095703125,
+              111.80741119384766,
+              103.4645767211914
+            ]
+          },
+          "best_validation": 0.22048909217119217
+        },
+        {
+          "timestamp_utc": "2026-11-17T05:38:19.150110+00:00",
+          "epoch": 5,
+          "batch_in_epoch": 628,
+          "global_step": 50000,
+          "train_loss": 0.21405950217110337,
+          "validation": {
+            "waveform_l1": 0.06125062331557274,
+            "spectral": 0.13455772399902344,
+            "commitment": 0.014268576167523861,
+            "adversarial": 0,
+            "feature_matching": 0,
+            "discriminator": 0,
+            "adversarial_factor": 0,
+            "reconstruction": 0.19580834731459618,
+            "total": 0.21007692348212004
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              97.72958374023438,
+              88.00701141357422,
+              78.51497650146484
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              108.82283020019531,
+              107.29907989501953,
+              101.98584747314453
+            ]
+          },
+          "best_validation": 0.19580834731459618
+        },
+        {
+          "timestamp_utc": "2026-11-17T06:40:34.237096+00:00",
+          "epoch": 7,
+          "batch_in_epoch": 942,
+          "global_step": 75000,
+          "train_loss": 0.20772651450079718,
+          "validation": {
+            "waveform_l1": 0.06150015816092491,
+            "spectral": 0.12659196555614471,
+            "commitment": 0.014650681987404823,
+            "adversarial": 0,
+            "feature_matching": 0,
+            "discriminator": 0,
+            "adversarial_factor": 0,
+            "reconstruction": 0.18809212371706963,
+            "total": 0.20274280570447445
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              99.540771484375,
+              97.47468566894531,
+              89.63976287841797
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              116.25244140625,
+              114.70416259765625,
+              107.63868713378906
+            ]
+          },
+          "best_validation": 0.18809212371706963
+        },
+        {
+          "timestamp_utc": "2026-11-17T07:58:40.863933+00:00",
+          "epoch": 9,
+          "batch_in_epoch": 1256,
+          "global_step": 100000,
+          "train_loss": 0.2043535931830763,
+          "validation": {
+            "waveform_l1": 0.06167641654610634,
+            "spectral": 0.12309962511062622,
+            "commitment": 0.016266779974102974,
+            "adversarial": -0.009790214709937572,
+            "feature_matching": 0.01650562696158886,
+            "discriminator": 1.9998209476470947,
+            "adversarial_factor": 0.00002,
+            "reconstruction": 0.18477604165673256,
+            "total": 0.20104330700942968
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              109.8056869506836,
+              90.97293090820312,
+              93.94852447509766
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              119.69352722167969,
+              105.33256530761719,
+              105.54548645019531
+            ]
+          },
+          "best_validation": 0.18477604165673256
+        },
+        {
+          "timestamp_utc": "2026-11-17T09:40:01.111959+00:00",
+          "epoch": 11,
+          "batch_in_epoch": 1570,
+          "global_step": 125000,
+          "train_loss": 0.28050869795357347,
+          "validation": {
+            "waveform_l1": 0.061093226075172424,
+            "spectral": 0.1296251118183136,
+            "commitment": 0.01668543741106987,
+            "adversarial": 0.6470673680305481,
+            "feature_matching": 0.07076340913772583,
+            "discriminator": 1.4340542554855347,
+            "adversarial_factor": 0.50002,
+            "reconstruction": 0.19071833789348602,
+            "total": 0.27665578632825616
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              103.62281799316406,
+              95.97345733642578,
+              85.50452423095703
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              120.26862335205078,
+              111.73023986816406,
+              108.9749755859375
+            ]
+          },
+          "best_validation": 0.18477604165673256
+        },
+        {
+          "timestamp_utc": "2026-11-17T11:26:37.194111+00:00",
+          "epoch": 13,
+          "batch_in_epoch": 1884,
+          "global_step": 150000,
+          "train_loss": 0.376536254844215,
+          "validation": {
+            "waveform_l1": 0.060084741562604904,
+            "spectral": 0.13154028356075287,
+            "commitment": 0.01946135424077511,
+            "adversarial": 0.5147743225097656,
+            "feature_matching": 0.08220580965280533,
+            "discriminator": 1.655968189239502,
+            "adversarial_factor": 1,
+            "reconstruction": 0.19162502512335777,
+            "total": 0.36013380996882915
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              119.2590103149414,
+              111.7052001953125,
+              88.40776824951172
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              130.59922790527344,
+              120.67257690429688,
+              112.98175048828125
+            ]
+          },
+          "best_validation": 0.18477604165673256
+        },
+        {
+          "timestamp_utc": "2026-11-17T13:04:29.027119+00:00",
+          "epoch": 15,
+          "batch_in_epoch": 2198,
+          "global_step": 175000,
+          "train_loss": 0.304848394176166,
+          "validation": {
+            "waveform_l1": 0.014270770363509655,
+            "spectral": 0.12594783306121826,
+            "commitment": 0.03427467867732048,
+            "adversarial": 0.5590096712112427,
+            "feature_matching": 0.059006448835134506,
+            "discriminator": 1.6850895881652832,
+            "adversarial_factor": 1,
+            "reconstruction": 0.14021860342472792,
+            "total": 0.2909534389153123
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              105.38732147216797,
+              96.07803344726562,
+              95.53868103027344
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              119.00859832763672,
+              105.50629425048828,
+              104.71253967285156
+            ]
+          },
+          "best_validation": 0.14021860342472792
+        },
+        {
+          "timestamp_utc": "2026-11-17T14:44:26.524580+00:00",
+          "epoch": 17,
+          "batch_in_epoch": 2512,
+          "global_step": 200000,
+          "train_loss": 0.3189061717575143,
+          "validation": {
+            "waveform_l1": 0.013897355645895004,
+            "spectral": 0.12346363812685013,
+            "commitment": 0.03739596903324127,
+            "adversarial": 0.5063502192497253,
+            "feature_matching": 0.06425952911376953,
+            "discriminator": 1.695719838142395,
+            "adversarial_factor": 1,
+            "reconstruction": 0.13736099377274513,
+            "total": 0.29646376743912695
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              109.61087799072266,
+              99.48321533203125,
+              95.1306381225586
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              121.30047607421875,
+              110.30712890625,
+              110.17649841308594
+            ]
+          },
+          "best_validation": 0.13736099377274513
+        },
+        {
+          "timestamp_utc": "2026-11-17T16:24:50.919161+00:00",
+          "epoch": 19,
+          "batch_in_epoch": 2826,
+          "global_step": 225000,
+          "train_loss": 0.3365804325348928,
+          "validation": {
+            "waveform_l1": 0.013863806612789631,
+            "spectral": 0.1220516487956047,
+            "commitment": 0.04225754737854004,
+            "adversarial": 0.5410761833190918,
+            "feature_matching": 0.07359679788351059,
+            "discriminator": 1.6843551397323608,
+            "adversarial_factor": 1,
+            "reconstruction": 0.13591545540839434,
+            "total": 0.31562200877815483
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              108.00917053222656,
+              103.65444946289062,
+              98.80368041992188
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              115.94707489013672,
+              107.15831756591797,
+              113.28524780273438
+            ]
+          },
+          "best_validation": 0.13591545540839434
+        },
+        {
+          "timestamp_utc": "2026-11-17T18:02:34.240252+00:00",
+          "epoch": 21,
+          "batch_in_epoch": 3140,
+          "global_step": 250000,
+          "train_loss": 0.35050416019312136,
+          "validation": {
+            "waveform_l1": 0.01384733710438013,
+            "spectral": 0.12141338735818863,
+            "commitment": 0.04525282233953476,
+            "adversarial": 0.5102960467338562,
+            "feature_matching": 0.0800032764673233,
+            "discriminator": 1.676281452178955,
+            "adversarial_factor": 1,
+            "reconstruction": 0.13526072446256876,
+            "total": 0.32603326383978126
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              107.57982635498047,
+              106.81473541259766,
+              95.83767700195312
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              118.97835540771484,
+              116.57839965820312,
+              115.94767761230469
+            ]
+          },
+          "best_validation": 0.13526072446256876
+        },
+        {
+          "timestamp_utc": "2026-11-17T19:40:12.089549+00:00",
+          "epoch": 23,
+          "batch_in_epoch": 3454,
+          "global_step": 275000,
+          "train_loss": 0.36267723309627903,
+          "validation": {
+            "waveform_l1": 0.013642806559801102,
+            "spectral": 0.12005167454481125,
+            "commitment": 0.04784974083304405,
+            "adversarial": 0.6152276992797852,
+            "feature_matching": 0.08556900173425674,
+            "discriminator": 1.6333502531051636,
+            "adversarial_factor": 1,
+            "reconstruction": 0.13369448110461235,
+            "total": 0.3406591095030308
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              105.37677001953125,
+              105.63133239746094,
+              101.8272933959961
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              118.67110443115234,
+              113.94532775878906,
+              115.89732360839844
+            ]
+          },
+          "best_validation": 0.13369448110461235
+        },
+        {
+          "timestamp_utc": "2026-11-17T21:17:49.380848+00:00",
+          "epoch": 25,
+          "batch_in_epoch": 3768,
+          "global_step": 300000,
+          "train_loss": 0.37261416341500425,
+          "validation": {
+            "waveform_l1": 0.013679329305887222,
+            "spectral": 0.11946842819452286,
+            "commitment": 0.05008859187364578,
+            "adversarial": 0.5433423519134521,
+            "feature_matching": 0.09027823805809021,
+            "discriminator": 1.6436398029327393,
+            "adversarial_factor": 1,
+            "reconstruction": 0.13314775750041008,
+            "total": 0.34582082405686376
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              111.56031036376953,
+              111.0066909790039,
+              96.45104217529297
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              116.26153564453125,
+              118.02589416503906,
+              111.67388916015625
+            ]
+          },
+          "best_validation": 0.13314775750041008
+        },
+        {
+          "timestamp_utc": "2026-11-17T22:55:26.784139+00:00",
+          "epoch": 27,
+          "batch_in_epoch": 4082,
+          "global_step": 325000,
+          "train_loss": 0.38335605344604123,
+          "validation": {
+            "waveform_l1": 0.013472197577357292,
+            "spectral": 0.11883019655942917,
+            "commitment": 0.05092921480536461,
+            "adversarial": 0.6127524971961975,
+            "feature_matching": 0.09531402587890625,
+            "discriminator": 1.6263024806976318,
+            "adversarial_factor": 1,
+            "reconstruction": 0.13230239413678646,
+            "total": 0.3568402726203203
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              109.5104751586914,
+              104.43972778320312,
+              100.92118835449219
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              119.61473083496094,
+              113.08830261230469,
+              116.7810287475586
+            ]
+          },
+          "best_validation": 0.13230239413678646
+        },
+        {
+          "timestamp_utc": "2026-11-18T00:33:03.319189+00:00",
+          "epoch": 29,
+          "batch_in_epoch": 4396,
+          "global_step": 350000,
+          "train_loss": 0.39181070723947986,
+          "validation": {
+            "waveform_l1": 0.013482725247740746,
+            "spectral": 0.11831758916378021,
+            "commitment": 0.05381137877702713,
+            "adversarial": 0.4847618639469147,
+            "feature_matching": 0.09929817914962769,
+            "discriminator": 1.6066358089447021,
+            "adversarial_factor": 1,
+            "reconstruction": 0.13180031441152096,
+            "total": 0.35879705511033533
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              106.39424133300781,
+              110.62945556640625,
+              103.50015258789062
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              117.24078369140625,
+              115.21637725830078,
+              115.18572235107422
+            ]
+          },
+          "best_validation": 0.13180031441152096
+        },
+        {
+          "timestamp_utc": "2026-11-18T02:11:00.316196+00:00",
+          "epoch": 31,
+          "batch_in_epoch": 4710,
+          "global_step": 375000,
+          "train_loss": 0.398466590730248,
+          "validation": {
+            "waveform_l1": 0.013564294204115868,
+            "spectral": 0.11848466843366623,
+            "commitment": 0.055237531661987305,
+            "adversarial": 0.6384578347206116,
+            "feature_matching": 0.10240202397108078,
+            "discriminator": 1.6183539628982544,
+            "adversarial_factor": 1,
+            "reconstruction": 0.1320489626377821,
+            "total": 0.37281242199242115
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              105.72642517089844,
+              111.16294860839844,
+              102.05015563964844
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              113.68217468261719,
+              118.63692474365234,
+              118.22045135498047
+            ]
+          },
+          "best_validation": 0.13180031441152096
+        },
+        {
+          "timestamp_utc": "2026-11-18T03:54:45.807660+00:00",
+          "epoch": 33,
+          "batch_in_epoch": 5024,
+          "global_step": 400000,
+          "train_loss": 0.403409393486466,
+          "validation": {
+            "waveform_l1": 0.013450919650495052,
+            "spectral": 0.11791691184043884,
+            "commitment": 0.055208832025527954,
+            "adversarial": 0.6012546420097351,
+            "feature_matching": 0.10499527305364609,
+            "discriminator": 1.6061666011810303,
+            "adversarial_factor": 1,
+            "reconstruction": 0.1313678314909339,
+            "total": 0.37413230519741775
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              103.60749816894531,
+              112.71430969238281,
+              104.58245849609375
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              111.72773742675781,
+              120.71343231201172,
+              118.95005798339844
+            ]
+          },
+          "best_validation": 0.1313678314909339
+        },
+        {
+          "timestamp_utc": "2026-11-18T05:33:10.492186+00:00",
+          "epoch": 35,
+          "batch_in_epoch": 5338,
+          "global_step": 425000,
+          "train_loss": 0.40631200815908647,
+          "validation": {
+            "waveform_l1": 0.013388554565608501,
+            "spectral": 0.11777520179748535,
+            "commitment": 0.056812744587659836,
+            "adversarial": 0.5623844265937805,
+            "feature_matching": 0.10611354559659958,
+            "discriminator": 1.5971318483352661,
+            "adversarial_factor": 1,
+            "reconstruction": 0.13116375636309385,
+            "total": 0.3752660406753421
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              112.80937957763672,
+              105.93822479248047,
+              105.64624786376953
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              118.83326721191406,
+              113.6578369140625,
+              120.73167419433594
+            ]
+          },
+          "best_validation": 0.13116375636309385
+        },
+        {
+          "timestamp_utc": "2026-11-18T07:11:24.580533+00:00",
+          "epoch": 37,
+          "batch_in_epoch": 5652,
+          "global_step": 450000,
+          "train_loss": 0.40920292405755654,
+          "validation": {
+            "waveform_l1": 0.013414554297924042,
+            "spectral": 0.11854605376720428,
+            "commitment": 0.05864264816045761,
+            "adversarial": 0.6274735927581787,
+            "feature_matching": 0.10949725657701492,
+            "discriminator": 1.6024507284164429,
+            "adversarial_factor": 1,
+            "reconstruction": 0.13196060806512833,
+            "total": 0.38622282072901726
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              106.72802734375,
+              111.83023071289062,
+              111.68389892578125
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              116.42974853515625,
+              121.09883880615234,
+              125.57975006103516
+            ]
+          },
+          "best_validation": 0.13116375636309385
+        },
+        {
+          "timestamp_utc": "2026-11-18T08:49:44.150162+00:00",
+          "epoch": 39,
+          "batch_in_epoch": 5966,
+          "global_step": 475000,
+          "train_loss": 0.4122114097696401,
+          "validation": {
+            "waveform_l1": 0.013532266020774841,
+            "spectral": 0.11822620779275894,
+            "commitment": 0.05828803777694702,
+            "adversarial": 0.5745335817337036,
+            "feature_matching": 0.10993417352437973,
+            "discriminator": 1.6147834062576294,
+            "adversarial_factor": 1,
+            "reconstruction": 0.13175847381353378,
+            "total": 0.3836744509637356
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              113.4171371459961,
+              108.42276000976562,
+              108.41320037841797
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              121.74079895019531,
+              115.06439971923828,
+              124.40259552001953
+            ]
+          },
+          "best_validation": 0.13116375636309385
+        },
+        {
+          "timestamp_utc": "2026-11-18T10:28:08.668333+00:00",
+          "epoch": 41,
+          "batch_in_epoch": 6280,
+          "global_step": 500000,
+          "train_loss": 0.4193674530810232,
+          "validation": {
+            "waveform_l1": 0.01334389392286539,
+            "spectral": 0.11739537864923477,
+            "commitment": 0.0604429729282856,
+            "adversarial": 0.6099783778190613,
+            "feature_matching": 0.11225221306085587,
+            "discriminator": 1.5671675205230713,
+            "adversarial_factor": 1,
+            "reconstruction": 0.13073927257210016,
+            "total": 0.39005948398262263
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              109.27813720703125,
+              110.5462875366211,
+              105.9698486328125
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              117.63591003417969,
+              116.27278900146484,
+              123.48770904541016
+            ]
+          },
+          "best_validation": 0.13073927257210016
+        }
+      ],
+      "periodic_checkpoint_events": 480,
+      "resume_events": [],
+      "retained_checkpoint_sha256": {
+        "step_00025000.pt": "e6c1c6dcea384f54fcc7e597bfa58e8415899a8962e92ad1fc773778dd7de7f2",
+        "step_00050000.pt": "c7b8d0bf022685b897c0911d2deb755d131a019b5b2548cffd31108ef4e455a0",
+        "step_00075000.pt": "f297a05a90f8fe8ab8452782f15163b8bb70d7e0fa03f4d1141c6471100f9b23",
+        "step_00100000.pt": "75480fcd00300c681c52c0df919f921b1a5ad6a847193c82d08a5f340a9cd9bf",
+        "step_00125000.pt": "c771ceceb7db019594732fbbc0e88dbda8a92daf624b51846253034b7117debf",
+        "step_00150000.pt": "2adcc109a161d83dae2e68aec079763704f7598c62af8ecb8e53db7a3139313d",
+        "step_00175000.pt": "990c24ea69c92ba078fdbb984c9f62fe397fbdfd67c39918a533ec643f12b964",
+        "step_00200000.pt": "8f74c94b936c14d34b66344b90a23f4a366e457f0c598c7ae4fdc375441e7804",
+        "step_00225000.pt": "8734581687c130b671d50e22e5ac951ffbe48dcee4501673d1e4bee4db7d2dd6",
+        "step_00250000.pt": "e71352e3bb83e8e7520ae473dfeea8446664f4e0348cbf4e30f15b2940c1fb74",
+        "step_00275000.pt": "d3abae33eee43a09f24814105affbaf3a8825a8e8ebfdba1db1b1670b6169657",
+        "step_00300000.pt": "2ce0d530c340953046335dec6e36407eb6ea0e22e8e76aefb4d54d609e9ec7e9",
+        "step_00325000.pt": "b68bc2b3ee34293332883fd1ac6015565dd48d9afc20175793c8f674a483ac23",
+        "step_00350000.pt": "f47de3417d81133250d4f50fb0b8cb75b4f267c24de45f4e1b46e2a23d555227",
+        "step_00375000.pt": "a6b1e999aa7f109a5d8761644ed4d3beda91cf17f52d4197d7e40966612772b4",
+        "step_00400000.pt": "0592f32570a595ec26695974c06e12ae2271bcec31a74d2dc4181049871f148e",
+        "step_00425000.pt": "01b88823526a5caa994b4486b4b72cc0db2b70653d3051dafeef212b83d5d8a2",
+        "step_00450000.pt": "aa6c24b8ddc40b66c4f88536159a2716f81a5afaf3e3568ad75727920657ae4a",
+        "step_00475000.pt": "ed7a466bacf876781f4a2ef9cc88b792664ada7d08aa5a5c6f6b47d6ea5a7ee5",
+        "step_00500000.pt": "4724eb8a35feb22953da9822bc2610fa86c0a02276e964e216dd3d90aca4cf9e",
+        "last.pt": "4d9ea41af8f360d3804154195f1b2e89dc9dc2bba0ee48a79e3372f06880e222",
+        "best.pt": "d5b8eebd1016594d4a5b774c4e62d173f1b117ea44e5a074b0abc01087ddefcf"
+      },
+      "complexity": {
+        "sample_rate_hz": 16000,
+        "duration_seconds": 1,
+        "frame_samples": 160,
+        "bitrate_bps": 2400,
+        "encoder_mmac_per_s": 81.712,
+        "decoder_mmac_per_s": 142.848,
+        "quantizer_mmac_per_s": 17.8176,
+        "unclassified_mmac_per_s": 0,
+        "total_mflop_per_s": 575.277,
+        "decoder_mflop_per_s": 287.4112,
+        "decoder_modulation_mflop_per_s": 0.1472,
+        "encoder_gru_gate_mflop_per_s": 0.048,
+        "decoder_fourier_ola_mflop_per_s": 1.568,
+        "parameters": 1796536,
+        "quantizer_type": "projected_rvq",
+        "algorithmic_lookahead_ms": 20,
+        "notes": "Counts Conv1d, ConvTranspose1d, Linear, one-layer forward GRU matrices, bounded attention QK/AV and VQ nearest-neighbour search. Separately includes GRU gate products, Conv2Former modulation and conservative IRFFT/OLA estimates (5*N*ceil(log2N)+4*N per frame). Quantizer synthesis projections count toward decoder. MMAC fields exclude separately reported non-MAC products/FFT estimates. Excludes activations, normalization, padding and file I/O. Exception for grouped encoder: SnakeBeta explicitly includes36 operations/element (sin budget32 plus4 scalar operations) and65/channel/call (two exp budget32 plus negation). This is a conservative analytical convention, not measured transcendental latency. Total algorithmic delay includes10ms packet collection plus encoder lookahead; causal synthesis commits the current hop without next-frame buffering.",
+        "encoder_snakebeta_mflop_per_s": 88.7586,
+        "frame_collection_ms": 10,
+        "total_algorithmic_delay_ms": 30
+      }
+    },
+    "d_both": {
+      "gpu": 1,
+      "supervisor": {
+        "status": "complete",
+        "updated_utc": "2026-11-18T12:42:32.846111+00:00",
+        "gpu": 1,
+        "launch_free_MiB": 8192,
+        "runtime_resource_poll": false,
+        "sharing_authorized": true,
+        "training_total_steps": 500000
+      },
+      "pipeline": {
+        "phase": "complete",
+        "updated_utc": "2026-11-18T12:42:30.100529+00:00",
+        "selected_step": 500000,
+        "score": 50.24576933222705
+      },
+      "metadata": {
+        "created_utc": "2026-11-17T02:04:04.158570+00:00",
+        "command": "scripts/train.py --config /var/tmp/hehaoran-codec-champion11.VvwCbAgC/runs/champion11_d_both/effective_config.yaml --train-manifest /var/tmp/hehaoran-codec-champion11.VvwCbAgC/data/manifests/vctk_libritts/train.scp --valid-manifest /var/tmp/hehaoran-codec-champion11.VvwCbAgC/data/manifests/vctk_libritts/valid.scp --output-dir /var/tmp/hehaoran-codec-champion11.VvwCbAgC/runs/champion11_d_both --device cuda --max-total-steps 500000 --init-checkpoint /var/tmp/hehaoran-codec-champion11.VvwCbAgC/runs/champion11_setup/step0_d_both.pt",
+        "torch_version": "2.13.0+cu129",
+        "world_size": 1,
+        "device": "cuda",
+        "init_checkpoint": "/var/tmp/hehaoran-codec-champion11.VvwCbAgC/runs/champion11_setup/step0_d_both.pt",
+        "resume_checkpoint": null
+      },
+      "step0_sha256": "29e1d3fec78782292f0f20671d7957de1f08741b48240245de6fd1b4eb6214f9",
+      "effective_config_sha256": "604e9d27993e08e9e5aeeb449466d133c60f37171442c03dd7feb2d9d1075934",
+      "validation_rows": [
+        {
+          "timestamp_utc": "2026-11-17T03:56:01.876485+00:00",
+          "epoch": 3,
+          "batch_in_epoch": 314,
+          "global_step": 25000,
+          "train_loss": 0.19636388075579503,
+          "validation": {
+            "waveform_l1": 0.014471910893917084,
+            "spectral": 0.13388462364673615,
+            "commitment": 0.041489262133836746,
+            "adversarial": 0,
+            "feature_matching": 0,
+            "discriminator": 0,
+            "adversarial_factor": 0,
+            "reconstruction": 0.14835653454065323,
+            "total": 0.18984579667448997
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              64.8449478149414,
+              76.72090911865234,
+              76.90158081054688
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              78.66809844970703,
+              90.41449737548828,
+              95.68529510498047
+            ]
+          },
+          "best_validation": 0.14835653454065323
+        },
+        {
+          "timestamp_utc": "2026-11-17T05:38:19.155157+00:00",
+          "epoch": 5,
+          "batch_in_epoch": 628,
+          "global_step": 50000,
+          "train_loss": 0.18311842891630853,
+          "validation": {
+            "waveform_l1": 0.013962005265057087,
+            "spectral": 0.1226649358868599,
+            "commitment": 0.04191496968269348,
+            "adversarial": 0,
+            "feature_matching": 0,
+            "discriminator": 0,
+            "adversarial_factor": 0,
+            "reconstruction": 0.13662694115191698,
+            "total": 0.17854191083461046
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              75.90666961669922,
+              90.21780395507812,
+              85.45096588134766
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              91.51451873779297,
+              101.01631927490234,
+              104.67195129394531
+            ]
+          },
+          "best_validation": 0.13662694115191698
+        },
+        {
+          "timestamp_utc": "2026-11-17T06:42:53.725740+00:00",
+          "epoch": 7,
+          "batch_in_epoch": 942,
+          "global_step": 75000,
+          "train_loss": 0.17884732899898684,
+          "validation": {
+            "waveform_l1": 0.013633431866765022,
+            "spectral": 0.11889947205781937,
+            "commitment": 0.039576128125190735,
+            "adversarial": 0,
+            "feature_matching": 0,
+            "discriminator": 0,
+            "adversarial_factor": 0,
+            "reconstruction": 0.1325329039245844,
+            "total": 0.17210903204977512
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              83.02131652832031,
+              90.39828491210938,
+              85.87803649902344
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              100.0610580444336,
+              104.06490325927734,
+              109.89830017089844
+            ]
+          },
+          "best_validation": 0.1325329039245844
+        },
+        {
+          "timestamp_utc": "2026-11-17T07:58:40.869658+00:00",
+          "epoch": 9,
+          "batch_in_epoch": 1256,
+          "global_step": 100000,
+          "train_loss": 0.17617936219996327,
+          "validation": {
+            "waveform_l1": 0.013446403667330742,
+            "spectral": 0.11605022102594376,
+            "commitment": 0.04215633496642113,
+            "adversarial": -0.00976680126041174,
+            "feature_matching": 0.00598114961758256,
+            "discriminator": 1.9998642206192017,
+            "adversarial_factor": 0.00002,
+            "reconstruction": 0.1294966246932745,
+            "total": 0.1716531293273829
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              87.22808837890625,
+              91.40644836425781,
+              94.79212188720703
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              104.0047836303711,
+              104.49287414550781,
+              113.22303771972656
+            ]
+          },
+          "best_validation": 0.1294966246932745
+        },
+        {
+          "timestamp_utc": "2026-11-17T10:08:37.598273+00:00",
+          "epoch": 11,
+          "batch_in_epoch": 1570,
+          "global_step": 125000,
+          "train_loss": 0.2369594751839425,
+          "validation": {
+            "waveform_l1": 0.013755785301327705,
+            "spectral": 0.11988850682973862,
+            "commitment": 0.0488957054913044,
+            "adversarial": 0.4502692222595215,
+            "feature_matching": 0.04431528598070145,
+            "discriminator": 1.7225137948989868,
+            "adversarial_factor": 0.50002,
+            "reconstruction": 0.13364429213106632,
+            "total": 0.2270349723921865
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              78.73550415039062,
+              99.17076110839844,
+              96.7623519897461
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              96.88506317138672,
+              116.25853729248047,
+              118.36569213867188
+            ]
+          },
+          "best_validation": 0.1294966246932745
+        },
+        {
+          "timestamp_utc": "2026-11-17T11:59:36.958086+00:00",
+          "epoch": 13,
+          "batch_in_epoch": 1884,
+          "global_step": 150000,
+          "train_loss": 0.31564467166196514,
+          "validation": {
+            "waveform_l1": 0.013652345165610313,
+            "spectral": 0.12080328166484833,
+            "commitment": 0.0595557764172554,
+            "adversarial": 0.48528584837913513,
+            "feature_matching": 0.05329262465238571,
+            "discriminator": 1.7577862739562988,
+            "adversarial_factor": 1,
+            "reconstruction": 0.13445562683045864,
+            "total": 0.2982146326452494
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              92.08338928222656,
+              99.59613800048828,
+              99.3597640991211
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              115.80109405517578,
+              112.84202575683594,
+              118.07424926757812
+            ]
+          },
+          "best_validation": 0.1294966246932745
+        },
+        {
+          "timestamp_utc": "2026-11-17T13:44:30.668147+00:00",
+          "epoch": 15,
+          "batch_in_epoch": 2198,
+          "global_step": 175000,
+          "train_loss": 0.33954512087240124,
+          "validation": {
+            "waveform_l1": 0.013525543734431267,
+            "spectral": 0.11981366574764252,
+            "commitment": 0.06392256915569305,
+            "adversarial": 0.602989912033081,
+            "feature_matching": 0.06319504231214523,
+            "discriminator": 1.7581027746200562,
+            "adversarial_factor": 1,
+            "reconstruction": 0.13333920948207378,
+            "total": 0.3222038377076387
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              93.09049987792969,
+              101.634033203125,
+              96.28763580322266
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              110.8674087524414,
+              111.61329650878906,
+              113.80805969238281
+            ]
+          },
+          "best_validation": 0.1294966246932745
+        },
+        {
+          "timestamp_utc": "2026-11-17T15:31:51.599126+00:00",
+          "epoch": 17,
+          "batch_in_epoch": 2512,
+          "global_step": 200000,
+          "train_loss": 0.3561722690797156,
+          "validation": {
+            "waveform_l1": 0.013285317458212376,
+            "spectral": 0.11881060898303986,
+            "commitment": 0.06946948915719986,
+            "adversarial": 0.6542066335678101,
+            "feature_matching": 0.06982406973838806,
+            "discriminator": 1.7121961116790771,
+            "adversarial_factor": 1,
+            "reconstruction": 0.13209592644125223,
+            "total": 0.3390118518844247
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              86.51849365234375,
+              97.2798080444336,
+              95.29749298095703
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              104.57418060302734,
+              120.83685302734375,
+              117.2225570678711
+            ]
+          },
+          "best_validation": 0.1294966246932745
+        },
+        {
+          "timestamp_utc": "2026-11-17T17:17:00.172425+00:00",
+          "epoch": 19,
+          "batch_in_epoch": 2826,
+          "global_step": 225000,
+          "train_loss": 0.3695765610966207,
+          "validation": {
+            "waveform_l1": 0.013334915041923523,
+            "spectral": 0.11779030412435532,
+            "commitment": 0.0707889050245285,
+            "adversarial": 0.6105538010597229,
+            "feature_matching": 0.0765266939997673,
+            "discriminator": 1.6994866132736206,
+            "adversarial_factor": 1,
+            "reconstruction": 0.13112521916627884,
+            "total": 0.34723185524344446
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              96.1584243774414,
+              106.86114501953125,
+              98.6162109375
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              111.16194152832031,
+              115.19341278076172,
+              111.99202728271484
+            ]
+          },
+          "best_validation": 0.1294966246932745
+        },
+        {
+          "timestamp_utc": "2026-11-17T19:01:58.493603+00:00",
+          "epoch": 21,
+          "batch_in_epoch": 3140,
+          "global_step": 250000,
+          "train_loss": 0.3818652457587279,
+          "validation": {
+            "waveform_l1": 0.013313254341483116,
+            "spectral": 0.11699453741312027,
+            "commitment": 0.07275356352329254,
+            "adversarial": 0.4560947120189667,
+            "feature_matching": 0.08242100477218628,
+            "discriminator": 1.7198666334152222,
+            "adversarial_factor": 1,
+            "reconstruction": 0.13030779175460339,
+            "total": 0.34949759803712366
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              97.58210754394531,
+              99.10462951660156,
+              92.83340454101562
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              118.08670043945312,
+              118.05702209472656,
+              116.75831604003906
+            ]
+          },
+          "best_validation": 0.1294966246932745
+        },
+        {
+          "timestamp_utc": "2026-11-17T20:46:43.179802+00:00",
+          "epoch": 23,
+          "batch_in_epoch": 3454,
+          "global_step": 275000,
+          "train_loss": 0.39544120226454443,
+          "validation": {
+            "waveform_l1": 0.013494412414729595,
+            "spectral": 0.1177608072757721,
+            "commitment": 0.07747047394514084,
+            "adversarial": 0.5751461982727051,
+            "feature_matching": 0.08927694708108902,
+            "discriminator": 1.6938105821609497,
+            "adversarial_factor": 1,
+            "reconstruction": 0.1312552196905017,
+            "total": 0.3713984241709113
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              101.1652603149414,
+              102.69813537597656,
+              99.81978607177734
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              121.1220474243164,
+              115.70118713378906,
+              116.21430969238281
+            ]
+          },
+          "best_validation": 0.1294966246932745
+        },
+        {
+          "timestamp_utc": "2026-11-17T22:31:26.189516+00:00",
+          "epoch": 25,
+          "batch_in_epoch": 3768,
+          "global_step": 300000,
+          "train_loss": 0.4111073691152716,
+          "validation": {
+            "waveform_l1": 0.01319695170968771,
+            "spectral": 0.11564627289772034,
+            "commitment": 0.07804621756076813,
+            "adversarial": 0.5849453806877136,
+            "feature_matching": 0.09436232596635818,
+            "discriminator": 1.6673861742019653,
+            "adversarial_factor": 1,
+            "reconstruction": 0.12884322460740805,
+            "total": 0.37768020015209913
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              97.53177642822266,
+              106.66010284423828,
+              102.386474609375
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              114.220703125,
+              119.52442169189453,
+              115.84809112548828
+            ]
+          },
+          "best_validation": 0.12884322460740805
+        },
+        {
+          "timestamp_utc": "2026-11-18T00:16:12.293663+00:00",
+          "epoch": 27,
+          "batch_in_epoch": 4082,
+          "global_step": 325000,
+          "train_loss": 0.42588539877135284,
+          "validation": {
+            "waveform_l1": 0.013167555443942547,
+            "spectral": 0.11510574817657471,
+            "commitment": 0.08363287150859833,
+            "adversarial": 0.5945881009101868,
+            "feature_matching": 0.10132868587970734,
+            "discriminator": 1.6543537378311157,
+            "adversarial_factor": 1,
+            "reconstruction": 0.12827330362051725,
+            "total": 0.39362860899418595
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              100.99869537353516,
+              107.77195739746094,
+              106.56535339355469
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              121.06477355957031,
+              121.29423522949219,
+              120.73150634765625
+            ]
+          },
+          "best_validation": 0.12827330362051725
+        },
+        {
+          "timestamp_utc": "2026-11-18T02:01:14.841199+00:00",
+          "epoch": 29,
+          "batch_in_epoch": 4396,
+          "global_step": 350000,
+          "train_loss": 0.4384219163420311,
+          "validation": {
+            "waveform_l1": 0.013200482353568077,
+            "spectral": 0.11504660546779633,
+            "commitment": 0.08432649821043015,
+            "adversarial": 0.5197081565856934,
+            "feature_matching": 0.10639050602912903,
+            "discriminator": 1.6381016969680786,
+            "adversarial_factor": 1,
+            "reconstruction": 0.1282470878213644,
+            "total": 0.39814475290477275
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              101.01689910888672,
+              112.2940444946289,
+              104.93372344970703
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              120.38825225830078,
+              122.93726348876953,
+              119.84983825683594
+            ]
+          },
+          "best_validation": 0.1282470878213644
+        },
+        {
+          "timestamp_utc": "2026-11-18T03:51:30.438528+00:00",
+          "epoch": 31,
+          "batch_in_epoch": 4710,
+          "global_step": 375000,
+          "train_loss": 0.4482746828703364,
+          "validation": {
+            "waveform_l1": 0.013194931671023369,
+            "spectral": 0.11498148739337921,
+            "commitment": 0.08919835835695267,
+            "adversarial": 0.5914433002471924,
+            "feature_matching": 0.11146415024995804,
+            "discriminator": 1.6382712125778198,
+            "adversarial_factor": 1,
+            "reconstruction": 0.12817641906440258,
+            "total": 0.4141431678086519
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              101.91380310058594,
+              113.67940521240234,
+              109.99801635742188
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              120.7970962524414,
+              125.46890258789062,
+              122.32398223876953
+            ]
+          },
+          "best_validation": 0.12817641906440258
+        },
+        {
+          "timestamp_utc": "2026-11-18T05:36:44.104060+00:00",
+          "epoch": 33,
+          "batch_in_epoch": 5024,
+          "global_step": 400000,
+          "train_loss": 0.46012000215779636,
+          "validation": {
+            "waveform_l1": 0.013166961260139942,
+            "spectral": 0.1145559698343277,
+            "commitment": 0.0905444473028183,
+            "adversarial": 0.5716421604156494,
+            "feature_matching": 0.11634829640388489,
+            "discriminator": 1.6239969730377197,
+            "adversarial_factor": 1,
+            "reconstruction": 0.12772293109446764,
+            "total": 0.42137193102389575
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              105.8036880493164,
+              110.13610076904297,
+              102.95569610595703
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              121.60718536376953,
+              120.422119140625,
+              114.37406921386719
+            ]
+          },
+          "best_validation": 0.12772293109446764
+        },
+        {
+          "timestamp_utc": "2026-11-18T07:21:50.174144+00:00",
+          "epoch": 35,
+          "batch_in_epoch": 5338,
+          "global_step": 425000,
+          "train_loss": 0.46748739416208906,
+          "validation": {
+            "waveform_l1": 0.013156897388398647,
+            "spectral": 0.11435344815254211,
+            "commitment": 0.09258199483156204,
+            "adversarial": 0.6225077509880066,
+            "feature_matching": 0.11916185915470123,
+            "discriminator": 1.6198121309280396,
+            "adversarial_factor": 1,
+            "reconstruction": 0.12751034554094076,
+            "total": 0.42996051665395496
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              106.89916229248047,
+              109.71195983886719,
+              107.9970703125
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              124.15595245361328,
+              120.78044891357422,
+              119.06446075439453
+            ]
+          },
+          "best_validation": 0.12751034554094076
+        },
+        {
+          "timestamp_utc": "2026-11-18T09:07:08.650375+00:00",
+          "epoch": 37,
+          "batch_in_epoch": 5652,
+          "global_step": 450000,
+          "train_loss": 0.471875926191007,
+          "validation": {
+            "waveform_l1": 0.013097526505589485,
+            "spectral": 0.11406400799751282,
+            "commitment": 0.09430890530347824,
+            "adversarial": 0.5766298174858093,
+            "feature_matching": 0.12132768332958221,
+            "discriminator": 1.5993632078170776,
+            "adversarial_factor": 1,
+            "reconstruction": 0.1271615345031023,
+            "total": 0.43229345567524435
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              105.19463348388672,
+              111.00557708740234,
+              103.01315307617188
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              123.68724822998047,
+              121.92681884765625,
+              117.34732818603516
+            ]
+          },
+          "best_validation": 0.1271615345031023
+        },
+        {
+          "timestamp_utc": "2026-11-18T10:52:25.909711+00:00",
+          "epoch": 39,
+          "batch_in_epoch": 5966,
+          "global_step": 475000,
+          "train_loss": 0.473769141790094,
+          "validation": {
+            "waveform_l1": 0.01310544740408659,
+            "spectral": 0.11427050828933716,
+            "commitment": 0.09464294463396072,
+            "adversarial": 0.6173492670059204,
+            "feature_matching": 0.12178938835859299,
+            "discriminator": 1.6007678508758545,
+            "adversarial_factor": 1,
+            "reconstruction": 0.12737595569342375,
+            "total": 0.43557044621556995
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              101.36246490478516,
+              113.40631103515625,
+              101.39713287353516
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              120.87338256835938,
+              124.67951202392578,
+              115.04871368408203
+            ]
+          },
+          "best_validation": 0.1271615345031023
+        },
+        {
+          "timestamp_utc": "2026-11-18T12:37:53.267437+00:00",
+          "epoch": 41,
+          "batch_in_epoch": 6280,
+          "global_step": 500000,
+          "train_loss": 0.47903759194787143,
+          "validation": {
+            "waveform_l1": 0.013210350647568703,
+            "spectral": 0.11441392451524734,
+            "commitment": 0.09555844217538834,
+            "adversarial": 0.615437388420105,
+            "feature_matching": 0.12457393854856491,
+            "discriminator": 1.6124378442764282,
+            "adversarial_factor": 1,
+            "reconstruction": 0.12762427516281605,
+            "total": 0.440815494582057
+          },
+          "quantizer_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              102.04947662353516,
+              115.45484161376953,
+              105.24475860595703
+            ]
+          },
+          "quantizer_ema_usage": {
+            "active_codes": [
+              256,
+              256,
+              256
+            ],
+            "perplexity": [
+              121.07112884521484,
+              127.98041534423828,
+              120.15357971191406
+            ]
+          },
+          "best_validation": 0.1271615345031023
+        }
+      ],
+      "periodic_checkpoint_events": 480,
+      "resume_events": [],
+      "retained_checkpoint_sha256": {
+        "step_00025000.pt": "8eb3f9b0d6a78731aa41a9ebdd99e8c0699f24240e4edeeff049a0af90b0efae",
+        "step_00050000.pt": "58df1ac418f7bcb2d6b3bfa27184fc332ee1dcd5698ba3ddaeba06d0dbe761e6",
+        "step_00075000.pt": "6e51dab1b6de814f026ceead8ce9f0032ebd4d2edbb8fce8674a2ad700db6fc4",
+        "step_00100000.pt": "455473af1afabc2f5d615d295a353ae06f0d96ecfa3b8c9dbb4ca6f1ac3b9920",
+        "step_00125000.pt": "92033a8df60fdec5d4292f028e1cae6f1c092c98f5a39c5fc09978f552a96f0a",
+        "step_00150000.pt": "0c81057b3468e396c5f7ce5654e257b9540939f8167972f1e7d90733df9e16cd",
+        "step_00175000.pt": "4f3dc38827e75dc71d18859ddcbff3528119f8c16e9486ec6f2223062b6f8310",
+        "step_00200000.pt": "ca5f5f2d5e76d20bcb21f9c347653d357aba29446f01095f617424bdaa1ab3e0",
+        "step_00225000.pt": "fee95398ac76a7babf2927c8700ba2f2d6ca6b316af7442245521fda38c39238",
+        "step_00250000.pt": "2f8563d816fa93a45c3da3b6dbd67219d74bc9bd4799ae650c65d972065a8b51",
+        "step_00275000.pt": "0d59c2df08fa0e8f17463b973ccccccb73ab7be8a670679061fb788bc0bae44e",
+        "step_00300000.pt": "399366324192c9e4683cc6d767392cdf823a2e06a5cb4c79f0378ab57c5ff015",
+        "step_00325000.pt": "4f3bf61b59cb0a2397397e07a84ed3fe98532689f6992f7ab127e547de21cb64",
+        "step_00350000.pt": "3fe332a578a4a6b488299c148afdc4311aa5a6420e469b4d8f46b0a691e0df3b",
+        "step_00375000.pt": "aaaea3dfca28068ee6365a7ce21d6f8092d5399a221f28e14b21280e8e746f42",
+        "step_00400000.pt": "ae89dfdb235e7e241aefbe5f198afeaffc1ba0577cd93a3a08aa97b8d732a573",
+        "step_00425000.pt": "e9c79c11f25ae89afcc69356acaf5ebb335455cca273ec1c35c30b8659c70e1e",
+        "step_00450000.pt": "db6379e4827f2c4ba572bb814e4e0d0dedd2eba26efbd56f20c7567753810c83",
+        "step_00475000.pt": "ac1a9566a78a6dfd191c43d47017423a77674c5d7f4f5de0610b1b859dc11a2e",
+        "step_00500000.pt": "1bafbd40b688e218147ac0544a7dd3baf82d1bdc5d83cf28dec04cf8aee64966",
+        "last.pt": "855a3bc362d5af1456258f35bf948c8a35ebc0ecd064ebc393a77c289b707f33",
+        "best.pt": "1a8cb3ec0c2454bea128d6f879922830581309c6bca398e91b807dccee71260f"
+      },
+      "complexity": {
+        "sample_rate_hz": 16000,
+        "duration_seconds": 1,
+        "frame_samples": 160,
+        "bitrate_bps": 2400,
+        "encoder_mmac_per_s": 118.16,
+        "decoder_mmac_per_s": 142.848,
+        "quantizer_mmac_per_s": 17.8176,
+        "unclassified_mmac_per_s": 0,
+        "total_mflop_per_s": 670.36356,
+        "decoder_mflop_per_s": 287.4112,
+        "decoder_modulation_mflop_per_s": 0.1472,
+        "encoder_gru_gate_mflop_per_s": 0.048,
+        "decoder_fourier_ola_mflop_per_s": 1.568,
+        "parameters": 1849064,
+        "quantizer_type": "projected_rvq",
+        "algorithmic_lookahead_ms": 20,
+        "notes": "Counts Conv1d, ConvTranspose1d, Linear, one-layer forward GRU matrices, bounded attention QK/AV and VQ nearest-neighbour search. Separately includes GRU gate products, Conv2Former modulation and conservative IRFFT/OLA estimates (5*N*ceil(log2N)+4*N per frame). Quantizer synthesis projections count toward decoder. MMAC fields exclude separately reported non-MAC products/FFT estimates. Excludes activations, normalization, padding and file I/O. Exception for grouped encoder: SnakeBeta explicitly includes36 operations/element (sin budget32 plus4 scalar operations) and65/channel/call (two exp budget32 plus negation). This is a conservative analytical convention, not measured transcendental latency. Total algorithmic delay includes10ms packet collection plus encoder lookahead; causal synthesis commits the current hop without next-frame buffering.",
+        "encoder_snakebeta_mflop_per_s": 110.94916,
+        "frame_collection_ms": 10,
+        "total_algorithmic_delay_ms": 30
+      }
+    }
+  },
+  "nodes": {
+    "a_base_250000": {
+      "summary": {
+        "files": 200,
+        "means": {
+          "PESQ": 1.9974508649110794,
+          "ESTOI": 0.7360356998541999,
+          "SI_SNR": 5.998760455383608,
+          "UTMOS": 2.815350826382637
+        },
+        "objective_quality_score": 46.87070948094037,
+        "utmos_skipped": false
+      },
+      "checkpoint_sha256": "c778a3167a97f11889a8c0028958d02d9dfdc6c61df514367ec41206a2f3762d",
+      "complexity": {
+        "sample_rate_hz": 16000,
+        "duration_seconds": 1,
+        "frame_samples": 160,
+        "bitrate_bps": 2400,
+        "encoder_mmac_per_s": 81.712,
+        "decoder_mmac_per_s": 127.968,
+        "quantizer_mmac_per_s": 17.8176,
+        "unclassified_mmac_per_s": 0,
+        "total_mflop_per_s": 545.4978,
+        "decoder_mflop_per_s": 257.632,
+        "decoder_modulation_mflop_per_s": 0.128,
+        "encoder_gru_gate_mflop_per_s": 0.048,
+        "decoder_fourier_ola_mflop_per_s": 1.568,
+        "parameters": 1647160,
+        "quantizer_type": "projected_rvq",
+        "algorithmic_lookahead_ms": 20,
+        "notes": "Counts Conv1d, ConvTranspose1d, Linear, one-layer forward GRU matrices, bounded attention QK/AV and VQ nearest-neighbour search. Separately includes GRU gate products, Conv2Former modulation and conservative IRFFT/OLA estimates (5*N*ceil(log2N)+4*N per frame). Quantizer synthesis projections count toward decoder. MMAC fields exclude separately reported non-MAC products/FFT estimates. Excludes activations, normalization, padding and file I/O. Exception for grouped encoder: SnakeBeta explicitly includes36 operations/element (sin budget32 plus4 scalar operations) and65/channel/call (two exp budget32 plus negation). This is a conservative analytical convention, not measured transcendental latency. Total algorithmic delay includes10ms packet collection plus encoder lookahead; causal synthesis commits the current hop without next-frame buffering.",
+        "encoder_snakebeta_mflop_per_s": 88.7586,
+        "frame_collection_ms": 10,
+        "total_algorithmic_delay_ms": 30
+      },
+      "roundtrip": {
+        "files": 200,
+        "samples": 16197971,
+        "actual_bytes": 303858,
+        "frames": 101286,
+        "audio_lengths_verified": true
+      },
+      "csv_sha256": "409bf83dce0b05fb25c76cbd5ee5853912ed4f5f5f2879b412e3e8f2e477ef14",
+      "bitstream_tree_sha256": "447706ab1dff19c3f6b21c100a1411a999e49979720505ed607a8c6442bfc327",
+      "sidecar_tree_sha256": "b93ba2569c1b8d7f3589a3dc887629be1068bb5fc17b3f319b07f544615b69be",
+      "reconstructed_tree_sha256": "029864aefef6c1ba3ae1b52d664386067b98c8c0d302b4cc64dc14e1fccebdc0",
+      "reconstructed_directory": "/var/tmp/hehaoran-codec-champion11.VvwCbAgC/runs/champion11_a_base/evaluation/step_00250000/reconstructed",
+      "rvq": null
+    },
+    "a_base_500000": {
+      "summary": {
+        "files": 200,
+        "means": {
+          "PESQ": 2.1180852317810057,
+          "ESTOI": 0.7481216560035161,
+          "SI_SNR": 6.231313263386898,
+          "UTMOS": 2.97911398768425
+        },
+        "objective_quality_score": 49.20339769688131,
+        "utmos_skipped": false
+      },
+      "checkpoint_sha256": "30de254ed79a716c225ae0c34a79a856425c6b7075ef4f080024ddde94da926f",
+      "complexity": {
+        "sample_rate_hz": 16000,
+        "duration_seconds": 1,
+        "frame_samples": 160,
+        "bitrate_bps": 2400,
+        "encoder_mmac_per_s": 81.712,
+        "decoder_mmac_per_s": 127.968,
+        "quantizer_mmac_per_s": 17.8176,
+        "unclassified_mmac_per_s": 0,
+        "total_mflop_per_s": 545.4978,
+        "decoder_mflop_per_s": 257.632,
+        "decoder_modulation_mflop_per_s": 0.128,
+        "encoder_gru_gate_mflop_per_s": 0.048,
+        "decoder_fourier_ola_mflop_per_s": 1.568,
+        "parameters": 1647160,
+        "quantizer_type": "projected_rvq",
+        "algorithmic_lookahead_ms": 20,
+        "notes": "Counts Conv1d, ConvTranspose1d, Linear, one-layer forward GRU matrices, bounded attention QK/AV and VQ nearest-neighbour search. Separately includes GRU gate products, Conv2Former modulation and conservative IRFFT/OLA estimates (5*N*ceil(log2N)+4*N per frame). Quantizer synthesis projections count toward decoder. MMAC fields exclude separately reported non-MAC products/FFT estimates. Excludes activations, normalization, padding and file I/O. Exception for grouped encoder: SnakeBeta explicitly includes36 operations/element (sin budget32 plus4 scalar operations) and65/channel/call (two exp budget32 plus negation). This is a conservative analytical convention, not measured transcendental latency. Total algorithmic delay includes10ms packet collection plus encoder lookahead; causal synthesis commits the current hop without next-frame buffering.",
+        "encoder_snakebeta_mflop_per_s": 88.7586,
+        "frame_collection_ms": 10,
+        "total_algorithmic_delay_ms": 30
+      },
+      "roundtrip": {
+        "files": 200,
+        "samples": 16197971,
+        "actual_bytes": 303858,
+        "frames": 101286,
+        "audio_lengths_verified": true
+      },
+      "csv_sha256": "85b46d1025350b4ea0cdb25fb25a289285497ce8f971c1fe3fd06f854111ef57",
+      "bitstream_tree_sha256": "7d35050c59a385521f230616a4d9cb2511afe057b3abe9a62ed4c4944310c6a2",
+      "sidecar_tree_sha256": "b93ba2569c1b8d7f3589a3dc887629be1068bb5fc17b3f319b07f544615b69be",
+      "reconstructed_tree_sha256": "b4e28335f459b2ec7814371ab7bcd8ea7b638d7e5bf53d6077fd091c83997f11",
+      "reconstructed_directory": "/var/tmp/hehaoran-codec-champion11.VvwCbAgC/runs/champion11_a_base/evaluation/step_00500000/reconstructed",
+      "rvq": {
+        "sha256": "2353d336d3c735f97136c8401b7ce6a6a154dbe379f512abae9876f1639871cc",
+        "checkpoint": "/var/tmp/hehaoran-codec-champion11.VvwCbAgC/runs/champion11_a_base/checkpoints/step_00500000.pt",
+        "files": 200,
+        "samples": 16197971,
+        "frames": 101286,
+        "occupancy": [
+          {
+            "stage": 1,
+            "active_codes": 256,
+            "perplexity": 132.45521016399684,
+            "entropy_bits": 7.049360783425055,
+            "top1_fraction": 0.0503031021069052,
+            "top10_fraction": 0.2861204904922694,
+            "codes_for_95pct_mass": 178,
+            "codes_for_99pct_mass": 225
+          },
+          {
+            "stage": 2,
+            "active_codes": 256,
+            "perplexity": 121.64305057555984,
+            "entropy_bits": 6.926510091748071,
+            "top1_fraction": 0.0646288726971151,
+            "top10_fraction": 0.33316549177576366,
+            "codes_for_95pct_mass": 180,
+            "codes_for_99pct_mass": 226
+          },
+          {
+            "stage": 3,
+            "active_codes": 256,
+            "perplexity": 123.55671526987028,
+            "entropy_bits": 6.949029612608666,
+            "top1_fraction": 0.0682621487668582,
+            "top10_fraction": 0.3279130383271133,
+            "codes_for_95pct_mass": 182,
+            "codes_for_99pct_mass": 229
+          }
+        ],
+        "entropy": {
+          "marginal_bits": [
+            7.049360783425055,
+            6.926510091748071,
+            6.949029612608666
+          ],
+          "sum_marginal_bits": 20.92490048778179,
+          "naive_plugin_joint_stage12_bits": 12.77967650260571,
+          "naive_plugin_joint_stage123_bits": 15.034170598059362,
+          "naive_plugin_conditional_stage2_given_stage1_bits": 5.7303157191806555,
+          "naive_plugin_conditional_stage3_given_stage12_bits": 2.2544940954536514,
+          "naive_plugin_interstage_redundancy_bits": 5.890729889722429,
+          "joint_entropy_caveat": "Sparse plug-in joint entropy is downward-biased and capped by log2(frames); do not interpret 24 minus this estimate as unused capacity."
+        },
+        "residual_quantization": [
+          {
+            "stage": 1,
+            "mse_before": 0.6671179045609076,
+            "mse_after": 0.5698030452395827,
+            "relative_reduction": 0.14587355346934794,
+            "relative_to_original_after": 0.8541264465306521
+          },
+          {
+            "stage": 2,
+            "mse_before": 0.5698030452395827,
+            "mse_after": 0.4900531850326107,
+            "relative_reduction": 0.1399603966199231,
+            "relative_to_original_after": 0.7345825703106564
+          },
+          {
+            "stage": 3,
+            "mse_before": 0.4900531850326107,
+            "mse_after": 0.4162775552180052,
+            "relative_reduction": 0.1505461694115835,
+            "relative_to_original_after": 0.6239939782338719
+          }
+        ],
+        "partial_reconstruction": [
+          {
+            "stages": 1,
+            "nominal_bitrate_bps": 800,
+            "waveform_l1": 0.0691167654759333,
+            "spectral_loss_mean_per_file": 0.6078468483686447,
+            "si_snr_db_mean_per_file": -20.59930811405182
+          },
+          {
+            "stages": 2,
+            "nominal_bitrate_bps": 1600,
+            "waveform_l1": 0.07225630900934386,
+            "spectral_loss_mean_per_file": 0.5421986174583435,
+            "si_snr_db_mean_per_file": -5.470066924015992
+          },
+          {
+            "stages": 3,
+            "nominal_bitrate_bps": 2400,
+            "waveform_l1": 0.014296163165891301,
+            "spectral_loss_mean_per_file": 0.12075981922447682,
+            "si_snr_db_mean_per_file": 6.23131174441427
+          }
+        ],
+        "checkpoint_global_step": 500000
+      }
+    },
+    "c_dec_250000": {
+      "summary": {
+        "files": 200,
+        "means": {
+          "PESQ": 1.9698957139253617,
+          "ESTOI": 0.7272855622900884,
+          "SI_SNR": 5.8985641432097005,
+          "UTMOS": 2.734596902132034
+        },
+        "objective_quality_score": 45.88779881312179,
+        "utmos_skipped": false
+      },
+      "checkpoint_sha256": "e71352e3bb83e8e7520ae473dfeea8446664f4e0348cbf4e30f15b2940c1fb74",
+      "complexity": {
+        "sample_rate_hz": 16000,
+        "duration_seconds": 1,
+        "frame_samples": 160,
+        "bitrate_bps": 2400,
+        "encoder_mmac_per_s": 81.712,
+        "decoder_mmac_per_s": 142.848,
+        "quantizer_mmac_per_s": 17.8176,
+        "unclassified_mmac_per_s": 0,
+        "total_mflop_per_s": 575.277,
+        "decoder_mflop_per_s": 287.4112,
+        "decoder_modulation_mflop_per_s": 0.1472,
+        "encoder_gru_gate_mflop_per_s": 0.048,
+        "decoder_fourier_ola_mflop_per_s": 1.568,
+        "parameters": 1796536,
+        "quantizer_type": "projected_rvq",
+        "algorithmic_lookahead_ms": 20,
+        "notes": "Counts Conv1d, ConvTranspose1d, Linear, one-layer forward GRU matrices, bounded attention QK/AV and VQ nearest-neighbour search. Separately includes GRU gate products, Conv2Former modulation and conservative IRFFT/OLA estimates (5*N*ceil(log2N)+4*N per frame). Quantizer synthesis projections count toward decoder. MMAC fields exclude separately reported non-MAC products/FFT estimates. Excludes activations, normalization, padding and file I/O. Exception for grouped encoder: SnakeBeta explicitly includes36 operations/element (sin budget32 plus4 scalar operations) and65/channel/call (two exp budget32 plus negation). This is a conservative analytical convention, not measured transcendental latency. Total algorithmic delay includes10ms packet collection plus encoder lookahead; causal synthesis commits the current hop without next-frame buffering.",
+        "encoder_snakebeta_mflop_per_s": 88.7586,
+        "frame_collection_ms": 10,
+        "total_algorithmic_delay_ms": 30
+      },
+      "roundtrip": {
+        "files": 200,
+        "samples": 16197971,
+        "actual_bytes": 303858,
+        "frames": 101286,
+        "audio_lengths_verified": true
+      },
+      "csv_sha256": "48e757f08dc37f47a1b7fdad67538f32cdf1def2a1c41ce2f8635ce60873a7f3",
+      "bitstream_tree_sha256": "965af3ccebf7369976dad8941ae38730937deeeb2de46908e94d329170fc8d85",
+      "sidecar_tree_sha256": "b93ba2569c1b8d7f3589a3dc887629be1068bb5fc17b3f319b07f544615b69be",
+      "reconstructed_tree_sha256": "b9b62a593f8509696fea299ad3b53cd201f2a04e311cd8d198d1ff7f1d6cf23b",
+      "reconstructed_directory": "/var/tmp/hehaoran-codec-champion11.VvwCbAgC/runs/champion11_c_dec/evaluation/step_00250000/reconstructed",
+      "rvq": null
+    },
+    "c_dec_500000": {
+      "summary": {
+        "files": 200,
+        "means": {
+          "PESQ": 2.1095272946357726,
+          "ESTOI": 0.7438284164612,
+          "SI_SNR": 6.222777442584226,
+          "UTMOS": 2.9181442034244536
+        },
+        "objective_quality_score": 48.648542546232065,
+        "utmos_skipped": false
+      },
+      "checkpoint_sha256": "4724eb8a35feb22953da9822bc2610fa86c0a02276e964e216dd3d90aca4cf9e",
+      "complexity": {
+        "sample_rate_hz": 16000,
+        "duration_seconds": 1,
+        "frame_samples": 160,
+        "bitrate_bps": 2400,
+        "encoder_mmac_per_s": 81.712,
+        "decoder_mmac_per_s": 142.848,
+        "quantizer_mmac_per_s": 17.8176,
+        "unclassified_mmac_per_s": 0,
+        "total_mflop_per_s": 575.277,
+        "decoder_mflop_per_s": 287.4112,
+        "decoder_modulation_mflop_per_s": 0.1472,
+        "encoder_gru_gate_mflop_per_s": 0.048,
+        "decoder_fourier_ola_mflop_per_s": 1.568,
+        "parameters": 1796536,
+        "quantizer_type": "projected_rvq",
+        "algorithmic_lookahead_ms": 20,
+        "notes": "Counts Conv1d, ConvTranspose1d, Linear, one-layer forward GRU matrices, bounded attention QK/AV and VQ nearest-neighbour search. Separately includes GRU gate products, Conv2Former modulation and conservative IRFFT/OLA estimates (5*N*ceil(log2N)+4*N per frame). Quantizer synthesis projections count toward decoder. MMAC fields exclude separately reported non-MAC products/FFT estimates. Excludes activations, normalization, padding and file I/O. Exception for grouped encoder: SnakeBeta explicitly includes36 operations/element (sin budget32 plus4 scalar operations) and65/channel/call (two exp budget32 plus negation). This is a conservative analytical convention, not measured transcendental latency. Total algorithmic delay includes10ms packet collection plus encoder lookahead; causal synthesis commits the current hop without next-frame buffering.",
+        "encoder_snakebeta_mflop_per_s": 88.7586,
+        "frame_collection_ms": 10,
+        "total_algorithmic_delay_ms": 30
+      },
+      "roundtrip": {
+        "files": 200,
+        "samples": 16197971,
+        "actual_bytes": 303858,
+        "frames": 101286,
+        "audio_lengths_verified": true
+      },
+      "csv_sha256": "f19e27b28bdaf6ffc09e2cf170c7d86c33c07f67a50dfa4d957342430346a555",
+      "bitstream_tree_sha256": "c1ff6d27f7f35765d7678448131767e57e644ac6147005fe657e71a5ff675e51",
+      "sidecar_tree_sha256": "b93ba2569c1b8d7f3589a3dc887629be1068bb5fc17b3f319b07f544615b69be",
+      "reconstructed_tree_sha256": "ed2a18caba9d9ddeefe0416010558c486588930ae844dfce807673030044f966",
+      "reconstructed_directory": "/var/tmp/hehaoran-codec-champion11.VvwCbAgC/runs/champion11_c_dec/evaluation/step_00500000/reconstructed",
+      "rvq": {
+        "sha256": "508131ddb3dbf8ecee0bf0ca8d253afd96a8e27fd0825a149379e93a09ae0120",
+        "checkpoint": "/var/tmp/hehaoran-codec-champion11.VvwCbAgC/runs/champion11_c_dec/checkpoints/step_00500000.pt",
+        "files": 200,
+        "samples": 16197971,
+        "frames": 101286,
+        "occupancy": [
+          {
+            "stage": 1,
+            "active_codes": 256,
+            "perplexity": 119.1548286145174,
+            "entropy_bits": 6.896693606070577,
+            "top1_fraction": 0.0839701439488182,
+            "top10_fraction": 0.33574235333609775,
+            "codes_for_95pct_mass": 177,
+            "codes_for_99pct_mass": 225
+          },
+          {
+            "stage": 2,
+            "active_codes": 256,
+            "perplexity": 114.4367244829335,
+            "entropy_bits": 6.838406298946069,
+            "top1_fraction": 0.07970499377998934,
+            "top10_fraction": 0.3683628537014,
+            "codes_for_95pct_mass": 181,
+            "codes_for_99pct_mass": 228
+          },
+          {
+            "stage": 3,
+            "active_codes": 256,
+            "perplexity": 119.76040821375064,
+            "entropy_bits": 6.904007233843394,
+            "top1_fraction": 0.08381217542404676,
+            "top10_fraction": 0.3411034101455285,
+            "codes_for_95pct_mass": 180,
+            "codes_for_99pct_mass": 226
+          }
+        ],
+        "entropy": {
+          "marginal_bits": [
+            6.896693606070577,
+            6.838406298946069,
+            6.904007233843394
+          ],
+          "sum_marginal_bits": 20.63910713886004,
+          "naive_plugin_joint_stage12_bits": 12.435103383391969,
+          "naive_plugin_joint_stage123_bits": 14.722791211404337,
+          "naive_plugin_conditional_stage2_given_stage1_bits": 5.538409777321392,
+          "naive_plugin_conditional_stage3_given_stage12_bits": 2.287687828012368,
+          "naive_plugin_interstage_redundancy_bits": 5.916315927455704,
+          "joint_entropy_caveat": "Sparse plug-in joint entropy is downward-biased and capped by log2(frames); do not interpret 24 minus this estimate as unused capacity."
+        },
+        "residual_quantization": [
+          {
+            "stage": 1,
+            "mse_before": 0.5692384758226582,
+            "mse_after": 0.37773269562898365,
+            "relative_reduction": 0.33642451859374434,
+            "relative_to_original_after": 0.6635754814062557
+          },
+          {
+            "stage": 2,
+            "mse_before": 0.37773269562898365,
+            "mse_after": 0.2936974178203614,
+            "relative_reduction": 0.22247287243348224,
+            "relative_to_original_after": 0.5159479379813752
+          },
+          {
+            "stage": 3,
+            "mse_before": 0.2936974178203614,
+            "mse_after": 0.3446405776349775,
+            "relative_reduction": -0.1734545716904301,
+            "relative_to_original_after": 0.6054414665784953
+          }
+        ],
+        "partial_reconstruction": [
+          {
+            "stages": 1,
+            "nominal_bitrate_bps": 800,
+            "waveform_l1": 0.06569623543780045,
+            "spectral_loss_mean_per_file": 0.5886101405322551,
+            "si_snr_db_mean_per_file": -10.853766889572144
+          },
+          {
+            "stages": 2,
+            "nominal_bitrate_bps": 1600,
+            "waveform_l1": 0.04392915756398619,
+            "spectral_loss_mean_per_file": 0.3790634740889072,
+            "si_snr_db_mean_per_file": 0.022245873445644975
+          },
+          {
+            "stages": 3,
+            "nominal_bitrate_bps": 2400,
+            "waveform_l1": 0.014247857468550075,
+            "spectral_loss_mean_per_file": 0.12164290715008974,
+            "si_snr_db_mean_per_file": 6.222778946235776
+          }
+        ],
+        "checkpoint_global_step": 500000
+      }
+    },
+    "d_both_250000": {
+      "summary": {
+        "files": 200,
+        "means": {
+          "PESQ": 2.034400498867035,
+          "ESTOI": 0.7488711177831143,
+          "SI_SNR": 6.386130505294973,
+          "UTMOS": 2.904536099433899
+        },
+        "objective_quality_score": 48.25503512375648,
+        "utmos_skipped": false
+      },
+      "checkpoint_sha256": "2f8563d816fa93a45c3da3b6dbd67219d74bc9bd4799ae650c65d972065a8b51",
+      "complexity": {
+        "sample_rate_hz": 16000,
+        "duration_seconds": 1,
+        "frame_samples": 160,
+        "bitrate_bps": 2400,
+        "encoder_mmac_per_s": 118.16,
+        "decoder_mmac_per_s": 142.848,
+        "quantizer_mmac_per_s": 17.8176,
+        "unclassified_mmac_per_s": 0,
+        "total_mflop_per_s": 670.36356,
+        "decoder_mflop_per_s": 287.4112,
+        "decoder_modulation_mflop_per_s": 0.1472,
+        "encoder_gru_gate_mflop_per_s": 0.048,
+        "decoder_fourier_ola_mflop_per_s": 1.568,
+        "parameters": 1849064,
+        "quantizer_type": "projected_rvq",
+        "algorithmic_lookahead_ms": 20,
+        "notes": "Counts Conv1d, ConvTranspose1d, Linear, one-layer forward GRU matrices, bounded attention QK/AV and VQ nearest-neighbour search. Separately includes GRU gate products, Conv2Former modulation and conservative IRFFT/OLA estimates (5*N*ceil(log2N)+4*N per frame). Quantizer synthesis projections count toward decoder. MMAC fields exclude separately reported non-MAC products/FFT estimates. Excludes activations, normalization, padding and file I/O. Exception for grouped encoder: SnakeBeta explicitly includes36 operations/element (sin budget32 plus4 scalar operations) and65/channel/call (two exp budget32 plus negation). This is a conservative analytical convention, not measured transcendental latency. Total algorithmic delay includes10ms packet collection plus encoder lookahead; causal synthesis commits the current hop without next-frame buffering.",
+        "encoder_snakebeta_mflop_per_s": 110.94916,
+        "frame_collection_ms": 10,
+        "total_algorithmic_delay_ms": 30
+      },
+      "roundtrip": {
+        "files": 200,
+        "samples": 16197971,
+        "actual_bytes": 303858,
+        "frames": 101286,
+        "audio_lengths_verified": true
+      },
+      "csv_sha256": "27aed8e9c90dd877303758a1c12192cdf53a9c9931ff59faab7b956423c51196",
+      "bitstream_tree_sha256": "7fc4cc2398774166ad053e9044ad5bd28194279160461c096f2670a1bc56608b",
+      "sidecar_tree_sha256": "b93ba2569c1b8d7f3589a3dc887629be1068bb5fc17b3f319b07f544615b69be",
+      "reconstructed_tree_sha256": "9b05a0dbc9e7e0055e65f65acadb8bd72224d23bbf9473b9b92f6b9076d871ef",
+      "reconstructed_directory": "/var/tmp/hehaoran-codec-champion11.VvwCbAgC/runs/champion11_d_both/evaluation/step_00250000/reconstructed",
+      "rvq": null
+    },
+    "d_both_500000": {
+      "summary": {
+        "files": 200,
+        "means": {
+          "PESQ": 2.147469393014908,
+          "ESTOI": 0.7620956901568183,
+          "SI_SNR": 6.397457318106915,
+          "UTMOS": 3.0398010087013243
+        },
+        "objective_quality_score": 50.24576933222705,
+        "utmos_skipped": false
+      },
+      "checkpoint_sha256": "1bafbd40b688e218147ac0544a7dd3baf82d1bdc5d83cf28dec04cf8aee64966",
+      "complexity": {
+        "sample_rate_hz": 16000,
+        "duration_seconds": 1,
+        "frame_samples": 160,
+        "bitrate_bps": 2400,
+        "encoder_mmac_per_s": 118.16,
+        "decoder_mmac_per_s": 142.848,
+        "quantizer_mmac_per_s": 17.8176,
+        "unclassified_mmac_per_s": 0,
+        "total_mflop_per_s": 670.36356,
+        "decoder_mflop_per_s": 287.4112,
+        "decoder_modulation_mflop_per_s": 0.1472,
+        "encoder_gru_gate_mflop_per_s": 0.048,
+        "decoder_fourier_ola_mflop_per_s": 1.568,
+        "parameters": 1849064,
+        "quantizer_type": "projected_rvq",
+        "algorithmic_lookahead_ms": 20,
+        "notes": "Counts Conv1d, ConvTranspose1d, Linear, one-layer forward GRU matrices, bounded attention QK/AV and VQ nearest-neighbour search. Separately includes GRU gate products, Conv2Former modulation and conservative IRFFT/OLA estimates (5*N*ceil(log2N)+4*N per frame). Quantizer synthesis projections count toward decoder. MMAC fields exclude separately reported non-MAC products/FFT estimates. Excludes activations, normalization, padding and file I/O. Exception for grouped encoder: SnakeBeta explicitly includes36 operations/element (sin budget32 plus4 scalar operations) and65/channel/call (two exp budget32 plus negation). This is a conservative analytical convention, not measured transcendental latency. Total algorithmic delay includes10ms packet collection plus encoder lookahead; causal synthesis commits the current hop without next-frame buffering.",
+        "encoder_snakebeta_mflop_per_s": 110.94916,
+        "frame_collection_ms": 10,
+        "total_algorithmic_delay_ms": 30
+      },
+      "roundtrip": {
+        "files": 200,
+        "samples": 16197971,
+        "actual_bytes": 303858,
+        "frames": 101286,
+        "audio_lengths_verified": true
+      },
+      "csv_sha256": "89f8de8675158cda7c5e36916a3d187d1b4742b54ad7b539e6b06626c55fdb5d",
+      "bitstream_tree_sha256": "51100b494917f148e96a56e21f9c4b7f2b139c739a98bb5a3dba1efe80c16ea7",
+      "sidecar_tree_sha256": "b93ba2569c1b8d7f3589a3dc887629be1068bb5fc17b3f319b07f544615b69be",
+      "reconstructed_tree_sha256": "33d07a977e19f67b47bdcb2b432465147b92149d83c766b9c70ed7ad4f2cef5e",
+      "reconstructed_directory": "/var/tmp/hehaoran-codec-champion11.VvwCbAgC/runs/champion11_d_both/evaluation/step_00500000/reconstructed",
+      "rvq": {
+        "sha256": "94d6f89e9c845cb4e251057495f7a67fe0f376b99740512a4e464d98ebdaa3c2",
+        "checkpoint": "/var/tmp/hehaoran-codec-champion11.VvwCbAgC/runs/champion11_d_both/checkpoints/step_00500000.pt",
+        "files": 200,
+        "samples": 16197971,
+        "frames": 101286,
+        "occupancy": [
+          {
+            "stage": 1,
+            "active_codes": 256,
+            "perplexity": 121.49072792266436,
+            "entropy_bits": 6.924702402449974,
+            "top1_fraction": 0.07484746164326758,
+            "top10_fraction": 0.32643208340738106,
+            "codes_for_95pct_mass": 180,
+            "codes_for_99pct_mass": 228
+          },
+          {
+            "stage": 2,
+            "active_codes": 256,
+            "perplexity": 127.67868047132876,
+            "entropy_bits": 6.996373836615954,
+            "top1_fraction": 0.07352447524830677,
+            "top10_fraction": 0.3224828702880951,
+            "codes_for_95pct_mass": 186,
+            "codes_for_99pct_mass": 230
+          },
+          {
+            "stage": 3,
+            "active_codes": 256,
+            "perplexity": 117.08662628731489,
+            "entropy_bits": 6.8714324894326,
+            "top1_fraction": 0.10827755069802342,
+            "top10_fraction": 0.3371640700590407,
+            "codes_for_95pct_mass": 184,
+            "codes_for_99pct_mass": 229
+          }
+        ],
+        "entropy": {
+          "marginal_bits": [
+            6.924702402449974,
+            6.996373836615954,
+            6.8714324894326
+          ],
+          "sum_marginal_bits": 20.792508728498525,
+          "naive_plugin_joint_stage12_bits": 12.56602091406588,
+          "naive_plugin_joint_stage123_bits": 14.852403668222905,
+          "naive_plugin_conditional_stage2_given_stage1_bits": 5.641318511615907,
+          "naive_plugin_conditional_stage3_given_stage12_bits": 2.2863827541570245,
+          "naive_plugin_interstage_redundancy_bits": 5.94010506027562,
+          "joint_entropy_caveat": "Sparse plug-in joint entropy is downward-biased and capped by log2(frames); do not interpret 24 minus this estimate as unused capacity."
+        },
+        "residual_quantization": [
+          {
+            "stage": 1,
+            "mse_before": 0.6164002346465961,
+            "mse_after": 0.46086409191767264,
+            "relative_reduction": 0.25232979156488766,
+            "relative_to_original_after": 0.7476702084351123
+          },
+          {
+            "stage": 2,
+            "mse_before": 0.46086409191767264,
+            "mse_after": 0.5022517934226668,
+            "relative_reduction": -0.08980456978711104,
+            "relative_to_original_after": 0.8148144098462672
+          },
+          {
+            "stage": 3,
+            "mse_before": 0.5022517934226668,
+            "mse_after": 0.48846900761559336,
+            "relative_reduction": 0.027441984254846896,
+            "relative_to_original_after": 0.7924542856406436
+          }
+        ],
+        "partial_reconstruction": [
+          {
+            "stages": 1,
+            "nominal_bitrate_bps": 800,
+            "waveform_l1": 0.08368002373366919,
+            "spectral_loss_mean_per_file": 0.726733002513647,
+            "si_snr_db_mean_per_file": -12.25504332780838
+          },
+          {
+            "stages": 2,
+            "nominal_bitrate_bps": 1600,
+            "waveform_l1": 0.06972969688809953,
+            "spectral_loss_mean_per_file": 0.5322529850900173,
+            "si_snr_db_mean_per_file": -4.028468768168241
+          },
+          {
+            "stages": 3,
+            "nominal_bitrate_bps": 2400,
+            "waveform_l1": 0.014177837302685544,
+            "spectral_loss_mean_per_file": 0.11928067665547132,
+            "si_snr_db_mean_per_file": 6.397459391839802
+          }
+        ],
+        "checkpoint_global_step": 500000
+      }
+    }
+  },
+  "historical_fallback": {
+    "checkpoint": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion8_c_from_b10/checkpoints/interpolated.pt",
+    "score": 51.66706654001837,
+    "sha256": "a5cffa2dfcf39fc69b36b84e8ca238e7cbd9408ee008a1042bb7bbb253e4eb19",
+    "unchanged": true
+  },
+  "counts": {
+    "main_complete": 3,
+    "node_complete": 6,
+    "experiment_log_complete": 9,
+    "step_snapshots": 60,
+    "validation_rows": 60,
+    "periodic_checkpoint_events": 1440,
+    "resume_events": 0
+  },
+  "paired_contrasts": {
+    "20261110": {
+      "C-A": {
+        "score": 0.4045799886461948,
+        "PESQ": 0.03853303372859955,
+        "ESTOI": 0.00409834168568541,
+        "SI_SNR": 0.17744119833016242,
+        "UTMOS": -0.01344244122505188
+      },
+      "D-C": {
+        "score": 0.6734550912479432,
+        "PESQ": 0.009716676473617554,
+        "ESTOI": 0.0009422133365169128,
+        "SI_SNR": -0.027151691112234776,
+        "UTMOS": 0.09559435725212097
+      }
+    },
+    "20261117_250000": {
+      "C-A": {
+        "score": {
+          "mean": -0.9829106678185866,
+          "file_percentile95": [
+            -1.2315560397082104,
+            -0.7318289762792176
+          ],
+          "positive_files": 51
+        },
+        "PESQ": {
+          "mean": -0.027555150985717772,
+          "file_percentile95": [
+            -0.04859981179237365,
+            -0.006121713533997551
+          ],
+          "positive_files": 77
+        },
+        "ESTOI": {
+          "mean": -0.008750137564111438,
+          "file_percentile95": [
+            -0.010991724493493879,
+            -0.0065141667145039205
+          ],
+          "positive_files": 54
+        },
+        "SI_SNR": {
+          "mean": -0.10019631217390743,
+          "file_percentile95": [
+            -0.1726285117715892,
+            -0.032012298477169306
+          ],
+          "positive_files": 84
+        },
+        "UTMOS": {
+          "mean": -0.08075392425060272,
+          "file_percentile95": [
+            -0.10612649208307266,
+            -0.05555360938608649
+          ],
+          "positive_files": 62
+        }
+      },
+      "D-C": {
+        "score": {
+          "mean": 2.3672363106346896,
+          "file_percentile95": [
+            2.121494758975518,
+            2.611854178491323
+          ],
+          "positive_files": 182
+        },
+        "PESQ": {
+          "mean": 0.06450478494167328,
+          "file_percentile95": [
+            0.042200634062290195,
+            0.08613016028702257
+          ],
+          "positive_files": 155
+        },
+        "ESTOI": {
+          "mean": 0.021585555493025863,
+          "file_percentile95": [
+            0.01891181910968185,
+            0.02434519089490688
+          ],
+          "positive_files": 174
+        },
+        "SI_SNR": {
+          "mean": 0.4875663620852716,
+          "file_percentile95": [
+            0.4149282197733521,
+            0.5653101962589453
+          ],
+          "positive_files": 173
+        },
+        "UTMOS": {
+          "mean": 0.16993919730186463,
+          "file_percentile95": [
+            0.14596543373167514,
+            0.19422167041897773
+          ],
+          "positive_files": 170
+        }
+      }
+    },
+    "20261117_500000": {
+      "C-A": {
+        "score": {
+          "mean": -0.5548551506492493,
+          "file_percentile95": [
+            -0.7873237596458432,
+            -0.3230439572414748
+          ],
+          "positive_files": 74
+        },
+        "PESQ": {
+          "mean": -0.008557937145233153,
+          "file_percentile95": [
+            -0.02948642201721668,
+            0.013778890505433069
+          ],
+          "positive_files": 86
+        },
+        "ESTOI": {
+          "mean": -0.004293239542316047,
+          "file_percentile95": [
+            -0.006605290471868396,
+            -0.0019816766946643975
+          ],
+          "positive_files": 72
+        },
+        "SI_SNR": {
+          "mean": -0.0085358208026733,
+          "file_percentile95": [
+            -0.09130076559949137,
+            0.06604148256184528
+          ],
+          "positive_files": 97
+        },
+        "UTMOS": {
+          "mean": -0.06096978425979614,
+          "file_percentile95": [
+            -0.08360081903636456,
+            -0.03824419265985494
+          ],
+          "positive_files": 66
+        }
+      },
+      "D-C": {
+        "score": {
+          "mean": 1.5972267859949767,
+          "file_percentile95": [
+            1.3341604509715708,
+            1.8557549878267343
+          ],
+          "positive_files": 165
+        },
+        "PESQ": {
+          "mean": 0.037942098379135134,
+          "file_percentile95": [
+            0.011883961394429208,
+            0.06245869031548493
+          ],
+          "positive_files": 144
+        },
+        "ESTOI": {
+          "mean": 0.018267273695618362,
+          "file_percentile95": [
+            0.015678258708968464,
+            0.02100701737290257
+          ],
+          "positive_files": 178
+        },
+        "SI_SNR": {
+          "mean": 0.17467987552269032,
+          "file_percentile95": [
+            0.10082637641179813,
+            0.2554254034777242
+          ],
+          "positive_files": 126
+        },
+        "UTMOS": {
+          "mean": 0.12165680527687073,
+          "file_percentile95": [
+            0.09552610942721367,
+            0.14737267416715621
+          ],
+          "positive_files": 149
+        }
+      }
+    }
+  },
+  "bootstrap_note": "20,000 paired file resamples, RNG seed 20261117. Fixed-set descriptive intervals, with no speaker clustering or inference over training seeds.",
+  "contrast_cost_delta_mflop_s": {
+    "C-A": {
+      "total": 29.7792,
+      "decoder": 29.7792
+    },
+    "D-C": {
+      "total": 95.08656,
+      "decoder": 0
+    }
+  },
+  "primary_direction": {
+    "C-A": "opposite signs across the two seeds",
+    "D-C": "positive in both seeds"
+  }
+}
