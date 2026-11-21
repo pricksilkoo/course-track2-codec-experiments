@@ -24283,3 +24283,679 @@ training:
 ```
 
 <!-- experiment:champion11_d_both_step500000:end -->
+
+<!-- experiment:champion12_a_control:start -->
+## champion12_a_control
+
+- Status: `planned`
+- Updated (UTC): `2026-11-21T11:23:04.872826+00:00`
+- Git commit: `32afc9b47d66e549ac26a07e45e5c6d0cf6ea5bc`
+- Run directory: `/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_a_control`
+- Note: CHAMPION12 scratch 2x2, postGRU norm=none, dims=[48, 64, 80]; fixed D backbone, fresh seed20261121, 500k primary, 250k diagnostic; CHAMPION12_PLAN.md.
+- Evaluated checkpoint: `/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_setup/step0_a_control.pt`
+- Checkpoint SHA-256: `a70e31487ec103e05e582c4c49d1ac5126c560d915b21fb4a7e1729959b7b14c`
+- Selected checkpoint global step: `0`
+
+### Dataset
+
+| Item | Value |
+|---|---:|
+| Training files | 394988 |
+| Validation files | 14596 |
+| VCTK training files | 40208 |
+| VCTK validation files | 4247 |
+| LibriTTS training files | 354780 |
+| LibriTTS validation files | 10349 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Algorithmic lookahead (ms) | 20 |
+| Total MFLOP/s | 670.364 |
+| Decoder MFLOP/s | 287.411 |
+| Parameters | 1849064 |
+
+### Effective configuration
+
+```yaml
+seed: 20261121
+audio:
+  sample_rate: 16000
+  frame_samples: 160
+  segment_samples: 32000
+model:
+  sample_rate: 16000
+  frame_samples: 160
+  quantizer_type: projected_rvq
+  encoder_channels:
+  - 8
+  - 24
+  - 40
+  - 80
+  - 160
+  encoder_strides:
+  - 2
+  - 4
+  - 4
+  - 5
+  decoder_channels:
+  - 160
+  - 48
+  - 24
+  - 12
+  - 8
+  decoder_strides:
+  - 5
+  - 4
+  - 4
+  - 2
+  residual_blocks: 3
+  residual_kernel_size: 3
+  rvq_num_codebooks: 3
+  rvq_codebook_size: 256
+  rvq_codebook_dim: 160
+  commitment_weight: 0.1
+  rvq_ema_decay: 0.95
+  rvq_dead_code_threshold: 0.5
+  rvq_dead_code_after_updates: 100
+  rvq_kmeans_iterations: 10
+  encoder_temporal_layers: 0
+  decoder_temporal_layers: 2
+  temporal_kernel_size: 3
+  temporal_expansion: 1
+  fsq_levels:
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  encoder_lookahead_frames: 2
+  decoder_lookahead_frames: 0
+  rvq_usage_loss_weight: 0.001
+  rvq_usage_temperature: 1.0
+  rvq_stage_commitment_weights:
+  - 1.0
+  - 1.5
+  - 2.0
+  projected_stage_dims:
+  - 48
+  - 64
+  - 80
+  encoder_gru: true
+  synthesis_type: fourier
+  synthesis_initialization_seed: 20461121
+  fourier_width: 256
+  fourier_hidden: 184
+  fourier_layers: 8
+  fourier_n_fft: 320
+  encoder_type: champion_grouped
+  encoder_groups: 8
+  quantizer_input_normalization: none
+loss:
+  waveform_l1_weight: 1.0
+  spectral_weight: 1.0
+  fft_sizes:
+  - 256
+  - 512
+  - 1024
+  spectral_convergence_weight: 0.25
+  linear_magnitude_weight: 0.1
+  adversarial_weight: 0.05
+  feature_matching_weight: 1.5
+  si_snr_weight: 0.003
+adversarial:
+  resolutions:
+  - - 256
+    - 64
+    - 256
+  - - 512
+    - 128
+    - 512
+  - - 1024
+    - 256
+    - 1024
+  start_step: 100000
+  warmup_steps: 50000
+  learning_rate: 0.0002
+  gradient_clip_norm: 10.0
+  periods:
+  - 2
+  - 3
+  - 5
+  - 7
+  - 11
+training:
+  batch_size: 32
+  num_workers: 8
+  epochs: 1000
+  learning_rate: 0.0002
+  weight_decay: 1.0e-06
+  gradient_clip_norm: 1.0
+  validation_limit: 64
+  validation_checkpoint_interval_steps: 25000
+  sample_inference_count: 2
+  output_dir: /var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_a_control
+  minimum_learning_rate: 1.0e-05
+  warmup_steps: 5000
+  checkpoint_keep_last: 20
+  quantizer_learning_rate: 0.0002
+  quantizer_only_steps: 0
+  data_order_seed: 20261121
+  reset_rng_after_init: true
+  fail_on_nonfinite: true
+  recovery_checkpoint_interval_steps: 1000
+```
+
+<!-- experiment:champion12_a_control:end -->
+
+<!-- experiment:champion12_b_norm:start -->
+## champion12_b_norm
+
+- Status: `planned`
+- Updated (UTC): `2026-11-21T11:23:09.649351+00:00`
+- Git commit: `32afc9b47d66e549ac26a07e45e5c6d0cf6ea5bc`
+- Run directory: `/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_b_norm`
+- Note: CHAMPION12 scratch 2x2, postGRU norm=layernorm, dims=[48, 64, 80]; fixed D backbone, fresh seed20261121, 500k primary, 250k diagnostic; CHAMPION12_PLAN.md.
+- Evaluated checkpoint: `/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_setup/step0_b_norm.pt`
+- Checkpoint SHA-256: `ad63748cffc4013610cead13e1f3807d8381fbfb92d3570195bc86a78bf75459`
+- Selected checkpoint global step: `0`
+
+### Dataset
+
+| Item | Value |
+|---|---:|
+| Training files | 394988 |
+| Validation files | 14596 |
+| VCTK training files | 40208 |
+| VCTK validation files | 4247 |
+| LibriTTS training files | 354780 |
+| LibriTTS validation files | 10349 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Algorithmic lookahead (ms) | 20 |
+| Total MFLOP/s | 670.527 |
+| Decoder MFLOP/s | 287.411 |
+| Parameters | 1849064 |
+
+### Effective configuration
+
+```yaml
+seed: 20261121
+audio:
+  sample_rate: 16000
+  frame_samples: 160
+  segment_samples: 32000
+model:
+  sample_rate: 16000
+  frame_samples: 160
+  quantizer_type: projected_rvq
+  encoder_channels:
+  - 8
+  - 24
+  - 40
+  - 80
+  - 160
+  encoder_strides:
+  - 2
+  - 4
+  - 4
+  - 5
+  decoder_channels:
+  - 160
+  - 48
+  - 24
+  - 12
+  - 8
+  decoder_strides:
+  - 5
+  - 4
+  - 4
+  - 2
+  residual_blocks: 3
+  residual_kernel_size: 3
+  rvq_num_codebooks: 3
+  rvq_codebook_size: 256
+  rvq_codebook_dim: 160
+  commitment_weight: 0.1
+  rvq_ema_decay: 0.95
+  rvq_dead_code_threshold: 0.5
+  rvq_dead_code_after_updates: 100
+  rvq_kmeans_iterations: 10
+  encoder_temporal_layers: 0
+  decoder_temporal_layers: 2
+  temporal_kernel_size: 3
+  temporal_expansion: 1
+  fsq_levels:
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  encoder_lookahead_frames: 2
+  decoder_lookahead_frames: 0
+  rvq_usage_loss_weight: 0.001
+  rvq_usage_temperature: 1.0
+  rvq_stage_commitment_weights:
+  - 1.0
+  - 1.5
+  - 2.0
+  projected_stage_dims:
+  - 48
+  - 64
+  - 80
+  encoder_gru: true
+  synthesis_type: fourier
+  synthesis_initialization_seed: 20461121
+  fourier_width: 256
+  fourier_hidden: 184
+  fourier_layers: 8
+  fourier_n_fft: 320
+  encoder_type: champion_grouped
+  encoder_groups: 8
+  quantizer_input_normalization: layernorm
+loss:
+  waveform_l1_weight: 1.0
+  spectral_weight: 1.0
+  fft_sizes:
+  - 256
+  - 512
+  - 1024
+  spectral_convergence_weight: 0.25
+  linear_magnitude_weight: 0.1
+  adversarial_weight: 0.05
+  feature_matching_weight: 1.5
+  si_snr_weight: 0.003
+adversarial:
+  resolutions:
+  - - 256
+    - 64
+    - 256
+  - - 512
+    - 128
+    - 512
+  - - 1024
+    - 256
+    - 1024
+  start_step: 100000
+  warmup_steps: 50000
+  learning_rate: 0.0002
+  gradient_clip_norm: 10.0
+  periods:
+  - 2
+  - 3
+  - 5
+  - 7
+  - 11
+training:
+  batch_size: 32
+  num_workers: 8
+  epochs: 1000
+  learning_rate: 0.0002
+  weight_decay: 1.0e-06
+  gradient_clip_norm: 1.0
+  validation_limit: 64
+  validation_checkpoint_interval_steps: 25000
+  sample_inference_count: 2
+  output_dir: /var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_b_norm
+  minimum_learning_rate: 1.0e-05
+  warmup_steps: 5000
+  checkpoint_keep_last: 20
+  quantizer_learning_rate: 0.0002
+  quantizer_only_steps: 0
+  data_order_seed: 20261121
+  reset_rng_after_init: true
+  fail_on_nonfinite: true
+  recovery_checkpoint_interval_steps: 1000
+```
+
+<!-- experiment:champion12_b_norm:end -->
+
+<!-- experiment:champion12_c_front:start -->
+## champion12_c_front
+
+- Status: `planned`
+- Updated (UTC): `2026-11-21T11:23:15.037561+00:00`
+- Git commit: `32afc9b47d66e549ac26a07e45e5c6d0cf6ea5bc`
+- Run directory: `/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_c_front`
+- Note: CHAMPION12 scratch 2x2, postGRU norm=none, dims=[80, 64, 48]; fixed D backbone, fresh seed20261121, 500k primary, 250k diagnostic; CHAMPION12_PLAN.md.
+- Evaluated checkpoint: `/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_setup/step0_c_front.pt`
+- Checkpoint SHA-256: `e7d460eba3a539b0e9ff74ca519b275774f7c63567c77f204ed9294c9de6244b`
+- Selected checkpoint global step: `0`
+
+### Dataset
+
+| Item | Value |
+|---|---:|
+| Training files | 394988 |
+| Validation files | 14596 |
+| VCTK training files | 40208 |
+| VCTK validation files | 4247 |
+| LibriTTS training files | 354780 |
+| LibriTTS validation files | 10349 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Algorithmic lookahead (ms) | 20 |
+| Total MFLOP/s | 670.364 |
+| Decoder MFLOP/s | 287.411 |
+| Parameters | 1849064 |
+
+### Effective configuration
+
+```yaml
+seed: 20261121
+audio:
+  sample_rate: 16000
+  frame_samples: 160
+  segment_samples: 32000
+model:
+  sample_rate: 16000
+  frame_samples: 160
+  quantizer_type: projected_rvq
+  encoder_channels:
+  - 8
+  - 24
+  - 40
+  - 80
+  - 160
+  encoder_strides:
+  - 2
+  - 4
+  - 4
+  - 5
+  decoder_channels:
+  - 160
+  - 48
+  - 24
+  - 12
+  - 8
+  decoder_strides:
+  - 5
+  - 4
+  - 4
+  - 2
+  residual_blocks: 3
+  residual_kernel_size: 3
+  rvq_num_codebooks: 3
+  rvq_codebook_size: 256
+  rvq_codebook_dim: 160
+  commitment_weight: 0.1
+  rvq_ema_decay: 0.95
+  rvq_dead_code_threshold: 0.5
+  rvq_dead_code_after_updates: 100
+  rvq_kmeans_iterations: 10
+  encoder_temporal_layers: 0
+  decoder_temporal_layers: 2
+  temporal_kernel_size: 3
+  temporal_expansion: 1
+  fsq_levels:
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  encoder_lookahead_frames: 2
+  decoder_lookahead_frames: 0
+  rvq_usage_loss_weight: 0.001
+  rvq_usage_temperature: 1.0
+  rvq_stage_commitment_weights:
+  - 1.0
+  - 1.5
+  - 2.0
+  projected_stage_dims:
+  - 80
+  - 64
+  - 48
+  encoder_gru: true
+  synthesis_type: fourier
+  synthesis_initialization_seed: 20461121
+  fourier_width: 256
+  fourier_hidden: 184
+  fourier_layers: 8
+  fourier_n_fft: 320
+  encoder_type: champion_grouped
+  encoder_groups: 8
+  quantizer_input_normalization: none
+loss:
+  waveform_l1_weight: 1.0
+  spectral_weight: 1.0
+  fft_sizes:
+  - 256
+  - 512
+  - 1024
+  spectral_convergence_weight: 0.25
+  linear_magnitude_weight: 0.1
+  adversarial_weight: 0.05
+  feature_matching_weight: 1.5
+  si_snr_weight: 0.003
+adversarial:
+  resolutions:
+  - - 256
+    - 64
+    - 256
+  - - 512
+    - 128
+    - 512
+  - - 1024
+    - 256
+    - 1024
+  start_step: 100000
+  warmup_steps: 50000
+  learning_rate: 0.0002
+  gradient_clip_norm: 10.0
+  periods:
+  - 2
+  - 3
+  - 5
+  - 7
+  - 11
+training:
+  batch_size: 32
+  num_workers: 8
+  epochs: 1000
+  learning_rate: 0.0002
+  weight_decay: 1.0e-06
+  gradient_clip_norm: 1.0
+  validation_limit: 64
+  validation_checkpoint_interval_steps: 25000
+  sample_inference_count: 2
+  output_dir: /var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_c_front
+  minimum_learning_rate: 1.0e-05
+  warmup_steps: 5000
+  checkpoint_keep_last: 20
+  quantizer_learning_rate: 0.0002
+  quantizer_only_steps: 0
+  data_order_seed: 20261121
+  reset_rng_after_init: true
+  fail_on_nonfinite: true
+  recovery_checkpoint_interval_steps: 1000
+```
+
+<!-- experiment:champion12_c_front:end -->
+
+<!-- experiment:champion12_d_both:start -->
+## champion12_d_both
+
+- Status: `planned`
+- Updated (UTC): `2026-11-21T11:23:19.972158+00:00`
+- Git commit: `32afc9b47d66e549ac26a07e45e5c6d0cf6ea5bc`
+- Run directory: `/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_d_both`
+- Note: CHAMPION12 scratch 2x2, postGRU norm=layernorm, dims=[80, 64, 48]; fixed D backbone, fresh seed20261121, 500k primary, 250k diagnostic; CHAMPION12_PLAN.md.
+- Evaluated checkpoint: `/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_setup/step0_d_both.pt`
+- Checkpoint SHA-256: `d0bd51ecd290208fc1b3db3abeb899af54399b01482e375ee4904d81d856706e`
+- Selected checkpoint global step: `0`
+
+### Dataset
+
+| Item | Value |
+|---|---:|
+| Training files | 394988 |
+| Validation files | 14596 |
+| VCTK training files | 40208 |
+| VCTK validation files | 4247 |
+| LibriTTS training files | 354780 |
+| LibriTTS validation files | 10349 |
+
+### Submission constraints
+
+| Item | Value |
+|---|---:|
+| Bitrate (bps) | 2400 |
+| Algorithmic lookahead (ms) | 20 |
+| Total MFLOP/s | 670.527 |
+| Decoder MFLOP/s | 287.411 |
+| Parameters | 1849064 |
+
+### Effective configuration
+
+```yaml
+seed: 20261121
+audio:
+  sample_rate: 16000
+  frame_samples: 160
+  segment_samples: 32000
+model:
+  sample_rate: 16000
+  frame_samples: 160
+  quantizer_type: projected_rvq
+  encoder_channels:
+  - 8
+  - 24
+  - 40
+  - 80
+  - 160
+  encoder_strides:
+  - 2
+  - 4
+  - 4
+  - 5
+  decoder_channels:
+  - 160
+  - 48
+  - 24
+  - 12
+  - 8
+  decoder_strides:
+  - 5
+  - 4
+  - 4
+  - 2
+  residual_blocks: 3
+  residual_kernel_size: 3
+  rvq_num_codebooks: 3
+  rvq_codebook_size: 256
+  rvq_codebook_dim: 160
+  commitment_weight: 0.1
+  rvq_ema_decay: 0.95
+  rvq_dead_code_threshold: 0.5
+  rvq_dead_code_after_updates: 100
+  rvq_kmeans_iterations: 10
+  encoder_temporal_layers: 0
+  decoder_temporal_layers: 2
+  temporal_kernel_size: 3
+  temporal_expansion: 1
+  fsq_levels:
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  encoder_lookahead_frames: 2
+  decoder_lookahead_frames: 0
+  rvq_usage_loss_weight: 0.001
+  rvq_usage_temperature: 1.0
+  rvq_stage_commitment_weights:
+  - 1.0
+  - 1.5
+  - 2.0
+  projected_stage_dims:
+  - 80
+  - 64
+  - 48
+  encoder_gru: true
+  synthesis_type: fourier
+  synthesis_initialization_seed: 20461121
+  fourier_width: 256
+  fourier_hidden: 184
+  fourier_layers: 8
+  fourier_n_fft: 320
+  encoder_type: champion_grouped
+  encoder_groups: 8
+  quantizer_input_normalization: layernorm
+loss:
+  waveform_l1_weight: 1.0
+  spectral_weight: 1.0
+  fft_sizes:
+  - 256
+  - 512
+  - 1024
+  spectral_convergence_weight: 0.25
+  linear_magnitude_weight: 0.1
+  adversarial_weight: 0.05
+  feature_matching_weight: 1.5
+  si_snr_weight: 0.003
+adversarial:
+  resolutions:
+  - - 256
+    - 64
+    - 256
+  - - 512
+    - 128
+    - 512
+  - - 1024
+    - 256
+    - 1024
+  start_step: 100000
+  warmup_steps: 50000
+  learning_rate: 0.0002
+  gradient_clip_norm: 10.0
+  periods:
+  - 2
+  - 3
+  - 5
+  - 7
+  - 11
+training:
+  batch_size: 32
+  num_workers: 8
+  epochs: 1000
+  learning_rate: 0.0002
+  weight_decay: 1.0e-06
+  gradient_clip_norm: 1.0
+  validation_limit: 64
+  validation_checkpoint_interval_steps: 25000
+  sample_inference_count: 2
+  output_dir: /var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_d_both
+  minimum_learning_rate: 1.0e-05
+  warmup_steps: 5000
+  checkpoint_keep_last: 20
+  quantizer_learning_rate: 0.0002
+  quantizer_only_steps: 0
+  data_order_seed: 20261121
+  reset_rng_after_init: true
+  fail_on_nonfinite: true
+  recovery_checkpoint_interval_steps: 1000
+```
+
+<!-- experiment:champion12_d_both:end -->
