@@ -101,7 +101,7 @@ def main() -> None:
                 )
             else:
                 embeddings = model.analysis_temporal(model.latent_norm(model.encoder(padded)))
-            embeddings = model.analysis_gru(embeddings)
+            embeddings = model.quantizer_input_norm(model.analysis_gru(embeddings))
             stage_codewords, stacked_indices, before, after = (
                 quantizer.quantize_stages_for_diagnostics(embeddings)
             )

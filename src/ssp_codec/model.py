@@ -1185,6 +1185,7 @@ class CourseCodec(nn.Module):
         decoder_conv2former_hidden: int = 48,
         decoder_conv2former_kernel: int = 7,
         encoder_gru: bool = False,
+        quantizer_input_normalization: str = "none",
         synthesis_type: str = "waveform",
         fourier_width: int = 256,
         fourier_hidden: int = 160,
@@ -1244,6 +1245,12 @@ class CourseCodec(nn.Module):
             with torch.random.fork_rng(devices=[]):
                 torch.manual_seed(synthesis_initialization_seed + 1)
                 self.analysis_gru = CausalResidualGRU(latent_dim)
+        if quantizer_input_normalization not in {"none", "layernorm"}:
+            raise ValueError("unknown quantizer input normalization")
+        self.quantizer_input_norm = (
+            nn.LayerNorm(latent_dim, elementwise_affine=False)
+            if quantizer_input_normalization == "layernorm" else nn.Identity()
+        )
         if synthesis_type not in {"waveform", "fourier"}:
             raise ValueError("unknown synthesis type")
         if architecture == "minimimi" and synthesis_type != "waveform":
@@ -1464,7 +1471,7 @@ class CourseCodec(nn.Module):
             )
         else:
             embeddings = self.analysis_temporal(self.latent_norm(self.encoder(padded)))
-        embeddings = self.analysis_gru(embeddings)
+        embeddings = self.quantizer_input_norm(self.analysis_gru(embeddings))
         _, indices, _ = self.quantizer(embeddings)
         return indices
 
@@ -1495,7 +1502,7 @@ class CourseCodec(nn.Module):
             )
         else:
             embeddings = self.analysis_temporal(self.latent_norm(self.encoder(padded)))
-        embeddings = self.analysis_gru(embeddings)
+        embeddings = self.quantizer_input_norm(self.analysis_gru(embeddings))
         if quantizer_bypass:
             if not self.training or return_aux:
                 raise ValueError("RVQ bypass is training-only and incompatible with semantic auxiliaries")

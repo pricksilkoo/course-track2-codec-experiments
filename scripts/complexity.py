@@ -135,6 +135,11 @@ def main() -> None:
         for module in model.modules() if isinstance(module, nn.GRU))
     decoder_fourier_flops = sum(module.extra_flops(frames)
         for module in model.modules() if module.__class__.__name__ == "CausalFourierDecoder")
+    # Newly introduced post-GRU frame-local normalization is explicitly budgeted.
+    # Historical normalization exclusions remain unchanged; this upper estimate
+    # covers mean/variance, centering, scaling and reciprocal-square-root budget.
+    quantizer_input_norm_flops = (frames * (10 * model.quantizer_input_norm.normalized_shape[0] + 32)
+        if isinstance(model.quantizer_input_norm, nn.LayerNorm) else 0)
     # RVQ reports its approximate squared-distance lookup cost. FSQ has no
     # nearest-neighbour search and therefore returns zero here.
     quantizer_search = model.quantizer.search_macs(frames)
@@ -165,7 +170,7 @@ def main() -> None:
             + decoder_attention
         )
         / args.duration
-        / 1e6 + (decoder_modulation_flops + encoder_gate_flops + decoder_fourier_flops + sum(snake_flops.values())) / args.duration / 1e6,
+        / 1e6 + (decoder_modulation_flops + encoder_gate_flops + decoder_fourier_flops + sum(snake_flops.values()) + quantizer_input_norm_flops) / args.duration / 1e6,
         "decoder_mflop_per_s": (2 * decoder + decoder_modulation_flops + decoder_fourier_flops) / args.duration / 1e6,
         "decoder_modulation_mflop_per_s": decoder_modulation_flops / args.duration / 1e6,
         "encoder_gru_gate_mflop_per_s": encoder_gate_flops / args.duration / 1e6,
@@ -184,6 +189,9 @@ def main() -> None:
         ),
         "notes": "Counts Conv1d, ConvTranspose1d, Linear, one-layer forward GRU matrices, bounded attention QK/AV and VQ nearest-neighbour search. Separately includes GRU gate products, Conv2Former modulation and conservative IRFFT/OLA estimates (5*N*ceil(log2N)+4*N per frame). Quantizer synthesis projections count toward decoder. MMAC fields exclude separately reported non-MAC products/FFT estimates. Excludes activations, normalization, padding and file I/O.",
     }
+    if quantizer_input_norm_flops:
+        report["quantizer_input_normalization_mflop_per_s"] = quantizer_input_norm_flops / args.duration / 1e6
+        report["notes"] += " Exception: new post-GRU frame-local LayerNorm is budgeted at 10*D+32 scalar operations/frame including reciprocal-square-root budget, not measured operator latency."
     if snake_flops:
         report["encoder_snakebeta_mflop_per_s"] = sum(snake_flops.values()) / args.duration / 1e6
         report["frame_collection_ms"] = model.frame_collection_ms

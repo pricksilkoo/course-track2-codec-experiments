@@ -1,0 +1,6 @@
+_base_: a_control.yaml
+model:
+  quantizer_input_normalization: none
+  projected_stage_dims: [80, 64, 48]
+training:
+  output_dir: runs/champion12_c_front

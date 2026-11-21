@@ -1,0 +1,9 @@
+_base_: ../champion10/d_both.yaml
+seed: 20261121
+model:
+  synthesis_initialization_seed: 20461121
+  quantizer_input_normalization: none
+  projected_stage_dims: [48, 64, 80]
+training:
+  output_dir: runs/champion12_a_control
+  data_order_seed: 20261121
