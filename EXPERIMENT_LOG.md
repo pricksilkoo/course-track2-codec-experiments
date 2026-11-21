@@ -24287,11 +24287,11 @@ training:
 <!-- experiment:champion12_a_control:start -->
 ## champion12_a_control
 
-- Status: `planned`
-- Updated (UTC): `2026-11-21T11:23:04.872826+00:00`
-- Git commit: `32afc9b47d66e549ac26a07e45e5c6d0cf6ea5bc`
+- Status: `running`
+- Updated (UTC): `2026-11-21T11:24:22.039670+00:00`
+- Git commit: `79c5941140767754225bc7f07a22957d43233a09`
 - Run directory: `/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_a_control`
-- Note: CHAMPION12 scratch 2x2, postGRU norm=none, dims=[48, 64, 80]; fixed D backbone, fresh seed20261121, 500k primary, 250k diagnostic; CHAMPION12_PLAN.md.
+- Note: CHAMPION12 GRU/RVQ normalization x projection-order scratch factorial, no learned parent. groups8/decoderTCN2; encoder[8, 24, 40, 80, 160]/decoderhidden184; quantizer_input_norm=none;projected_dims=[48, 64, 80]; encoder TCN0;lookahead20ms+packet10ms=total30ms. Newly untrained codec/RVQ/D step0; initSHAa70e31487ec103e05e582c4c49d1ac5126c560d915b21fb4a7e1729959b7b14c; fresh initial optimizers.500000 total steps; 500k primary; 250k diagnostic. Full states resume latest own last, no budget reset; worker/crop/RNG replay may be non-bitwise. CHAMPION12_PLAN.md/SETUP.audit.
 - Evaluated checkpoint: `/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_setup/step0_a_control.pt`
 - Checkpoint SHA-256: `a70e31487ec103e05e582c4c49d1ac5126c560d915b21fb4a7e1729959b7b14c`
 - Selected checkpoint global step: `0`
@@ -24456,11 +24456,11 @@ training:
 <!-- experiment:champion12_b_norm:start -->
 ## champion12_b_norm
 
-- Status: `planned`
-- Updated (UTC): `2026-11-21T11:23:09.649351+00:00`
-- Git commit: `32afc9b47d66e549ac26a07e45e5c6d0cf6ea5bc`
+- Status: `running`
+- Updated (UTC): `2026-11-21T11:24:24.247240+00:00`
+- Git commit: `79c5941140767754225bc7f07a22957d43233a09`
 - Run directory: `/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_b_norm`
-- Note: CHAMPION12 scratch 2x2, postGRU norm=layernorm, dims=[48, 64, 80]; fixed D backbone, fresh seed20261121, 500k primary, 250k diagnostic; CHAMPION12_PLAN.md.
+- Note: CHAMPION12 GRU/RVQ normalization x projection-order scratch factorial, no learned parent. groups8/decoderTCN2; encoder[8, 24, 40, 80, 160]/decoderhidden184; quantizer_input_norm=layernorm;projected_dims=[48, 64, 80]; encoder TCN0;lookahead20ms+packet10ms=total30ms. Newly untrained codec/RVQ/D step0; initSHAad63748cffc4013610cead13e1f3807d8381fbfb92d3570195bc86a78bf75459; fresh initial optimizers.500000 total steps; 500k primary; 250k diagnostic. Full states resume latest own last, no budget reset; worker/crop/RNG replay may be non-bitwise. CHAMPION12_PLAN.md/SETUP.audit.
 - Evaluated checkpoint: `/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_setup/step0_b_norm.pt`
 - Checkpoint SHA-256: `ad63748cffc4013610cead13e1f3807d8381fbfb92d3570195bc86a78bf75459`
 - Selected checkpoint global step: `0`
@@ -24625,11 +24625,11 @@ training:
 <!-- experiment:champion12_c_front:start -->
 ## champion12_c_front
 
-- Status: `planned`
-- Updated (UTC): `2026-11-21T11:23:15.037561+00:00`
-- Git commit: `32afc9b47d66e549ac26a07e45e5c6d0cf6ea5bc`
+- Status: `running`
+- Updated (UTC): `2026-11-21T11:24:26.612532+00:00`
+- Git commit: `79c5941140767754225bc7f07a22957d43233a09`
 - Run directory: `/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_c_front`
-- Note: CHAMPION12 scratch 2x2, postGRU norm=none, dims=[80, 64, 48]; fixed D backbone, fresh seed20261121, 500k primary, 250k diagnostic; CHAMPION12_PLAN.md.
+- Note: CHAMPION12 GRU/RVQ normalization x projection-order scratch factorial, no learned parent. groups8/decoderTCN2; encoder[8, 24, 40, 80, 160]/decoderhidden184; quantizer_input_norm=none;projected_dims=[80, 64, 48]; encoder TCN0;lookahead20ms+packet10ms=total30ms. Newly untrained codec/RVQ/D step0; initSHAe7d460eba3a539b0e9ff74ca519b275774f7c63567c77f204ed9294c9de6244b; fresh initial optimizers.500000 total steps; 500k primary; 250k diagnostic. Full states resume latest own last, no budget reset; worker/crop/RNG replay may be non-bitwise. CHAMPION12_PLAN.md/SETUP.audit.
 - Evaluated checkpoint: `/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_setup/step0_c_front.pt`
 - Checkpoint SHA-256: `e7d460eba3a539b0e9ff74ca519b275774f7c63567c77f204ed9294c9de6244b`
 - Selected checkpoint global step: `0`
@@ -24794,11 +24794,11 @@ training:
 <!-- experiment:champion12_d_both:start -->
 ## champion12_d_both
 
-- Status: `planned`
-- Updated (UTC): `2026-11-21T11:23:19.972158+00:00`
-- Git commit: `32afc9b47d66e549ac26a07e45e5c6d0cf6ea5bc`
+- Status: `running`
+- Updated (UTC): `2026-11-21T11:24:28.792701+00:00`
+- Git commit: `79c5941140767754225bc7f07a22957d43233a09`
 - Run directory: `/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_d_both`
-- Note: CHAMPION12 scratch 2x2, postGRU norm=layernorm, dims=[80, 64, 48]; fixed D backbone, fresh seed20261121, 500k primary, 250k diagnostic; CHAMPION12_PLAN.md.
+- Note: CHAMPION12 GRU/RVQ normalization x projection-order scratch factorial, no learned parent. groups8/decoderTCN2; encoder[8, 24, 40, 80, 160]/decoderhidden184; quantizer_input_norm=layernorm;projected_dims=[80, 64, 48]; encoder TCN0;lookahead20ms+packet10ms=total30ms. Newly untrained codec/RVQ/D step0; initSHAd0bd51ecd290208fc1b3db3abeb899af54399b01482e375ee4904d81d856706e; fresh initial optimizers.500000 total steps; 500k primary; 250k diagnostic. Full states resume latest own last, no budget reset; worker/crop/RNG replay may be non-bitwise. CHAMPION12_PLAN.md/SETUP.audit.
 - Evaluated checkpoint: `/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_setup/step0_d_both.pt`
 - Checkpoint SHA-256: `d0bd51ecd290208fc1b3db3abeb899af54399b01482e375ee4904d81d856706e`
 - Selected checkpoint global step: `0`

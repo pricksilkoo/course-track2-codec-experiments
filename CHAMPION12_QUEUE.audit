@@ -1,0 +1,147 @@
+{
+  "observed_utc": "2026-11-21T11:27:28.095501+00:00",
+  "root": "/var/tmp/hehaoran-codec-champion12.599tkbvr",
+  "preregistration_commit": "32afc9b",
+  "frozen_setup_commit": "79c5941",
+  "preregistration_and_setup_pushed_before_one_shot_launch": true,
+  "session": "codec_champion12_v1",
+  "one_shot_launched_once": true,
+  "runtime_resource_queries": false,
+  "phase_label_alone_does_not_prove_optimization": true,
+  "cells": {
+    "a_control": {
+      "supervisor": {
+        "status": "running",
+        "updated_utc": "2026-11-21T11:24:20.050626+00:00",
+        "gpu": 0,
+        "launch_free_MiB": 8192,
+        "runtime_resource_poll": false,
+        "sharing_authorized": true,
+        "training_total_steps": 500000,
+        "command": [
+          "/var/tmp/hehaoran-codec-champion12.599tkbvr/.venv-codec/bin/python",
+          "-u",
+          "scripts/run_champion12_experiment.py",
+          "a_control",
+          "0"
+        ],
+        "observed_launch_free_MiB": 39684,
+        "existing_gpu_pids": [
+          1171352
+        ]
+      },
+      "phase": {
+        "phase": "training",
+        "updated_utc": "2026-11-21T11:24:24.184464+00:00",
+        "resume_step": 0,
+        "initialization": "new untrained step0"
+      },
+      "run_metadata_present": false,
+      "visible_optimization": null,
+      "pipeline_tail_sha256": "d7e4c7ef21a535ef3450eca369b1944541bbf37fcaa6dcfc3b6e14a597bd8099",
+      "pipeline_complete": false
+    },
+    "b_norm": {
+      "supervisor": {
+        "status": "running",
+        "updated_utc": "2026-11-21T11:24:20.087245+00:00",
+        "gpu": 1,
+        "launch_free_MiB": 8192,
+        "runtime_resource_poll": false,
+        "sharing_authorized": true,
+        "training_total_steps": 500000,
+        "command": [
+          "/var/tmp/hehaoran-codec-champion12.599tkbvr/.venv-codec/bin/python",
+          "-u",
+          "scripts/run_champion12_experiment.py",
+          "b_norm",
+          "1"
+        ],
+        "observed_launch_free_MiB": 40022,
+        "existing_gpu_pids": [
+          1171352
+        ]
+      },
+      "phase": {
+        "phase": "training",
+        "updated_utc": "2026-11-21T11:24:26.552562+00:00",
+        "resume_step": 0,
+        "initialization": "new untrained step0"
+      },
+      "run_metadata_present": false,
+      "visible_optimization": null,
+      "pipeline_tail_sha256": "7cdfbc33b358be34911b69d75b0bcdb26159f5f7ce833eb843eeb82d5a6b3d1f",
+      "pipeline_complete": false
+    },
+    "c_front": {
+      "supervisor": {
+        "status": "running",
+        "updated_utc": "2026-11-21T11:24:20.056518+00:00",
+        "gpu": 2,
+        "launch_free_MiB": 8192,
+        "runtime_resource_poll": false,
+        "sharing_authorized": true,
+        "training_total_steps": 500000,
+        "command": [
+          "/var/tmp/hehaoran-codec-champion12.599tkbvr/.venv-codec/bin/python",
+          "-u",
+          "scripts/run_champion12_experiment.py",
+          "c_front",
+          "2"
+        ],
+        "observed_launch_free_MiB": 40022,
+        "existing_gpu_pids": [
+          1171352
+        ]
+      },
+      "phase": {
+        "phase": "training",
+        "updated_utc": "2026-11-21T11:24:28.728881+00:00",
+        "resume_step": 0,
+        "initialization": "new untrained step0"
+      },
+      "run_metadata_present": false,
+      "visible_optimization": null,
+      "pipeline_tail_sha256": "d2c4042aa818051950da073794b15a2eedd997286ff552954b1ebb3a667b73dd",
+      "pipeline_complete": false
+    },
+    "d_both": {
+      "supervisor": {
+        "status": "running",
+        "updated_utc": "2026-11-21T11:24:20.237658+00:00",
+        "gpu": 3,
+        "launch_free_MiB": 8192,
+        "runtime_resource_poll": false,
+        "sharing_authorized": true,
+        "training_total_steps": 500000,
+        "command": [
+          "/var/tmp/hehaoran-codec-champion12.599tkbvr/.venv-codec/bin/python",
+          "-u",
+          "scripts/run_champion12_experiment.py",
+          "d_both",
+          "3"
+        ],
+        "observed_launch_free_MiB": 40022,
+        "existing_gpu_pids": [
+          1171352
+        ]
+      },
+      "phase": {
+        "phase": "training",
+        "updated_utc": "2026-11-21T11:24:31.097188+00:00",
+        "resume_step": 0,
+        "initialization": "new untrained step0"
+      },
+      "run_metadata_present": false,
+      "visible_optimization": null,
+      "pipeline_tail_sha256": "2926cccc1ff2f10143672e46ceccc8da0c11937dfcb21721bbf20fbd23245d5a",
+      "pipeline_complete": false
+    }
+  },
+  "panes": [
+    "a_control pane=%87 dead=0 command=bash",
+    "b_norm pane=%88 dead=0 command=bash",
+    "c_front pane=%89 dead=0 command=bash",
+    "d_both pane=%90 dead=0 command=bash"
+  ]
+}
