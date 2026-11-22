@@ -1,0 +1,224 @@
+{
+  "created_utc": "2026-11-22T10:44:41.140898+00:00",
+  "attempt": 2,
+  "diagnosis": "second actual shared OOM during resumed CUDA model placement; external process grew to 43.25GiB after startup capacity gate",
+  "next_policy": "queue these affected cells only until genuinely idle GPU (no compute PIDs) plus unchanged 8192MiB/10GiB startup thresholds; no runtime polling, no auto-retry",
+  "cells": {
+    "a_control": {
+      "archive": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_a_control/attempt_02_shared_oom.yvp8wsv9",
+      "preservation_manifest_sha256": "f8acb7adf51b8ab8be93f7bbca2bed75bb42a3ec50fe4db559c037cfc1249586",
+      "last_checkpoint_sha256": "9e9474af46a1d6583bb9a0ab7d62340ed6a9e05aa5aff8eb63fab3b47c47d6aa",
+      "resume_step": 99000,
+      "additional_completed_updates": 0,
+      "original_error": "torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 32.00 MiB. GPU 0 has a total capacity of 44.42 GiB of which 20.50 MiB is free. Including non-PyTorch memory, this process has 1.13 GiB memory in use. Process 1512482 has 43.25 GiB memory in use. Of the allocated memory 844.38 MiB is allocated by PyTorch, and 9.62 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)",
+      "files": {
+        "effective_config.yaml": {
+          "sha256": "cbe56b87f5fbdbd523adfca045405f18f2556b1942e4841d2027976d1a82453a",
+          "bytes": 2357
+        },
+        "lineage.json": {
+          "sha256": "2cbd5e2b5926907a03759d2c0dcc87489d9ee488bff718f9c316ae509376d885",
+          "bytes": 647
+        },
+        "run_metadata.json": {
+          "sha256": "f89db97b6a922b78670bdeda9226e3d6aae8c89613c3f6643de461151b3dad4e",
+          "bytes": 828
+        },
+        "supervisor_state.json": {
+          "sha256": "346e94050e1ba0ad6fb15ff7c155069719ae5cbf43245120c1ff01a071de1076",
+          "bytes": 316
+        },
+        "pipeline_phase.json": {
+          "sha256": "a82969fb9b5fb6401f93b0de5969a3d228e247b257bcf3a94b585d508435c8ea",
+          "bytes": 769
+        },
+        "pipeline.log": {
+          "sha256": "f89254f922b5df8c1f93ecb9a4d60ebc7bb1725be611c8954d352e59a2c09dde",
+          "bytes": 20996171
+        },
+        "supervisor.log": {
+          "sha256": "b1570082918ae23e2edc4485fa2da83f091cc65ad779d5d7ae49d27cacf206d4",
+          "bytes": 1700
+        },
+        "metrics.jsonl": {
+          "sha256": "d3ac22c6626c81ee725d63a075b0274ecdc9cf8b234867766c89b5e1b2cb04c4",
+          "bytes": 2181
+        },
+        "recovery_checkpoints.jsonl": {
+          "sha256": "122af3338122d0687d2df629354544e30e05dc92f3445a060c73deb4de1f7b00",
+          "bytes": 14213
+        },
+        "resume_events.jsonl": {
+          "sha256": "4c0c259c3cba6f1ece2f58900dbb08c434c88f3076ce0b4e781259a437527cea",
+          "bytes": 214
+        },
+        "checkpoints/last.pt": {
+          "sha256": "9e9474af46a1d6583bb9a0ab7d62340ed6a9e05aa5aff8eb63fab3b47c47d6aa",
+          "bytes": 24637416
+        }
+      }
+    },
+    "b_norm": {
+      "archive": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_b_norm/attempt_02_shared_oom.ly6632nu",
+      "preservation_manifest_sha256": "08a5df7f8a7fc65c2b86ed2a13ad85a2f35c19923101d59db0b5a3258b9ff22b",
+      "last_checkpoint_sha256": "e7834d3a05c0e0a78b7c76c3aea3a8a84c17ab32ba23e075837b77fa7d394b66",
+      "resume_step": 99000,
+      "additional_completed_updates": 0,
+      "original_error": "torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 32.00 MiB. GPU 0 has a total capacity of 44.42 GiB of which 20.50 MiB is free. Including non-PyTorch memory, this process has 1.13 GiB memory in use. Process 1512483 has 43.25 GiB memory in use. Of the allocated memory 844.38 MiB is allocated by PyTorch, and 9.62 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)",
+      "files": {
+        "effective_config.yaml": {
+          "sha256": "a0c0a1961e6f52efe51e5adc9f54383fb704efc6fdc66bf533778436f8e2c6bd",
+          "bytes": 2359
+        },
+        "lineage.json": {
+          "sha256": "301e25c0cc4fdf35ba839ff144f95890a8a00bb03968158fc54b1f138f71c08d",
+          "bytes": 644
+        },
+        "run_metadata.json": {
+          "sha256": "4638bbf75dd39118841ff0abb3ccec0085a734f0b6d3803e16b98f17f2e84d2a",
+          "bytes": 816
+        },
+        "supervisor_state.json": {
+          "sha256": "f6ebf1d7d2aee6f8d9b9e0fccfc9902ff4c80e5c516a1c09dcb223c8ed456c77",
+          "bytes": 316
+        },
+        "pipeline_phase.json": {
+          "sha256": "ba5a12d2219b0c21638fd240d8cd62ba77522026476973aa24dc5e8b49c9df3b",
+          "bytes": 760
+        },
+        "pipeline.log": {
+          "sha256": "2f8720fd7eb3fc064b6e85e3c83f7a442a38691f988961bd974f55f620621f0c",
+          "bytes": 20996252
+        },
+        "supervisor.log": {
+          "sha256": "3fbf34a08300460303939ad1c67a563d2d80d853abd62e21b7d598f90d9a02b9",
+          "bytes": 1694
+        },
+        "metrics.jsonl": {
+          "sha256": "75c4d24d224233716ddf92672839df6568f0f31a7938e0e5a82bcb9faed27c3a",
+          "bytes": 2178
+        },
+        "recovery_checkpoints.jsonl": {
+          "sha256": "ba5e0a265b3ddc3da07da761685623c5973775f88b2a55caa9efe78adb4fc8c9",
+          "bytes": 14213
+        },
+        "resume_events.jsonl": {
+          "sha256": "dcb90a5cdf41fcc7e8b85ebeb1a18d3d28bae08e0e7b14508594085f8b890496",
+          "bytes": 214
+        },
+        "checkpoints/last.pt": {
+          "sha256": "e7834d3a05c0e0a78b7c76c3aea3a8a84c17ab32ba23e075837b77fa7d394b66",
+          "bytes": 24637416
+        }
+      }
+    },
+    "c_front": {
+      "archive": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_c_front/attempt_02_shared_oom.a3ql518s",
+      "preservation_manifest_sha256": "0f3f4537ed3e88455507846414970a7e8b257a59e8c2c127f8f12fd902cd3946",
+      "last_checkpoint_sha256": "566cc3fc67cbc74b60aaa94ba8254597bc988f5de2f38de08ebb70c9ebe942b1",
+      "resume_step": 99000,
+      "additional_completed_updates": 0,
+      "original_error": "torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 32.00 MiB. GPU 0 has a total capacity of 44.42 GiB of which 20.50 MiB is free. Including non-PyTorch memory, this process has 1.13 GiB memory in use. Process 1512484 has 43.25 GiB memory in use. Of the allocated memory 844.38 MiB is allocated by PyTorch, and 9.62 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)",
+      "files": {
+        "effective_config.yaml": {
+          "sha256": "7fe946ebf8c0337cbd37330a442d42a32ad75f73be9757d264f7d73b93f778bb",
+          "bytes": 2355
+        },
+        "lineage.json": {
+          "sha256": "a84c7050679db020c45cb8d84fe846e106c25ed366420f157c043ba144d1b6c7",
+          "bytes": 645
+        },
+        "run_metadata.json": {
+          "sha256": "00b9098de9677d8c69683990eef02cecec34a5fc8e4dbe7f30347802949a64d4",
+          "bytes": 820
+        },
+        "supervisor_state.json": {
+          "sha256": "f814d4b85165bc750b5fa152baa4235f693e5e49f936e8434a46704b10eaa12e",
+          "bytes": 316
+        },
+        "pipeline_phase.json": {
+          "sha256": "fe3c519f5e182665f0f1a256a4af4d14cd9da002d5dcb9221af2ba391ab711f4",
+          "bytes": 763
+        },
+        "pipeline.log": {
+          "sha256": "3a9ff17f4242b28cb89722172d808b95c4a8e878d0456ea1809fc6a53baba98f",
+          "bytes": 20996755
+        },
+        "supervisor.log": {
+          "sha256": "e919ab26908db5fa94a21c429e47e12506b9eff8d818dfb11257ba1c4ca806fc",
+          "bytes": 1696
+        },
+        "metrics.jsonl": {
+          "sha256": "361c8f0a57c8e0c7d9a6c7de04521da331aef97d1a1d4c8fb97caea7b6446be1",
+          "bytes": 2191
+        },
+        "recovery_checkpoints.jsonl": {
+          "sha256": "2568c5a334a0cbcc3ce5efb593ee58e34d2c1c61f0da47471f6cea50c608d9ce",
+          "bytes": 14213
+        },
+        "resume_events.jsonl": {
+          "sha256": "b03debc8dc531040b330f16b85c6e940fd4f47cf591c6a2f6ea10a2576d36371",
+          "bytes": 214
+        },
+        "checkpoints/last.pt": {
+          "sha256": "566cc3fc67cbc74b60aaa94ba8254597bc988f5de2f38de08ebb70c9ebe942b1",
+          "bytes": 24637416
+        }
+      }
+    },
+    "d_both": {
+      "archive": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_d_both/attempt_02_shared_oom.l5i2hfmt",
+      "preservation_manifest_sha256": "7af4e9ba615233623d113da0b125b0c8b48641bf60f456322e0ddc3ddd09c9db",
+      "last_checkpoint_sha256": "fdf383c8c642f2862844b82efed1f409e37dfadf477a58bdd28fc197e830e22a",
+      "resume_step": 99000,
+      "additional_completed_updates": 0,
+      "original_error": "torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 32.00 MiB. GPU 0 has a total capacity of 44.42 GiB of which 20.56 MiB is free. Including non-PyTorch memory, this process has 1.13 GiB memory in use. Process 1512485 has 43.25 GiB memory in use. Of the allocated memory 844.38 MiB is allocated by PyTorch, and 9.62 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)",
+      "files": {
+        "effective_config.yaml": {
+          "sha256": "0b98669237664922cbbc38d897bf87e53cd287da31acc3e962edbc493cc15f52",
+          "bytes": 2359
+        },
+        "lineage.json": {
+          "sha256": "ee426b3463b1c3924b199cdfeab1aba057186f8f0660d1b2ac5391675608e0f6",
+          "bytes": 644
+        },
+        "run_metadata.json": {
+          "sha256": "527af2e42d4ad6aa4b47d7bb255fed34932554095507ab391c3e95fa1b816caa",
+          "bytes": 816
+        },
+        "supervisor_state.json": {
+          "sha256": "f4fe94e107ff55f2eb814cedea1217f8aa1eab8b18b98e94068b771c676ca25f",
+          "bytes": 316
+        },
+        "pipeline_phase.json": {
+          "sha256": "d163bd75b0fb552dc40416a8d5c632805714ce0dba981576ea0840cbe4d9c8ed",
+          "bytes": 760
+        },
+        "pipeline.log": {
+          "sha256": "6bffbf5722be3081b73c28c6a072ca6ca67d7c092740bb0398917214f79c9169",
+          "bytes": 20995836
+        },
+        "supervisor.log": {
+          "sha256": "d677d0a47815cca63db9b559aebdad2c133628d013048aa416b0c217889a2f89",
+          "bytes": 1694
+        },
+        "metrics.jsonl": {
+          "sha256": "385957ab361e020e88b196545c92e2f42373eb3a0f5a051e7733ba90478227a9",
+          "bytes": 2187
+        },
+        "recovery_checkpoints.jsonl": {
+          "sha256": "c74b6292c020d23c4d4c924725e80c5b9671247729ca052d56069984cbf8d24a",
+          "bytes": 14213
+        },
+        "resume_events.jsonl": {
+          "sha256": "f90c9e27216417dfd7bb5c09f0c09c92833b41b0477e0c21a7fb9903d4204934",
+          "bytes": 214
+        },
+        "checkpoints/last.pt": {
+          "sha256": "fdf383c8c642f2862844b82efed1f409e37dfadf477a58bdd28fc197e830e22a",
+          "bytes": 24637416
+        }
+      }
+    }
+  }
+}

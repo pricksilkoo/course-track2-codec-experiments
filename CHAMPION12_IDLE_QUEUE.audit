@@ -1,0 +1,11 @@
+{
+  "created_utc": "2026-11-22T10:48:07.729285+00:00",
+  "frozen_core_unchanged": true,
+  "operation_only_idle_adapter": true,
+  "code_sha256": {
+    "scripts/supervise_champion12_idle.py": "9d24cf095a7123c58ad0f76f3880e7bdf8ea8e25df0d7e0c094f89cab3065b5f",
+    "tests/test_champion12_idle.py": "37b6081a246f00bd2d8278d37b00504bd578600109412f1ef1a824ab82c24987"
+  },
+  "cpu_tests_log_sha256": "0dc9b414a4f4f9df7ba6d963826e55bc50265f07180d775114e64fd306d3fc40",
+  "cpu_tests_result": "2 passed in 2.48s"
+}

@@ -1,0 +1,50 @@
+{
+  "observed_utc": "2026-11-22T10:43:01.579662+00:00",
+  "cells": {
+    "a_control": {
+      "status": "failed",
+      "updated_utc": "2026-11-22T03:50:02.185355+00:00",
+      "gpu": 0,
+      "launch_free_MiB": 8192,
+      "runtime_resource_poll": false,
+      "sharing_authorized": true,
+      "training_total_steps": 500000,
+      "exit_code": 1,
+      "reason": "diagnose actual exit before resuming affected run; no blind retries"
+    },
+    "b_norm": {
+      "status": "failed",
+      "updated_utc": "2026-11-22T03:49:55.902597+00:00",
+      "gpu": 1,
+      "launch_free_MiB": 8192,
+      "runtime_resource_poll": false,
+      "sharing_authorized": true,
+      "training_total_steps": 500000,
+      "exit_code": 1,
+      "reason": "diagnose actual exit before resuming affected run; no blind retries"
+    },
+    "c_front": {
+      "status": "failed",
+      "updated_utc": "2026-11-22T03:49:57.982235+00:00",
+      "gpu": 2,
+      "launch_free_MiB": 8192,
+      "runtime_resource_poll": false,
+      "sharing_authorized": true,
+      "training_total_steps": 500000,
+      "exit_code": 1,
+      "reason": "diagnose actual exit before resuming affected run; no blind retries"
+    },
+    "d_both": {
+      "status": "failed",
+      "updated_utc": "2026-11-22T03:50:00.003273+00:00",
+      "gpu": 3,
+      "launch_free_MiB": 8192,
+      "runtime_resource_poll": false,
+      "sharing_authorized": true,
+      "training_total_steps": 500000,
+      "exit_code": 1,
+      "reason": "diagnose actual exit before resuming affected run; no blind retries"
+    }
+  },
+  "panes": "a_control dead=1 command=cd\nb_norm dead=1 command=cd\nc_front dead=1 command=cd\nd_both dead=1 command=cd\n"
+}

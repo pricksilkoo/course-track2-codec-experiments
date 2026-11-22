@@ -1,0 +1,119 @@
+{
+  "captured_utc": "2026-11-22T02:07:38.123174+00:00",
+  "capture_method": "retrospective from immutable preserved first-attempt logs, initial metadata, three validation rows, and genuine last",
+  "not_a_live_running_launch_capture": true,
+  "standard_capture_script_not_run_reason": "requires all supervisors running, phase training/resume_step0 and no exception in live log; all four had already exited before this inspection; frozen script unchanged",
+  "all_four_began_optimization": true,
+  "all_four_currently_stopped_after_first_shared_OOM": true,
+  "runtime_resource_queries": false,
+  "cells": {
+    "a_control": {
+      "initial_run_metadata": {
+        "created_utc": "2026-11-21T11:29:25.453380+00:00",
+        "command": "scripts/train.py --config /var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_a_control/effective_config.yaml --train-manifest /var/tmp/hehaoran-codec-champion12.599tkbvr/data/manifests/vctk_libritts/train.scp --valid-manifest /var/tmp/hehaoran-codec-champion12.599tkbvr/data/manifests/vctk_libritts/valid.scp --output-dir /var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_a_control --device cuda --max-total-steps 500000 --init-checkpoint /var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_setup/step0_a_control.pt",
+        "torch_version": "2.13.0+cu129",
+        "world_size": 1,
+        "device": "cuda",
+        "init_checkpoint": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_setup/step0_a_control.pt",
+        "resume_checkpoint": null
+      },
+      "first_visible_positive_batch_and_finite_loss": [
+        1,
+        1,
+        0.8308
+      ],
+      "head_evidence_bytes": 65536,
+      "head_evidence_sha256": "714020ee32e2c6a5f64340fcbbac4d17a00f0fd99b7fb58e0fcc27d92774b8b0",
+      "preserved_pipeline_path": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_a_control/attempt_01_shared_oom.dnb40vbg/pipeline.log",
+      "real_validation_steps": [
+        25000,
+        50000,
+        75000
+      ],
+      "first_validation_utc": "2026-11-21T13:37:26.273017+00:00",
+      "last_complete_checkpoint_step": 99000,
+      "last_visible_complete_update": 99999
+    },
+    "b_norm": {
+      "initial_run_metadata": {
+        "created_utc": "2026-11-21T11:29:25.453367+00:00",
+        "command": "scripts/train.py --config /var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_b_norm/effective_config.yaml --train-manifest /var/tmp/hehaoran-codec-champion12.599tkbvr/data/manifests/vctk_libritts/train.scp --valid-manifest /var/tmp/hehaoran-codec-champion12.599tkbvr/data/manifests/vctk_libritts/valid.scp --output-dir /var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_b_norm --device cuda --max-total-steps 500000 --init-checkpoint /var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_setup/step0_b_norm.pt",
+        "torch_version": "2.13.0+cu129",
+        "world_size": 1,
+        "device": "cuda",
+        "init_checkpoint": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_setup/step0_b_norm.pt",
+        "resume_checkpoint": null
+      },
+      "first_visible_positive_batch_and_finite_loss": [
+        1,
+        1,
+        0.8309
+      ],
+      "head_evidence_bytes": 65536,
+      "head_evidence_sha256": "f687162e7294901aa9fdad65f0af33c0ffefabdeec9a8908644f31a05742a591",
+      "preserved_pipeline_path": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_b_norm/attempt_01_shared_oom.sv0nj0xh/pipeline.log",
+      "real_validation_steps": [
+        25000,
+        50000,
+        75000
+      ],
+      "first_validation_utc": "2026-11-21T13:37:26.267051+00:00",
+      "last_complete_checkpoint_step": 99000,
+      "last_visible_complete_update": 99999
+    },
+    "c_front": {
+      "initial_run_metadata": {
+        "created_utc": "2026-11-21T11:29:25.453499+00:00",
+        "command": "scripts/train.py --config /var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_c_front/effective_config.yaml --train-manifest /var/tmp/hehaoran-codec-champion12.599tkbvr/data/manifests/vctk_libritts/train.scp --valid-manifest /var/tmp/hehaoran-codec-champion12.599tkbvr/data/manifests/vctk_libritts/valid.scp --output-dir /var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_c_front --device cuda --max-total-steps 500000 --init-checkpoint /var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_setup/step0_c_front.pt",
+        "torch_version": "2.13.0+cu129",
+        "world_size": 1,
+        "device": "cuda",
+        "init_checkpoint": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_setup/step0_c_front.pt",
+        "resume_checkpoint": null
+      },
+      "first_visible_positive_batch_and_finite_loss": [
+        1,
+        1,
+        0.8268
+      ],
+      "head_evidence_bytes": 65536,
+      "head_evidence_sha256": "07bf08efb9a3b8df84a0f1cf723617d17b89d1d6a4344f48f3eb1900535bb83b",
+      "preserved_pipeline_path": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_c_front/attempt_01_shared_oom.fg6g6dml/pipeline.log",
+      "real_validation_steps": [
+        25000,
+        50000,
+        75000
+      ],
+      "first_validation_utc": "2026-11-21T13:37:26.271085+00:00",
+      "last_complete_checkpoint_step": 99000,
+      "last_visible_complete_update": 99999
+    },
+    "d_both": {
+      "initial_run_metadata": {
+        "created_utc": "2026-11-21T11:29:25.453416+00:00",
+        "command": "scripts/train.py --config /var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_d_both/effective_config.yaml --train-manifest /var/tmp/hehaoran-codec-champion12.599tkbvr/data/manifests/vctk_libritts/train.scp --valid-manifest /var/tmp/hehaoran-codec-champion12.599tkbvr/data/manifests/vctk_libritts/valid.scp --output-dir /var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_d_both --device cuda --max-total-steps 500000 --init-checkpoint /var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_setup/step0_d_both.pt",
+        "torch_version": "2.13.0+cu129",
+        "world_size": 1,
+        "device": "cuda",
+        "init_checkpoint": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_setup/step0_d_both.pt",
+        "resume_checkpoint": null
+      },
+      "first_visible_positive_batch_and_finite_loss": [
+        1,
+        1,
+        0.8261
+      ],
+      "head_evidence_bytes": 65536,
+      "head_evidence_sha256": "ba567f5efa81567029c456d39c8c8077700e53be079b9c16194f588792446fed",
+      "preserved_pipeline_path": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_d_both/attempt_01_shared_oom.6_61_qw_/pipeline.log",
+      "real_validation_steps": [
+        25000,
+        50000,
+        75000
+      ],
+      "first_validation_utc": "2026-11-21T13:37:26.271852+00:00",
+      "last_complete_checkpoint_step": 99000,
+      "last_visible_complete_update": 99999
+    }
+  }
+}

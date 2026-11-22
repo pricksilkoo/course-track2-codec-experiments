@@ -1,0 +1,48 @@
+{
+  "rearmed_utc": "2026-11-22T02:08:03.740486+00:00",
+  "first_diagnosed_failure_only": true,
+  "same_session": "codec_champion12_v1",
+  "total_budget_unchanged": 500000,
+  "cells": {
+    "a_control": {
+      "gpu": 0,
+      "command": "/var/tmp/hehaoran-codec-champion12.599tkbvr/.venv-codec/bin/python -u scripts/supervise_champion12.py a_control 0",
+      "resume_step_when_capacity_permits": 99000,
+      "completed_updates_to_replay": 999,
+      "startup_free_MiB": 8192,
+      "startup_disk_GiB": 10,
+      "automatic_retry": false,
+      "other_jobs_touched": false
+    },
+    "b_norm": {
+      "gpu": 1,
+      "command": "/var/tmp/hehaoran-codec-champion12.599tkbvr/.venv-codec/bin/python -u scripts/supervise_champion12.py b_norm 1",
+      "resume_step_when_capacity_permits": 99000,
+      "completed_updates_to_replay": 999,
+      "startup_free_MiB": 8192,
+      "startup_disk_GiB": 10,
+      "automatic_retry": false,
+      "other_jobs_touched": false
+    },
+    "c_front": {
+      "gpu": 2,
+      "command": "/var/tmp/hehaoran-codec-champion12.599tkbvr/.venv-codec/bin/python -u scripts/supervise_champion12.py c_front 2",
+      "resume_step_when_capacity_permits": 99000,
+      "completed_updates_to_replay": 999,
+      "startup_free_MiB": 8192,
+      "startup_disk_GiB": 10,
+      "automatic_retry": false,
+      "other_jobs_touched": false
+    },
+    "d_both": {
+      "gpu": 3,
+      "command": "/var/tmp/hehaoran-codec-champion12.599tkbvr/.venv-codec/bin/python -u scripts/supervise_champion12.py d_both 3",
+      "resume_step_when_capacity_permits": 99000,
+      "completed_updates_to_replay": 999,
+      "startup_free_MiB": 8192,
+      "startup_disk_GiB": 10,
+      "automatic_retry": false,
+      "other_jobs_touched": false
+    }
+  }
+}

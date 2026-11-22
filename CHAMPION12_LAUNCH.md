@@ -13,3 +13,7 @@
 
 四组为D主干对照、GRU后无仿射逐帧LN、投影维度前后级交换、两者组合。总/解码MFLOP/s A/C670.36356/287.4112，B/D670.52676/287.4112，全部30ms、2400bps。各500k从头、500k固定主端点，250k诊断，不按分数选权重；完整训练、损失、数据、四项指标与因果字节接口见[预登记](CHAMPION12_PLAN.md)、[初态审计](CHAMPION12_SETUP.audit)。
 本轮所有写入在独立工作区 /var/tmp/hehaoran-codec-champion12.599tkbvr，历史/原storage1与本地baseline只读。仅一个3小时巡检codec-champion12-monitor，健康推进保持静默；实际失败先保全证据诊断再按自身last恢复，无自动重试或下一批。完成独立审计与结果发布后删除本巡检。
+
+## 后续状态（2026-11-22）
+
+本页上述内容为初次派发时快照。后续已实际优化并两次共享OOM，完整last为99000；最新恢复排队与证据见[CHAMPION12_RECOVERY.md](CHAMPION12_RECOVERY.md)，不能把原初始化快照作为当前状态。
