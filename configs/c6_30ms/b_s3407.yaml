@@ -1,0 +1,7 @@
+_base_: ../champion6/b_s3407_fourier_gru.yaml
+model:
+  encoder_lookahead_frames: 2
+training:
+  output_dir: runs/c6_30ms_b_s3407
+  checkpoint_keep_last: 20
+  recovery_checkpoint_interval_steps: 1000
