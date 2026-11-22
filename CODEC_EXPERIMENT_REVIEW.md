@@ -1060,3 +1060,15 @@ A 为原规模，C 加宽解码器，D 同时加宽编码器和解码器。三�
 赛题第4.3节要求端到端总时延<=30ms，包含成帧缓冲与未来上下文。C8历史开发最高51.6670665400继承3帧×10ms前瞻，按10ms成帧合计40ms，确实不符合30ms总延迟。此前将30ms lookahead误写/误理解为总30ms，漏计成帧，属于核算与表述错误。保留原评分和不可变实验证据，但C8只能称40ms研究参照，不能称合规最高分或合规部署fallback。
 
 C9及以后统一10ms成帧+20ms前瞻=30ms；已核验C9–11中最高是C11D固定500k 50.2457693322。C12相同30ms口径，未完成无评分。不能改C8前瞻后沿用旧分，不能自动晋升或访问sealed。原注册/历史来源保持，提交候选仍须逐配置核验。详见[LATENCY_COMPLIANCE_CORRECTION.md](LATENCY_COMPLIANCE_CORRECTION.md)。
+
+## C6B总30ms单组复验已登记并排队（2026-11-22，未开始优化）
+
+用户明确批准仅改C6有限前瞻层，等GPU空闲训练。本轮只一个seed3407、500k固定终点，不是自动新增四组。预登记261b74a和冻结初态/CPU审计40e8f44均先推main，随后一次性挂入codec_c6_30ms_v1:b_s3407，run为runs/c6_30ms_b_s3407。当前waiting_for_unreserved_idle_gpu，无run_metadata或实际优化；不能据排队称已训练。
+
+对应C6B40ms参考51.6243361386，仅encoder_lookahead_frames3→2、depthwise未来kernel4→3；10ms成帧+20ms前瞻=30ms。保留原C6卷积编码器、4层analysis TCN、GRU、投影RVQ48/64/80、2层synthesis TCN、Fourier256/hidden160/8块/320IRFFT/hop160，seed/data-order3407，原loss/数据/500k日程/batch32×2s/8workers均不变。仅留档I/O增加1000完整更新atomic last并保留20step快照+best/last。
+
+使用原C6B保留的真正未训练step0：只删前瞻filter的第4tap，其余codec/RVQ/判别器tensor逐位相同；连续量化前latent、初态音频/indices精确相同；global_step0、codebook未初始化、EMA0、初始优化器新。不是从51.62已训练模型微调，也未重建历史初始化。4项CPU测试7.84s通过；解析总666.2752/decoder257.632MFLOP/s、参数1867904、unclassifiedMAC0，未来边界480samples与真实3bytes/frame往返通过，无GPU烟测。
+
+新监督者只选择项目GPU锁可获得、无compute PID、free>=8192MiB及新盘>=10GiB的卡；不足30s等待，保留C12健康等待者和已有预留，不触碰外部作业。派发后不查GPU/盘、child.wait、无自动重试。只评500k一个节点的200dev真实编码/解码和完整四指标/RVQ诊断，不额外评250k、不挑best、不做C8插值或额外seed/延长。历史C6B与C8均为40ms研究参照，C11D50.245769为另架构/seed的30ms参照；无自动晋升/sealed。
+
+唯一3小时监控codec-champion12-monitor已同时覆盖C12和此明确批准任务，没有新建重复监控，健康等待/推进静默；两项任务都完成终审与发布后才删除监控。见[C6_30MS_PLAN.md](C6_30MS_PLAN.md)、[初态审计](C6_30MS_SETUP.audit)、[排队证据](C6_30MS_QUEUE.audit)。

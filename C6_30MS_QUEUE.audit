@@ -1,0 +1,25 @@
+{
+  "observed_utc": "2026-11-22T13:01:25.931589+00:00",
+  "preregistration_commit": "261b74a",
+  "frozen_setup_commit": "40e8f44",
+  "both_pushed_before_queue": true,
+  "one_shot_queue_launched": true,
+  "session": "codec_c6_30ms_v1",
+  "root": "/var/tmp/hehaoran-codec-champion12.599tkbvr",
+  "run": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/c6_30ms_b_s3407",
+  "supervisor": {
+    "status": "waiting_for_unreserved_idle_gpu",
+    "updated_utc": "2026-11-22T12:59:18.673973+00:00",
+    "training_total_steps": 500000,
+    "startup_idle_required": true,
+    "runtime_resource_poll": false,
+    "automatic_retry": false,
+    "reason": "preserve existing project GPU reservations; require no compute PID,free>=8192MiB,disk>=10GiB"
+  },
+  "actual_optimization_began": false,
+  "model_change_only": "finite-lookahead3to2frames",
+  "historical_C6B_snapshot_not_modified": true,
+  "C12_existing_reservations_preserved": true,
+  "shared_monitor_id": "codec-champion12-monitor",
+  "separate_duplicate_monitor_created": false
+}
