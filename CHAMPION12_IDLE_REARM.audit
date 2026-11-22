@@ -1,0 +1,30 @@
+{
+  "created_utc": "2026-11-22T10:48:45.566621+00:00",
+  "one_idle_queue_launch_after_second_diagnosed_OOM": true,
+  "same_total_budget": 500000,
+  "resume_step": 99000,
+  "new_batch": false,
+  "automatic_retry": false,
+  "cells": {
+    "a_control": {
+      "gpu": 0,
+      "command": "/var/tmp/hehaoran-codec-champion12.599tkbvr/.venv-codec/bin/python -u scripts/supervise_champion12_idle.py a_control 0",
+      "last_sha256": "9e9474af46a1d6583bb9a0ab7d62340ed6a9e05aa5aff8eb63fab3b47c47d6aa"
+    },
+    "b_norm": {
+      "gpu": 1,
+      "command": "/var/tmp/hehaoran-codec-champion12.599tkbvr/.venv-codec/bin/python -u scripts/supervise_champion12_idle.py b_norm 1",
+      "last_sha256": "e7834d3a05c0e0a78b7c76c3aea3a8a84c17ab32ba23e075837b77fa7d394b66"
+    },
+    "c_front": {
+      "gpu": 2,
+      "command": "/var/tmp/hehaoran-codec-champion12.599tkbvr/.venv-codec/bin/python -u scripts/supervise_champion12_idle.py c_front 2",
+      "last_sha256": "566cc3fc67cbc74b60aaa94ba8254597bc988f5de2f38de08ebb70c9ebe942b1"
+    },
+    "d_both": {
+      "gpu": 3,
+      "command": "/var/tmp/hehaoran-codec-champion12.599tkbvr/.venv-codec/bin/python -u scripts/supervise_champion12_idle.py d_both 3",
+      "last_sha256": "fdf383c8c642f2862844b82efed1f409e37dfadf477a58bdd28fc197e830e22a"
+    }
+  }
+}

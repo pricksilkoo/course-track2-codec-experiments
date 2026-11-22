@@ -1,0 +1,68 @@
+{
+  "observed_utc": "2026-11-22T10:51:28.429602+00:00",
+  "cells": {
+    "a_control": {
+      "status": "waiting_for_idle_gpu_after_repeated_oom",
+      "updated_utc": "2026-11-22T10:48:47.524779+00:00",
+      "gpu": 0,
+      "observed_free_MiB": 577,
+      "existing_gpu_pids": [
+        1628409,
+        1632123
+      ],
+      "launch_free_MiB": 8192,
+      "runtime_resource_poll": false,
+      "startup_idle_requirement_after_two_diagnosed_shared_OOMs": true,
+      "training_total_steps": 500000,
+      "next_resume_step": 99000,
+      "automatic_retry": false
+    },
+    "b_norm": {
+      "status": "waiting_for_idle_gpu_after_repeated_oom",
+      "updated_utc": "2026-11-22T10:48:47.536193+00:00",
+      "gpu": 1,
+      "observed_free_MiB": 2042,
+      "existing_gpu_pids": [
+        1628410
+      ],
+      "launch_free_MiB": 8192,
+      "runtime_resource_poll": false,
+      "startup_idle_requirement_after_two_diagnosed_shared_OOMs": true,
+      "training_total_steps": 500000,
+      "next_resume_step": 99000,
+      "automatic_retry": false
+    },
+    "c_front": {
+      "status": "waiting_for_idle_gpu_after_repeated_oom",
+      "updated_utc": "2026-11-22T10:48:47.483575+00:00",
+      "gpu": 2,
+      "observed_free_MiB": 530,
+      "existing_gpu_pids": [
+        1628411
+      ],
+      "launch_free_MiB": 8192,
+      "runtime_resource_poll": false,
+      "startup_idle_requirement_after_two_diagnosed_shared_OOMs": true,
+      "training_total_steps": 500000,
+      "next_resume_step": 99000,
+      "automatic_retry": false
+    },
+    "d_both": {
+      "status": "waiting_for_idle_gpu_after_repeated_oom",
+      "updated_utc": "2026-11-22T10:48:47.577120+00:00",
+      "gpu": 3,
+      "observed_free_MiB": 2768,
+      "existing_gpu_pids": [
+        1628412
+      ],
+      "launch_free_MiB": 8192,
+      "runtime_resource_poll": false,
+      "startup_idle_requirement_after_two_diagnosed_shared_OOMs": true,
+      "training_total_steps": 500000,
+      "next_resume_step": 99000,
+      "automatic_retry": false
+    }
+  },
+  "no_manual_GPU_query_for_this_status_capture": true,
+  "panes": "a_control dead=0 command=bash\nb_norm dead=0 command=bash\nc_front dead=0 command=bash\nd_both dead=0 command=bash\n"
+}

@@ -1,7 +1,7 @@
 {
   "created_utc": "2026-11-22T10:44:41.140898+00:00",
   "attempt": 2,
-  "diagnosis": "second actual shared OOM during resumed CUDA model placement; external process grew to 43.25GiB after startup capacity gate",
+  "diagnosis": "second actual shared OOM in encoder SnakeBeta forward of first resumed minibatch, before any new complete optimizer update; external process grew to43.25GiB after startup capacity gate",
   "next_policy": "queue these affected cells only until genuinely idle GPU (no compute PIDs) plus unchanged 8192MiB/10GiB startup thresholds; no runtime polling, no auto-retry",
   "cells": {
     "a_control": {
