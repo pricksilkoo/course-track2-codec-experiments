@@ -950,3 +950,11 @@ C9及以后统一10ms成帧+20ms前瞻=30ms；已核验C9–11中最高是C11D�
 新监督者只选择项目GPU锁可获得、无compute PID、free>=8192MiB及新盘>=10GiB的卡；不足30s等待，保留C12健康等待者和已有预留，不触碰外部作业。派发后不查GPU/盘、child.wait、无自动重试。只评500k一个节点的200dev真实编码/解码和完整四指标/RVQ诊断，不额外评250k、不挑best、不做C8插值或额外seed/延长。历史C6B与C8均为40ms研究参照，C11D50.245769为另架构/seed的30ms参照；无自动晋升/sealed。
 
 唯一3小时监控codec-champion12-monitor已同时覆盖C12和此明确批准任务，没有新建重复监控，健康等待/推进静默；两项任务都完成终审与发布后才删除监控。见[C6_30MS_PLAN.md](C6_30MS_PLAN.md)、[初态审计](C6_30MS_SETUP.audit)、[排队证据](C6_30MS_QUEUE.audit)。
+
+## CHAMPION12 空闲门后已实际恢复并进入完整GAN（2026-11-23核验，未完成评分）
+
+四组空闲队列在2026-11-22 14:42UTC观察无compute PID后派发原runner，从各自99000完整last恢复，未重置优化器或总500k预算。此次已有真实epoch进度和有限loss，均完成100k/125k/150k真实验证，GAN因子分别0.00002/0.50002/1.0，完整GAN阶段D/G/FM损失均有限。CPU只读打开各自atomic last同一文件版本，核对modelconfig、RVQ EMA计数、码本初始化状态及非空G/D优化器；捕获时各组完整last步数为224000–227000，实际版本与SHA见CHAMPION12_RECOVERY_ACTIVE.audit。历史每组999完整更新回滚与worker/crop/RNG非bitwise重放仍如实保留；此次没有第三次实际退出或额外回滚。
+
+原code/config/source-step0哈希均匹配冻结SETUP，未重建初态、重复启动或新增seed。3帧前瞻的C8只作40ms研究参照，C12仍10ms成帧+20ms前瞻=总30ms。当前只确认训练恢复与GAN日程，不报告200dev评分/质量改进；500k固定主端点及250k诊断仍在未来。训练开始后未查询GPU/磁盘资源、未主动停止或改batch，无自动重试。
+
+C6B总30ms单组仍在原codec_c6_30ms_v1健康等待未预留空闲GPU，未派发优化、不抢占C12或外部作业。两个批准任务共用原3小时监控，健康推进保持静默；只在失败/真实结果/完成/需选择时通知。详见[恢复实证](CHAMPION12_RECOVERY_ACTIVE.audit)、[原故障及排队说明](CHAMPION12_RECOVERY.md)和[C6单组计划](C6_30MS_PLAN.md)。不访问sealed、不自动晋升或新增实验。

@@ -35,3 +35,7 @@
 ## 空闲队列已挂起
 
 截至2026-11-22T10:51:28.429602+00:00，四个原窗格均存活，四组状态均为waiting_for_idle_gpu_after_repeated_oom；尚未第三次派发训练。每组仍将从自身99000恢复。队列启动与状态见CHAMPION12_IDLE_REARM.audit、CHAMPION12_IDLE_STATUS.audit；没有重复任务。三小时监控已更新此恢复入口，后续若再次实际退出必须先留证诊断，不自动继续重挂。
+
+## 后续恢复实证
+
+四组已在空闲门后从自身99000断点恢复并通过150k完整GAN日程验证，原始last/优化器和日志实证见[CHAMPION12_RECOVERY_ACTIVE.audit](CHAMPION12_RECOVERY_ACTIVE.audit)。上面的waiting状态是先前快照，不代表当前仍等待；尚未完成500k或质量评分。C6总30ms单组仍健康排队。

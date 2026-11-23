@@ -24287,11 +24287,11 @@ training:
 <!-- experiment:champion12_a_control:start -->
 ## champion12_a_control
 
-- Status: `failed`
-- Updated (UTC): `2026-11-22T03:49:59.640275+00:00`
-- Git commit: `50bfbbe2bf9f93b4639bfaa6aaa0a475ff9ab105`
+- Status: `running`
+- Updated (UTC): `2026-11-22T14:43:03.543538+00:00`
+- Git commit: `7d09e7e07967d33483151aaa12a1cf292220a19c`
 - Run directory: `/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_a_control`
-- Note: CHAMPION12 GRU/RVQ normalization x projection-order scratch factorial, no learned parent. groups8/decoderTCN2; encoder[8, 24, 40, 80, 160]/decoderhidden184; quantizer_input_norm=none;projected_dims=[48, 64, 80]; encoder TCN0;lookahead20ms+packet10ms=total30ms. Newly untrained codec/RVQ/D step0; initSHAa70e31487ec103e05e582c4c49d1ac5126c560d915b21fb4a7e1729959b7b14c; fresh initial optimizers.500000 total steps; 500k primary; 250k diagnostic. Full states resume latest own last, no budget reset; worker/crop/RNG replay may be non-bitwise. CHAMPION12_PLAN.md/SETUP.audit. Error:CalledProcessError(1, ['/var/tmp/hehaoran-codec-champion12.599tkbvr/.venv-codec/bin/python', 'scripts/train.py', '--config', '/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_a_control/effective_config.yaml', '--train-manifest', '/var/tmp/hehaoran-codec-champion12.599tkbvr/data/manifests/vctk_libritts/train.scp', '--valid-manifest', '/var/tmp/hehaoran-codec-champion12.599tkbvr/data/manifests/vctk_libritts/valid.scp', '--output-dir', '/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_a_control', '--device', 'cuda', '--max-total-steps', '500000', '--resume', '/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_a_control/checkpoints/last.pt'])
+- Note: CHAMPION12 GRU/RVQ normalization x projection-order scratch factorial, no learned parent. groups8/decoderTCN2; encoder[8, 24, 40, 80, 160]/decoderhidden184; quantizer_input_norm=none;projected_dims=[48, 64, 80]; encoder TCN0;lookahead20ms+packet10ms=total30ms. Newly untrained codec/RVQ/D step0; initSHAa70e31487ec103e05e582c4c49d1ac5126c560d915b21fb4a7e1729959b7b14c; fresh initial optimizers.500000 total steps; 500k primary; 250k diagnostic. Full states resume latest own last, no budget reset; worker/crop/RNG replay may be non-bitwise. CHAMPION12_PLAN.md/SETUP.audit.
 - Evaluated checkpoint: `/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_a_control/checkpoints/last.pt`
 - Checkpoint SHA-256: `9e9474af46a1d6583bb9a0ab7d62340ed6a9e05aa5aff8eb63fab3b47c47d6aa`
 - Selected checkpoint global step: `99000`
@@ -24467,11 +24467,11 @@ training:
 <!-- experiment:champion12_b_norm:start -->
 ## champion12_b_norm
 
-- Status: `failed`
-- Updated (UTC): `2026-11-22T03:49:49.816193+00:00`
-- Git commit: `50bfbbe2bf9f93b4639bfaa6aaa0a475ff9ab105`
+- Status: `running`
+- Updated (UTC): `2026-11-22T14:43:01.424966+00:00`
+- Git commit: `7d09e7e07967d33483151aaa12a1cf292220a19c`
 - Run directory: `/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_b_norm`
-- Note: CHAMPION12 GRU/RVQ normalization x projection-order scratch factorial, no learned parent. groups8/decoderTCN2; encoder[8, 24, 40, 80, 160]/decoderhidden184; quantizer_input_norm=layernorm;projected_dims=[48, 64, 80]; encoder TCN0;lookahead20ms+packet10ms=total30ms. Newly untrained codec/RVQ/D step0; initSHAad63748cffc4013610cead13e1f3807d8381fbfb92d3570195bc86a78bf75459; fresh initial optimizers.500000 total steps; 500k primary; 250k diagnostic. Full states resume latest own last, no budget reset; worker/crop/RNG replay may be non-bitwise. CHAMPION12_PLAN.md/SETUP.audit. Error:CalledProcessError(1, ['/var/tmp/hehaoran-codec-champion12.599tkbvr/.venv-codec/bin/python', 'scripts/train.py', '--config', '/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_b_norm/effective_config.yaml', '--train-manifest', '/var/tmp/hehaoran-codec-champion12.599tkbvr/data/manifests/vctk_libritts/train.scp', '--valid-manifest', '/var/tmp/hehaoran-codec-champion12.599tkbvr/data/manifests/vctk_libritts/valid.scp', '--output-dir', '/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_b_norm', '--device', 'cuda', '--max-total-steps', '500000', '--resume', '/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_b_norm/checkpoints/last.pt'])
+- Note: CHAMPION12 GRU/RVQ normalization x projection-order scratch factorial, no learned parent. groups8/decoderTCN2; encoder[8, 24, 40, 80, 160]/decoderhidden184; quantizer_input_norm=layernorm;projected_dims=[48, 64, 80]; encoder TCN0;lookahead20ms+packet10ms=total30ms. Newly untrained codec/RVQ/D step0; initSHAad63748cffc4013610cead13e1f3807d8381fbfb92d3570195bc86a78bf75459; fresh initial optimizers.500000 total steps; 500k primary; 250k diagnostic. Full states resume latest own last, no budget reset; worker/crop/RNG replay may be non-bitwise. CHAMPION12_PLAN.md/SETUP.audit.
 - Evaluated checkpoint: `/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_b_norm/checkpoints/last.pt`
 - Checkpoint SHA-256: `e7834d3a05c0e0a78b7c76c3aea3a8a84c17ab32ba23e075837b77fa7d394b66`
 - Selected checkpoint global step: `99000`
@@ -24644,15 +24644,14 @@ training:
 ```
 
 <!-- experiment:champion12_b_norm:end -->
-
 <!-- experiment:champion12_c_front:start -->
 ## champion12_c_front
 
-- Status: `failed`
-- Updated (UTC): `2026-11-22T03:49:55.486886+00:00`
-- Git commit: `50bfbbe2bf9f93b4639bfaa6aaa0a475ff9ab105`
+- Status: `running`
+- Updated (UTC): `2026-11-22T14:42:59.356459+00:00`
+- Git commit: `7d09e7e07967d33483151aaa12a1cf292220a19c`
 - Run directory: `/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_c_front`
-- Note: CHAMPION12 GRU/RVQ normalization x projection-order scratch factorial, no learned parent. groups8/decoderTCN2; encoder[8, 24, 40, 80, 160]/decoderhidden184; quantizer_input_norm=none;projected_dims=[80, 64, 48]; encoder TCN0;lookahead20ms+packet10ms=total30ms. Newly untrained codec/RVQ/D step0; initSHAe7d460eba3a539b0e9ff74ca519b275774f7c63567c77f204ed9294c9de6244b; fresh initial optimizers.500000 total steps; 500k primary; 250k diagnostic. Full states resume latest own last, no budget reset; worker/crop/RNG replay may be non-bitwise. CHAMPION12_PLAN.md/SETUP.audit. Error:CalledProcessError(1, ['/var/tmp/hehaoran-codec-champion12.599tkbvr/.venv-codec/bin/python', 'scripts/train.py', '--config', '/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_c_front/effective_config.yaml', '--train-manifest', '/var/tmp/hehaoran-codec-champion12.599tkbvr/data/manifests/vctk_libritts/train.scp', '--valid-manifest', '/var/tmp/hehaoran-codec-champion12.599tkbvr/data/manifests/vctk_libritts/valid.scp', '--output-dir', '/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_c_front', '--device', 'cuda', '--max-total-steps', '500000', '--resume', '/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_c_front/checkpoints/last.pt'])
+- Note: CHAMPION12 GRU/RVQ normalization x projection-order scratch factorial, no learned parent. groups8/decoderTCN2; encoder[8, 24, 40, 80, 160]/decoderhidden184; quantizer_input_norm=none;projected_dims=[80, 64, 48]; encoder TCN0;lookahead20ms+packet10ms=total30ms. Newly untrained codec/RVQ/D step0; initSHAe7d460eba3a539b0e9ff74ca519b275774f7c63567c77f204ed9294c9de6244b; fresh initial optimizers.500000 total steps; 500k primary; 250k diagnostic. Full states resume latest own last, no budget reset; worker/crop/RNG replay may be non-bitwise. CHAMPION12_PLAN.md/SETUP.audit.
 - Evaluated checkpoint: `/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_c_front/checkpoints/last.pt`
 - Checkpoint SHA-256: `566cc3fc67cbc74b60aaa94ba8254597bc988f5de2f38de08ebb70c9ebe942b1`
 - Selected checkpoint global step: `99000`
@@ -24825,15 +24824,14 @@ training:
 ```
 
 <!-- experiment:champion12_c_front:end -->
-
 <!-- experiment:champion12_d_both:start -->
 ## champion12_d_both
 
-- Status: `failed`
-- Updated (UTC): `2026-11-22T03:49:57.595237+00:00`
-- Git commit: `50bfbbe2bf9f93b4639bfaa6aaa0a475ff9ab105`
+- Status: `running`
+- Updated (UTC): `2026-11-22T14:42:57.267779+00:00`
+- Git commit: `7d09e7e07967d33483151aaa12a1cf292220a19c`
 - Run directory: `/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_d_both`
-- Note: CHAMPION12 GRU/RVQ normalization x projection-order scratch factorial, no learned parent. groups8/decoderTCN2; encoder[8, 24, 40, 80, 160]/decoderhidden184; quantizer_input_norm=layernorm;projected_dims=[80, 64, 48]; encoder TCN0;lookahead20ms+packet10ms=total30ms. Newly untrained codec/RVQ/D step0; initSHAd0bd51ecd290208fc1b3db3abeb899af54399b01482e375ee4904d81d856706e; fresh initial optimizers.500000 total steps; 500k primary; 250k diagnostic. Full states resume latest own last, no budget reset; worker/crop/RNG replay may be non-bitwise. CHAMPION12_PLAN.md/SETUP.audit. Error:CalledProcessError(1, ['/var/tmp/hehaoran-codec-champion12.599tkbvr/.venv-codec/bin/python', 'scripts/train.py', '--config', '/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_d_both/effective_config.yaml', '--train-manifest', '/var/tmp/hehaoran-codec-champion12.599tkbvr/data/manifests/vctk_libritts/train.scp', '--valid-manifest', '/var/tmp/hehaoran-codec-champion12.599tkbvr/data/manifests/vctk_libritts/valid.scp', '--output-dir', '/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_d_both', '--device', 'cuda', '--max-total-steps', '500000', '--resume', '/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_d_both/checkpoints/last.pt'])
+- Note: CHAMPION12 GRU/RVQ normalization x projection-order scratch factorial, no learned parent. groups8/decoderTCN2; encoder[8, 24, 40, 80, 160]/decoderhidden184; quantizer_input_norm=layernorm;projected_dims=[80, 64, 48]; encoder TCN0;lookahead20ms+packet10ms=total30ms. Newly untrained codec/RVQ/D step0; initSHAd0bd51ecd290208fc1b3db3abeb899af54399b01482e375ee4904d81d856706e; fresh initial optimizers.500000 total steps; 500k primary; 250k diagnostic. Full states resume latest own last, no budget reset; worker/crop/RNG replay may be non-bitwise. CHAMPION12_PLAN.md/SETUP.audit.
 - Evaluated checkpoint: `/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_d_both/checkpoints/last.pt`
 - Checkpoint SHA-256: `fdf383c8c642f2862844b82efed1f409e37dfadf477a58bdd28fc197e830e22a`
 - Selected checkpoint global step: `99000`
@@ -25006,7 +25004,6 @@ training:
 ```
 
 <!-- experiment:champion12_d_both:end -->
-
 <!-- experiment:c6_30ms_b_s3407:start -->
 ## c6_30ms_b_s3407
 
