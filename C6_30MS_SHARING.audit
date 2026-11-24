@@ -1,0 +1,18 @@
+{
+  "created_utc": "2026-11-24T08:06:51.676068+00:00",
+  "user_authorization": "\u4f60\u770b\u6709\u7a7a\u4f4d\u5c31\u4e00\u5757\u8bad\u5427",
+  "preserved_zero_update_queue": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/c6_30ms_b_s3407/queue_policy_change.pd0ojchs",
+  "preservation_sha256": "482e501f6b819956a1d5313a7684cf838778c6386e44771e5546d92ffa08b79c",
+  "old_supervisor_pid": 1706728,
+  "old_pane": "%93",
+  "frozen_code_hashes_match": true,
+  "own_duplicate_prevention_lock_retained": true,
+  "C12_gpu_locks_and_processes_untouched": true,
+  "new_supervisor_sha256": "26bab95c56ba22a86a69496ae5476570154516d75d1de48073b68efe7e1f2031",
+  "test_sha256": "fa4db01dbc07aaebf43e58a2d20539f7e6fd90224e03cfdcfc8ad516e2ba049f",
+  "rearm_not_yet_performed": true,
+  "cpu_mock_tests": "..\n----------------------------------------------------------------------\nRan 2 tests in 0.001s\n\nOK",
+  "syntax_ast_passed": true,
+  "no_GPU_tests": true,
+  "initial_test_dependency_IO_wait": "first pytest import blocked in xfs_buf_iowait; test-only orchestration terminated before mutations; supervisor uses stdlib imports; no GPU work"
+}
