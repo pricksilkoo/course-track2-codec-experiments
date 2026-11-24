@@ -1,0 +1,113 @@
+{
+  "captured_utc": "2026-11-24T08:33:14.533919+00:00",
+  "actual_optimization_began": true,
+  "evidence_kind": "live epoch/batch progress with finite losses; not inferred from queue/loading/phase",
+  "latest_observed_epoch": 1,
+  "latest_observed_batch_in_epoch": 939,
+  "latest_observed_loss": 0.5416,
+  "not_an_exact_checkpoint_global_step": true,
+  "finite_loss_observations_in_tail": 124,
+  "run_metadata": {
+    "created_utc": "2026-11-24T08:24:50.441789+00:00",
+    "command": "scripts/train.py --config /var/tmp/hehaoran-codec-champion12.599tkbvr/runs/c6_30ms_b_s3407/effective_config.yaml --train-manifest /var/tmp/hehaoran-codec-champion12.599tkbvr/data/manifests/vctk_libritts/train.scp --valid-manifest /var/tmp/hehaoran-codec-champion12.599tkbvr/data/manifests/vctk_libritts/valid.scp --output-dir /var/tmp/hehaoran-codec-champion12.599tkbvr/runs/c6_30ms_b_s3407 --device cuda --max-total-steps 500000 --init-checkpoint /var/tmp/hehaoran-codec-champion12.599tkbvr/runs/c6_30ms_setup/step0.pt",
+    "torch_version": "2.13.0+cu129",
+    "world_size": 1,
+    "device": "cuda",
+    "init_checkpoint": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/c6_30ms_setup/step0.pt",
+    "resume_checkpoint": null
+  },
+  "pipeline_phase": {
+    "phase": "training",
+    "updated_utc": "2026-11-24T08:13:26.577393+00:00",
+    "resume_step": 0,
+    "initialization": "new untrained step0"
+  },
+  "supervisor": {
+    "status": "running",
+    "updated_utc": "2026-11-24T08:12:28.048359+00:00",
+    "training_total_steps": 500000,
+    "startup_idle_required": false,
+    "sharing_authorized": true,
+    "launch_free_MiB": 8192,
+    "runtime_resource_poll": false,
+    "automatic_retry": false,
+    "supervisor": "scripts/supervise_c6_30ms_shared.py",
+    "gpu": 2,
+    "observed_launch_free_MiB": 17480,
+    "existing_gpu_pids": [
+      1733193,
+      2255773,
+      3189183
+    ],
+    "command": [
+      "/var/tmp/hehaoran-codec-champion12.599tkbvr/.venv-codec/bin/python",
+      "-u",
+      "scripts/run_c6_30ms_experiment.py",
+      "b_s3407",
+      "2"
+    ]
+  },
+  "pipeline_log_observed_bytes": 183235,
+  "pipeline_tail_offset": 171235,
+  "preserved_evidence": {
+    "runs/c6_30ms_b_s3407/launch_evidence/supervisor_state.json": "4fbdad34aac1c07cd4bfd85d9b26b4e5ab9fe2253b795a24913a7ea2e15e7af3",
+    "runs/c6_30ms_b_s3407/launch_evidence/run_metadata.json": "c4612b5af43effbfb90a6c618a1d58a82528468239b4d5c09457f339b3d7b4be",
+    "runs/c6_30ms_b_s3407/launch_evidence/pipeline_tail.bin": "8175a7262fb6e587e364c5a221f3411047b73a612420a96a11e5fae9dd1328e7"
+  },
+  "source_step0": "runs/c6_30ms_setup/step0.pt",
+  "source_step0_sha256": "c766011c3d3c99b91a2ca222e4d22e138753cd11618ec0dd52aa2aea7a4d3b4a",
+  "effective_config_sha256": "340d3c8fa5bd572b5567b4492fc883be4c8a95266d824ab5f018c78103bf2a20",
+  "frozen_code_hashes_match": {
+    "C6_30MS_PLAN.md": true,
+    "configs/c6_30ms/b_s3407.yaml": true,
+    "scripts/preflight_c6_30ms.py": true,
+    "scripts/run_c6_30ms_experiment.py": true,
+    "scripts/supervise_c6_30ms.py": true,
+    "scripts/launch_c6_30ms.py": true,
+    "tests/test_c6_30ms.py": true,
+    "src/ssp_codec/model.py": true,
+    "src/ssp_codec/champion_synthesis.py": true,
+    "scripts/train.py": true,
+    "scripts/complexity.py": true,
+    "scripts/diagnose_rvq.py": true,
+    "scripts/run_champion7_experiment.py": true,
+    "scripts/supervise_champion7.py": true,
+    "scripts/record_experiment.py": true,
+    "src/ssp_codec/checkpoint_io.py": true
+  },
+  "data_hashes_match": {
+    "data/manifests/vctk_libritts/summary.json": true,
+    "data/manifests/vctk_libritts/train.scp": true,
+    "data/manifests/vctk_libritts/valid.scp": true
+  },
+  "initialization_lineage": {
+    "trained_initialization": false,
+    "global_step": 0,
+    "original_untrained_source": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion6_setup/step0_b_s3407_fourier_gru.pt",
+    "source_sha256": "7c7c5356252a747892bd153f8a17c609506f6998d31947d0ad706f59b85d4aa7",
+    "snapshot": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/c6_30ms_setup/step0.pt",
+    "snapshot_sha256": "c766011c3d3c99b91a2ca222e4d22e138753cd11618ec0dd52aa2aea7a4d3b4a",
+    "sole_changed_tensor": "analysis_temporal.lookahead.depthwise.weight",
+    "change": "first3 taps of original4; no rescale",
+    "all_other_tensors_exact": true,
+    "discriminator_exact": true,
+    "paired_initial_audio_codes_exact": true,
+    "fresh_optimizers": true,
+    "seed": 3407,
+    "data_order_seed": 3407
+  },
+  "latency": {
+    "frame_collection_ms": 10,
+    "lookahead_ms": 20,
+    "additional_decoder_future_buffer_ms": 0,
+    "total_delay_ms": 30,
+    "dependency_boundary_samples": 480,
+    "proof": "forced nonzero future branch + prefix and real-byte CPU tests"
+  },
+  "same_500000_total_scratch_budget": true,
+  "only_fixed_500k_evaluation": true,
+  "no_runtime_GPU_or_disk_resource_query": true,
+  "no_additional_smoke_or_profile": true,
+  "CPU_mock_tests_only": "2 passed; resource selection with busy cards and insufficient capacity",
+  "reference_40ms_models_not_compliant_fallback": true
+}

@@ -1088,3 +1088,8 @@ C6B总30ms单组仍在原codec_c6_30ms_v1健康等待未预留空闲GPU，未派
 
 
 C6共享入口已于2026-11-24 08:12UTC在原窗格派发同一原runner，选择GPU2，启动快照空闲17480MiB且存在其它计算PID，符合用户新增共享授权。原等待者零更新、无子pipeline；SIGTERM记录后退出清理读取阻塞，随后仅对其PID发SIGKILL，完全退出并验证锁释放后才重arm。新入口只有一个监督者和runner，无重复实验；此时runner仍加载，metadata/实际有限loss尚未确认，不能称已优化。C12四组不变。见[C6_30MS_SHARING_REARM.audit](C6_30MS_SHARING_REARM.audit)。
+
+
+## C6-30ms 共享后已实际开始优化（2026-11-24）
+
+C6唯一单组已在GPU2由自身未训练step0从0开始，metadata的init_checkpoint指向冻结snapshot且resume_checkpoint为空，总预算500000。现场epoch1已有真实批次进度与有限loss，源step0/config、冻结核心代码及data SHA均匹配SETUP。启动显存快照17480MiB、其它PID允许，之后未查GPU/盘；C12任务不变。实际进度及日志尾字节/metadata保全哈希见[C6_30MS_LAUNCH.audit](C6_30MS_LAUNCH.audit)。此处仅确认已训练，尚无25k验证或200dev评分；仍为唯一500k主端点，无额外实验/自动晋升。
