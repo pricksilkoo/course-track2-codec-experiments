@@ -25004,14 +25004,15 @@ training:
 ```
 
 <!-- experiment:champion12_d_both:end -->
+
 <!-- experiment:c6_30ms_b_s3407:start -->
 ## c6_30ms_b_s3407
 
-- Status: `planned`
-- Updated (UTC): `2026-11-22T12:58:21.254982+00:00`
-- Git commit: `261b74a12e1e15deffc7c9a37ab9bbea4b7d8394`
+- Status: `running`
+- Updated (UTC): `2026-11-24T08:13:11.573047+00:00`
+- Git commit: `fe715afa86902bdda19137f430d3fdc72fca22b4`
 - Run directory: `/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/c6_30ms_b_s3407`
-- Note: User-approved C6B30ms single seed3407 scratch repeat; only lookahead3to2; original UNTRAINED C6B initialization exact except removed future tap. 500k sole endpoint, no learned parent. C6_30MS_PLAN.md.
+- Note: C6B seed3407 scratch30ms single-cell repeat; only future3to2 frames, same untrained source except final future tap removed. Original waveform encoder/TCN4/GRU/projectedRVQ48/64/80/decoderTCN2/Fourierhidden160; no grouped encoder or new loss. 10ms collection+20ms future=30ms total; fixed500k sole endpoint, historicalC6B40ms score51.624336 is reference, not compliant target. Own full-state resume, non-bitwise worker/crop/RNG replay possible. C6_30MS_PLAN.md/SETUP.audit.
 - Evaluated checkpoint: `/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/c6_30ms_setup/step0.pt`
 - Checkpoint SHA-256: `c766011c3d3c99b91a2ca222e4d22e138753cd11618ec0dd52aa2aea7a4d3b4a`
 - Selected checkpoint global step: `0`

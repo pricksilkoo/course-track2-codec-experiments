@@ -37,5 +37,7 @@
   },
   "metadata_present": false,
   "pipeline_present": true,
-  "no_runtime_resource_queries": true
+  "no_runtime_resource_queries": true,
+  "last_checked_utc": "2026-11-24T08:17:14.234452+00:00",
+  "loader_IO_wait_observed": true
 }
