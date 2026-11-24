@@ -1,0 +1,41 @@
+{
+  "created_utc": "2026-11-24T08:12:23.527965+00:00",
+  "prior_zero_update_waiter_intentionally_ended": 1706728,
+  "old_waiter_SIGTERM_then_SIGKILL_after_exit_cleanup_IO_wait": true,
+  "old_waiter_fully_exited_and_lock_free_before_rearm": true,
+  "only_original_pane_rearmed": "%93",
+  "command": "cd /var/tmp/hehaoran-codec-champion12.599tkbvr && /var/tmp/hehaoran-codec-champion12.599tkbvr/.venv-codec/bin/python -u scripts/supervise_c6_30ms_shared.py >> /var/tmp/hehaoran-codec-champion12.599tkbvr/runs/c6_30ms_b_s3407/supervisor.log 2>&1",
+  "policy_commit": "fe715afa86902bdda19137f430d3fdc72fca22b4",
+  "no_preflight_or_total_launch_rerun": true,
+  "C12_and_external_jobs_untouched": true,
+  "actual_optimization_not_yet_confirmed": true,
+  "observed_utc": "2026-11-24T08:13:15.531900+00:00",
+  "supervisor_state": {
+    "status": "running",
+    "updated_utc": "2026-11-24T08:12:28.048359+00:00",
+    "training_total_steps": 500000,
+    "startup_idle_required": false,
+    "sharing_authorized": true,
+    "launch_free_MiB": 8192,
+    "runtime_resource_poll": false,
+    "automatic_retry": false,
+    "supervisor": "scripts/supervise_c6_30ms_shared.py",
+    "gpu": 2,
+    "observed_launch_free_MiB": 17480,
+    "existing_gpu_pids": [
+      1733193,
+      2255773,
+      3189183
+    ],
+    "command": [
+      "/var/tmp/hehaoran-codec-champion12.599tkbvr/.venv-codec/bin/python",
+      "-u",
+      "scripts/run_c6_30ms_experiment.py",
+      "b_s3407",
+      "2"
+    ]
+  },
+  "metadata_present": false,
+  "pipeline_present": true,
+  "no_runtime_resource_queries": true
+}
