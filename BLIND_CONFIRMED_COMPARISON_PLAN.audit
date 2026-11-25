@@ -1,0 +1,93 @@
+{
+  "created_utc": "2026-11-25T09:13:10.892239+00:00",
+  "user_confirmed_scope": "only C6B among40ms, all other proposed30ms models; 7 additional fixed endpoints; original baseline and C11D reuse prior audited results",
+  "models": [
+    {
+      "label": "c6b",
+      "run": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion6_b_s3407_fourier_gru",
+      "checkpoint": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion6_b_s3407_fourier_gru/checkpoints/last.pt",
+      "checkpoint_sha256": "c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23",
+      "step": 500000,
+      "total_delay_ms": 40,
+      "course_delay_compliant": false,
+      "public200dev_score": 51.62433613863932,
+      "wait_for_original_pipeline_complete": false
+    },
+    {
+      "label": "c9d",
+      "run": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_d_g8_d2",
+      "checkpoint": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion9_d_g8_d2/checkpoints/step_00500000.pt",
+      "checkpoint_sha256": "82e924efe948c517f4c74d2abeb0e93b4aed8ee6d01aabf01c572ef496aaf4a0",
+      "step": 500000,
+      "total_delay_ms": 30,
+      "course_delay_compliant": true,
+      "public200dev_score": 49.710980709050375,
+      "wait_for_original_pipeline_complete": false
+    },
+    {
+      "label": "c10d",
+      "run": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_d_both",
+      "checkpoint": "/storage1/hehaoran/project/course-track2-codec-experiments/runs/champion10_d_both/checkpoints/step_00500000.pt",
+      "checkpoint_sha256": "6ef9c3081595db45d0ce90bdc7d9381bad718fdfdb7c8df7c27fff8c91bd07bd",
+      "step": 500000,
+      "total_delay_ms": 30,
+      "course_delay_compliant": true,
+      "public200dev_score": 50.21359274690457,
+      "wait_for_original_pipeline_complete": false
+    },
+    {
+      "label": "c12a",
+      "run": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_a_control",
+      "checkpoint": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_a_control/checkpoints/step_00500000.pt",
+      "checkpoint_sha256": "5a6e2f31b619f39ba9cc0718e9db8a42a570271a365e8d061622354fc56346c0",
+      "step": 500000,
+      "total_delay_ms": 30,
+      "course_delay_compliant": true,
+      "public200dev_score": 49.06835872518637,
+      "wait_for_original_pipeline_complete": false
+    },
+    {
+      "label": "c12b",
+      "run": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_b_norm",
+      "checkpoint": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_b_norm/checkpoints/step_00500000.pt",
+      "checkpoint_sha256": "263323da2dc436d0bff8a113cfa980efebf33c824426ebd728d274fcff2afca8",
+      "step": 500000,
+      "total_delay_ms": 30,
+      "course_delay_compliant": true,
+      "public200dev_score": 49.445673322620024,
+      "wait_for_original_pipeline_complete": false
+    },
+    {
+      "label": "c12d",
+      "run": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_d_both",
+      "checkpoint": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_d_both/checkpoints/step_00500000.pt",
+      "checkpoint_sha256": "2965600f404a7b20f3e088409b3beff367ff6e54cfae4a18ef0cab4e0ff7370c",
+      "step": 500000,
+      "total_delay_ms": 30,
+      "course_delay_compliant": true,
+      "public200dev_score": 49.22523929756598,
+      "wait_for_original_pipeline_complete": false
+    },
+    {
+      "label": "c12c",
+      "run": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_c_front",
+      "checkpoint": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/champion12_c_front/checkpoints/step_00500000.pt",
+      "checkpoint_sha256": null,
+      "step": 500000,
+      "total_delay_ms": 30,
+      "course_delay_compliant": true,
+      "public200dev_score": null,
+      "wait_for_original_pipeline_complete": true
+    }
+  ],
+  "reused_results": [
+    "BLIND_OFFICIAL_BASELINE_RESULTS.audit",
+    "BLIND_C11D_SCORE_RESULTS.audit"
+  ],
+  "source_frozen_plan_sha256": "8487a75b4614f7e87b56a488f47fb3c3e997308849ed6fa1b4d1addcfe41d135",
+  "archive_sha256": "60bd525bb613667fa4d009a3cd64986bb59527e7a6aa62e927d0c435c3d7ad02",
+  "output_root": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/track2_blind_20261125/confirmed_comparison_v1",
+  "CPU_only": true,
+  "quality_scoring_script_sha256": "37726a7b4a2a5a332326b84228ccf35b11369a0b5e0aa89fe1de941db60c6b2c",
+  "no_training_checkpoint_search_or_submission_model_change": true
+}
