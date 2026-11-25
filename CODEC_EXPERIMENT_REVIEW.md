@@ -1118,3 +1118,8 @@ B_norm已正常完成500k及两个预登记节点、20真实验证/20step快照�
 ## 用户明确要求的原始课程baseline盲测固定对照
 
 同50条盲测原始baseline总分28.5950904062，C11D37.1448819223，同集差+8.5497915162，四项均提升。使用Git保留原权重SHA4f19d236377b8f5d5c10e4f283d6cc80a35a80f081d5b6f135b605bdc7a6d96a、CPU及同评分版本，真实byte/audio往返、50CSV独立重聚合通过。未训练/调参或搜权重，不因对照结果继续追加盲测候选；不同容量/总10ms与30ms，是完整系统对照非单因素。详见[对照结果](BLIND_OFFICIAL_BASELINE_RESULTS.md)与[审计](BLIND_OFFICIAL_BASELINE_RESULTS.audit)。
+
+
+## 用户确认的固定盲测对照：已完成6个新增模型，C12C待原任务完成
+
+用户确认40ms只评C6B、其余候选30ms固定500k，复用已有官方baseline/C11D。两路CPU每路4线程独立真实编码解码评分，50文件CSV/字节/音频审计通过：C6B38.3306599248（40ms，不合规研究对照）、C9D36.7606937068、C10D37.1501295105、C12A36.5642843796、C12B36.7898429962、C12D35.8238528406。C12C仍等待原500k训练及公开评测正常完成，唯一持久tmux codec_blind_confirmed_comparison_v1将自动接续其固定端点；不启动其它模型、不改参数或提交候选。本表是阶段记录不是批次全部完成。结果见BLIND_CONFIRMED_COMPARISON_RESULTS.md/.audit，各模型完整逐文件审计位于runs/track2_blind_20261125/confirmed_comparison_v1/CELL/audit.json。用户要求定时任务先不用管，因此本次没有调整定时监控。

@@ -1,0 +1,152 @@
+{
+  "updated_utc": "2026-11-25T09:18:19.558266+00:00",
+  "plan_sha256": "0c655fe1d72c2798bab6464bc670eaaeb0cd127a53f6a91e3aa0c19b9d8cb35b",
+  "complete": false,
+  "pending": [
+    "c12c"
+  ],
+  "entries": [
+    {
+      "label": "official_baseline",
+      "total_delay_ms": 10,
+      "summary": {
+        "files": 50,
+        "means": {
+          "PESQ": 1.474526469707489,
+          "ESTOI": 0.6182098317960886,
+          "SI_SNR": 1.314176075774271,
+          "UTMOS": 1.4286415648460389
+        },
+        "objective_quality_score": 28.5950904061738,
+        "utmos_skipped": false
+      },
+      "reused": true
+    },
+    {
+      "label": "c11d",
+      "total_delay_ms": 30,
+      "summary": {
+        "files": 50,
+        "means": {
+          "PESQ": 1.7965279459953307,
+          "ESTOI": 0.6929488933402469,
+          "SI_SNR": 5.808246899267691,
+          "UTMOS": 1.6802431917190552
+        },
+        "objective_quality_score": 37.144881922330654,
+        "utmos_skipped": false
+      },
+      "reused": true
+    },
+    {
+      "label": "c6b",
+      "total_delay_ms": 40,
+      "summary": {
+        "files": 50,
+        "means": {
+          "PESQ": 1.877601478099823,
+          "ESTOI": 0.6971022966673434,
+          "SI_SNR": 6.033309635922916,
+          "UTMOS": 1.7381923198699951
+        },
+        "objective_quality_score": 38.33065992475019,
+        "utmos_skipped": false
+      },
+      "reused": false,
+      "checkpoint_sha256": "c2793275e34cb758cacb8ccc04f685c92b40c0bfc3fbd0973e710a72e1b8aa23",
+      "output_dir": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/track2_blind_20261125/confirmed_comparison_v1/c6b"
+    },
+    {
+      "label": "c9d",
+      "total_delay_ms": 30,
+      "summary": {
+        "files": 50,
+        "means": {
+          "PESQ": 1.797184247970581,
+          "ESTOI": 0.687447953304374,
+          "SI_SNR": 5.777301014047525,
+          "UTMOS": 1.6431213665008544
+        },
+        "objective_quality_score": 36.760693706809256,
+        "utmos_skipped": false
+      },
+      "reused": false,
+      "checkpoint_sha256": "82e924efe948c517f4c74d2abeb0e93b4aed8ee6d01aabf01c572ef496aaf4a0",
+      "output_dir": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/track2_blind_20261125/confirmed_comparison_v1/c9d"
+    },
+    {
+      "label": "c12a",
+      "total_delay_ms": 30,
+      "summary": {
+        "files": 50,
+        "means": {
+          "PESQ": 1.7861365509033202,
+          "ESTOI": 0.6809600263171949,
+          "SI_SNR": 5.350605697637451,
+          "UTMOS": 1.6929430532455445
+        },
+        "objective_quality_score": 36.56428437961879,
+        "utmos_skipped": false
+      },
+      "reused": false,
+      "checkpoint_sha256": "5a6e2f31b619f39ba9cc0718e9db8a42a570271a365e8d061622354fc56346c0",
+      "output_dir": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/track2_blind_20261125/confirmed_comparison_v1/c12a"
+    },
+    {
+      "label": "c10d",
+      "total_delay_ms": 30,
+      "summary": {
+        "files": 50,
+        "means": {
+          "PESQ": 1.8138969445228577,
+          "ESTOI": 0.6828366531018847,
+          "SI_SNR": 5.952943372982049,
+          "UTMOS": 1.6872118353843688
+        },
+        "objective_quality_score": 37.150129510547906,
+        "utmos_skipped": false
+      },
+      "reused": false,
+      "checkpoint_sha256": "6ef9c3081595db45d0ce90bdc7d9381bad718fdfdb7c8df7c27fff8c91bd07bd",
+      "output_dir": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/track2_blind_20261125/confirmed_comparison_v1/c10d"
+    },
+    {
+      "label": "c12b",
+      "total_delay_ms": 30,
+      "summary": {
+        "files": 50,
+        "means": {
+          "PESQ": 1.7936076068878173,
+          "ESTOI": 0.6866415169604444,
+          "SI_SNR": 5.971852071767493,
+          "UTMOS": 1.635643482208252
+        },
+        "objective_quality_score": 36.789842996151776,
+        "utmos_skipped": false
+      },
+      "reused": false,
+      "checkpoint_sha256": "263323da2dc436d0bff8a113cfa980efebf33c824426ebd728d274fcff2afca8",
+      "output_dir": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/track2_blind_20261125/confirmed_comparison_v1/c12b"
+    },
+    {
+      "label": "c12d",
+      "total_delay_ms": 30,
+      "summary": {
+        "files": 50,
+        "means": {
+          "PESQ": 1.7372973132133485,
+          "ESTOI": 0.6778663798220309,
+          "SI_SNR": 5.169992829245668,
+          "UTMOS": 1.6607261514663696
+        },
+        "objective_quality_score": 35.82385284058947,
+        "utmos_skipped": false
+      },
+      "reused": false,
+      "checkpoint_sha256": "2965600f404a7b20f3e088409b3beff367ff6e54cfae4a18ef0cab4e0ff7370c",
+      "output_dir": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/track2_blind_20261125/confirmed_comparison_v1/c12d"
+    }
+  ],
+  "scope": "fixed user-confirmed research contrasts only; no checkpoint search/tuning or submission replacement",
+  "C6B_40ms_not_course_delay_compliant": true
+}
