@@ -1,0 +1,7 @@
+# C11D 冻结模型盲测自检
+
+用户于2026-11-25确认：按照公开200dev结果冻结C11D，仅对这一个模型做盲测编码、解码与格式自检，不比较盲测分数选模型。下载包README明确禁止训练、微调或参数选择；不计算盲测质量分，不改变模型/训练/量化器。公开200dev的50.24576933222705不等于盲测分数。
+
+原包track2_blind_test.zip SHA256=60bd525bb613667fa4d009a3cd64986bb59527e7a6aa62e927d0c435c3d7ad02。50条16k单声道PCM16原音，4204525samples，26300frames，预期每模型78900真实码流bytes。保留原始文件名/长度，不裁剪整句。远程运行目录runs/track2_blind_20261125，原音source/input，输出c11d_frozen/bitstreams和reconstructed；数据和输出不进入Git。
+
+冻结C11D500k checkpoint SHA256=1bafbd40b688e218147ac0544a7dd3baf82d1bdc5d83cf28dec04cf8aee64966。总延迟30ms，总670.36356/decoder287.4112MFLOP/s。使用当前兼容代码原encode/decode/validate入口，CPU线程4；不占用/停止现有GPU训练。由独立命名tmux持久托管并持有任务防重复锁，无自动重试。逐文件核验原音SHA、位流大小/元数据、重建16kmono原长度/有限音频，保留逐文件与树SHA。
