@@ -971,3 +971,8 @@ C6共享入口已于2026-11-24 08:12UTC在原窗格派发同一原runner，选�
 ## C6-30ms 共享后已实际开始优化（2026-11-24）
 
 C6唯一单组已在GPU2由自身未训练step0从0开始，metadata的init_checkpoint指向冻结snapshot且resume_checkpoint为空，总预算500000。现场epoch1已有真实批次进度与有限loss，源step0/config、冻结核心代码及data SHA均匹配SETUP。启动显存快照17480MiB、其它PID允许，之后未查GPU/盘；C12任务不变。实际进度及日志尾字节/metadata保全哈希见[C6_30MS_LAUNCH.audit](C6_30MS_LAUNCH.audit)。此处仅确认已训练，尚无25k验证或200dev评分；仍为唯一500k主端点，无额外实验/自动晋升。
+
+
+## CHAMPION12 首个单元完成：B（阶段记录，尚非全组结论）
+
+B_norm已正常完成500k及两个预登记节点、20真实验证/20step快照与500k完整RVQ。250k趋势分47.31038759196126；固定500k主分49.445673322620024，PESQ2.133236974477768/ESTOI0.7549537646244535/SI-SNR6.538454303198607/UTMOS2.942519271969795。独立重算200条CSV的逐文件裁剪归一四项等权分数和四指标均值，与summary一致，并核验两端点checkpoint SHA。原runner往返记录均为200files/16197971samples/101286frames/303858bytes，完整音频/字节树终审仍待全部完成。A/C/D与C6仍训练，不据B单组归因归一化效果，不择250k分、不延长、不晋升。详见CHAMPION12_PROGRESS.audit；其余单元死窗格只有完成标记核验后视为正常结束，禁止重跑B。

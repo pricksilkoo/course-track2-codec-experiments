@@ -1,0 +1,79 @@
+{
+  "captured_utc": "2026-11-25T03:10:50.154170+00:00",
+  "scope": "interim first finished cell B only; not four-cell final audit or factor-effect conclusion",
+  "b_norm_complete": true,
+  "fixed_primary_step": 500000,
+  "validation_count": 20,
+  "retained_step_snapshots": 20,
+  "GAN_factors": {
+    "100000": 2e-05,
+    "125000": 0.50002,
+    "150000": 1.0
+  },
+  "nodes": [
+    {
+      "step": 250000,
+      "summary": {
+        "files": 200,
+        "means": {
+          "PESQ": 2.0367254209518433,
+          "ESTOI": 0.743214433325069,
+          "SI_SNR": 6.303974856052781,
+          "UTMOS": 2.7815777432918547
+        },
+        "objective_quality_score": 47.31038759196126,
+        "utmos_skipped": false
+      },
+      "CSV_reaggregation_score": 47.31038759196126,
+      "normalized_components": {
+        "PESQ": 0.2962072631290981,
+        "ESTOI": 0.7432144333250689,
+        "SI_SNR": 0.40759937140131947,
+        "UTMOS": 0.44539443582296373
+      },
+      "checkpoint_sha256": "7cf3fb03250f8379fcf1589e220a2c672889824da711395cf87b6f07999a7bab",
+      "CSV_sha256": "ab71c30307ecff702bc4d046f2d88aa329aa7f8450b8159c6fc7da3fadb1989b",
+      "roundtrip_runner_record": {
+        "files": 200,
+        "samples": 16197971,
+        "actual_bytes": 303858,
+        "frames": 101286,
+        "audio_lengths_verified": true
+      },
+      "full_audio_byte_tree_independent_audit_pending_all_four_complete": true
+    },
+    {
+      "step": 500000,
+      "summary": {
+        "files": 200,
+        "means": {
+          "PESQ": 2.133236974477768,
+          "ESTOI": 0.7549537646244535,
+          "SI_SNR": 6.538454303198607,
+          "UTMOS": 2.942519271969795
+        },
+        "objective_quality_score": 49.445673322620024,
+        "utmos_skipped": false
+      },
+      "CSV_reaggregation_score": 49.445673322620046,
+      "normalized_components": {
+        "PESQ": 0.3237819927079339,
+        "ESTOI": 0.7549537646244537,
+        "SI_SNR": 0.41346135757996527,
+        "UTMOS": 0.4856298179924488
+      },
+      "checkpoint_sha256": "263323da2dc436d0bff8a113cfa980efebf33c824426ebd728d274fcff2afca8",
+      "CSV_sha256": "3081e5672b3cfd070d099f0e1d26bb668a172c9eac860ec12292f596c6bb8fa9",
+      "roundtrip_runner_record": {
+        "files": 200,
+        "samples": 16197971,
+        "actual_bytes": 303858,
+        "frames": 101286,
+        "audio_lengths_verified": true
+      },
+      "full_audio_byte_tree_independent_audit_pending_all_four_complete": true
+    }
+  ],
+  "selected_rvq_diagnostic_sha256": "3ea398fb52b9b874be5b6007eebde6266e73bec0bccd83fff88964d05d0883d1",
+  "remaining_cells_and_C6_not_complete": true
+}
