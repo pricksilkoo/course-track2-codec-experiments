@@ -1,0 +1,15 @@
+{
+  "created_utc": "2026-11-25T08:59:46.697975+00:00",
+  "authorization": "user explicitly requests original course baseline blind score as fixed reference",
+  "model": "course original retained reference baseline, not strong_baseline_v2 or Cisco LRAC",
+  "checkpoint": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/baseline_16k_2p4k_ema_rvq_gan/checkpoints/best.pt",
+  "checkpoint_sha256": "4f19d236377b8f5d5c10e4f283d6cc80a35a80f081d5b6f135b605bdc7a6d96a",
+  "matches_tracked_reference": true,
+  "reference_dir": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/track2_blind_20261125/source/input",
+  "output_dir": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/track2_blind_20261125/official_baseline_fixed",
+  "archive_sha256": "60bd525bb613667fa4d009a3cd64986bb59527e7a6aa62e927d0c435c3d7ad02",
+  "CPU_only": true,
+  "no_training_tuning_or_checkpoint_search": true,
+  "scoring_code_sha256": "37726a7b4a2a5a332326b84228ccf35b11369a0b5e0aa89fe1de941db60c6b2c",
+  "UTMOS_cache": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/c6_30ms_setup/torch-cache"
+}
