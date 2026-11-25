@@ -1,0 +1,13 @@
+{
+  "created_utc": "2026-11-25T08:47:32.734042+00:00",
+  "authorization": "user explicitly requests scores after single C11D model was frozen and passed blind format check",
+  "scope": "one fixed model quality measurement only; no comparison, parameter search, retraining or checkpoint change",
+  "checkpoint_sha256": "1bafbd40b688e218147ac0544a7dd3baf82d1bdc5d83cf28dec04cf8aee64966",
+  "self_check_audit_sha256": "aa519bc69657e88c34bd688b3df50edb1839a6ab3b63c72b5e2b43e5587ad52e",
+  "reference_dir": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/track2_blind_20261125/source/input",
+  "reconstructed_dir": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/track2_blind_20261125/c11d_frozen/reconstructed",
+  "output_dir": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/track2_blind_20261125/c11d_frozen/metrics",
+  "device": "cpu",
+  "torch_home": "/var/tmp/hehaoran-codec-champion12.599tkbvr/runs/c6_30ms_setup/torch-cache",
+  "no_new_download_or_GPU_resource_query": true
+}
