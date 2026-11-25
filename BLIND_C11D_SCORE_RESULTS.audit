@@ -1,0 +1,29 @@
+{
+  "completed_utc": "2026-11-25T08:48:47.650159+00:00",
+  "scope": "one fixed model quality measurement only; no comparison, parameter search, retraining or checkpoint change",
+  "model": "C11D fixed500k",
+  "checkpoint_sha256": "1bafbd40b688e218147ac0544a7dd3baf82d1bdc5d83cf28dec04cf8aee64966",
+  "summary": {
+    "files": 50,
+    "means": {
+      "PESQ": 1.7965279459953307,
+      "ESTOI": 0.6929488933402469,
+      "SI_SNR": 5.808246899267691,
+      "UTMOS": 1.6802431917190552
+    },
+    "objective_quality_score": 37.144881922330654,
+    "utmos_skipped": false
+  },
+  "CSV_reaggregated_score": 37.144881922330654,
+  "normalized_components": {
+    "PESQ": 0.22757941314152308,
+    "ESTOI": 0.6929488933402469,
+    "SI_SNR": 0.3952061724816923,
+    "UTMOS": 0.1700607979297638
+  },
+  "summary_sha256": "0e65c02cf5d94f2c1328623910b45bc1a1bb0b4fc9e1fe6a10331f7dd6c320be",
+  "CSV_sha256": "e1fb66aef81be7c92316b723909a731ba29be85470e51b406c6ce07a85895622",
+  "blind_model_selection_performed": false,
+  "no_checkpoint_or_reconstruction_changed": true,
+  "official_teacher_score": false
+}

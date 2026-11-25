@@ -26367,3 +26367,8 @@ training:
 - CPU tmux: codec_blind_c11d_20261125, exit0.
 - Results: BLIND_C11D_SELF_CHECK_RESULTS.md/.audit.
 <!-- experiment:blind_c11d_self_check_20261125:end -->
+
+
+## 冻结C11D 单次盲测质量测量（用户于格式自检后另行明确要求）
+
+保持同一冻结权重和重建SHA不变，仅一次测量50条盲测：总分37.1448819223，PESQ1.7965279460/ESTOI0.6929488933/SI-SNR5.8082468993/UTMOS1.6802431917。四指标实际计算，独立CSV复算一致，CPU缓存运行。未做其它模型比较、训练/微调/参数选择；教师最终成绩另定，公开200dev与盲测分不混称。此前格式自检“未评分”是当时真实状态，本次属于用户后续追加授权。详见[单次自测结果](BLIND_C11D_SCORE_RESULTS.md)与[审计](BLIND_C11D_SCORE_RESULTS.audit)。
