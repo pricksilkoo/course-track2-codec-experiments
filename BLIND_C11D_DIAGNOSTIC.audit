@@ -1,0 +1,1095 @@
+{
+  "created_utc": "2026-11-25T08:57:16.724283+00:00",
+  "scope": "post-score explanation only; unchanged audio/model; no model comparison or parameter selection",
+  "blind_summary": {
+    "PESQ": {
+      "min": 1.3519926071166992,
+      "p10": 1.4990116834640503,
+      "median": 1.800874412059784,
+      "p90": 2.0970439195632937,
+      "max": 2.2514448165893555,
+      "mean": 1.7965279459953307
+    },
+    "ESTOI": {
+      "min": 0.4611495370832605,
+      "p10": 0.521202587875158,
+      "median": 0.7182578438644434,
+      "p90": 0.8186228811501414,
+      "max": 0.8688528629096166,
+      "mean": 0.6929488933402469
+    },
+    "SI_SNR": {
+      "min": 0.390876651761045,
+      "p10": 3.4660902471857558,
+      "median": 5.899450939295079,
+      "p90": 8.873237626491743,
+      "max": 9.948012563756803,
+      "mean": 5.808246899267691
+    },
+    "UTMOS": {
+      "min": 1.2320103645324707,
+      "p10": 1.2716525435447692,
+      "median": 1.5520464777946472,
+      "p90": 2.307624411582947,
+      "max": 2.877579927444458,
+      "mean": 1.6802431917190552
+    },
+    "component_points": {
+      "PESQ": 5.68948532853808,
+      "ESTOI": 17.32372233350618,
+      "SI_SNR": 9.880154312042308,
+      "UTMOS": 4.251519948244095
+    },
+    "worst": [
+      {
+        "file": "utt_0005.wav",
+        "score": 25.52215101524724,
+        "metrics": {
+          "file": "utt_0005.wav",
+          "PESQ": "1.4024839401245117",
+          "ESTOI": "0.5068767438753489",
+          "SI_SNR": "3.3485320572391237",
+          "UTMOS": "1.261202335357666"
+        }
+      },
+      {
+        "file": "utt_0029.wav",
+        "score": 26.128362851238187,
+        "metrics": {
+          "file": "utt_0029.wav",
+          "PESQ": "1.6391332149505615",
+          "ESTOI": "0.5021624222051817",
+          "SI_SNR": "1.6118138067759669",
+          "UTMOS": "1.2802690267562866"
+        }
+      },
+      {
+        "file": "utt_0023.wav",
+        "score": 26.206427157871452,
+        "metrics": {
+          "file": "utt_0023.wav",
+          "PESQ": "1.5418177843093872",
+          "ESTOI": "0.5756774976564609",
+          "SI_SNR": "0.390876651761045",
+          "UTMOS": "1.2320103645324707"
+        }
+      }
+    ],
+    "best": [
+      {
+        "file": "utt_0003.wav",
+        "score": 48.408847293160804,
+        "metrics": {
+          "file": "utt_0003.wav",
+          "PESQ": "2.0905251502990723",
+          "ESTOI": "0.8478173176033337",
+          "SI_SNR": "4.270032676881602",
+          "UTMOS": "2.68082857131958"
+        }
+      },
+      {
+        "file": "utt_0020.wav",
+        "score": 49.89569695573021,
+        "metrics": {
+          "file": "utt_0020.wav",
+          "PESQ": "1.9089181423187256",
+          "ESTOI": "0.8688528629096166",
+          "SI_SNR": "6.392924721016449",
+          "UTMOS": "2.8298439979553223"
+        }
+      },
+      {
+        "file": "utt_0036.wav",
+        "score": 50.454911958515595,
+        "metrics": {
+          "file": "utt_0036.wav",
+          "PESQ": "1.7832744121551514",
+          "ESTOI": "0.8290829569577184",
+          "SI_SNR": "9.837034013384198",
+          "UTMOS": "2.877579927444458"
+        }
+      }
+    ]
+  },
+  "public_dev_summary": {
+    "PESQ": {
+      "min": 1.3280116319656372,
+      "p10": 1.596293079853058,
+      "median": 2.2028608322143555,
+      "p90": 2.549840474128723,
+      "max": 2.951643466949463,
+      "mean": 2.147469393014908
+    },
+    "ESTOI": {
+      "min": 0.4141211269731362,
+      "p10": 0.6095464210821394,
+      "median": 0.782091787955802,
+      "p90": 0.8604793193715312,
+      "max": 0.914991633685124,
+      "mean": 0.7620956901568183
+    },
+    "SI_SNR": {
+      "min": -4.291378767891436,
+      "p10": 2.220552331505331,
+      "median": 6.960034314270793,
+      "p90": 9.770505231185036,
+      "max": 12.880692699216246,
+      "mean": 6.397457318106915
+    },
+    "UTMOS": {
+      "min": 1.6336150169372559,
+      "p10": 2.3916789293289185,
+      "median": 3.130304217338562,
+      "p90": 3.591072392463684,
+      "max": 3.9495041370391846,
+      "mean": 3.0398010087013243
+    },
+    "component_points": {
+      "PESQ": 8.19620995010649,
+      "ESTOI": 19.05239225392045,
+      "SI_SNR": 10.24841082381682,
+      "UTMOS": 12.748756304383276
+    },
+    "worst": [
+      {
+        "file": "item_0123.wav",
+        "score": 30.37682012703874,
+        "metrics": {
+          "file": "item_0123.wav",
+          "PESQ": "1.5207445621490479",
+          "ESTOI": "0.576341632706476",
+          "SI_SNR": "2.6421960469957373",
+          "UTMOS": "1.6955684423446655"
+        }
+      },
+      {
+        "file": "item_0007.wav",
+        "score": 31.235762198968875,
+        "metrics": {
+          "file": "item_0007.wav",
+          "PESQ": "1.40031099319458",
+          "ESTOI": "0.6104584673213462",
+          "SI_SNR": "2.5840812946496245",
+          "UTMOS": "1.8399816751480103"
+        }
+      },
+      {
+        "file": "item_0034.wav",
+        "score": 31.368089784575815,
+        "metrics": {
+          "file": "item_0034.wav",
+          "PESQ": "1.6378099918365479",
+          "ESTOI": "0.5900777915082633",
+          "SI_SNR": "0.4982999515337366",
+          "UTMOS": "1.8798274993896484"
+        }
+      }
+    ],
+    "best": [
+      {
+        "file": "item_0018.wav",
+        "score": 60.96402361667982,
+        "metrics": {
+          "file": "item_0018.wav",
+          "PESQ": "2.6368021965026855",
+          "ESTOI": "0.8775245705203398",
+          "SI_SNR": "7.632646571033329",
+          "UTMOS": "3.6102497577667236"
+        }
+      },
+      {
+        "file": "item_0191.wav",
+        "score": 61.67454510039762,
+        "metrics": {
+          "file": "item_0191.wav",
+          "PESQ": "2.7671756744384766",
+          "ESTOI": "0.8100102411872115",
+          "SI_SNR": "8.035312621267174",
+          "UTMOS": "3.8047256469726562"
+        }
+      },
+      {
+        "file": "item_0037.wav",
+        "score": 62.84426709180641,
+        "metrics": {
+          "file": "item_0037.wav",
+          "PESQ": "2.5718395709991455",
+          "ESTOI": "0.8573066646506636",
+          "SI_SNR": "9.528455565137035",
+          "UTMOS": "3.876622438430786"
+        }
+      }
+    ]
+  },
+  "component_point_drop": {
+    "PESQ": 2.5067246215684094,
+    "ESTOI": 1.7286699204142693,
+    "SI_SNR": 0.36825651177451313,
+    "UTMOS": 8.497236356139181
+  },
+  "input_vs_reconstructed_utmos": {
+    "scope": "diagnostic of unchanged input audio with same UTMOS, no codec comparison or parameter selection",
+    "input_utmos_mean": 2.226807165145874,
+    "reconstructed_utmos_mean": 1.6802431917190552,
+    "paired_mean_drop": 0.5465639734268188,
+    "files": [
+      {
+        "file": "utt_0001.wav",
+        "input_utmos": 2.1657888889312744,
+        "reconstructed_utmos": 1.4757976531982422
+      },
+      {
+        "file": "utt_0002.wav",
+        "input_utmos": 1.2665821313858032,
+        "reconstructed_utmos": 1.272364616394043
+      },
+      {
+        "file": "utt_0003.wav",
+        "input_utmos": 3.1227307319641113,
+        "reconstructed_utmos": 2.68082857131958
+      },
+      {
+        "file": "utt_0004.wav",
+        "input_utmos": 1.9775664806365967,
+        "reconstructed_utmos": 1.3505547046661377
+      },
+      {
+        "file": "utt_0005.wav",
+        "input_utmos": 1.3443520069122314,
+        "reconstructed_utmos": 1.261202335357666
+      },
+      {
+        "file": "utt_0006.wav",
+        "input_utmos": 3.655808925628662,
+        "reconstructed_utmos": 2.5312626361846924
+      },
+      {
+        "file": "utt_0007.wav",
+        "input_utmos": 3.4059014320373535,
+        "reconstructed_utmos": 1.8553707599639893
+      },
+      {
+        "file": "utt_0008.wav",
+        "input_utmos": 2.9504919052124023,
+        "reconstructed_utmos": 2.2990636825561523
+      },
+      {
+        "file": "utt_0009.wav",
+        "input_utmos": 1.8623000383377075,
+        "reconstructed_utmos": 1.4699476957321167
+      },
+      {
+        "file": "utt_0010.wav",
+        "input_utmos": 2.017828941345215,
+        "reconstructed_utmos": 1.7159327268600464
+      },
+      {
+        "file": "utt_0011.wav",
+        "input_utmos": 2.808522939682007,
+        "reconstructed_utmos": 2.1308889389038086
+      },
+      {
+        "file": "utt_0012.wav",
+        "input_utmos": 2.6302876472473145,
+        "reconstructed_utmos": 1.894232988357544
+      },
+      {
+        "file": "utt_0013.wav",
+        "input_utmos": 2.1700639724731445,
+        "reconstructed_utmos": 1.6479326486587524
+      },
+      {
+        "file": "utt_0014.wav",
+        "input_utmos": 1.2587281465530396,
+        "reconstructed_utmos": 1.2452774047851562
+      },
+      {
+        "file": "utt_0015.wav",
+        "input_utmos": 2.690544843673706,
+        "reconstructed_utmos": 1.6826481819152832
+      },
+      {
+        "file": "utt_0016.wav",
+        "input_utmos": 2.142659902572632,
+        "reconstructed_utmos": 1.4762107133865356
+      },
+      {
+        "file": "utt_0017.wav",
+        "input_utmos": 2.4596152305603027,
+        "reconstructed_utmos": 1.7608362436294556
+      },
+      {
+        "file": "utt_0018.wav",
+        "input_utmos": 2.6857402324676514,
+        "reconstructed_utmos": 1.649983286857605
+      },
+      {
+        "file": "utt_0019.wav",
+        "input_utmos": 1.2760684490203857,
+        "reconstructed_utmos": 1.2774136066436768
+      },
+      {
+        "file": "utt_0020.wav",
+        "input_utmos": 3.213944911956787,
+        "reconstructed_utmos": 2.8298439979553223
+      },
+      {
+        "file": "utt_0021.wav",
+        "input_utmos": 1.290030837059021,
+        "reconstructed_utmos": 1.293935775756836
+      },
+      {
+        "file": "utt_0022.wav",
+        "input_utmos": 2.369218111038208,
+        "reconstructed_utmos": 1.4168623685836792
+      },
+      {
+        "file": "utt_0023.wav",
+        "input_utmos": 1.2442587614059448,
+        "reconstructed_utmos": 1.2320103645324707
+      },
+      {
+        "file": "utt_0024.wav",
+        "input_utmos": 2.1582255363464355,
+        "reconstructed_utmos": 1.4164106845855713
+      },
+      {
+        "file": "utt_0025.wav",
+        "input_utmos": 2.7902660369873047,
+        "reconstructed_utmos": 1.641702651977539
+      },
+      {
+        "file": "utt_0026.wav",
+        "input_utmos": 1.6274981498718262,
+        "reconstructed_utmos": 1.3604562282562256
+      },
+      {
+        "file": "utt_0027.wav",
+        "input_utmos": 2.80631160736084,
+        "reconstructed_utmos": 2.3846709728240967
+      },
+      {
+        "file": "utt_0028.wav",
+        "input_utmos": 1.7915327548980713,
+        "reconstructed_utmos": 1.7793842554092407
+      },
+      {
+        "file": "utt_0029.wav",
+        "input_utmos": 1.313288688659668,
+        "reconstructed_utmos": 1.2802690267562866
+      },
+      {
+        "file": "utt_0030.wav",
+        "input_utmos": 2.2092411518096924,
+        "reconstructed_utmos": 1.484702706336975
+      },
+      {
+        "file": "utt_0031.wav",
+        "input_utmos": 2.241922616958618,
+        "reconstructed_utmos": 1.6222230195999146
+      },
+      {
+        "file": "utt_0032.wav",
+        "input_utmos": 1.6852872371673584,
+        "reconstructed_utmos": 1.5248768329620361
+      },
+      {
+        "file": "utt_0033.wav",
+        "input_utmos": 2.5629284381866455,
+        "reconstructed_utmos": 1.800108790397644
+      },
+      {
+        "file": "utt_0034.wav",
+        "input_utmos": 2.389033555984497,
+        "reconstructed_utmos": 1.446171522140503
+      },
+      {
+        "file": "utt_0035.wav",
+        "input_utmos": 1.6600927114486694,
+        "reconstructed_utmos": 1.298823356628418
+      },
+      {
+        "file": "utt_0036.wav",
+        "input_utmos": 3.2987923622131348,
+        "reconstructed_utmos": 2.877579927444458
+      },
+      {
+        "file": "utt_0037.wav",
+        "input_utmos": 1.273034691810608,
+        "reconstructed_utmos": 1.2501988410949707
+      },
+      {
+        "file": "utt_0038.wav",
+        "input_utmos": 3.2694079875946045,
+        "reconstructed_utmos": 2.067321300506592
+      },
+      {
+        "file": "utt_0039.wav",
+        "input_utmos": 3.1526622772216797,
+        "reconstructed_utmos": 1.8498942852020264
+      },
+      {
+        "file": "utt_0040.wav",
+        "input_utmos": 2.1333024501800537,
+        "reconstructed_utmos": 1.5792161226272583
+      },
+      {
+        "file": "utt_0041.wav",
+        "input_utmos": 2.502758502960205,
+        "reconstructed_utmos": 1.7420122623443604
+      },
+      {
+        "file": "utt_0042.wav",
+        "input_utmos": 1.274544596672058,
+        "reconstructed_utmos": 1.2652438879013062
+      },
+      {
+        "file": "utt_0043.wav",
+        "input_utmos": 1.8258002996444702,
+        "reconstructed_utmos": 1.4212205410003662
+      },
+      {
+        "file": "utt_0044.wav",
+        "input_utmos": 2.4071757793426514,
+        "reconstructed_utmos": 1.4663714170455933
+      },
+      {
+        "file": "utt_0045.wav",
+        "input_utmos": 2.8402481079101562,
+        "reconstructed_utmos": 1.7036722898483276
+      },
+      {
+        "file": "utt_0046.wav",
+        "input_utmos": 2.7408015727996826,
+        "reconstructed_utmos": 1.9484220743179321
+      },
+      {
+        "file": "utt_0047.wav",
+        "input_utmos": 2.8030381202697754,
+        "reconstructed_utmos": 2.284006118774414
+      },
+      {
+        "file": "utt_0048.wav",
+        "input_utmos": 1.3318952322006226,
+        "reconstructed_utmos": 1.3197593688964844
+      },
+      {
+        "file": "utt_0049.wav",
+        "input_utmos": 1.5224723815917969,
+        "reconstructed_utmos": 1.3767776489257812
+      },
+      {
+        "file": "utt_0050.wav",
+        "input_utmos": 1.7197599411010742,
+        "reconstructed_utmos": 1.370261549949646
+      }
+    ]
+  },
+  "audio_stats": [
+    {
+      "file": "utt_0001.wav",
+      "seconds": 4.099,
+      "input_rms": 0.023960644160362428,
+      "output_rms": 0.023784739074633278,
+      "input_peak": 0.214080810546875,
+      "output_peak": 0.225738525390625,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.014058306904122957,
+      "output_near_zero": 0.015857526225908757
+    },
+    {
+      "file": "utt_0002.wav",
+      "seconds": 5.8623125,
+      "input_rms": 0.04394282728566175,
+      "output_rms": 0.04312639690814499,
+      "input_peak": 0.44342041015625,
+      "output_peak": 0.471832275390625,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.011002484087977228,
+      "output_near_zero": 0.013305329594763158
+    },
+    {
+      "file": "utt_0003.wav",
+      "seconds": 4.0080625,
+      "input_rms": 0.07472920496730115,
+      "output_rms": 0.07148711581875218,
+      "input_peak": 0.841033935546875,
+      "output_peak": 0.75274658203125,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.20416660169346162,
+      "output_near_zero": 0.1820081398431287
+    },
+    {
+      "file": "utt_0004.wav",
+      "seconds": 6.78025,
+      "input_rms": 0.029669031794457686,
+      "output_rms": 0.02915990256017578,
+      "input_peak": 0.208831787109375,
+      "output_peak": 0.188232421875,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.06208288779912245,
+      "output_near_zero": 0.11499391615353416
+    },
+    {
+      "file": "utt_0005.wav",
+      "seconds": 5.532625,
+      "input_rms": 0.012603133906436761,
+      "output_rms": 0.012038076525675826,
+      "input_peak": 0.092559814453125,
+      "output_peak": 0.089752197265625,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.03135943607238879,
+      "output_near_zero": 0.03297485370868259
+    },
+    {
+      "file": "utt_0006.wav",
+      "seconds": 5.001,
+      "input_rms": 0.014884666836011964,
+      "output_rms": 0.014852478204495978,
+      "input_peak": 0.08880615234375,
+      "output_peak": 0.088348388671875,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.021008298340331934,
+      "output_near_zero": 0.030293941211757647
+    },
+    {
+      "file": "utt_0007.wav",
+      "seconds": 4.5759375,
+      "input_rms": 0.05388978890324467,
+      "output_rms": 0.05274119125191964,
+      "input_peak": 0.439910888671875,
+      "output_peak": 0.399200439453125,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.0057911630130437755,
+      "output_near_zero": 0.005572628559721369
+    },
+    {
+      "file": "utt_0008.wav",
+      "seconds": 4.1950625,
+      "input_rms": 0.05481096108130877,
+      "output_rms": 0.05193631208478227,
+      "input_peak": 0.50732421875,
+      "output_peak": 0.49676513671875,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.007583319676405298,
+      "output_near_zero": 0.007598218143353049
+    },
+    {
+      "file": "utt_0009.wav",
+      "seconds": 4.8999375,
+      "input_rms": 0.02154534998547963,
+      "output_rms": 0.02107143833504967,
+      "input_peak": 0.205322265625,
+      "output_peak": 0.1947021484375,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.01600785724307708,
+      "output_near_zero": 0.01785737062972742
+    },
+    {
+      "file": "utt_0010.wav",
+      "seconds": 6.3380625,
+      "input_rms": 0.05196979551352079,
+      "output_rms": 0.04977868707141468,
+      "input_peak": 0.469818115234375,
+      "output_peak": 0.416839599609375,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.10231833466457613,
+      "output_near_zero": 0.12839097121557258
+    },
+    {
+      "file": "utt_0011.wav",
+      "seconds": 5.4611875,
+      "input_rms": 0.07181406349004978,
+      "output_rms": 0.06915136297714453,
+      "input_peak": 0.5162353515625,
+      "output_peak": 0.4384765625,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.010265624463543873,
+      "output_near_zero": 0.014042275603978072
+    },
+    {
+      "file": "utt_0012.wav",
+      "seconds": 4.532,
+      "input_rms": 0.030486585243276076,
+      "output_rms": 0.030168225758773728,
+      "input_peak": 0.1856689453125,
+      "output_peak": 0.199737548828125,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.014769969108561341,
+      "output_near_zero": 0.018217674315975287
+    },
+    {
+      "file": "utt_0013.wav",
+      "seconds": 7.652,
+      "input_rms": 0.03164234818723314,
+      "output_rms": 0.031420182439121216,
+      "input_peak": 0.239166259765625,
+      "output_peak": 0.23907470703125,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.10394341348667015,
+      "output_near_zero": 0.12341544694197595
+    },
+    {
+      "file": "utt_0014.wav",
+      "seconds": 7.8125625,
+      "input_rms": 0.08365765869265598,
+      "output_rms": 0.08260121756621423,
+      "input_peak": 0.56903076171875,
+      "output_peak": 0.571014404296875,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.0030319757441940464,
+      "output_near_zero": 0.00380796953624371
+    },
+    {
+      "file": "utt_0015.wav",
+      "seconds": 6.7700625,
+      "input_rms": 0.02159335562335646,
+      "output_rms": 0.02166283485860958,
+      "input_peak": 0.144073486328125,
+      "output_peak": 0.142730712890625,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.0924474478632952,
+      "output_near_zero": 0.1248603687189003
+    },
+    {
+      "file": "utt_0016.wav",
+      "seconds": 4.73875,
+      "input_rms": 0.02089456392314251,
+      "output_rms": 0.020897417497613226,
+      "input_peak": 0.1619873046875,
+      "output_peak": 0.13702392578125,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.1258111316275389,
+      "output_near_zero": 0.19326035346874176
+    },
+    {
+      "file": "utt_0017.wav",
+      "seconds": 5.075,
+      "input_rms": 0.03059280694638156,
+      "output_rms": 0.03020670050783981,
+      "input_peak": 0.182891845703125,
+      "output_peak": 0.195220947265625,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.007672413793103449,
+      "output_near_zero": 0.007450738916256158
+    },
+    {
+      "file": "utt_0018.wav",
+      "seconds": 5.6,
+      "input_rms": 0.05011259044374848,
+      "output_rms": 0.04843918969772317,
+      "input_peak": 0.330108642578125,
+      "output_peak": 0.330230712890625,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.079609375,
+      "output_near_zero": 0.07569196428571429
+    },
+    {
+      "file": "utt_0019.wav",
+      "seconds": 5.682625,
+      "input_rms": 0.026257153016548677,
+      "output_rms": 0.0254935298074734,
+      "input_peak": 0.220062255859375,
+      "output_peak": 0.220306396484375,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.016596643276654714,
+      "output_near_zero": 0.01930225907921075
+    },
+    {
+      "file": "utt_0020.wav",
+      "seconds": 4.192875,
+      "input_rms": 0.07049683676903078,
+      "output_rms": 0.06901350898343361,
+      "input_peak": 0.588623046875,
+      "output_peak": 0.5164794921875,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.0364904749127985,
+      "output_near_zero": 0.0528426199206988
+    },
+    {
+      "file": "utt_0021.wav",
+      "seconds": 4.7586875,
+      "input_rms": 0.12475648818951848,
+      "output_rms": 0.12252107699496151,
+      "input_peak": 0.884857177734375,
+      "output_peak": 0.741851806640625,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.0034673426233599075,
+      "output_near_zero": 0.004150304049173222
+    },
+    {
+      "file": "utt_0022.wav",
+      "seconds": 4.0491875,
+      "input_rms": 0.04264079321246853,
+      "output_rms": 0.040400687315265894,
+      "input_peak": 0.28070068359375,
+      "output_peak": 0.371917724609375,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.11665920632225601,
+      "output_near_zero": 0.13209440165465294
+    },
+    {
+      "file": "utt_0023.wav",
+      "seconds": 7.522375,
+      "input_rms": 0.058922759565500825,
+      "output_rms": 0.053894480197519946,
+      "input_peak": 0.67144775390625,
+      "output_peak": 0.561309814453125,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.006181558350919756,
+      "output_near_zero": 0.007128732614367138
+    },
+    {
+      "file": "utt_0024.wav",
+      "seconds": 4.912625,
+      "input_rms": 0.0361134061436752,
+      "output_rms": 0.035264674406936695,
+      "input_peak": 0.3515625,
+      "output_peak": 0.303314208984375,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.05800106867509733,
+      "output_near_zero": 0.11259255489682196
+    },
+    {
+      "file": "utt_0025.wav",
+      "seconds": 5.08,
+      "input_rms": 0.030052347973344336,
+      "output_rms": 0.029586282720305446,
+      "input_peak": 0.21405029296875,
+      "output_peak": 0.23065185546875,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.006348425196850394,
+      "output_near_zero": 0.00655757874015748
+    },
+    {
+      "file": "utt_0026.wav",
+      "seconds": 4.31,
+      "input_rms": 0.017116566255492884,
+      "output_rms": 0.01705979057477163,
+      "input_peak": 0.128265380859375,
+      "output_peak": 0.137725830078125,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.025072505800464037,
+      "output_near_zero": 0.02787122969837587
+    },
+    {
+      "file": "utt_0027.wav",
+      "seconds": 6.3623125,
+      "input_rms": 0.028886916566684327,
+      "output_rms": 0.028711983200264888,
+      "input_peak": 0.25274658203125,
+      "output_peak": 0.2392578125,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.15791231568710276,
+      "output_near_zero": 0.16123264929221884
+    },
+    {
+      "file": "utt_0028.wav",
+      "seconds": 4.800125,
+      "input_rms": 0.043292292573739066,
+      "output_rms": 0.04256713037842642,
+      "input_peak": 0.333770751953125,
+      "output_peak": 0.3590087890625,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.006757636519882294,
+      "output_near_zero": 0.00717429233613708
+    },
+    {
+      "file": "utt_0029.wav",
+      "seconds": 4.9296875,
+      "input_rms": 0.02854234265801267,
+      "output_rms": 0.02720736370313874,
+      "input_peak": 0.22906494140625,
+      "output_peak": 0.277587890625,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.012551505546751189,
+      "output_near_zero": 0.01425039619651347
+    },
+    {
+      "file": "utt_0030.wav",
+      "seconds": 6.8581875,
+      "input_rms": 0.019829804418896802,
+      "output_rms": 0.019031560879166055,
+      "input_peak": 0.16949462890625,
+      "output_peak": 0.16021728515625,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.013943188342400962,
+      "output_near_zero": 0.014180131412271828
+    },
+    {
+      "file": "utt_0031.wav",
+      "seconds": 4.6560625,
+      "input_rms": 0.04339907709041798,
+      "output_rms": 0.042893898813422704,
+      "input_peak": 0.303375244140625,
+      "output_peak": 0.314117431640625,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.010429950199336886,
+      "output_near_zero": 0.01234949058351343
+    },
+    {
+      "file": "utt_0032.wav",
+      "seconds": 4.532,
+      "input_rms": 0.07361402303619077,
+      "output_rms": 0.07325865055861798,
+      "input_peak": 0.411773681640625,
+      "output_peak": 0.39837646484375,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.0041786187113857015,
+      "output_near_zero": 0.0042751544571932925
+    },
+    {
+      "file": "utt_0033.wav",
+      "seconds": 5.1501875,
+      "input_rms": 0.018548579681189194,
+      "output_rms": 0.017729599599727613,
+      "input_peak": 0.1671142578125,
+      "output_peak": 0.125946044921875,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.121573243692584,
+      "output_near_zero": 0.16657160540271593
+    },
+    {
+      "file": "utt_0034.wav",
+      "seconds": 4.4289375,
+      "input_rms": 0.041148123490976046,
+      "output_rms": 0.039974448914929926,
+      "input_peak": 0.237884521484375,
+      "output_peak": 0.285125732421875,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.11726853223826256,
+      "output_near_zero": 0.11160972580895531
+    },
+    {
+      "file": "utt_0035.wav",
+      "seconds": 5.75,
+      "input_rms": 0.01088760909079491,
+      "output_rms": 0.010517112571789344,
+      "input_peak": 0.074554443359375,
+      "output_peak": 0.075531005859375,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.03639130434782609,
+      "output_near_zero": 0.035782608695652175
+    },
+    {
+      "file": "utt_0036.wav",
+      "seconds": 4.0179375,
+      "input_rms": 0.04424621351087457,
+      "output_rms": 0.04396252243832239,
+      "input_peak": 0.214080810546875,
+      "output_peak": 0.220916748046875,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.08829156750198329,
+      "output_near_zero": 0.125577488450231
+    },
+    {
+      "file": "utt_0037.wav",
+      "seconds": 6.5886875,
+      "input_rms": 0.03838622723873848,
+      "output_rms": 0.037054803693896694,
+      "input_peak": 0.2841796875,
+      "output_peak": 0.30206298828125,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.0076836243940845575,
+      "output_near_zero": 0.008205351976398942
+    },
+    {
+      "file": "utt_0038.wav",
+      "seconds": 4.508125,
+      "input_rms": 0.00966428550893981,
+      "output_rms": 0.009777225083135676,
+      "input_peak": 0.073760986328125,
+      "output_peak": 0.089111328125,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.08652433106890337,
+      "output_near_zero": 0.08764730347982809
+    },
+    {
+      "file": "utt_0039.wav",
+      "seconds": 4.1650625,
+      "input_rms": 0.058082831325621115,
+      "output_rms": 0.05681615397212659,
+      "input_peak": 0.475921630859375,
+      "output_peak": 0.44671630859375,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.007007697963716031,
+      "output_near_zero": 0.00756291172101259
+    },
+    {
+      "file": "utt_0040.wav",
+      "seconds": 5.58,
+      "input_rms": 0.03974578642205,
+      "output_rms": 0.03931485300954323,
+      "input_peak": 0.294219970703125,
+      "output_peak": 0.31231689453125,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.008400537634408602,
+      "output_near_zero": 0.010259856630824373
+    },
+    {
+      "file": "utt_0041.wav",
+      "seconds": 4.2220625,
+      "input_rms": 0.0339868224498277,
+      "output_rms": 0.03392750403860594,
+      "input_peak": 0.288360595703125,
+      "output_peak": 0.31280517578125,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.1974005595606413,
+      "output_near_zero": 0.24549612896540493
+    },
+    {
+      "file": "utt_0042.wav",
+      "seconds": 5.3730625,
+      "input_rms": 0.019562351492100793,
+      "output_rms": 0.019455907649167423,
+      "input_peak": 0.127227783203125,
+      "output_peak": 0.125274658203125,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.014272586630064326,
+      "output_near_zero": 0.017564470913934094
+    },
+    {
+      "file": "utt_0043.wav",
+      "seconds": 5.2080625,
+      "input_rms": 0.018877531523506682,
+      "output_rms": 0.018498836290019523,
+      "input_peak": 0.19384765625,
+      "output_peak": 0.2000732421875,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.015012780664594558,
+      "output_near_zero": 0.015468804377827647
+    },
+    {
+      "file": "utt_0044.wav",
+      "seconds": 5.056875,
+      "input_rms": 0.02209862657329825,
+      "output_rms": 0.02126750713586304,
+      "input_peak": 0.22808837890625,
+      "output_peak": 0.208251953125,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.018403164009393153,
+      "output_near_zero": 0.020207638116425657
+    },
+    {
+      "file": "utt_0045.wav",
+      "seconds": 5.4199375,
+      "input_rms": 0.02636132472081198,
+      "output_rms": 0.025215167565378685,
+      "input_peak": 0.1927490234375,
+      "output_peak": 0.1949462890625,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.0993092632525744,
+      "output_near_zero": 0.11215535234493018
+    },
+    {
+      "file": "utt_0046.wav",
+      "seconds": 4.313,
+      "input_rms": 0.05381923038777764,
+      "output_rms": 0.05390538634620967,
+      "input_peak": 0.468109130859375,
+      "output_peak": 0.546722412109375,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.1692702295386042,
+      "output_near_zero": 0.18452932993276142
+    },
+    {
+      "file": "utt_0047.wav",
+      "seconds": 5.5490625,
+      "input_rms": 0.048494727283164764,
+      "output_rms": 0.04709453026990861,
+      "input_peak": 0.46954345703125,
+      "output_peak": 0.52618408203125,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.008154530607647687,
+      "output_near_zero": 0.009235794334628598
+    },
+    {
+      "file": "utt_0048.wav",
+      "seconds": 5.2376875,
+      "input_rms": 0.04207450524666192,
+      "output_rms": 0.04197817618363341,
+      "input_peak": 0.2391357421875,
+      "output_peak": 0.265869140625,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.012147536484374067,
+      "output_near_zero": 0.013818121069651445
+    },
+    {
+      "file": "utt_0049.wav",
+      "seconds": 4.5045,
+      "input_rms": 0.02017727659610372,
+      "output_rms": 0.01951191233277102,
+      "input_peak": 0.175567626953125,
+      "output_peak": 0.202850341796875,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.01078088578088578,
+      "output_near_zero": 0.012654012654012654
+    },
+    {
+      "file": "utt_0050.wav",
+      "seconds": 6.1290625,
+      "input_rms": 0.01879810156443176,
+      "output_rms": 0.017960021525954235,
+      "input_peak": 0.144744873046875,
+      "output_peak": 0.13189697265625,
+      "input_clip_fraction": 0.0,
+      "output_clip_fraction": 0.0,
+      "input_near_zero": 0.14525059909243868,
+      "output_near_zero": 0.16996889817977873
+    }
+  ],
+  "source_diagnostic_sha256": {
+    "quality_diagnostic_readonly.json": "76925d14e944f0329b9116a2cea9dcfd7c9e92b98c898bca63cdb1a57eb82ad6",
+    "input_quality_diagnostic.json": "a8d32370f0225bb6a0afe53947cfbcd524121974a1772b0744c1a4137c6b0f2f"
+  },
+  "interpretation_limit": "UTMOS depends on input distribution and evaluator; low input UTMOS alone does not establish noise/language/source or prove perceptual badness; public dev original UTMOS not measured; no attribution of all cross-dataset score drop to codec"
+}
